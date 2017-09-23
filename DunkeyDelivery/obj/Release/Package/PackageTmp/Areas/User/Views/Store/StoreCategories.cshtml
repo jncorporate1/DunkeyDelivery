@@ -1,0 +1,117 @@
+﻿@model IEnumerable<DunkeyDelivery.Areas.User.Models.CategoryViewModel>
+@{
+    ViewBag.Title = "StoreCategories";
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+
+
+
+
+<div class="main-section main-restaurant-section greybg">
+    <div class="container">
+        <div class="row">
+
+            <p class="center">Order online from 17 Restaurants delivering in Houston, TX</p>
+
+
+
+
+            <div class="col-md-3">
+                <div class="rest-left-section">
+                    <div class="row">
+                        <div class="col-md-12 pull-right">
+                            <input type="text" class="form-control searchlist" id="form-inputs" placeholder="Search" />
+                        </div>
+                    </div>
+                </div>
+                <div class="rest-item-1">
+                    <ul class="restitem1">
+                        <li><a href="#"><img src="~/Content/assets/images/rest1.png" /> Food<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest3.png" /> Grocery<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest4.png" /> Laundry<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest5.png" /> Pharmacy<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest6.png" /> Retail<span> (17)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/res3.png" /> Ride<span> (17)</span> </a></li>
+                    </ul>
+                </div>
+
+
+                <div class="rest-item-1 filteritems">
+
+
+
+
+                    <ul>
+                        <h4><img src="~/Content/assets/images/filter.png" alt="">Filter Restaurants</h4>
+                        <li><a href="javascript::">Free delivery</a></li>
+                        <li><a href="javascript::">Deals</a></li>
+                        <li><a href="javascript::">Open Restaurants</a></li>
+                        <li><a href="javascript::">Online payment avaiable</a></li>
+                        <li><a href="javascript::">Fast Delivery</a></li>
+                    </ul>
+
+
+
+
+
+
+
+
+
+                    <div class="cusine">
+                        <ul>
+                            <h4><img src="~/Content/assets/images/filter.png" alt="">Cuisines</h4>
+                            <li><a href="javascript::">American (2)</a></li>
+                            <li><a href="javascript::">BBQ (1)</a></li>
+                            <li><a href="javascript::">Breakfast (1)</a></li>
+                            <li><a href="javascript::">Brunch (1)</a></li>
+                            <li><a href="javascript::">Burgers (2)</a></li>
+                        </ul>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>
+            <div class="col-md-9">
+                <div class="rest-right-section">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 pull-right">
+                            <select class="form-control sortlist" id="form-inputs">
+                                <option selected> Sort By Rating </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                       
+                    @foreach (var category in @Model) {
+
+                            <div class="col-md-12">
+                                <div class="single-rest well-lg">
+                                  @*  <a href="@Url.Action("","UserStore",new { Category_id=category.Id })" > @category.Name </a>*@
+                                </div>
+                            </div>
+                    }
+                    </div> <!-- ROW -->
+                </div> <!-- RIGHT SECTION -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

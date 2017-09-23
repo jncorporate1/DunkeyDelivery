@@ -1,0 +1,251 @@
+﻿@model  DunkeyDelivery.Areas.User.Models.Shop
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div class="top-banner alchol-banner">
+    <img src="~/Content/assets/images/@ViewBag.BannerImage" class="img img-responsive" />
+    <div class="banner-inner-text">
+        @if (Request.QueryString["Address"] != null)
+        {
+            <p>@Request.QueryString["search"] stores delivering in @Request.QueryString["Address"]</p>
+        }
+        else
+        {
+            <p>@Request.QueryString["search"] stores</p>
+        }
+        <h6>Enter your address to get started</h6>
+        @*<form action="">
+                <input type="text" class="search-field" placeholder="Select Your Area" style="background: transparent url(../../../../Content/assets/images/location-mark.png) no-repeat right 24px center;height: 63px;" />
+                <input type="submit" value="search" disabled />
+
+            </form>*@
+        <input type="text" class="search-field" id="currentSearch" onclick="addClass(this)" onkeyup="GetLocationAddress()" placeholder="Select Your Area" style="background: transparent url(../../../../Content/assets/images/location-mark.png) no-repeat right 24px center;height: 63px;" />
+        <div class="alert Field1" style="display: none; width: 229px; position: absolute; left: 16.1%;">
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <script>
+                    $(".Field1").html("<p style='font-size:14px;color:red;padding-right: 32px;'>Invalid Address</p>").show().delay(3000).fadeOut();
+
+                </script>
+
+            }
+
+        </div>
+        @{ var SearchType = ""; }
+        @if (string.IsNullOrEmpty(Request.QueryString["Type"]))
+        {
+            SearchType = Request.QueryString["search"];
+        }
+        else
+        {
+            SearchType = Request.QueryString["Type"];
+        }
+        <input type="button" class="submit-to-search" id="@SearchType" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field1','1')" value="search" />
+
+
+
+    </div>
+</div>
+<div class="current-menu-paths">
+    <div class="container">
+        <p> Home > Restaurants </p>
+    </div>
+</div>
+
+
+<div class="main-section main-restaurant-section greybg">
+    <div class="container">
+        <div class="row">
+            @if (Request.QueryString["Address"] != null)
+            {
+                <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> Restaurants delivering in @Request.QueryString["Address"] </p>
+            }
+            else
+            {
+                <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> Restaurants</p>
+            }
+
+            @{
+                Html.RenderAction("SideBarData", "Food", new { area = "User", CategoryType = Request.QueryString["search"] });
+            }
+            <div class="col-md-9"  Page="0" FilterType="All" id="Book">
+                <div class="rest-right-section">
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12 col-xs-12 pull-right" style="padding-right: 13px;padding-left: 19px;">
+                            <select onchange="SetPageAndType(0,this.value)" class="form-control sortlist FilterStores" id="form-inputs">
+                                <option selected>Sort Stores  </option>
+                                <option value="Rating"> Rating               </option>
+                                <option value="DeliveryCharges"> Delivery Charges </option>
+                                <option value="MinOrder"> Minimum Order    </option>
+
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Here to right section -->
+                    <div id="StoreList">
+
+                        @{
+                            Html.RenderAction("GetAllStoreList", "UserStore", new { area = "User", Model });
+                        }
+                    </div>
+                </div> <!-- RIGHT SECTION -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function SetPageAndType(page, type) {
+        if (type != "Sort Stores") {
+            if (typeof page === 'undefined' && typeof type === 'undefined') {
+                // dont set anything
+            } else if (typeof page === 'undefined') {
+                //set type only
+                $("#Book").attr("FilterType", type);
+            } else if (typeof type === 'undefined') {
+                //set page only
+                $("#Book").attr("Page", page);
+            } else {
+                //set both
+                $("#Book").attr("Page", page);
+                $("#Book").attr("FilterType", type);
+
+            }
+            FilterStores();
+        }
+    }
+
+
+    function searchStoreByName(searchFieldValue) {
+        if (searchFieldValue.length > 2 || searchFieldValue.length == 0) {
+
+            $.ajax({
+                url: '@Url.Action("SearchByName", "Home",new { Area = "User" })',
+                type: "GET",
+                data: { search_string: searchFieldValue, CategoryType: "@Request.QueryString["search"]"  },
+                success: function (data) {
+
+                    $('#StoreList').html(data);
+                }, error: function (xhr, status, error) {
+
+                }
+            });
+        }
+
+    }
+   function FilterStores() {
+
+                    Page=$("#Book").attr("Page");
+                    FilterType = $("#Book").attr("FilterType");
+                    Category="@Request.QueryString["search"]";
+
+
+                    $.ajax({
+                        //url: "/User/UserStore/FilterStore",
+                        url: '@Url.Action("FilterStore", "UserStore", new { Area = "User" })',
+                        type: "GET",
+                        data: { FilterType: FilterType, CategoryType:Category,Items:6,Page : Page },
+                        success: function (data) {
+
+                            $('#StoreList').html(data);
+                        }, error: function (xhr, status, error) {
+
+                        }
+                    });
+    }
+
+
+</script>
+
+<script>
+
+    function addClass(id) {
+        $("input.search-field").removeAttr("id");
+        $(id).attr('id', 'currentSearch');
+
+    }
+    document.getElementById("PhoneNumber").addEventListener("keypress", function (evt) {
+
+        if (evt.which >= 97 && evt.which <= 122) {
+            evt.preventDefault();
+        }
+    });
+
+
+    navigator.geolocation.getCurrentPosition(function (position) {
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            $(".search-field").val(results[0].formatted_address);
+
+        });
+
+    });
+    function GetLocationAddress() {
+
+        $(".alert").html("");
+        var places = new google.maps.places.Autocomplete(document.getElementById("currentSearch"));
+
+        //google.maps.event.addListener(places, 'place_changed', function () {
+        //   var place = places.getPlace();
+        //    var address = place.formatted_address;
+
+        //    var latitude = place.geometry.location.lat();
+        //    var longitude = place.geometry.location.lng();
+        //    $("#lat").val(latitude);
+        //    $("#lng").val(longitude);
+
+        //var mesg = "Address: " + address;
+        //mesg += "\nLatitude: " + latitude;
+        //mesg += "\nLongitude: " + longitude;
+        //alert(mesg);
+        //});
+    }
+
+
+    function SearchStore(StoreType, Address, FieldClass, Level) {
+
+        if (Address.length < 1) {
+            $("." + FieldClass).html("<p style='font-size:14px;color:red;'>Address field is required</p>").show().delay(3000).fadeOut();
+
+        } else {
+            //var Address=$("input[tabindex='0']").attr("value");
+            //var lat=$("#lat").val();
+            //var lng=$("#lng").val();
+            //if (lat.length < 1 || lng.length < 1) {
+            //    lat = 0;
+            //    lng = 0;
+            //}
+            //$address = $(".search-field").val();
+            //var url = 'SearchByAddress?search=test&Address=123&Level=00';
+
+             var url =  '@Html.Raw(@Url.Action("SearchByAddress", "Home", new {Area="User",Type="test",Address="123",Level="00"}))';
+       
+            url = url.replace("test", StoreType);
+            url = url.replace('123', Address);
+            url = url.replace('00', Level);
+            setTimeout(2000);
+            window.location.href = url;
+
+            //$.ajax({
+            //    type: "GET",
+            //    //contentType: "application/json; charset=utf-8",
+            //    url: "Home/SearchByAddress",
+            //    data: { Type: StoreType, Address: Address },
+            //    success: function (result) {
+            //        console.log(result);
+            //    }
+            //});
+
+        }
+    }
+
+
+</script>
+@*<script src="~/Scripts/GoogleMap.js"></script>*@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP_CWRiyYVKC0_s-tqfzS_GROk24ZHuDU&libraries=places&sensor=false"></script>

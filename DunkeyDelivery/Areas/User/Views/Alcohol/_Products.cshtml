@@ -1,0 +1,73 @@
+﻿@model DunkeyDelivery.Areas.User.Models.AlcoholProductVM
+@*<div class="quick-search clearfix">
+    <form style="border: 1px solid #666666;">
+        <input type="text" onkeyup="SearchAlcoholProducts(this.value,@Model.shopViewModel.Id)" placeholder="Quick search" />
+        <input type="submit" />
+    </form>
+</div>*@
+
+<div class="col-md-12">
+
+    <div class="tab">
+
+
+        <div class="categories-clasify clearfix">
+            @if (!string.IsNullOrEmpty(Model.Name))
+            {
+                <h3>
+                    @Model.Name
+                </h3>
+            }
+            else
+            {
+                <h3>
+                    Products
+                </h3>
+            }
+            <ul>
+                @if (Model.productslist.Count != 0)
+                {
+                    foreach (var product in Model.productslist)
+                    {
+                        <li id="addCart" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')" >@product.Name <span>$@product.Price</span></li>
+                        
+                    }
+                }
+                else
+                {
+                    <li>No Product(s) Found</li>
+                }
+                @*<li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+            <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+            <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+            <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>*@
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+    function AddToCart(id, productName, price, size, StoreId) {
+        var StoreName= $("#addCart").attr("storeName");
+        console.log(JSON.stringify(StoreName));
+        var data = {
+            ItemId: id,
+            name: productName,
+            price: price,
+            type: 0,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+                $('#OrderItems').load('@Url.Action("OrderItems","Order",new {area="User", MinOrder=Model.shopViewModel.MinOrderPrice })')
+                //e.preventDefault();
+            })
+
+    }
+
+
+</script>

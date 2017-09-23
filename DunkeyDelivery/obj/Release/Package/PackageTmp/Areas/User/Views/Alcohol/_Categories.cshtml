@@ -1,0 +1,56 @@
+﻿@model DunkeyDelivery.Areas.User.Models.CategorySubCategoryVM
+@*@model DunkeyDelivery.Areas.User.Models.CategoriesViewModel*@
+<div class="col-md-12">
+
+    <div class="tab">
+
+
+        <div class="categories clearfix">
+            @if (!string.IsNullOrEmpty(Model.Name))
+            {
+                <h3>
+                    @Model.Name
+                </h3>
+            }
+            else
+            {
+                <h3>
+                    Categories
+                </h3>
+            }
+
+            <ul>
+                @*@foreach (var category in Model.categoryViewModel)
+            {
+                <li><a href="@Url.Action("SubCategories", "Alcohol", new { area = "User" })">@category.Name</a></li>
+            }*@
+                @if (Model.CategoryViewModel.Count != 0)
+                {
+                    foreach (var parentCat in Model.CategoryViewModel)
+                    {
+
+                        <li><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
+                    }
+                }
+                else
+                {
+                    <div class="categories-clasify clearfix">
+                  
+                            <li>No Result(s) Found</li>
+                       
+                    </div>
+                }
+
+
+
+
+
+            </ul>
+
+
+
+        </div>
+
+    </div>
+
+</div>

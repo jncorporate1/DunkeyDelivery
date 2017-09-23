@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Store Details";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="top-banner product-detail-banner">
+    <img src="~/Content/assets/images/alcohol-detail-banner.jpg" class="img img-responsive" />
+    <div class="banner-inner-text" />
+    <img src="~/Content/assets/images/alcohol-img1.png" class="logo-img" />
+    <h3 class="rating"><img src="~/Content/assets/images/rating.png" /> (225 Reviews)</h3>
+    <h1 class="product-heading-banner">Galleria Liqueurs - Lakeview</h1>
+
+    <p class="banner-inner-data">1853 Richmond Ave, Houston, TX 77098 | Pizza, Sandwiches</p>
+    <p class="banner-inner-data">Min $15.00     |     Estimated time 45-60 min</p>
+</div>
+</div>
+<div class="current-menu-paths">
+    <div class="container">
+        <p> Home > Restaurants   >  Sarpino’s Pizzeria </p>
+    </div>
+</div>
+
+<div class="main-section product-detail-main alcohol-details-main">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <ul class="tabs-list clearfix">
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'newyork')">Info</button>
+                    </li>
+                </ul>
+
+                <!-- TAB CONTENT --> <div class="quick-search clearfix">
+                    <form>
+                        <input type="text" placeholder="Quick search" />
+                        <input type="submit" />
+                    </form>
+                </div>
+
+                <div class="tab1 tabcontent" id="London">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="tab">
+
+
+                                <div class="categories-clasify clearfix">
+                                    <h3>Craft Beer</h3>
+                                    <ul>
+                                        <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+                                        <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+                                        <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+                                        <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+                                        <li>Big Muddy Brewing Saluki Dunkledog 6 pack (12oz Bottles) <span>$11.19</span></li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="tab1 tabcontent" id="paris">
+                    <h1>No content</h1>
+                </div>
+                <div class="tab1 tabcontent" id="newyork">
+                    <h1>No content</h1>
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="col-md-3" id="OrderItems">
+
+                @{
+
+                    Html.RenderAction("OrderItems", "Order", new { area = "User" });
+                }
+            </div>
+            <div class="col-md-3" id="Cart" style="display:none">
+                @{
+                    Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
+                }
+
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+
+}
+	// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+</script>

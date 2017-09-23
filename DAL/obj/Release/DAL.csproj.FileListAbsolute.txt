@@ -1,0 +1,22 @@
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\DAL.dll.config
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\DAL.dll
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\DAL.pdb
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.dll
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.xml
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\obj\Release\DAL.dll
+C:\Users\muhammadashfaq\Documents\Visual Studio 2015\Projects\DunkeyDelivery\DAL\obj\Release\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\bin\Release\DAL.dll.config
+D:\Git\DunkeyDelivery\DAL\bin\Release\DAL.dll
+D:\Git\DunkeyDelivery\DAL\bin\Release\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\bin\Release\EntityFramework.dll
+D:\Git\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.dll
+D:\Git\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.dll
+D:\Git\DunkeyDelivery\DAL\bin\Release\EntityFramework.xml
+D:\Git\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.xml
+D:\Git\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
+D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
+D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.dll
+D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.pdb

@@ -1,0 +1,115 @@
+﻿@model DunkeyDelivery.UserViewModel1
+
+@using (Ajax.BeginForm("Create", "User", new AjaxOptions { OnSuccess = "OnSuccessInsertion", OnFailure = "OnFailedInsertion" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+
+            <label>First Name</label>
+            @*<input type="text" class="form-control" name="FirstName" placeholder="First Name" data-val="true" class="form-control input-validation-error " data-val-required="First Name is required" value="@Model.FirstName" />*@
+            @Html.TextBoxFor(x => x.FirstName, new { @autofocus = "", @class = "form-control", name = "FirstName", @placeholder = "First Name" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger error" })
+
+        </div>
+        <div class="col-md-6 col-xs-6">
+
+            <label>Last Name</label>
+            @*<input type="text" class="form-control" name="LastName" placeholder="Last Name" data-val="true" class="form-control input-validation-error" data-val-required="Last Name is required" value="@Model.LastName" />*@
+            @Html.TextBoxFor(x => x.LastName, new { @autofocus = "", @class = "form-control", name = "LastName", @placeholder = "Last Name" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger error" })
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+
+            <label>Email</label>
+            @*<input type="text" class="form-control" name="Email" placeholder="Email Address" data-val="true" class="form-control input-validation-error" data-val-required="Email is required" value="@Model.Email" />*@
+            @Html.TextBoxFor(x => x.Email, new { @autofocus = "", @class = "form-control", name = "Email", @placeholder = "Email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error" })
+        </div>
+
+        <div class="col-md-6 col-xs-6">
+            <label>Phone Number</label>
+            @*<input type="tel" data-val="true" data-val-required="Phone Number is required." class="form-control input-validation-error" name="Phone" id="PhoneNumber" data-val-required="Phone Number is required" placeholder="Phone Number" value="@Model.Phone">*@
+            @Html.TextBoxFor(x => x.Phone, new { @autofocus = "", @class = "form-control",@id= "preventAlphabet", name = "Phone", @placeholder = "Phone Number" })
+            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+            @*<input type="text" class="form-control" name="Phone" placeholder="Phone" data-val="true" class="form-control input-validation-error" data-val-required="Phone is required" value="@Model.Phone" />*@
+            @*@Html.TextBoxFor(x => x.Phone, new { @autofocus = "", @class = "form-control", name = "Phone", @placeholder = "Phone Number",@type="number",id= "PhoneNumber" })
+            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })*@
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>Password</label>
+            @*<input type="text" class="form-control" name="Password" placeholder="Password" data-val="true" class="form-control input-validation-error" data-val-required="Password is required" value="@Model.Password" />*@
+            @Html.TextBoxFor(x => x.Password, new { @autofocus = "", @class = "form-control", name = "Password", @placeholder = "Enter Password",@type="password" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <label>Confirm Password</label>
+            @*<input type="text" class="form-control" name="ConfirmPassword" placeholder="Confirm Password" data-val="true" class="form-control input-validation-error" data-val-required="Confirm Password is required" value="@Model.ConfirmPassword" />*@
+            @Html.TextBoxFor(x => x.ConfirmPassword, new { @autofocus = "", @class = "form-control", name = "ConfirmPassword", @placeholder = "Confirm ",@type="password" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>Store Name</label>
+
+            @Html.DropDownList("Store_Id", new SelectList(Model.StoreOptions.Items,
+                                "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-6 col-xs-6">
+            <label>Role</label>
+            <select name="Role" class="form-control">
+                <option value="0">User</option>
+                <option value="1">Sub Admin</option>
+                <option value="2">Super Admin</option>
+            </select>
+            @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12 text-right " style="margin-top:20px;">
+            <button class="btn btn-primary" onclick="clear_errors()" type="reset">Reset</button>
+            <input type="Submit" class="btn btn-success " value="Submit" />
+        </div>
+    </div>
+    @Html.ValidationMessage("Error")
+}
+
+
+<div class="alert alert-success" id="success-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+</div>
+<div class="alert alert-error" id="error-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Error! </strong><span></span>
+</div>
+
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/intlTelInput.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/utils.js"></script>
+<script type="text/javascript">
+   $(function () {
+       $("#PhoneNumber").intlTelInput({
+                allowExtensions: true,
+                autoFormat: true,
+                autoHideDialCode: false,
+                autoPlaceholder: false,
+                defaultCountry: "auto",
+                ipinfoToken: "yolo",
+                nationalMode: false,
+                numberType: "MOBILE",
+                preventInvalidNumbers: true,
+                utilsScript: "lib/libphonenumber/build/utils.js"
+            });
+        });
+
+
+</script>
+

@@ -1,0 +1,98 @@
+﻿
+@{
+	ViewBag.Title = "Products";
+	Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+	
+	<div class="row">
+		<div class="col-md-12 col-xs-12">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Filter Categories</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li>
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+
+						<li>
+							<a class="close-link"><i class="fa fa-close"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<br />
+					<form class="form-horizontal form-label-left input_mask">
+						<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+							<label>Category Name</label>
+							<a href="#" data-toggle="tooltip" data-placement="top" title="Search By Category Name!"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+							<input type="text" class="form-control " id="CategoryName" placeholder="Category Name">
+
+						</div>
+						<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+							<label>Sub Category Name</label>
+							<a href="#" data-toggle="tooltip" data-placement="top" title="Search By Sub Category Of Any Product Category!"><i class="fa fa-question-circle" aria-hidden="true"></i></a>
+							<input type="text" class="form-control " id="SubCategory" placeholder="Sub Category">
+
+						</div>
+						
+
+
+				</div>
+				<div class="ln_solid"></div>
+				<div class="form-group">
+					<div class="col-md-7 col-md-offset-5">
+						<button type="button" id="search-products" class="btn btn-primary btn-search">
+							<i class="fa fa-search"></i>
+							Search
+						</button>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<table class="table table-bordered table-striped">
+			<thead>
+			<th> Category Name</th>
+			<th>Action</th>
+
+			</thead>
+			<tbody>
+				<tr><td>Food</td><td><span data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span></button></span> <span data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span></button></span></td></tr>
+				<tr><td>Food > Rice</td><td><span data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span></button></span> <span data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span></button></span></td></tr>
+				<tr><td>Medicine > Syrups</td><td><span data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit"><span class="glyphicon glyphicon-pencil"></span></button></span> <span data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete"><span class="glyphicon glyphicon-trash"></span></button></span></td></tr>
+				
+
+
+
+
+			</tbody>
+
+		</table>
+
+		<div class="clearfix"></div>
+		<ul class="pagination text-center">
+			<li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+			<li class="active"><a href="#">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">4</a></li>
+			<li><a href="#">5</a></li>
+			<li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+		</ul>
+
+	</div>
+
+</div>
+	</div>
+</div>
+
+	</div>
+	</div>
+
+
+

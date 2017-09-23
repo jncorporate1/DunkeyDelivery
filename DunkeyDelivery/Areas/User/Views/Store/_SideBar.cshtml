@@ -1,0 +1,60 @@
+﻿@model DunkeyDelivery.Areas.User.Models.SideBar
+<div class="col-md-3">
+
+    <div class="rest-left-section">
+        <div class="row">
+            <div class="col-md-12 pull-right">
+                <input type="text" class="form-control searchlist" onkeyup="searchStoreByName(this.value)" id="form-inputs" placeholder="Search" style="background: url('../../../../Content/assets/images/searchic.png') no-repeat 5% center #FFF;" />
+
+            </div>
+        </div>
+    </div>
+    <div class="rest-item-1">
+        <ul class="restitem1">
+            <li><a href="@Url.Action("Search", "Home", new { search = "Food" })"><img src="~/Content/assets/images/rest1.png" /> Food<span> (@Model.StoreCounts.TotalFoodStores) </span> </a></li>
+            <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> (@Model.StoreCounts.TotalAlcoholtores)</span> </a></li>
+            <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/rest4.png" /> Grocery<span> (@Model.StoreCounts.TotalGroceryStores)</span> </a></li>
+            <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/res3.png" /> Laundry<span> (@Model.StoreCounts.TotalLaundryStores)</span> </a></li>
+            <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/rest3.png" /> Pharmacy<span> (@Model.StoreCounts.TotalPharmacyStores)</span> </a></li>
+            <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/rest5.png" /> Retail<span> (@Model.StoreCounts.TotalRetailStores)</span> </a></li>
+         
+        </ul>
+    </div>
+
+
+    <div class="rest-item-1 filteritems">
+        <ul>
+            <h4><img src="~/Content/assets/images/filter.png" alt="">Filter Stores</h4>
+            <li><a onclick="SetPageAndType(0,this.id)" id="Free delivery">Free delivery</a></li>
+            <li><a onclick="SetPageAndType(0,this.id)" id="Deals">Deals</a></li>
+            <li><a onclick="SetPageAndType(0,this.id)" id="Open Restaurants">Open Restaurants</a></li>
+            <li><a onclick="SetPageAndType(0,this.id)" id="Online payment avaiable">Online payment avaiable</a></li>
+            <li><a onclick="SetPageAndType(0,this.id)" id="Fast Delivery">Fast Delivery</a></li>
+        </ul>
+
+        <div class="cusine">
+            <ul>
+                <h4><img src="~/Content/assets/images/filter.png" alt="">Cuisines</h4>
+                @if (Model.cuisines.Count != 0)
+                { 
+                    foreach (var tag in Model.cuisines.Take(5))
+                    {
+                        <li><a onclick="SetPageAndType(0, this.id)" id="@tag.Tag"> @tag.Tag ( @tag.TotalCount )</a></li>
+                    }
+                }
+                else
+                {
+                    <li> No Cuisine(s) Found</li>
+                }
+
+            </ul>
+        </div>
+
+
+
+
+
+
+    </div>
+
+</div>

@@ -1,0 +1,123 @@
+﻿@model DunkeyDelivery.Areas.User.Models.DeliveryDetailsViewModel
+@{
+    ViewBag.Title = "Order Summary";
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+@*<div class="top-banner alchol-banner">
+    <img src="~/Content/assets/images/alcohol-banner.jpg" class="img img-responsive" />
+    <div class="banner-inner-text">
+        <p>Wine & Liquor stores delivering in Chicago, IL</p>
+        <h6>Enter your address to get started</h6>
+        <form>
+            <input type="text" placeholder="Select Your Area"  class="search-field" />
+            <input type="submit" value="search" />
+
+        </form>
+    </div>
+</div>
+<div class="current-menu-paths">
+    <div class="container">
+        <p> Home > Order Summary </p>
+    </div>
+</div>*@
+
+<section class="order-summary-main">
+    <div class="container">
+        <div class="col-md-8">
+            <div class="order-summary clearfix">
+                <h4>Order Summary</h4>
+                <ul>
+                    @foreach (var cartItems in Model.Cart.Stores)
+                    {
+                        foreach (var item in cartItems.CartItems)
+                        {
+                            <li>@item.Name (@item.Qty) <span>$@item.Price</span></li>
+                        }
+                    }
+
+             
+                    <li>Tax <span>$0</span></li>
+                    <li class="total-amount">Total <span>$@Model.Cart.Total</span></li>
+                </ul>
+            </div>
+            <div class="order-summary clearfix customer-summary">
+                <h4>Shipping Details</h4>
+                <ul>
+                    <li>First Name <span>@Model.DeliveryDetails.FirstName</span></li>
+                    <li>Last Name <span>@Model.DeliveryDetails.LastName</span></li>
+                    <li>Telephone <span>@Model.DeliveryDetails.Phone</span></li>
+                    <li>Email <span>@Model.DeliveryDetails.Email</span></li>
+                    <li>Full Address <span>@Model.DeliveryDetails.Address</span></li>
+                    <li>
+                        City <span>
+                                 @Model.DeliveryDetails.City
+                        </span>
+                    </li>
+                    <li>Postal Code <span>@Model.DeliveryDetails.ZipCode</span></li>
+                </ul>
+
+
+
+
+
+
+
+            </div>
+
+            <div class="order-summary clearfix customer-summary">
+                <h4>Payment Details</h4>
+                <ul>
+                    <li>Card Number <span>@Model.PaymentInformation.CreditCard</span></li>
+                    <li>Expiry <span>@Model.PaymentInformation.MonthYear</span></li>
+                    <li>CVV <span>@Model.PaymentInformation.CVV</span></li>
+                    <li>Billing Postal Code <span>@Model.PaymentInformation.BillingPostalCode</span></li>
+
+                </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+
+        <div class="col-md-3">
+            <div class="del-time-left">
+                <h4>DELIVERY TIME LEFT</h4>
+
+
+                <div class="cirprogress blue">
+                    <span class="progress-left">
+                        <span class="cirprogress-bar"></span>
+                    </span>
+                    <span class="progress-right">
+
+                    </span>
+                    <div class="progress-value">23 <span>mins</span></div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</section>
+

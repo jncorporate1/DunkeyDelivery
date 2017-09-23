@@ -1,0 +1,223 @@
+﻿@model DunkeyDelivery.Areas.User.Models.RegisterDriverViewModel
+@{
+    ViewBag.Title = "Drivers";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div class="top-banner">
+    <img src="~/Content/assets/images/driver-top-banner.jpg" class="img img-responsive" />
+
+    <div class="banner-inner-text">
+        <div class="col-md-6 driver-banner">
+            <p class="driver-banner-para">Morbi pellentesque est vitae cursus tincidunt.</p>
+            <h1 class="driver-banner-heading">Lorem ipsum dolor</h1>
+            <p class="driver-banner-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque est vitae cursus tincidunt. Mauris egestas vitae erat sed volutpat. Cras semper nunc sed pretium laoreet. Duis condimentum risus eget mollis sollicitudin. Aliquam sed justo nec elit placerat bibendum a in metus</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="main-section driver-main-section">
+    <div class="container">
+        <div class="driver-section-one">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="left-section-one">
+                        <h1>Become a Dunkey Delivery Driver</h1>
+                        <p>Morbi pellentesque est vitae cursus tincidunt.</p>
+
+                        <div class="left-section-one-inner">
+                            <div class="row">
+                                <div class="col-md-2 image-icon">
+                                    <img src="~/Content/assets/images/driver-icon1.png" class="img img-responsive" />
+                                </div>
+                                <div class="col-md-10">
+                                    <h4>Make great money</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit. Morbi pellentesque est vitae cursus tincidunt.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left-section-one-inner">
+                            <div class="row">
+                                <div class="col-md-2 image-icon">
+                                    <img src="~/Content/assets/images/driver-icon2.png" class="img img-responsive" />
+                                </div>
+                                <div class="col-md-10">
+                                    <h4>Work when you want</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit. Morbi pellentesque est vitae cursus tincidunt.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left-section-one-inner">
+                            <div class="row">
+                                <div class="col-md-2 image-icon">
+                                    <img src="~/Content/assets/images/driver-icon3.png" class="img img-responsive" />
+                                </div>
+                                <div class="col-md-10">
+                                    <h4>More orders, more opportunities to earn</h4>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing
+                                        elit. Morbi pellentesque est vitae cursus tincidunt.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="driver-form">
+                        <h1>Start your application</h1>
+                        <p>Grab these items now to complete your application faster:</p>
+                        <ul class="driver-condition-list">
+                            <li>Driver’s license or state ID (bikers)</li>
+                            <li>Car insurance</li>
+                            <li>Bank account information</li>
+                        </ul>
+                     @using (Ajax.BeginForm("DriverRegister", "Driver", new {area="User" }, new AjaxOptions {HttpMethod="POST", OnSuccess = "SuccessSubmission", OnFailure = "FailedSubmission" }))
+                     {
+                         @Html.AntiForgeryToken();
+                            <div class="input-contain">
+
+                                @Html.TextBoxFor(x => x.FullName, new { name = "FullName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Full Name", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger error" })
+                            </div>
+
+                            <div class="input-contain">
+
+                                @Html.TextBoxFor(x => x.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error" })
+                            </div>
+
+                            <div class="input-contain">
+
+                                @Html.TextBoxFor(x => x.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Phone Number", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+                            </div>
+
+                            <div class="input-contain">
+                                <select  id="form-inputs" name="VehicleType"  data-val="true" class="form-control input-validation-error" data-val-required="City is required" value="@Model.City">
+                                    <option selected> City  </option>
+                                    <option value="PK"> Pakistan </option>
+
+                                </select>
+                                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger error" })
+                            </div>
+
+                            <div class="input-contain">
+                                <select class="form-control with-no-margin" id="form-inputs" name="City" data-val-required="City is required" value="@Model.VehicleType">
+                                    <option selected> Vehicle Type  </option>
+                                    <option value="Mehran"> Mehran  </option>
+
+                                </select>
+                                @Html.ValidationMessageFor(m => m.VehicleType, "", new { @class = "text-danger error" })
+                            </div>
+
+                            <div class="input-contain">
+                                <select class="form-control with-no-margin" id="form-inputs">
+                                    <option selected> How you hear about us  </option>
+
+                                </select>
+                            </div>
+
+                            <div class="row" id="Notifications" style="padding-top:15px;height:38px;display:none;">
+                                <div  style="text-align:center;">
+                                    <p id="ModalNotification"></p>
+                                </div>
+                            </div>
+
+                            <button type="submit">Submit</button>
+
+                     }
+                        <br />
+                        <p class="form-bottom">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque est vitae cursus tincidunt. Mauris egestas vitae erat</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><br /><br />
+    <div class="driver-section-two">
+        <div class="merchant-section-two">
+            <div class="container">
+                <h1>Get on the road fast!</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam lectus magna,<br /> aliquam at sem id, porta sollicitudin felis. Maecenas lacinia libero ac </p>
+
+                <div class="clearfix"><br /></div>
+
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src="~/Content/assets/images/dri-icon1.png" class="img img-responsive" />
+                        <h2>Complete your application</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam </p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <img src="~/Content/assets/images/dri-icon2.png" class="img img-responsive" />
+                        <h2>Get set to deliver</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam </p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <img src="~/Content/assets/images/dri-icon3.png" class="img img-responsive" />
+                        <h2>Gear up for pickup</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam </p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <img src="~/Content/assets/images/dri-icon4.png" class="img img-responsive" />
+                        <h2>Hit the road!</h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam </p>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="driver-section-three">
+        <h1>
+            <div class="container">
+                FREQUENTLY ASKED QUESTIONS
+            </div>
+        </h1>
+        <div class="container">
+            <h3>1. What are the requirements to deliver with Dunkey Delivery?</h3>
+            <div class="question-points">
+                <p>- 19+ years of age (21+ in Chicago)</p>
+                <p>- 2+ years driving experience </p>
+                <p>- Own an iPhone with iOS 8 or higher OR an Android with 4.0 or higher (With data plan)</p>
+                <p>- Drivers must have a valid driver’s license and auto insurance</p>
+                <p>- Bikers must have a valid state ID </p>
+                <p>- Checking account for direct deposit </p>
+                <p>- Pass a background check</p>
+            </div>
+            <h3>2. If I applied previously and didn’t meet requirements, but now do, can I reapply?</h3>
+            <div class="question-points">
+                <p>Yes, please contact drivers@dunkerydelivery.com to speak with a local driver specialist.</p>
+            </div>
+            <h3>3. Do I have to have previous delivery experience?</h3>
+            <div class="question-points">
+                <p>
+                    If you describe yourself as a people person and positive-attitude-haver, with killer communication skills and a knack for being
+                    on time, and you meet the requirements above...
+                </p>
+            </div>
+            <br />
+            <a href=""> <button type="submit" class="btn-submit">Apply Now</button></a>
+        </div>
+    </div>
+
+</div>
+
+

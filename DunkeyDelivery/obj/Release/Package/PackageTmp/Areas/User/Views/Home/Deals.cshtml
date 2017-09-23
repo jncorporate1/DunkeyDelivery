@@ -1,0 +1,134 @@
+﻿@using DunkeyDelivery.Areas.User.Models
+@model OfferViewModel
+@{
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+<div class="main-section main-restaurant-section greybg">
+    <div class="container">
+        <div class="row">
+
+
+
+            <div class="col-md-3">
+                <div class="rest-left-section">
+                    <div class="row">
+                        <div class="col-md-12 pull-right">
+                            <input type="text" class="form-control searchlist" onkeyup="" id="form-inputs" placeholder="Search" style="background: url('../../../../Content/assets/images/searchic.png') no-repeat 5% center #FFF;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="rest-item-1">
+                    <ul class="restitem1">
+                        <li><a href="#"><img src="~/Content/assets/images/rest1.png" /> Food<span> (2)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> (0)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest3.png" /> Grocery<span> (0)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest4.png" /> Laundry<span> (0)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest5.png" /> Pharmacy<span> (0)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/rest6.png" /> Retail<span> (0)</span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/res3.png" /> Ride<span> (0)</span> </a></li>
+                    </ul>
+                </div>
+
+
+
+
+
+
+            </div>
+            <div class="col-md-6">
+                <div class="rest-right-section">
+                    <div class="row deals">
+
+                        @if (@Model.Offer_Packages.Count() == 0 && Model.Offer_Products.Count() == 0)
+                        {
+                            <p class="text-center">No Deals & Promotions Found</p>
+                        }
+                        else
+                        {
+                            foreach (var deal in @Model.Offer_Packages)
+                            {
+
+                                <div class="col-md-4">
+                                    <img src="@deal.ImageUrl" onclick="AddToCart('@deal.Offer_Id','@deal.Package.Name','@deal.DiscountedPrice','Standard', 2, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName')" id="@deal.Offer_Id" alt="deal" />
+                                </div>
+
+                            }
+                            foreach (var deal in @Model.Offer_Products)
+                            {
+
+                                <div class="col-md-4">
+                                    <img src="@deal.ImageUrl" onclick="AddToCart('@deal.Offer_Id', '@deal.Name', '@deal.DiscountedPrice', '@deal.Product.Size', 1, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName')" id="@deal.Offer_Id" alt="deal" />
+                                </div>
+                            }
+                        }
+                        @*<div class="col-md-4"><img src="~/Content/assets/images/deal1.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal2.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal3.jpg" alt="deal"></div>*@
+                        <script>
+                            function deal_request(deal, type) {
+                                //alert(id);
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("POST", '@Url.Action("AddToCart","Order")');
+                                //xhr.open('GET', '@Url.Action("AddToCart","Order")');
+                                xhr.setRequestHeader("Content-Type", "application/json");
+                                xhr.send(JSON.stringify({ name: deal, type: type }));
+                            }
+
+                        </script>
+
+                        @*<div class="col-md-4"><img src="~/Content/assets/images/deal4.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal5.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal6.jpg" alt="deal"></div>
+
+
+
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal1.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal2.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal3.jpg" alt="deal"></div>
+
+
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal4.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal5.jpg" alt="deal"></div>
+                            <div class="col-md-4"><img src="~/Content/assets/images/deal6.jpg" alt="deal"></div>*@
+
+
+                    </div> <!-- ROW -->
+                </div> <!-- RIGHT SECTION -->
+            </div>
+            <div class="col-md-3" id="OrderItems">
+                @{
+
+                    Html.RenderAction("OrderItemsDeals", "Order", new { area = "User" });
+                }
+            </div>
+            <div class="col-md-3" id="Cart" style="display:none">
+                @{
+                    Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
+                }
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    function AddToCart(ItemId, ItemName, price, size, type, StoreId, StoreName) {
+        //alert(id);
+        var data = {
+            ItemId: ItemId,
+            name: ItemName,
+            price: price,
+            type: type,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+        function (e) {
+            $('#OrderItems').load('@Url.Action("OrderItems","Order")')
+            //e.preventDefault();
+        })
+    }
+</script>

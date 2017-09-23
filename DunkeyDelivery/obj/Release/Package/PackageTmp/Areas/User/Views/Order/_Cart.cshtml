@@ -1,0 +1,58 @@
+﻿@model DunkeyDelivery.Areas.User.Models.Cart
+<style>
+    .show-order h4 {
+        font-size: 16px;
+        padding: 10px 0 0;
+        margin: 0;
+    }
+
+    .show-order .single-order {
+        border-bottom: 1px solid #cccccc;
+        padding: 0 0 15px;
+        margin-top: 15px;
+    }
+</style>
+@if (Model != null)
+{
+    <div class="show-order" style="padding-bottom:70px;">
+        <h2>Your Order</h2>
+
+        @foreach (var item in Model.Stores)
+        {
+            <h4>@item.StoreName</h4>
+            foreach (var cartitems in item.CartItems)
+            {
+
+                <div class="single-order">
+
+                    <h5 class="order-name_price">@cartitems.Name (@cartitems.Qty)<span>$@cartitems.Total</span></h5>
+
+                    <h6 class="order-size_actions">@cartitems.Size <span class="dynamic"><a style="cursor:pointer;"  onclick="editCart()"> <i class="fa fa-pencil"></i> </a></span></h6>
+
+                </div>
+            }
+
+
+        }
+
+
+        <h3 style="border-top: none;padding-bottom:16px;margin-bottom: 13px;margin-top:5px;" class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$0</span></h3>
+
+        <a href="@Url.Action("DeliveryDetails", "Order", new { area = "User" })" id="place-order-btn" class="place-order-btn" style="position: absolute;margin-top: 10px;width: 74%;"><b id="order-btn-text">Place Order</b><span> $@Model.Total</span></a>
+
+    </div>
+
+}
+
+
+
+<script>
+
+
+    function editCart() {
+        $("#Cart").fadeOut();
+        $("#OrderItems").fadeIn();
+    }
+
+
+</script>

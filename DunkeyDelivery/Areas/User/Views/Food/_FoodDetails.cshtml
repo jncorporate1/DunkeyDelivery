@@ -1,0 +1,59 @@
+﻿@model DunkeyDelivery.Areas.User.Models.CategoryProductViewModel
+<div class="col-md-8">
+    <div class="tab1-right">
+        <h1 class="right-heading" id="categoryName"></h1>
+        <div id="productDetails">
+            @if (Model.Products.Count() < 1)
+            {
+                <p style="margin-left: 16px;">Products Not Found</p>
+            }
+            @foreach (var product in Model.Products)
+            {
+                <div class="single-product-show">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h1>@product.Name</h1>
+                            <p>
+                                @product.Description
+                            </p>
+                        </div>
+                        <div class="col-md-4"> <h4>@product.Size</h4></div>
+                        <div class="col-md-3"><h4>$@product.Price  <span><a id="addCart" style="cursor:pointer" storeName="@product.Store.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store.Id')"><i class="fa fa-plus"></i></a></span></h4></div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    
+
+    </div>
+</div>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function AddToCart(id, productName, price, size, StoreId) {
+        var StoreName= $("#addCart").attr("storeName");
+        console.log(JSON.stringify(StoreName));
+        var data = {
+            ItemId: id,
+            name: productName,
+            price: price,
+            type: 0,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+                $('#OrderItems').load('@Url.Action("OrderItems","Order")')
+                //e.preventDefault();
+            })
+
+        @* var xhr = new XMLHttpRequest();
+        xhr.open("POST", '@Url.Action("AddToCart","Order")');
+        //xhr.open('GET', '@Url.Action("AddToCart","Order")');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({ product_id: id, name: productName, price: price, type: 0 }));
+        *@
+    }
+
+</script>

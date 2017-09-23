@@ -1,0 +1,87 @@
+﻿@model DunkeyDelivery.Models.RegisterViewModel
+
+@{
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+<style>
+    .margin-from-bottom {
+        margin-bottom: 10px;
+    }
+</style>
+<div class="main-section login-main-section greybg createaccount">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>CREATE YOUR ACCOUNT</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", onsubmit = "clear()" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="margin-from-bottom">
+                        @Html.TextBoxFor(x => x.FirstName, new { @autofocus = "", @class = "form-control", @id = "form-inputs", name = "FirstName", @placeholder = "First Name", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="margin-from-bottom">
+                        @*<input type="text" placeholder="Last Name" name="LastName" id="form-inputs" data-val="true" class="form-control input-validation-error" data-val-required="Last Name is required" value="@Model.LastName" />*@
+                        @Html.TextBoxFor(x => x.LastName, new { @autofocus = "", @class = "form-control", name = "LastName", id = "form-inputs", @placeholder = "Last Name", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="margin-from-bottom">
+                        @*<input type="text" placeholder="Email" name="Email" id="form-inputs" data-val="true" class="form-control input-validation-error" data-val-required="Email is required" value="@Model.Email" />*@
+                        @Html.TextBoxFor(x => x.Email, new { @autofocus = "", @class = "form-control", @type = "Email", name = "Email", id = "form-inputs", @placeholder = "Email", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="margin-from-bottom">
+
+                        @*<input type="password" placeholder="Password" name="Password" id="form-inputs" data-val="true" class="form-control input-validation-error" data-val-required="Password is required" value="@Model.Password" />*@
+                        @Html.TextBoxFor(x => x.Password, new { @autofocus = "", @class = "form-control", type = "password", name = "Password", id = "form-inputs", @placeholder = "Password", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("Error")
+                    if (ViewBag.Success != null)
+                    {
+                        <script>
+                            alert('@ViewBag.Success');
+                            window.location = "@Url.Action("Login", "Account")";
+                        @*<p style="color:green;" id="successmsg">@ViewBag.Success</p>*@
+                        </script>
+                    }
+                    else
+                    {
+                        <p style="color:red;">@ViewBag.Failed</p>
+                    }
+
+                    <button type="submit" class="btn-submit btn-login">Sign Up</button>
+
+                }
+                <script>
+                    function clear() {
+                        $(".form-control").val("");
+                    }
+
+
+                </script>
+
+                <div class="elinks">
+
+                    <span><img src="~/Content/assets/images/or.png" alt=""></span>
+
+                    <a href="javascript::"><img src="~/Content/assets/images/facebook.png" alt=""></a>
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+                <h1>ALREADY A MEMBER? LOGIN NOW</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
+                <a href="@Url.Action("Login","Account", new { area = "" })">
+                    <button class="Register_btn">LOGIN</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+﻿@model DunkeyDelivery.Areas.User.Models.Shop
+
+<div class="row">
+    @if (Model == null || Model.Store.Count() == 0)
+    {
+        <p class="text-center">No Result(s)</p>
+    }
+    else
+    {
+        foreach (var shopData in @Model.Store)
+        {
+            <div class="col-md-6" style="padding-right:0px;">
+                <div class="single-rest">
+                    <div class="row">
+                        <div class="col-md-5 rest-image">
+                            <img src="@shopData.ImageUrl" class="img img-responsive" />
+                        </div>
+                        <div class="col-md-7 no-pad-left">
+                            <a href="@Url.Action("SearchStoreCategories", "Food", new { Store_id = shopData.Id })"> <h2>@shopData.BusinessName</h2></a>
+                            <div class="row rating-row" style="padding-left: 13px;">
+
+
+
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    if (shopData.AverageRating == 0)
+                                    {
+                                        <h3 class="rating"><span><i class="icon fa fa fa-star-o"></i></span></h3>
+                                    }
+                                    else if (i - shopData.AverageRating <= 0)
+                                    {
+                                        <h3 class="rating"><span><i class="icon fa fa-star"></i></span></h3>
+                                        // rating
+                                    }
+                                    else if (i - shopData.AverageRating < 1)
+                                    {
+                                        <h3 class="rating"><span><i class="icon fa fa-star-half-full"></i></span></h3>
+                                        // half rating
+                                    }
+                                    else
+                                    {
+                                        <h3 class="rating"><span><i class="icon fa fa-star-o"></i></span></h3>
+                                        // no rating
+                                    }
+
+
+                                }
+                            </div>
+                            @if (!string.IsNullOrEmpty(shopData.Address))
+                            {
+                                if (shopData.Address.Length < 30)
+                                {
+                                    <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="@shopData.Address">@shopData.Address</p>
+
+                                }
+                                else
+                                {
+                                    <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="@shopData.Address">@shopData.Address.Substring(0, 30) ...</p>
+
+                                }
+                            }
+
+                            @if (shopData.StoreTags.Count() != 0)
+                            {
+                                <p class="tag-links">
+
+                                    @foreach (var Tag in shopData.StoreTags)
+                                    {
+                                        if (Tag.Tag == shopData.StoreTags.Last().Tag)
+                                        {
+                                            <a href="#">@Tag.Tag</a>
+
+                                        }
+                                        else
+                                        {
+                                            <a href="#">@Tag.Tag ,</a>
+                                        }
+
+                                    }
+
+
+                                </p>
+                            }
+                            @if (shopData.MinDeliveryCharges == 0)
+                            {
+                                <p class="del-charges">$@shopData.MinOrderPrice min. | Free Delivery <span></span></p>
+
+                            }
+                            else
+                            {
+                                <p class="del-charges">$@shopData.MinOrderPrice min. | $@shopData.MinDeliveryCharges Delivery Fee <span></span></p>
+
+                            }
+                            <h3 class="del-detail">delivers in <span>@shopData.MinDeliveryTime min</span></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        if (Model.TotalStores != null)
+        {
+            <div class="col-md-6 col-lg-offset-5 col-md-offset-5 col-sm-offset-0 col-xs-offset-0">
+                <ul class="pagination">
+                    @if (Model.TotalStores > 6)
+                    {
+                        var j = 0;
+                        for (int i = 0; i <= Model.TotalStores / 6; i++)
+                        {
+                            <li>
+                                <a id="@i" onclick="SetPageAndType(this.id)">
+                                    @{ j = i + 1; }
+                                    @j
+                                </a>
+                            </li>
+                                            }
+                                        }
+
+
+                </ul>
+            </div>
+                                            }
+                                        }
+
+</div> <!-- ROW -->
+<script>
+
+    $("#store_count").html(@Model.Store.Count);
+
+
+</script>

@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+<div class="main-section press-main greybg details-page">
+    <div class="container">
+    
+        <div class="col-md-3 nopadleft">
+            <ul class="links">
+                
+                <li  onclick="profile_view(this.id)" id="0" class=""><a > Order History</a></li>
+                <li onclick="profile_view(this.id)" id="1" class=""  ><a  > Recurring Orders</a></li>
+                <li class="active-link" onclick="profile_view(this.id)" id="2"><a  > Profile</a></li>
+                <li onclick="profile_view(this.id)" id="3" class=""><a  > Addresses</a></li>
+                <li  onclick="profile_view(this.id)" id="4" class=""><a > Credit Cards</a></li>
+            </ul>
+
+        </div>
+        
+        <div class="col-md-9" id="profile_views">
+            @{
+                Html.RenderAction("PageView", "Profile", new { area = "User", id=2 });
+            }
+        
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    function profile_view(id) {
+       
+        $("#" + $(".active-link").attr("id")).removeClass("active-link");
+        $("#" + id).addClass("active-link");
+        //$("#" + id).addClass("active-link");
+        $.ajax({
+            
+            url: '@Url.Action("PageView", "Profile", new { Area = "User" })',
+            type: "POST",
+            data: { id:id },
+            success: function (data) {
+
+                $('#profile_views').html(data);
+            }, error: function (xhr, status, error) {
+
+            }
+        });
+
+        }
+
+
+</script>

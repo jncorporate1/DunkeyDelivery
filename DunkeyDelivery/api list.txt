@@ -1,0 +1,15 @@
+2- Completed
+
+Get User Detail By User Id
+Get Streams by user id
+Get list of Friends
+Search Friends
+Search Streams
+CMS Pages
+Delete User Account
+Follow User
+Unfollow User
+Privacy Settings
+Block a user
+Get blocked Users
+Home Filters // for friends and followers

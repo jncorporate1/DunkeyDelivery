@@ -1,0 +1,50 @@
+﻿@model DunkeyDelivery.Areas.User.Models.CategorySubCategoryVM
+
+
+<div class="quick-search clearfix" style="border: 1px solid #666666;">
+    <form method="" onsubmit="return false;">
+        <input type="text" placeholder="Quick search" style="height: 70px;" />
+        <input type="submit" />
+    </form>
+</div>
+
+
+        <div class="tab">
+
+
+            <div class="categories clearfix">
+                @if (!string.IsNullOrEmpty(Model.Name))
+            {
+                    <h3>
+                        @Model.Name
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        Categories
+                    </h3>
+                }
+                <ul>
+
+                    @if (Model.CategoryViewModel.Count != 0)
+            {
+                foreach (var parentCat in Model.CategoryViewModel)
+                {
+
+                            <li><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
+                        }
+                    }
+                    else
+                    {
+                        <div class="categories-clasify clearfix">
+
+                            <li>No Result(s) Found</li>
+
+                        </div>
+                    }
+
+                </ul>
+            </div>
+
+        </div>

@@ -1,0 +1,79 @@
+﻿@model DunkeyDelivery.Areas.User.Models.RideRegisterViewModel
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+<style>
+    .margin-from-bottom {
+        margin-bottom: 10px;
+    }
+</style>
+<div class="main-section gift-section greybg">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9">
+                <div class="gift-form-side">
+
+                    <div class="row">
+
+                        <h1>Ride</h1>
+                        <p>If you do not provide delivery services, Dunkeyt Delivery can provide it for you by simply filling the following form.</p>
+
+                        <div class="col-md-10 ride nopad">
+
+                            <h4>Fill In the Following Form</h4>
+                            @using (Ajax.BeginForm("Register", "Ride", new AjaxOptions { OnSuccess = "SuccessSubmission", OnFailure = "FailedSubmission" }))
+                            {
+                               
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.FullName, new { name = "FullName", @class = "form-control", id = "form-inputs", @placeholder = "Enter Full Name", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.BusinessName, new { name = "BusinessName", @class = "form-control", id = "form-inputs", @placeholder = "Enter Business Name", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.BusinessName, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.BusinessType, new { name = "BusinessType", @class = "form-control", id = "form-inputs", @placeholder = "Enter Business Type", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.BusinessType, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.Email, new { name = "Email", @class = "form-control", id = "form-inputs", @placeholder = "Enter Email Address", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.Phone, new { name = "Phone", @class = "form-control", id = "form-inputs", @placeholder = "Enter Phone Number", @minlength = "10", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="margin-from-bottom">
+                                    @Html.TextBoxFor(x => x.ZipCode, new { name = "ZipCode", @class = "form-control", id = "form-inputs", @placeholder = "Enter Zip Code", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger error" })
+                                </div>
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("Error")
+
+
+                                <div class="row">
+                                    <div id="Notifications" style="text-align:center;">
+                                        <p id="ModalNotification"></p>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-submit">Submit</button>
+
+                            }
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+                <img src="~/Content/assets/images/rider.png" alt="rider">
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,237 @@
+﻿@model DunkeyDelivery.Areas.User.Models.CategoryProductViewModel
+
+@{
+
+    ViewBag.Title = "Store Details";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<div class="top-banner product-detail-banner">
+    <img src="~/Content/assets/images/grocery-details-banner.png" class="img img-responsive" />
+    <div class="banner-inner-text" />
+    <img src="@Model.shopViewModel.ImageUrl" class="logo-img common-logo-height" />
+    <div class="row">
+        @for (var i = 1; i <= 5; i++)
+        {
+            if (Model.shopViewModel.AverageRating == 0)
+            {
+                <span><i class="icon fa fa fa-star-o"></i></span>
+            }
+            else if (i - Model.shopViewModel.AverageRating <= 0)
+            {
+                <span><i class="icon fa fa-star"></i></span>
+                // rating
+            }
+            else if (i - Model.shopViewModel.AverageRating < 1)
+            {
+                <span><i class="icon fa fa-star-half-full"></i></span>
+                // half rating
+            }
+            else
+            {
+                <span><i class="icon fa fa-star-o"></i></span>
+                // no rating
+            }
+        }
+    </div>
+    <h1 class="product-heading-banner">@Model.shopViewModel.BusinessName</h1>
+
+    <p class="banner-inner-data">@Model.shopViewModel.Address </p>
+    <p class="banner-inner-data">Min $@Model.shopViewModel.MinOrderPrice | Estimated time @Model.shopViewModel.MinDeliveryTime min</p>
+</div>
+</div>
+<div class="current-menu-paths">
+    <div class="container">
+        <p> Home > Restaurants   > @Model.shopViewModel.BusinessName </p>
+    </div>
+</div>
+
+<div class="main-section product-detail-main alcohol-details-main">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <ul class="tabs-list clearfix">
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" id="info-tab" onclick="openCity(event, 'newyork')">Info</button>
+                    </li>
+                </ul>
+
+                <!-- TAB CONTENT -->
+
+                <div class="tab1 tabcontent" id="London">
+                    <div class="row">
+                        <div class="col-md-4 tab1-left">
+                            <ul class="menu-list" id="categoriesList">
+                                @if (Model.Categories.Count() < 1)
+                                {
+                                    <li><a href="#">No Category Found </a></li>
+                                }
+                                @foreach (var category in Model.Categories)
+                                {
+
+                                    if (Model.Categories.First() == category)
+                                    {
+                                        <li class="active" id="item_@category.Id">
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                       {
+
+                                           HttpMethod = "GET",
+                                           AllowCache = false,
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "posts-wrapper",
+                                           OnBegin = "ClearProductDiv()",
+                                           OnSuccess = "SetCategory('" + @category.Id + "','" + @category.Name + "')"
+                                       })
+                                        </li>
+                                    }
+                                    else
+                                    {
+   
+                                        <li id="item_@category.Id">
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                       {
+
+                                           HttpMethod = "GET",
+                                           AllowCache = false,
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "posts-wrapper",
+                                           OnBegin = "ClearProductDiv()",
+                                           OnSuccess = "SetCategory('" + @category.Id + "','" + @category.Name + "')"
+                                       })
+                                        </li>
+                                    }
+
+                                }
+
+                            </ul>
+                        </div>
+
+                        <div id="posts-wrapper">
+
+                        </div>
+
+                        @*@{
+                            Html.RenderAction("GetCategoryProducts", "UserStore", new { Store_id = @ViewBag.StoreDetails.Id, Category_Id = @Model.Categories.First().Id });
+                        }*@
+
+
+                    </div>
+                </div>
+                <div class="tab1 tabcontent" id="paris">
+                    <h1> No content</h1>
+                </div>
+                <div class="tab1 tabcontent" id="newyork">
+
+                    @{
+                        Html.RenderAction("StoreInfo", "UserStore", new { area = "User", Model });
+                    }
+                    @*<div class="row">
+                        <div id="map"></div>
+                    </div>
+                    <div class="" style="margin-top: 50px;margin-bottom:50px;">
+                        <div class="time-info clearfix">
+                            <div class="col-md-12 nopadleft">
+                                <h3>Delivery hours</h3>
+                                <ul>
+                                    @if (Model.shopViewModel.StoreDeliveryHours.Count() != 0)
+                                    {
+
+
+                                        <li> <div class="left">Tue 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                        <li> <div class="left">Wed 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                        <li> <div class="left">Thu 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                        <li> <div class="left">Fri 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                        <li> <div class="left">Sat 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                        <li> <div class="left">Sun 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
+                                    }
+                                    else
+                                    {
+                                        <li> Delivery Time Not Available</li>
+                                    }
+
+
+                                </ul>
+                            </div>
+
+                      
+
+                        </div>
+                    </div>*@
+
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+            <div class="col-md-3" id="OrderItems">
+
+                @{
+                    Html.RenderAction("OrderItems", "Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice });
+                }
+            </div>
+
+            <div class="col-md-3" id="Cart" style="display:none">
+                @{
+                    Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
+                }
+
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+<script>
+
+        var BusinessName="@Model.shopViewModel.BusinessName";
+        var BusinessImage="@Model.shopViewModel.ImageUrl";
+        var PointerLoc= {lat: @Model.shopViewModel.Latitude, lng:@Model.shopViewModel.Latitude};
+        BusinessImage=encodeURI(BusinessImage);
+        $('#info-tab').on('click',function(){
+            initMap();
+            $("#map").click();
+        });
+
+        function initMap() {
+            var myLatLng = PointerLoc;
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: myLatLng
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map
+
+            });
+        }
+
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places">
+</script>
+<script>
+        $(document).ready(function () {
+            $("ul#categoriesList li:first a").trigger("click");
+        });
+</script>

@@ -1,0 +1,150 @@
+﻿@model DunkeyDelivery.Areas.User.Models.CategoryProductViewModel
+
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<div class="top-banner product-detail-banner">
+    <img src="~/Content/assets/images/grocery-details-banner.png" class="img img-responsive" />
+    <div class="banner-inner-text" />
+    <img src="@ViewBag.StoreDetails.ImageUrl" class="logo-img common-logo-height" />
+    <h3 class="rating"><img src="~/Content/assets/images/rating.png" /> (225 Reviews)</h3>
+    <h1 class="product-heading-banner">@ViewBag.StoreDetails.BusinessName</h1>
+
+    <p class="banner-inner-data">1853 Richmond Ave, Houston, TX 77098 | Pizza, Sandwiches</p>
+    <p class="banner-inner-data">Min $15.00     |     Estimated time 45-60 min</p>
+</div>
+</div>
+<div class="current-menu-paths">
+    <div class="container">
+        <p> Home > Restaurants   >  @ViewBag.StoreDetails.BusinessName </p>
+    </div>
+</div>
+
+<div class="main-section product-detail-main alcohol-details-main">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <ul class="tabs-list clearfix">
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'newyork')">Info</button>
+                    </li>
+                </ul>
+
+                <!-- TAB CONTENT -->
+
+                <div class="tab1 tabcontent" id="London">
+                    <div class="row">
+                        <div class="col-md-4 tab1-left">
+                            <ul class="menu-list">
+                                @if (Model.Categories.Count() < 1)
+                                {
+                                    <li><a href="#">No Category Found </a></li>
+                                }
+                                @foreach (var category in Model.Categories)
+                                {
+
+                                    if (Model.Categories.First() == category)
+                                    {
+                                        <li class="active" id="item_@category.Id">
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new {id="first_element", Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                       {
+
+                                           HttpMethod = "GET",
+                                           AllowCache = false,
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "posts-wrapper",
+                                           OnBegin = "ClearProductDiv()",
+                                           OnSuccess = "SetCategory('" + @category.Id + "','" + @category.Name + "')"
+                                       })
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        @*<li><a href="@Url.Action("GetCategoryProducts","UserStore",new {Category_Id=@category.Id })">@category.Name </a></li>*@
+                                        @*<li><a href="" id="@category.Id" onclick="getCategoryProducts(this.id)">@category.Name </a></li>*@
+                                        <li id="item_@category.Id">
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                       {
+
+                                           HttpMethod = "GET",
+                                           AllowCache = false,
+                                           InsertionMode = InsertionMode.Replace,
+                                           UpdateTargetId = "posts-wrapper",
+                                           OnBegin = "ClearProductDiv()",
+                                           OnSuccess = "SetCategory('" + @category.Id + "','" + @category.Name + "')"
+                                       })
+                                        </li>
+                                    }
+
+                                }
+
+                            </ul>
+                        </div>
+
+                        <div id="posts-wrapper">
+
+                        </div>
+
+                        @{
+                                Html.RenderAction("GetCategoryProducts", "Food", new { Store_id = @ViewBag.StoreDetails.Id, Category_Id = @Model.Categories.First().Id });
+                            }
+                    
+
+                    </div>
+                </div>
+                <div class="tab1 tabcontent" id="paris">
+                    <h1>No content</h1>
+                </div>
+                <div class="tab1 tabcontent" id="newyork">
+                    @{
+                        Html.RenderAction("StoreInfo", "UserStore", new { area = "User", Model });
+                    }
+                </div>
+
+
+
+            </div>
+            <div class="col-md-3" id="OrderItems">
+
+                @{
+
+                    Html.RenderAction("OrderItems", "Order", new { area = "User",MinOrder=Model.shopViewModel.MinOrderPrice });
+                }
+            </div>
+            <div class="col-md-3" id="Cart" style="display:none">
+
+                @{
+                    Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
+                }
+                
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        var test = $("#first_element");
+    
+        test.trigger("click");
+    });
+
+
+
+</script>

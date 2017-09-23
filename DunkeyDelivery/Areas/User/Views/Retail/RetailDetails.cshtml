@@ -1,0 +1,227 @@
+﻿@model DunkeyDelivery.Areas.User.Models.AlcoholViewModel
+@{
+	ViewBag.Title = "Store Details";
+	Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<div class="top-banner product-detail-banner">
+    <img src="~/Content/assets/images/retails-banner.jpg" class="img img-responsive" />
+    <div class="banner-inner-text" />
+    <img src="@Model.storeViewModel.ImageUrl" class="logo-img common-logo-height" />
+    <div class="row">
+        @for (var i = 1; i <= 5; i++)
+        {
+            if (Model.storeViewModel.AverageRating == 0)
+            {
+                <span><i class="icon fa fa fa-star-o"></i></span>}
+            else if (i - Model.storeViewModel.AverageRating <= 0)
+            {
+                <span><i class="icon fa fa-star"></i></span>    // rating
+            }
+            else if (i - Model.storeViewModel.AverageRating < 1)
+            {
+                <span><i class="icon fa fa-star-half-full"></i></span>    // half rating
+            }
+            else
+            {
+                <span><i class="icon fa fa-star-o"></i></span>    // no rating
+            }
+        }
+    </div>
+    <h1 class="product-heading-banner">@Model.storeViewModel.BusinessName</h1>
+
+    <p class="banner-inner-data">@Model.storeViewModel.Address</p>
+    <p class="banner-inner-data">Min $ @Model.storeViewModel.MinOrderPrice  |  Estimated time @Model.storeViewModel.MinDeliveryTime min</p>
+</div>
+</div>
+<div class="current-menu-paths">
+	<div class="container">
+		<p> Home > Restaurants   >  @Model.storeViewModel.BusinessName </p>
+	</div>
+</div>
+
+<div class="main-section product-detail-main alcohol-details-main">
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<ul class="tabs-list clearfix">
+					<li>
+						<button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+					</li>
+					<li>
+						<button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
+					</li>
+					<li>
+						<button class="tab-btn tablinks" id="info-tab" onclick="openCity(event, 'newyork')">Info</button>
+					</li>
+				</ul>
+
+				<!-- TAB CONTENT -->
+
+
+				
+
+				<div class="tab1 tabcontent" id="London">
+
+                    <div class="quick-search clearfix" style="border: 1px solid #666666;">
+                        <form method="" onsubmit="return false;">
+                            <input type="text" placeholder="Quick search" style="height: 70px;" />
+                            <input type="submit" />
+                        </form>
+                    </div>
+
+                    @{
+                        Html.RenderAction("StoreCategories", "Alcohol", new { area = "User", Model.categoryViewModel });
+                    }
+				</div>
+				<div class="tab1 tabcontent" id="paris">
+					<h1>No content</h1>
+				</div>
+				<div class="tab1 tabcontent" id="newyork">
+                    <div class="location-info clearfix">
+                        <h3 style="padding:0 0 23px !important;">
+                            @Model.storeViewModel.Address
+                        </h3>
+                        <div id="map"></div>
+
+
+                    </div>
+
+                    <div class="time-info clearfix" style="background-color:#FFF;">
+                        <div class="col-md-12 nopadleft">
+                            <h3 style="padding:0 0 23px !important;">Delivery hours</h3>
+                            <ul>
+                                @if (Model.storeViewModel.StoreDeliveryHours.Count() != 0)
+                                {
+
+                                    foreach (var item in Model.storeViewModel.StoreDeliveryHours)
+                                    {
+
+                                        <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Monday_From.ToString(@"hh\:mm")  - @item.Monday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Tuesday_From.ToString(@"hh\:mm")  - @item.Tuesday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Wednesday_From.ToString(@"hh\:mm")  - @item.Wednesday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Thursday_From.ToString(@"hh\:mm")  - @item.Thursday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Friday_From.ToString(@"hh\:mm")  - @item.Friday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Saturday_From.ToString(@"hh\:mm")  - @item.Saturday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Sunday_From.ToString(@"hh\:mm")  - @item.Sunday_To.ToString(@"hh\:mm")</div></li>
+
+                                    }
+                                }
+                                else
+                                {
+
+                                    <li> Delivery Time Not Available</li>
+                                }
+
+
+                            </ul>
+
+                        </div>
+                    </div>
+				</div>
+
+
+
+			</div>
+            <div class="col-md-3" id="OrderItems">
+
+                @{
+
+                    Html.RenderAction("OrderItems", "Order", new { area = "User", MinOrder = Model.storeViewModel.MinOrderPrice });
+                }
+            </div>
+            <div class="col-md-3" id="Cart" style="display:none">
+
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+		</div>
+
+
+	</div>
+
+</div>
+
+
+<script>
+    $( document ).ready(function() {
+        $("#London .col-md-12").removeClass("col-md-12");
+    });
+
+
+    
+    var BusinessName="@Model.storeViewModel.BusinessName";
+    var BusinessImage="@Model.storeViewModel.ImageUrl";
+    var PointerLoc= {lat: @Model.storeViewModel.Latitude, lng:@Model.storeViewModel.Latitude};
+    BusinessImage=encodeURI(BusinessImage);
+    $('#info-tab').on('click',function(){
+        initMap();
+        $("#map").click();
+    });
+
+    function initMap() {
+        var myLatLng = PointerLoc;
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
+
+        });
+    }
+
+
+function openCity(evt, cityName) {
+	// Declare all variables
+	var i, tabcontent, tablinks;
+
+	// Get all elements with class="tabcontent" and hide them
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+	}
+
+	// Get all elements with class="tablinks" and remove the class "active"
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+
+	// Show the current tab, and add an "active" class to the button that opened the tab
+	document.getElementById(cityName).style.display = "block";
+	evt.currentTarget.className += " active";
+
+
+}
+	// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+
+
+    
+function GetSubCategories(Category_id) {
+    Name = $("#" + Category_id + "").attr("CategoryName");
+    var data = {
+        Category_id: Category_id,
+        Name: Name,
+        Store_id:@Model.storeViewModel.Id,
+
+    }
+
+    $.post("@Url.Action("SubCategories", "Retail", new { area = "User" })", data,
+    function (response) {
+        @*$('#category').load('@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.MinOrder })')*@
+             
+        $("#London").html(response);
+    })
+
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
+</script>

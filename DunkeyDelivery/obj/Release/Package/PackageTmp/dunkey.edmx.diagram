@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0dc5f39580b54664803abd77f5cddf04" Name="Diagram1" ZoomLevel="89" >
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Users" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Payment_Details" Width="1.5" PointX="2.875" PointY="0.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Orders" Width="1.5" PointX="5.375" PointY="0.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Order_Items" Width="1.5" PointX="7.5" PointY="0.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Store" Width="1.5" PointX="2.875" PointY="4.25" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Categories" Width="1.5" PointX="6.25" PointY="4.25" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Products" Width="1.5" PointX="9.125" PointY="4.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Payment_Method" Width="1.5" PointX="5.375" PointY="8.125" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Store_Timings" Width="1.5" PointX="8.125" PointY="7.625" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Store_Rating" Width="1.5" PointX="0.625" PointY="9" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Driver" Width="1.5" PointX="11" PointY="0.5" />
+        <AssociationConnector Association="DunkeyDeliveryModel.UsersPayment_Details" />
+        <AssociationConnector Association="DunkeyDeliveryModel.OrdersOrder_Items" />
+        <AssociationConnector Association="DunkeyDeliveryModel.ProductsOrder_Items" />
+        <AssociationConnector Association="DunkeyDeliveryModel.CategoriesProducts" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreCategories" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreStore_Rating" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreStore_Timings" />
+        <AssociationConnector Association="DunkeyDeliveryModel.UsersOrders" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StorePayment_Method" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreDriver" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Notification" Width="1.5" PointX="0.5" PointY="6.5" />
+        <EntityTypeShape EntityType="DunkeyDeliveryModel.Driver_Orders" Width="1.5" PointX="11.375" PointY="4.125" />
+        <AssociationConnector Association="DunkeyDeliveryModel.DriverDriver_Orders" />
+        <AssociationConnector Association="DunkeyDeliveryModel.OrdersDriver_Orders" />
+        <AssociationConnector Association="DunkeyDeliveryModel.UsersNotification" />
+        <AssociationConnector Association="DunkeyDeliveryModel.UsersNotification1" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreOrders" />
+        <AssociationConnector Association="DunkeyDeliveryModel.StoreProducts" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

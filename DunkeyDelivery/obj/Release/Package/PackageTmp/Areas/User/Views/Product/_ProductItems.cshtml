@@ -1,0 +1,38 @@
+﻿
+@model DunkeyDelivery.Areas.User.Models.CategoryProductViewModel
+
+<div class="col-md-8">
+    <div class="tab1-right">
+        <h1 class="right-heading" id="categoryName"></h1>
+
+        <div id="productDetails">
+            @if (Model.Products.Count() < 1)
+            {
+                <p style="margin-left: 16px;">Products Not Found</p>
+            }
+            @foreach (var products in Model.Products)
+            {
+                <div class="single-product-show">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h1>@products.Name</h1>
+                            <p>
+                                @products.Description
+                            </p>
+                        </div>
+                        <div class="col-md-4"> <h4>@products.Size</h4></div>
+                        <div class="col-md-3"><h4>$@products.Price  <span><a href="#"><i class="fa fa-plus"></i></a></span></h4></div>
+                    </div>
+
+
+
+                </div>
+            }
+        </div>
+
+
+
+    </div>
+
+</div>
+

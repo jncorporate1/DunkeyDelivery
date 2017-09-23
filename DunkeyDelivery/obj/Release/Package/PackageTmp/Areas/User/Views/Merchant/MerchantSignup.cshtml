@@ -1,0 +1,146 @@
+﻿@model DunkeyDelivery.Areas.User.Models.RegisterMerchantViewModel
+@{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+<div class="top-banner">
+    <img src="~/Content/assets/images/merchant-top-banner.jpg" class="img img-responsive" />
+    <div class="banner-inner-text">
+        <h1>Merchants SIgn up</h1>
+        <p class="banner-top-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi pellentesque est vitae<br /> cursus tincidunt. Mauris egestas vitae erat sed volutpat. Cras semper nunc sed pretium<br /> laoreet. </p>
+
+    </div>
+</div>
+
+<div class="main-section merchant-main-section">
+
+    <div class="container">
+
+        <h1 class="merchant-sign-heading">Sign up below to start growing your business today</h1>
+        <p class="merchant-sign-para">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla congue, dolor in porttitor efficitur, ante lacus </p>
+        <div class="row">
+            @using (Ajax.BeginForm("MerchantRegister", "Merchant", new AjaxOptions { HttpMethod = "POST", OnSuccess = "SuccessSubmission", OnFailure = "FailedSubmission" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-contain">
+                            <label>First Name<span>*</span></label>
+
+                            @Html.TextBoxFor(x => x.FirstName, new { name = "FirstName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger error" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-contain">
+                            <label>Last Name<span>*</span></label>
+                            @Html.TextBoxFor(x => x.LastName, new { name = "LastName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger error" })
+                        </div>
+                    </div>
+
+               </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>Bussiness Name<span>*</span></label>
+
+                        @Html.TextBoxFor(x => x.BusinessName, new { name = "BusinessName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.BusinessName, "", new { @class = "text-danger error" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>Bussiness Type<span>*</span></label>
+                        @Html.DropDownListFor(model => model.BusinessType, new SelectList(
+                          new List<Object>{
+                               new { value = "" , text = ""  },
+                               new { value = "Food" , text = "Food"  },
+                               new { value = "Grocery" , text = "Grocery" },
+                               new { value = "Laundry" , text = "Laundry" },
+                               new { value =  "Alcohol" , text = "Alcohol" },
+                               new { value =  "Pharmacy" , text = "Pharmacy" },
+                               new { value = "Retailer" , text = "Retailer"}
+                            },
+                          "value",
+                          "text",
+                           0), new { @class = "form-control with-no-margin", @id = "form-inputs" }
+
+                           )
+                        @Html.ValidationMessageFor(m => m.BusinessType, "", new { @class = "text-danger error" })
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>Email<span>*</span></label>
+                        @Html.TextBoxFor(x => x.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger error" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>Phone Number<span>*</span></label>
+                        @Html.TextBoxFor(x => x.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>Zip Code<span>*</span></label>
+                        @Html.TextBoxFor(x => x.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger error" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-contain">
+                        <label>How did you hear about us<span>*</span></label>
+
+                        <select class="form-control  with-no-margin " id="form-inputs">
+                            <option></option>
+                            <option selected>Social Media</option>
+                            <option>Friends</option>
+                            <option>Advertisement</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+
+                <div class="col-md-12">
+                    <p class="terms-line">By clicking "Sign up" you agree to the <a href="#">terms of dunken delivery</a></p>
+
+                    <div class="row">
+                        <div  id="Notifications" style="text-align:center;">
+                            <p id="ModalNotification"></p>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-submit with-auto-margin">Sign Up</button>
+
+                    <p class="contact-no">Contact us 1-800-123-4567</p>
+                    <br /><br />
+                </div>
+            }
+        </div>
+        <script>
+            function test() {
+
+                $("#test").show();
+                $(".form-control").val("");
+            }
+
+        </script>
+    </div>
+
+</div>
+
+

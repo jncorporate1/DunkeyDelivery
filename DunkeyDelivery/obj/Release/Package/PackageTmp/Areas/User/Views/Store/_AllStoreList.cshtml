@@ -1,0 +1,215 @@
+﻿@model DunkeyDelivery.Areas.User.Models.Shop
+    <style>
+        .rating{
+            margin-right:3px;
+        }
+
+    </style>
+<div class="row">
+
+    <div class="col-lg-12">
+        @if (Model.Store.Count() == 0)
+        {
+            <p class="text-center">No Result(s)</p>
+        }
+        else
+        {
+
+            <ul class="product-list">
+
+                @foreach (var shopData in Model.Store)
+                {
+
+                    <li>
+                        <div class="left">
+                            @if (Model.Store.First().BusinessType != "Laundry")
+                            {
+                                <div class="product-img"><img src="@shopData.ImageUrl"></div>
+                            }
+                            <div class="product-cont">
+                                @if (Model.Store.First().BusinessType == "Alcohol")
+                                {
+                                    @*<a href="@Url.Action("Categories", "Alcohol", new { area = "User" })" class="place-order-btn">ORDER AHEAD</a>*@
+                                    @*<h4><a href="@Url.Action("Categories", "Alcohol",new {area="User",Store_id = shopData.Id , @SearchType=Request.QueryString["search"]})"> @shopData.BusinessName </a></h4>*@
+                                    <h4><a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Request.QueryString["search"]})"> @shopData.BusinessName </a></h4>
+
+                                }
+                                else
+                                {
+                                    <h4><a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Request.QueryString["search"]})"> @shopData.BusinessName </a></h4>
+
+
+                                }
+
+                                <div class="star-rating">
+                                    @for (var i = 1; i <= 5; i++)
+                                    {
+                                        if (shopData.AverageRating == 0)
+                                        {
+                                            <h3 class="rating"><span><i class="icon fa fa fa-star-o"></i></span></h3>
+                                        }
+                                        else if (i - shopData.AverageRating <= 0)
+                                        {
+                                            <h3 class="rating"><span><i class="icon fa fa-star"></i></span></h3>
+                                            // rating
+                                        }
+                                        else if (i - shopData.AverageRating < 1)
+                                        {
+                                            <h3 class="rating"><span><i class="icon fa fa-star-half-full"></i></span></h3>
+                                            // half rating
+                                        }
+                                        else
+                                        {
+                                            <h3 class="rating"><span><i class="icon fa fa-star-o"></i></span></h3>
+                                            // no rating
+                                        }
+
+
+                                    }
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(shopData.Address) && shopData.Address.Length > 30 && Model.Store.First().BusinessType == "Food")
+                                {
+                                    <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="@shopData.Address">@shopData.Address.Substring(0, 30) ...</p>
+                                }
+                                else
+                                {
+                                    <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="@shopData.Address">@shopData.Address</p>
+                                }
+
+                                @if (shopData.StoreTags.Count() != 0)
+                                {
+                                    <p class="tag-links">
+
+                                        @foreach (var Tag in shopData.StoreTags)
+                                        {
+                                            if (Tag.Tag == shopData.StoreTags.Last().Tag)
+                                            {
+                                                <a href="#">@Tag.Tag</a>
+
+                                            }
+                                            else
+                                            {
+                                                <a href="#">@Tag.Tag ,</a>
+                                            }
+
+                                        }
+
+
+                                    </p>
+                                }
+
+                                @if (Model.Store.First().BusinessType == "Laundry")
+                                {
+                                    if (shopData.MinDeliveryCharges == 0)
+                                    {
+                                        <span>$@shopData.MinOrderPrice Minimum | <span>Free Delivery</span> | Today at 10:30am</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span>$@shopData.MinOrderPrice Minimum | <span>$ @shopData.MinDeliveryCharges</span> | Today at 10:30am</span>
+
+                                    }
+
+                                }
+                                else
+                                {
+
+                                    if (shopData.MinDeliveryCharges == 0)
+                                    {
+                                        <p class="del-charges">$@shopData.MinOrderPrice Minimum | <span>Free Delivery</span></p>
+
+                                    }
+                                    else
+                                    {
+                                        <p class="del-charges">$@shopData.MinOrderPrice Minimum | <span>$ @shopData.MinDeliveryCharges Delivery Charges</span></p>
+
+                                    }
+
+                                }
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="right">
+
+                            @{
+                                if (Model.Store.First().BusinessType == "Food")
+                                {
+
+                                    <a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Model.Store.First().BusinessType})" class="place-order-btn">ORDER AHEAD</a>
+                                }
+                                else if (Model.Store.First().BusinessType == "Grocery")
+                                {
+
+                                    <a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Model.Store.First().BusinessType})" class="place-order-btn">ORDER AHEAD</a>
+                                }
+                                else if (Model.Store.First().BusinessType == "Laundry")
+                                {
+
+                                    <a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Model.Store.First().BusinessType})" class="place-order-btn">VIEW STORE</a>
+                                }
+                                else if (Model.Store.First().BusinessType == "Alcohol")
+                                {
+
+                                    <a href="@Url.Action("Categories", "Alcohol", new { area = "User" })" class="place-order-btn">ORDER AHEAD</a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Model.Store.First().BusinessType})" class="place-order-btn">ORDER AHEAD</a>
+                                }
+                            }
+                            @if (Model.Store.First().BusinessType != "Laundry")
+                            {
+                                <span class="order-time">Today at 10:30am</span>
+                            }
+                        </div>
+
+
+                    </li>
+                                }
+
+
+
+
+
+            </ul>
+
+                                if (Model.TotalStores != 0)
+                                {
+                                    <div class="col-md-6 col-lg-offset-5 col-md-offset-5 col-sm-offset-0 col-xs-offset-0">
+                                        <ul class="pagination">
+                                            @if (Model.TotalStores > 4)
+                                            {
+                                                var j = 0;
+                                                for (int i = 0; i <= Model.TotalStores / 6; i++)
+                                                {
+                                                    <li>
+                                                        <a id="@i" onclick="Pagging(this.id)">
+                                                            @{ j = i + 1; }
+                                                            @j
+                                                        </a>
+                                                    </li>
+                                                                    }
+                                                                }
+
+
+                                        </ul>
+                                    </div>
+                                                                    }
+
+
+                                                                }
+    </div>
+
+</div> <!-- ROW -->
+
+<script>
+
+    $("#store_count").html(@Model.Store.Count);
+
+
+</script>

@@ -1,0 +1,69 @@
+﻿@model DunkeyDelivery.Areas.User.Models.ProfileViewModel
+
+
+
+    <div class="content-div clearfix">
+
+
+        <div class="search-bar clearfix padh4">
+            <h4>Profile</h4>
+            <!--<form>
+            <input type="text"  placeholder="search" />
+            <input type="submit" />
+              </form>-->
+        </div>
+
+        <div class="content-main clearfix">
+
+            @*<div class="col-md-3 nopadleft">
+                <img src="~/Content/assets/images/profile.png" />
+
+
+
+            </div>*@
+        @using (Ajax.BeginForm("EditProfile", "Profile", new AjaxOptions { OnSuccess = "OnSuccessInsertion", OnFailure = "OnFailedInsertion" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-md-12 no-pad">
+                <ul class="profile">
+
+                    @*<li>
+                        @Html.TextBoxFor(x => x.FirstName, new { name = "FirstName", @placeholder = "First Name" value=Model.FirstName })
+                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger error" })
+                    </li>
+
+                    <li>
+                        @Html.TextBoxFor(x => x.LastName, new { name = "LastName", @placeholder = "Last Name" })
+                        @Html.ValidationMessageFor(m => m.LastName , "", new { @class = "text-danger error" })
+                    </li>*@
+
+
+
+
+                    <li><input type="text"  placeholder="First name*" value="@Model.FirstName" /></li>
+
+                    <li><input type="text" placeholder="Last name*" value="@Model.LastName" /></li>
+                    <li class=""><input type="Email" placeholder="Email" value="@Model.Email"  readonly /></li>
+
+                    <li class=""><input type="text" placeholder="New password" /></li>
+                    <li style="width:96%;" ><input type="text" placeholder="Confirm new password" /></li>
+                </ul>
+            </div>
+        }
+            <div class="col-md-12 nopad">
+                <h4 class="sms-noti">SMS Notifications</h4>
+                <div class="checkbox clearfix">
+                    <p>
+                        <input type="checkbox" id="e1" value="economy" name="class">
+                        <label for="e1"><span></span></label>
+                        <label>Send me order updates via text message. (Standard rates may apply.)</label>
+                    </p>
+
+
+                </div>
+                <input type="submit" value="Save" class="save" />
+
+            </div>
+
+        </div>
+    </div>

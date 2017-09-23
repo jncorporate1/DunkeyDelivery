@@ -1,0 +1,44 @@
+﻿@model DunkeyDelivery.Models.LoginViewModel
+@{
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+
+<div class="main-section login-main-section">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h1>LOGIN TO Dunkey Delivery</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
+
+                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <input type="text" placeholder="Email" class="form-control" id="form-inputs" />
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                    <input type="text" placeholder="Password" class="form-control" id="form-inputs" />
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+
+
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <button type="submit" class="btn-submit btn-login">Login</button>
+                    <a href="#" class="forget_pass">Forgot Password?</a>
+                @*</form>*@
+
+                }
+            </div>
+            <div class="col-md-6">
+                <h1>New User? Signup</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
+
+                <a href="#"><button class="Register_btn">Register Now</button></a>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>

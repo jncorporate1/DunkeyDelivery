@@ -1,0 +1,447 @@
+﻿@model DunkeyDelivery.Areas.User.Models.HomeViewModel
+@{
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .search-item {
+        color: black;
+        border-bottom: 1px solid black;
+    }
+
+        .search-item:hover {
+            background-color: #6ebe44;
+            color: white;
+        }
+        .alert{
+        text-align: center;
+        width: 42%;
+        color: red;
+        font-size: 15px;
+        height: 40px;
+        display:none;
+  
+        }
+        .alertMessage{
+            font-size:14px;
+            color:red;
+        }
+        *:focus {
+    outline: 0;
+}
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <!-- -----------------------Sub Pages Top Banner   ---------------------- -->
+        <headerinner>
+        </headerinner>
+        <!-- -----------------------Breadcrumb   ---------------------- -->
+        <breadcrumb>
+        </breadcrumb>
+    </div>
+</div>
+<!-------------------------------------------Slider-------------------------------------------------->
+<slider>
+    <div class="slider">
+        <div class="main-slider">
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+                <div class="caption">
+                    <h2 class="wow fadeInLeft">
+                        Get Your Food Retail and Groceries at your doorstep
+                    </h2>
+                    <div class="wow fadeInRight" style="line-height:10px;">
+                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                    </div>
+                    <div class="container">
+                        <ul class="bulltes wow zoomIn">
+                            <li id="Food" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field1','0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
+                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value,'Field1','0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
+                            <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
+                            <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                            <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
+                            <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
+                            @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                        </ul>
+                        <div class="selectarea">
+                            <input type="text" class="search-field " id="currentSearch" onclick="addClass(this)" onkeyup="GetLocationAddress()" placeholder="Select Your Area" @*onkeyup="search_store(this.value)"*@ />
+                            <div class="clearfix"></div>
+                           <div class="alert Field1" style="display: block;width: 229px;position: absolute;left: 13.1%;" >
+                               
+                               @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                               {
+                                   <script>
+                                       $(".Field1").html("<p style='font-size:14px;color:red;padding-right: 63px;'>Invalid Address</p>").show().delay(3000).fadeOut();
+
+                                   </script>
+                                  
+                               }
+
+                           </div>
+
+                            @*<div class="row" style="margin-top:-10px;margin-left: 15%;width: 68%;background-color: white;position:absolute;">
+                                    <ul class="list-group search-group-item" style="margin-bottom:0px;">
+                                        <li class="list-group-item search-item"></li>
+
+
+
+                                    </ul>
+                                </div>*@
+                        </div>
+                        <a id="All" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field1','0')" class="btn">FIND OUTLETS</a>
+                    </div>
+
+
+
+                    @*<script>
+                            function search_store(search_string) {
+                                if (search_string.length>3) {
+                                    $.ajax({
+                                        type: "GET",
+                                        url: '@Url.Action("SearchByName","Home",new {area="User"})',
+                                        data: { search_string: search_string },
+                                        success: function (result) {
+                                            $(".search-group-item").empty();
+                                            console.log(result);
+                                            for (var i = 0; i < result.length; i++) {
+                                                $store_id = result[i].Id;
+                                                $BusinessType = result[i].BusinessType;
+
+                                                var searchitem = '@Url.Action("SearchStoreCategories", "UserStore", new { Store_id = "StoreId", SearchType = "BType" })';
+                                                searchitem = searchitem.replace("StoreId", $store_id);
+                                                searchitem = searchitem.replace("BType", $BusinessType);
+
+                                                $(".search-group-item").append('<a class="search-item" href="' + searchitem + '"><li  class="list-group-item search-item">' + result[i].BusinessName + '</li></a>');
+
+
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    $(".search-group-item").empty();
+                                }
+                            }
+
+
+                        </script>*@
+                </div>
+            </div>
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+                <div class="caption">
+                    <h2 class="wow fadeInLeft">
+                        Get Your Food Retail and Groceries at your doorstep
+                    </h2>
+                    <div class="wow fadeInRight">
+                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                    </div>
+                    <div class="container">
+                        <ul class="bulltes wow zoomIn">
+                            <li id="Food" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
+                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
+                            <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
+                            <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                            <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
+                            <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
+                            @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value,'Field2')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                        </ul>
+                        <div class="selectarea">
+                            <input type="text" class="search-field " onclick="addClass(this)" onkeyup="GetLocationAddress()" placeholder="Select Your Area" />
+
+                        </div>
+                        <div class="alert Field2" style="display: block;width: 229px;position: absolute;left: 12.1%;" >
+                            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                            {
+                                <script>
+                                    $(".Field2").html("<p style='font-size:14px;color:red;padding-right: 63px;'>Invalid Address</p>").show().delay(3000).fadeOut();
+
+                                </script>
+
+                            }
+
+                        </div>
+                        
+                        <a id="All" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field2','0')" class="btn">FIND OUTLETS</a>
+                    </div>
+                </div>
+            </div>
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+                <div class="caption">
+                    <h2 class="wow fadeInLeft">
+                        Get Your Food Retail and Groceries at your doorstep
+                    </h2>
+                    <div class="wow fadeInRight">
+                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                    </div>
+                    <div class="container">
+                        <ul class="bulltes wow zoomIn">
+
+
+
+
+                            <ul class="bulltes wow zoomIn">
+                                <li id="Food" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
+                                <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
+                                <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
+                                <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                                <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
+                                <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
+                                @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                            </ul>
+
+
+                            <div class="selectarea">
+                                <input type="text" onclick="addClass(this)" class="search-field" onkeyup="GetLocationAddress()" placeholder="Select Your Area" />
+                            </div>
+                            <div class="alert  Field3" style="display: block;width: 229px;position: absolute;left: 13.1%;">
+
+                                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                                {
+                                    <script>
+                                       $(".Field3").html("Invalid Address").show().delay(3000).fadeOut();
+
+                                    </script>
+
+                                }
+                            </div>
+
+                            <a id="All" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field3','0')" class="btn">FIND OUTLETS</a>
+                    </div>
+                    <script>
+
+
+
+
+                        function SearchStore(StoreType, Address,FieldClass,Level) {
+
+                            if (Address.length < 1) {
+                                $("." + FieldClass).html("<p style='font-size:14px;color:red;'>Address field is required</p>").show().delay(3000).fadeOut();
+                              
+                            } else {
+                                //var Address=$("input[tabindex='0']").attr("value");
+                                //var lat=$("#lat").val();
+                                //var lng=$("#lng").val();
+                                //if (lat.length < 1 || lng.length < 1) {
+                                //    lat = 0;
+                                //    lng = 0;
+                                //}
+                                //$address = $(".search-field").val();
+                                var url = '@Html.Raw(@Url.Action("SearchByAddress", "Home", new { Type = "test",Address = "123",Level="00" }))';
+                                url = url.replace("test", StoreType);
+                                url = url.replace('123', Address);
+                                url = url.replace('00', Level);
+                                window.location.href = url;
+
+                                //$.ajax({
+                                //    type: "GET",
+                                //    //contentType: "application/json; charset=utf-8",
+                                //    url: "Home/SearchByAddress",
+                                //    data: { Type: StoreType, Address: Address },
+                                //    success: function (result) {
+                                //        console.log(result);
+                                //    }
+                                //});
+
+                            }
+                        }
+
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</slider>
+<!-------------------------------------------Slider End-------------------------------------------------->
+<!-------------------------------------------Countries-------------------------------------------------->
+<div class="countries">
+    <div class="container">
+        <div class="col-md-3 nopad">ORDER FOOD IN YOUR COUNTRY:</div>
+        <div class="col-md-7 flags"><img src="~/Content/assets/images/flags.jpg" alt="" /></div>
+        <div class="col-md-2"><a href="javascript::" class="btn2">MOre Countries</a></div>
+    </div>
+</div>
+<!-------------------------------------------Countries End-------------------------------------------------->
+<!-------------------------------------------homebanners------------------------------------>
+@*<section class="section homebanners">
+    <div class="container">
+        <div class="col-md-4 wow fadeInLeft"><a href="@Url.Action("Deals","Home",new {area="User" })"><img src="~/Content/assets/images/5buksbox.jpg" alt="" /></a></div>
+        <div class="col-md-4 wow zoomIn">
+            <a href="@Url.Action("Deals","Home",new {area="User" })"><img src="~/Content/assets/images/bigking.jpg" alt="" /></a>
+            <div class="clearfix"></div>
+            <br />
+            <a href="@Url.Action("Deals","Home",new {area="User" })"><img src="~/Content/assets/images/groceries.jpg" alt="" /></a>
+        </div>
+        <div class="col-md-4 wow fadeInRight"><a href="@Url.Action("Deals","Home",new {area="User" })"><img src="~/Content/assets/images/buyonegetone.jpg" alt="" /></a></div>
+    </div>
+</section>*@
+<!-------------------------------------------homebanners End------------------------------------>
+<!-------------------------------------------howitorks------------------------------------>
+<section class="section howitorks">
+    <div class="container">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <h3 class="wow fadeIn">HOW IT WORKS</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, </p>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="clearfix"></div>
+        <br />
+        <br />
+        <div class="wow zoomIn">
+            <div class="col-md-3">
+                <div class="worksicon">
+                    <img width="75" height="75" src="~/Content/assets/images/g11.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>
+                    1.
+                    Search
+                </h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+            <div class="col-md-3">
+                <div class="worksicon">
+                    <img width="75" height="75" src="~/Content/assets/images/g22.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>
+                    2.
+                    Choose
+                </h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+            <div class="col-md-3">
+                <div class="worksicon">
+                    <img width="65" height="65" src="~/Content/assets/images/g3.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>
+                    3.
+                    Pay
+                </h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+            <div class="col-md-3">
+                <div class="worksicon">
+                    <img width="65" height="65" src="~/Content/assets/images/g4.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>
+                    4.
+                    Enjoy
+                </h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-------------------------------------------howitorks Ends------------------------------------>
+<!-------------------------------------------About------------------------------------>
+<section class="section about">
+    <div class="container nopad">
+        <div class="col-md-7 wow fadeInLeft">
+            <h4>ABOUT DUNKEY DELIVERY</h4>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam lectus magna, aliquam at sem id, porta sollicitudin felis. Maecenas lacinia libero ac nulla facilisis commodo. Donec quis pulvinar arcu, porttitor gravida sapien. Quisque sit amet ipsum sem. Nullam dolor ex, faucibus non tortor vehicula,</p>
+
+            <p>suscipit egestas nulla. Sed porttitor arcu non vulputate blandit. Fusce in rhoncus purus. Ut porta lectus a purus egestas auctor. Morbi egestas aliquam lorem ac iaculi Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae. Morbi egestas aliquam lorem ac iaculi Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.</p>
+
+            <a href="javascript::" class="readmore">Read More</a>
+        </div>
+
+
+        <div class="col-md-5 ddvideo wow zoomIn">
+
+            <iframe width="100%" height="250" src="https://www.youtube.com/embed/7_G6srUe8XA" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+</section>
+<!-------------------------------------------About Ends------------------------------------>
+<!-------------------------------------------Getapp------------------------------------>
+<section class="getapp">
+    <div class="delievryapp wow fadeInDown"><img src="~/Content/assets/images/deliveryapp.png" alt="" /></div>
+    <div class="container overflow">
+        <div class="col-md-5"></div>
+        <div class="col-md-7 newsletter  wow fadeInRight">
+            @using (Ajax.BeginForm("Subscribe", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
+            {
+                <h5>GET THE APP LINK DIRECTLY TO YOUR PHONE</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam lectus magna, aliquam at sem id, porta sollicitudin felis. Maecenas lacinia libero ac </p>
+
+                @Html.TextBoxFor(x => x.Phone, new { name = "Phone", id = "PhoneNumber", @placeholder = "Enter Your Number", onkeyup = "clearMessages()" })
+
+                <input type="submit" name="Submit" value="Submit" />
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+            }
+            <div class="clearfix"></div>
+            <br />
+            <!-- Response Messages -->
+            <div id="SuccessNotifications" style="display:none;">
+                <p id="ModalNotification">Message Sent Successfully</p>
+            </div>
+            <div id="ErrorNotifications" style="display:none;">
+                <p id="ModalNotification">Invalid Server Error</p>
+            </div>
+            <!-- Response Messages close -->
+            <br />
+            <a href="javascript::"><img src="~/Content/assets/images/appbtn.png" alt="" /></a>
+        </div>
+    </div>
+</section>
+
+<!-------------------------------------------Getapp Ends------------------------------------>
+<!-------------------------------------------Rewards------------------------------------>
+
+<div class="container howitorks rewards">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        <div class="rewards  wow fadeIn">
+            <h3>Rewards</h3>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
+        </div>
+
+        <br /><br />
+        <div class="clearfix"></div>
+
+
+        <div class="wow zoomIn">
+            <div class="col-md-4">
+                <div class="worksicon">
+                    <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>Find Favorites and  Discover New Ones</h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+            <div class="col-md-4">
+                <div class="worksicon">
+                    <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>Earn Points &#038;  Get Rewards</h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+            <div class="col-md-4">
+                <div class="worksicon">
+                    <img width="75" height="75" src="~/Content/assets/images/h2.png" class="attachment- size- wp-post-image" alt="" />
+                </div>
+                <h3>Free, Easy, and  Essential</h3>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    <div class="col-md-1"></div>
+
+    <script src="~/Scripts/GoogleMap.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2qlAy2Quv00vXsc-Ix86WnIXvHmEJlg8&libraries=places&sensor=false"></script>
+
+</div>
+
+<!-------------------------------------------Rewards Ends------------------------------------>
+<!-------------------------------------------Top Brands------------------------------------>
+
+<section class="section topbrands wow fadeIn">
+    <h3>TOP BRANDS</h3>
+    <img src="~/Content/assets/images/brands.jpg" alt="" />
+</section>
+<!-------------------------------------------Top Brands Ends------------------------------------>

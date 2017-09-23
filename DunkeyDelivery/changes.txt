@@ -1,0 +1,5 @@
+~ Added new routes into api.php file
+~Created new request file in order to verify either user with specific id exist or not ( class for validation rules )  File Name= Request/Api/UserExistVerificationRequest
+~Created new controller for missing api in order to avoid major error File Name= Api/FriendActionController.php 
+~ Added new service to get user stream by user id  in File = Model/UserStream.php & FileName = Controller/Api/UserStreamController.php 
+~ Added new service to get user details by user id in  File = Controller/Api/ProfileController  Used File Name= Request/Api/UserExistVerificationRequest For Verification of user

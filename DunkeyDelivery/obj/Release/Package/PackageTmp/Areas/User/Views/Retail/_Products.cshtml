@@ -1,0 +1,133 @@
+﻿@model DunkeyDelivery.Areas.User.Models.AlcoholProductVM
+
+
+<div class="quick-search clearfix" style="border: 1px solid #666666;">
+    <form method="" onsubmit="return false;">
+        <input type="text" placeholder="Quick search" style="height: 70px;" />
+        <input type="submit" />
+    </form>
+</div>
+
+
+        <div class="row">
+            @*<div class="col-md-4 nopadleft">
+
+
+
+
+                <div class="rest-item-1 filteritems" style="border: 1px solid #66cc33;margin: 20px 0 0;">
+
+
+
+
+                    <ul>
+                        <h4><img src="~/Content/assets/images/filter.png" alt="">Filter Restaurants</h4>
+                        <li><a href="javascript::">Free delivery</a></li>
+                        <li><a href="javascript::">Deals</a></li>
+                        <li><a href="javascript::">Open Restaurants</a></li>
+                        <li><a href="javascript::">Online payment avaiable</a></li>
+                        <li><a href="javascript::">Fast Delivery</a></li>
+                    </ul>
+
+
+
+
+
+
+
+
+
+                    <div class="cusine">
+                        <ul>
+                            <h4><img src="~/Content/assets/images/filter.png" alt="">Filter By Type</h4>
+                            <li><a href="javascript::">Distilled</a></li>
+                            <li><a href="javascript::">Mineral</a></li>
+                            <li><a href="javascript::">Artesian</a></li>
+
+                        </ul>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+            </div>*@ 
+            <div class="col-md-12">
+
+                <div class="tab">
+
+
+                    <div class="categories-clasify clearfix">
+                        @if (!string.IsNullOrEmpty(Model.Name))
+            {
+                            <h3>
+                                @Model.Name
+                            </h3>
+                        }
+                        else
+                        {
+                            <h3>
+                                Categories
+                            </h3>
+                        }
+                        <ul>
+                            @if (Model.productslist.Count != 0)
+                            {
+                                foreach (var product in Model.productslist)
+                                {
+                                    <li id="addCart" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')">@product.Name <span>$@product.Price</span></li>
+
+                                }
+                            }
+                            else
+                            {
+                                <li>No Product(s) Found</li>
+                            }
+       
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+        </div>
+<script>
+    function AddToCart(id, productName, price, size, StoreId) {
+        var StoreName= $("#addCart").attr("storeName");
+        console.log(JSON.stringify(StoreName));
+        var data = {
+            ItemId: id,
+            name: productName,
+            price: price,
+            type: 0,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+                $('#OrderItems').load('@Url.Action("OrderItems","Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice })')
+                //e.preventDefault();
+            })
+
+    }
+
+</script>
