@@ -59,7 +59,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -85,7 +85,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -199,7 +199,7 @@ namespace DunkeyAPI.Controllers
                             Description = model.Description,
                             Price = model.Price,
                             Store_Id = model.Store_Id,
-                            Image = Utility.BaseUrl + ConfigurationManager.AppSettings["ProductImageFolderPath"] + Path.GetFileName(newFullPath)
+                            Image = DunkeyDelivery.Utility.BaseUrl + ConfigurationManager.AppSettings["ProductImageFolderPath"] + Path.GetFileName(newFullPath)
                         };
 
                         ctx.Products.Add(productModel);
@@ -217,7 +217,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -456,57 +456,134 @@ namespace DunkeyAPI.Controllers
 
 
         [HttpGet]
+        [Route("GetStoreProducts")]
+        public IHttpActionResult GetStoreProducts(short Store_id, int Page = 0, int Items = 10)
+        {
+            try
+            {
+
+                CategoryProductViewModel responsee = new CategoryProductViewModel();
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var res = ctx.Products
+                        .Where(x => x.Store_Id == Store_id).OrderBy(x => x.Name).Skip(Page * Items).Take(Items).ToList();
+                    var f = Mapper.Map<List<productslist>>(res);
+                    responsee.productslist = f;
+
+                    responsee.TotalRecords = ctx.Products.Where(x => x.Store_Id == Store_id).Count();
+                    CustomResponse<CategoryProductViewModel> response = new CustomResponse<CategoryProductViewModel>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = responsee
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [HttpGet]
         [Route("ProductByName")]
-        public IHttpActionResult ProductByName(string search_string, int Category_id = 10)
+        public IHttpActionResult ProductByName(string search_string, int Category_id=0 ,int Category_Type=10,int Store_id=0,int Items=6,int Page=0)
         {
             try
             {
 
                 Stores Utility = new Stores();
                 CategoryProductViewModel products = new CategoryProductViewModel();
-                var Type = Utility.Categories_enum(Category_id);
+                var Type = Utility.Categories_enum(Category_Type);
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var query = "SELECT Products.* FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id";
-                    if (Type == "All")
-                    {
 
-                        if (string.IsNullOrEmpty(search_string))
-                        {
+                    var query = "SELECT Products.* FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
+                    if (Store_id == 0)
+                    { 
+
+                            if (Category_id == 0)// if there is no category id
+                            {
+                            if (Type == "All")
+                            {
+
+                                if (string.IsNullOrEmpty(search_string))
+                                {
+
+                                }
+                                else
+                                {
+                                    query += " WHERE Products.Name Like '%" + search_string.Trim() + "%' ";
+
+                                }
+
+
+                            }
+                            else
+                            {
+                                query += " WHERE Stores.BusinessType='" + Type + "'";
+                                if (string.IsNullOrEmpty(search_string))
+                                {
+
+                                }
+                                else
+                                {
+                                    query += " AND Products.Name Like '%" + search_string.Trim() + "%'";
+                                }
+
+
+                            }
 
                         }
                         else
                         {
-                            query += " WHERE Products.Name Like '%" + search_string.Trim() + "%' ";
 
+                            if (Type == "All")
+                            {
+
+                                if (string.IsNullOrEmpty(search_string))
+                                {
+
+                                }
+                                else
+                                {
+                                    query += " WHERE Products.Name Like '%" + search_string.Trim() + "%'  AND Products.Category_Id=" + Category_id + " ";
+
+                                }
+
+
+                            }
+                            else
+                            {
+                                query += " WHERE Stores.BusinessType='" + Type + "' AND Products.Category_Id=" + Category_id + " ";
+                                if (string.IsNullOrEmpty(search_string))
+                                {
+
+                                }
+                                else
+                                {
+                                    query += " AND Products.Name Like '%" + search_string.Trim() + "%'  ";
+                                }
+
+
+                            }
                         }
-
-
-                    }
-                    else
+                    }else
                     {
-                        query += " WHERE Stores.BusinessType='" + Type + "'";
-                        if (string.IsNullOrEmpty(search_string))
-                        {
 
-                        }
-                        else
-                        {
-                            query += " AND Products.Name Like '%" + search_string.Trim() + "%'";
-                        }
-
+                        query += " WHERE Products.Store_Id="+Store_id+ " AND Products.Name Like '%" + search_string.Trim() + "%'  ";
 
                     }
-
+                    query += "  ORDER BY Products.Name OFFSET "+Items*Page+" ROWS FETCH NEXT "+Items+" ROWS ONLY";
                     products.productslist = ctx.Database.SqlQuery<productslist>(query).ToList();
                     
-                    //var res = ctx.Products
-                    //    .Where(x => x.Name.StartsWith(search_string)).ToList();
-                    //ClientProductViewModel model = new ClientProductViewModel();
-                    //model= Mapper.Map<ClientProductViewModel>(res);
+
 
                     CustomResponse<CategoryProductViewModel> response = new CustomResponse<CategoryProductViewModel>
-                    //CustomResponse<IEnumerable<Product>> response = new CustomResponse<IEnumerable<Product>>
+
                     {
                         Message = "Success",
                         StatusCode = (int)HttpStatusCode.OK,

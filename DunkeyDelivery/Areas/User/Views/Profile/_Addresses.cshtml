@@ -1,42 +1,48 @@
-﻿
-<div class="content-div clearfix">
-
-    <div class="search-bar clearfix">
-        <h4>Add New ADDRESS</h4>
-    </div>
+﻿@model DunkeyDelivery.Areas.User.Models.Addresses
+    <div class="content-div clearfix" id="view_address">
 
 
-    <div class="content-main clearfix">
-        <form>
-            <ul class="text-fields">
-                <li>
-                    <input type="text" placeholder="First name*" />
-                </li>
-                <li>
-                    <input type="text" placeholder="Last name*" />
-                </li>
-                <li>
-                    <input type="tel" placeholder="Telephone" />
-                </li>
-                <li>
-                    <input type="email" placeholder="Email" />
-                </li>
+        <div class="search-bar clearfix padh4">
+            <h4>Addresses</h4>
+            <!--<form>
+            <input type="text"  placeholder="search" />
+            <input type="submit" />
+              </form>-->
+        </div>
 
-                <li class="full-field">
-                    <input type="text" placeholder="Full Address" />
-                </li>
-                <li class="no-margin-left">
-                    <input type="text" placeholder="City" />
-                </li>
-                <li>
-                    <input type="text" placeholder=" Postal Code" />
-                </li>
+        <div id="content" class="content-main clearfix">
+            <ul class="credit-details">
+                @if (Model.addresses.Count != 0)
+                {
+                    foreach (var address in Model.addresses)
+                    {
+                        <div id="address_@address.Id">
+                            <li>First Name<span>@Model.FirstName</span></li>
+                            <li>Last Name<span>@Model.LastName</span></li>
+                            <li>Email<span>@Model.Email</span></li>
+                            <li>Full Address<span>@address.FullAddress</span></li>
+                            <li>City<span>@address.City</span></li>
+                            <li>Postal Code<span>@address.PostalCode</span></li>
+                            <li style="margin-bottom: 7px !important;"><input style="float:right" type="submit" onclick="remove_address(this.id)" id="@address.Id" value="Remove Address" /></li>
+                            <hr style="width:100%;opacity 0.5;margin-top:7px;">
+                        </div>
 
-                <li>
-                    <input type="submit" value="ADD A ADDRESS" />
-                </li>
 
+                    }
+                }
+                else
+                {
+                    <li>First Name<span> - </span></li>
+                    <li>Last Name<span> - </span></li>
+                    <li>Email<span> - </span></li>
+                    <li>Full Address<span> - </span></li>
+                    <li>City<span> - </span></li>
+                    <li @*style="border-bottom:1px solid black"*@>Postal Code<span> - </span></li>
+                }
+
+                <li><input type="submit" onclick="add_address_btn()" id="add_address_btn" value="add new card" /></li>
             </ul>
-        </form>
+
+
+        </div>
     </div>
-</div>

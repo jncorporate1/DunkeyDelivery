@@ -17,6 +17,7 @@ namespace DAL
         }
 
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<CreditCard> CreditCards { get; set; }
         public virtual DbSet<Driver_Orders> Driver_Orders { get; set; }
         public virtual DbSet<Driver> Drivers { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
@@ -26,7 +27,9 @@ namespace DAL
         public virtual DbSet<Payment_Method> Payment_Method { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<StoreRatings> StoreRatings { get; set; }
+        public virtual DbSet<StoreOrder> StoreOrders { get; set; }
         //public virtual DbSet<Store_Timings> Store_Timings { get; set; }
+        public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
         public virtual DbSet<UserAddress> UserAddresses { get; set; }
         public virtual DbSet<ForgetPasswordTokens> ForgotPasswordTokens { get; set; }
@@ -40,11 +43,20 @@ namespace DAL
         public virtual DbSet<ContactUs> ContactUs { get; set; }
         public virtual DbSet<Rider> Rider { get; set; }
         public virtual DbSet<StoreTags> StoreTags { get; set; }
+        public virtual DbSet<Settings> Settings { get; set; }
+        public virtual DbSet<BlogPosts> BlogPosts { get; set; }
+        public virtual DbSet<BlogComments> BlogComments { get; set; }
+
+
         public virtual DbSet<StoreDeliveryHours> StoreDeliveryHours { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
-
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.CreditCards)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.User_ID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                .HasMany(e => e.UserAddresses)
@@ -57,7 +69,55 @@ namespace DAL
                 .WithOptional(e => e.Store)
                 .HasForeignKey(e => e.Store_Id)
                 .WillCascadeOnDelete(false);
+            // new modifications 
 
+            //modelBuilder.Entity<BlogPosts>()
+            //    .HasMany(e => e.User)
+            //    .WithOptional(e => e.)
+            //    .HasForeignKey(e => e.)
+            //    .WillCascadeOnDelete(false);
+
+
+
+            modelBuilder.Entity<Store>()
+                 .HasMany(e => e.Packages)
+                 .WithRequired(e => e.Store)
+                 .HasForeignKey(e => e.Store_Id)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Order_Items>()
+                 .HasOptional(x => x.Offer_Product);
+
+            modelBuilder.Entity<Order_Items>()
+                .HasOptional(x => x.Offer_Package);
+
+            modelBuilder.Entity<Order_Items>()
+                .HasOptional(x => x.Product);
+
+            modelBuilder.Entity<Order_Items>()
+                .HasOptional(x => x.Package);
+
+      
+
+
+            modelBuilder.Entity<StoreOrder>()
+                .HasMany(e => e.Order_Items)
+                .WithRequired(e => e.StoreOrder)
+                .HasForeignKey(e => e.StoreOrder_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(e => e.StoreOrders)
+                .WithRequired(e => e.Order)
+                .HasForeignKey(e => e.Order_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<OrderPayment>()
+                .HasRequired(e => e.Order)
+                .WithRequiredDependent(e => e.OrderPayment)
+                .WillCascadeOnDelete(false);
+
+            // new modifications end
 
 
             modelBuilder.Entity<Store>()
@@ -68,7 +128,7 @@ namespace DAL
 
             modelBuilder.Entity<Store>()
                 .HasOptional(s => s.StoreDeliveryHours);
-               
+
 
 
             modelBuilder.Entity<Package>()
@@ -83,12 +143,7 @@ namespace DAL
                 .HasForeignKey(e => e.Product_Id)
                 .WillCascadeOnDelete(false);
 
-
-            modelBuilder.Entity<Package>()
-               .HasMany(e => e.Offer_Packages)
-               .WithRequired(e => e.Package)
-               .HasForeignKey(e => e.Package_Id)
-               .WillCascadeOnDelete(false);
+    
 
             modelBuilder.Entity<Offer>()
                .HasMany(e => e.Offer_Products)
@@ -102,17 +157,6 @@ namespace DAL
                 .HasForeignKey(e => e.Offer_Id)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Package>()
-               .HasMany(e => e.Order_Items)
-               .WithRequired(e => e.Package)
-               .HasForeignKey(e => e.Package_Id)
-               .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Package>()
-                .HasMany(e => e.Package_Products)
-                .WithRequired(e => e.Package)
-                .HasForeignKey(e => e.Package_Id)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Store>()
                 .HasMany(e => e.Offers)
@@ -146,23 +190,23 @@ namespace DAL
                 .HasForeignKey(e => e.Driver_Id)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
-                .HasMany(e => e.Driver_Orders)
-                .WithRequired(e => e.Order)
-                .HasForeignKey(e => e.Order_Id)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Order>()
+            //    .HasMany(e => e.Driver_Orders)
+            //    .WithRequired(e => e.Order)
+            //    .HasForeignKey(e => e.Order_Id)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Order>()
-                .HasMany(e => e.Order_Items)
-                .WithRequired(e => e.Order)
-                .HasForeignKey(e => e.Order_Id)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Order>()
+            //    .HasMany(e => e.Order_Items)
+            //    .WithRequired(e => e.Order)
+            //    .HasForeignKey(e => e.Order_Id)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Product>()
-                .HasMany(e => e.Order_Items)
-                .WithRequired(e => e.Product)
-                .HasForeignKey(e => e.Product_Id)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Product>()
+            //    .HasMany(e => e.Order_Items)
+            //    .WithRequired(e => e.Product)
+            //    .HasForeignKey(e => e.Product_Id)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Store>()
                 .Property(e => e.Latitude);
@@ -179,12 +223,16 @@ namespace DAL
                 .WillCascadeOnDelete(false);
 
 
-
             modelBuilder.Entity<Store>()
-                .HasMany(e => e.Orders)
+                .HasMany(e => e.StoreOrders)
                 .WithRequired(e => e.Store)
                 .HasForeignKey(e => e.Store_Id)
                 .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Store>()
+            //    .HasMany(e => e.Orders)
+            //    .WithRequired(e => e.Store)
+            //    .HasForeignKey(e => e.Store_Id)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Store>()
                 .HasMany(e => e.Payment_Method)
@@ -228,7 +276,7 @@ namespace DAL
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Orders)
                 .WithRequired(e => e.User)
-                .HasForeignKey(e => e.User_Id)
+                .HasForeignKey(e => e.User_ID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()

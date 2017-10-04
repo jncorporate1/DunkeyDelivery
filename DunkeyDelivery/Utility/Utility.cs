@@ -1,6 +1,7 @@
 ﻿using DunkeyDelivery.BindingModels;
 using DunkeyDelivery.Models;
 using DunkeyDelivery.ViewModels;
+using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mail;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -129,6 +132,25 @@ namespace DunkeyDelivery
 
             return result;
         }
+
+        public static void AddUpdateClaim(this IPrincipal currentPrincipal, string key, string value)
+        {
+            var identity = currentPrincipal.Identity as ClaimsIdentity;
+            if (identity == null)
+                return;
+
+            // check for existing claim and remove it
+            var existingClaim = identity.FindFirst(key);
+            if (existingClaim != null)
+                identity.RemoveClaim(existingClaim);
+
+            // add new claim
+            identity.AddClaim(new Claim(key, value));
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.AuthenticationResponseGrant = new AuthenticationResponseGrant(new ClaimsPrincipal(identity), new AuthenticationProperties() { IsPersistent = true });
+        }
+
+
 
     }
  

@@ -71,7 +71,7 @@
 
                         <div class="col-md-6">
                             <div class="input-contain">
-                                <textarea rows="6" class="form-control with-no-margin" placeholder="Delivery Instruction" id="form-inputs"></textarea>
+                                <textarea rows="6" class="form-control with-no-margin" name="DeliveryDetails.AdditionalNote" placeholder="Delivery Instruction" id="form-inputs"></textarea>
                             </div>
 
                             <div class="radio-group input-contain">
@@ -99,6 +99,8 @@
                             <div class="col-md-6 no-pad-left">  
                                 <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
                             </div>
+                            <input type="text" name="PaymentInformation.PaymentType" id="PaymentType" style="display:none;" />
+                           @* @Html.TextBoxFor(x => x.PaymentInformation.PaymentType, new { name = "PaymentType", @class = "form-control with-no-margin", id = "PaymentType" })*@
                         </div>
 
 
@@ -207,6 +209,8 @@
             
             $("#creditcard").removeClass("cardButtons");
             $(elementObj).addClass("cardButtons");
+            $("#PaymentType").val($(elementObj).text());
+
         }
 
         function TipColor(elementObj) {

@@ -30,3 +30,15 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DAL\bin\Debug\EntityFramework.
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\bin\Debug\DAL.dll.config
+D:\Git\DunkeyDelivery\DAL\bin\Debug\DAL.dll
+D:\Git\DunkeyDelivery\DAL\bin\Debug\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.dll
+D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Git\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.dll
+D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.xml
+D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Git\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
+D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.dll
+D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

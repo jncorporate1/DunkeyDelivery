@@ -189,9 +189,11 @@
     <Compile Include="Areas\Dashboard\Controllers\HttpPostedData.cs" />
     <Compile Include="Areas\Dashboard\Controllers\IndexController.cs" />
     <Compile Include="Areas\Dashboard\Models\WebDashboardStatsViewModel.cs" />
+    <Compile Include="Areas\User\Controllers\BlogController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
     <Compile Include="Areas\User\Models\AccountViewModel.cs" />
     <Compile Include="Areas\User\Models\AlcoholViewModel.cs" />
+    <Compile Include="Areas\User\Models\BlogViewModel.cs" />
     <Compile Include="Areas\User\Models\CartItem.cs" />
     <Compile Include="Areas\User\Controllers\AlcoholController.cs" />
     <Compile Include="Areas\User\Controllers\FoodController.cs" />
@@ -223,6 +225,7 @@
     <Compile Include="Areas\User\Models\GetProductViewModel.cs" />
     <Compile Include="Areas\User\Models\MerchantViewModel.cs" />
     <Compile Include="Areas\User\Models\OfferViewModel.cs" />
+    <Compile Include="Areas\User\Models\OrderViewModel.cs" />
     <Compile Include="Areas\User\Models\PharmacyViewModel.cs" />
     <Compile Include="Areas\User\Models\ProductViewModel.cs" />
     <Compile Include="Areas\User\Models\ProfileViewModel.cs" />
@@ -1137,6 +1140,8 @@
     <Content Include="Areas\User\Views\Profile\_Addresses.cshtml" />
     <Content Include="Areas\User\Views\Profile\_CreditCards.cshtml" />
     <Content Include="Areas\User\Views\Order\_OrderItemsDeals.cshtml" />
+    <Content Include="Areas\User\Views\Profile\_AddAddress.cshtml" />
+    <Content Include="Areas\User\Views\Profile\_AddCreditCard.cshtml" />
     <None Include="Properties\PublishProfiles\DunkeyDeliveryWeb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />
@@ -1212,6 +1217,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Dashboard\Views\Order\" />
+    <Folder Include="Areas\User\Views\Blog\" />
     <Folder Include="Areas\User\Views\Error\" />
     <Folder Include="Areas\User\Views\UserStore\" />
     <Folder Include="Content\Uploaded_files\" />

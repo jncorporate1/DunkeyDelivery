@@ -1,6 +1,7 @@
 ﻿using DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -165,6 +166,84 @@ namespace DunkeyAPI.ViewModels
         public void Dispose()
         {
         }
+    }
+
+
+    public class ProfileViewModel
+    {
+
+        
+        public int Id { get; set; }
+
+        public string FName { get; set; }
+
+        public string EmailAddress { get; set; }
+
+        public string Email { get; set; }
+
+        public string LName { get; set; }
+
+        public string Password { get; set; }
+
+        public string ConfirmPassword { get; set; }
+    }
+
+    public class Addresses
+    {
+
+        public List<AddressViewModel> addresses { get; set; }
+    }
+    public class AddressViewModel
+    {
+        public int Id { get; set; }
+
+        public int User_ID { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string State { get; set; }
+
+        [Required]
+        public string Telephone { get; set; }
+
+        [Required]
+        public string FullAddress { get; set; }
+
+        [Required]
+        public string PostalCode { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public bool IsPrimary { get; set; }
+    }
+
+
+    public class UserCreditCard
+    {
+
+        public List<CreditCards> CreditCards { get; set; }
+    }
+    public class CreditCards
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string CCNo { get; set; }
+
+        [Required]
+        public string ExpiryDate { get; set; }
+
+        [Required]
+        public string CCV { get; set; }
+
+        [Required]
+        public string BillingCode { get; set; }
+
+        public int User_ID { get; set; }
+
+        public virtual User User { get; set; }
     }
 
 }

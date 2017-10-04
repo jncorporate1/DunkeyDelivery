@@ -1,0 +1,58 @@
+﻿@model DunkeyDelivery.Areas.User.Models.AddressViewModel
+<div class="content-div clearfix" id="add_address" style="display:none;">
+
+    <div class="search-bar clearfix">
+        <h4>Add New ADDRESS</h4>
+    </div>
+
+
+    <div class="content-main clearfix">
+        @using (Ajax.BeginForm("AddAddress", "Profile", new AjaxOptions { OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
+        {
+            @Html.AntiForgeryToken()
+        <form>
+            <ul class="text-fields">
+
+
+                <li class="full-field">
+                    @Html.TextBoxFor(x => x.FullAddress, new { name = "FullAddress", @placeholder = "Full Address" })
+                    @Html.ValidationMessageFor(m => m.FullAddress, "", new { @class = "text-danger error" })
+                </li>
+                <li class="no-margin-left">
+                    @Html.TextBoxFor(x => x.City, new { name = "City", @placeholder = "City" })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger error" })
+                </li>
+                <li>
+                    @Html.TextBoxFor(x => x.State, new { name = "State", @placeholder = "State" })
+                    @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger error" })
+                </li>
+                <li class="no-margin-left">
+                    @Html.TextBoxFor(x => x.Telephone, new { name = "Telephone", @placeholder = "Phone Number" })
+                    @Html.ValidationMessageFor(m => m.Telephone, "", new { @class = "text-danger error" })
+                </li>
+
+
+                <li>
+                    @Html.TextBoxFor(x => x.PostalCode, new { name = "PostalCode", @placeholder = "Postal Code" })
+                    @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger error" })
+                </li>
+
+                <li>
+                    <input type="submit" value="ADD ADDRESS" />
+                    <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
+                        <p id="ModalNotification" style="color:green;display:none;">New address saved successfully.</p>
+
+                    </div>
+                </li>
+               
+
+            </ul>
+        </form>
+        }
+    </div>
+</div>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")

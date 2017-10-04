@@ -47,7 +47,7 @@ namespace DunkeyAPI.Models
                     }
                     else
                     {
-                        var newStoreModel = new Store { BusinessName = model.BusinessName, BusinessType = model.BusinessType, Longitude = model.Longitude, Latitude = model.Latitude, Location = Utility.CreatePoint(model.Latitude, model.Longitude) };
+                        var newStoreModel = new Store { BusinessName = model.BusinessName, BusinessType = model.BusinessType, Longitude = model.Longitude, Latitude = model.Latitude, Location = DunkeyDelivery.Utility.CreatePoint(model.Latitude, model.Longitude) };
                         ctx.Stores.Add(newStoreModel);
                         ctx.SaveChanges();
                         CustomResponse<Store> response = new CustomResponse<Store>
@@ -179,8 +179,8 @@ namespace DunkeyAPI.Models
                             BusinessType = model.BusinessType,
                             Latitude = model.Latitude,
                             Longitude = model.Longitude,
-                            ImageUrl = Utility.BaseUrl + ConfigurationManager.AppSettings["StoreImageFolderPath"] + Path.GetFileName(newFullPath),
-                            Location = Utility.CreatePoint(model.Latitude, model.Longitude)
+                            ImageUrl = DunkeyDelivery.Utility.BaseUrl + ConfigurationManager.AppSettings["StoreImageFolderPath"] + Path.GetFileName(newFullPath),
+                            Location = DunkeyDelivery.Utility.CreatePoint(model.Latitude, model.Longitude)
                         };
 
                         ctx.Stores.Add(storeModel);
@@ -198,7 +198,7 @@ namespace DunkeyAPI.Models
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -413,7 +413,7 @@ namespace DunkeyAPI.Models
                 }
 
 
-                var point = Utility.CreatePoint(points.Latitude, points.Longitude);
+                var point = DunkeyDelivery.Utility.CreatePoint(points.Latitude, points.Longitude);
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
@@ -438,7 +438,7 @@ namespace DunkeyAPI.Models
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }
@@ -464,7 +464,7 @@ namespace DunkeyAPI.Models
                 }
 
 
-                var point = Utility.CreatePoint(points.Latitude, points.Longitude);
+                var point = DunkeyDelivery.Utility.CreatePoint(points.Latitude, points.Longitude);
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
@@ -492,7 +492,7 @@ namespace DunkeyAPI.Models
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }
@@ -616,7 +616,7 @@ namespace DunkeyAPI.Models
 
                 if (Lat != 0 && Lng != 0)
                 {
-                    var point = Utility.CreatePoint(Lat, Lng);
+                    var point = DunkeyDelivery.Utility.CreatePoint(Lat, Lng);
                     res = ctx.Stores.Where(x => x.BusinessType == Type && x.Location.Distance(point) < Global.NearbyStoreRadius).Include(x => x.StoreTags).Include(x => x.StoreDeliveryHours).Include(x => x.StoreRatings).ToList();
 
                     foreach (var store in res)

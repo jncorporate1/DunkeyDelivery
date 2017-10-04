@@ -1,0 +1,75 @@
+﻿
+@model DunkeyDelivery.Areas.User.Models.CreditCardViewModel
+
+
+<div class="content-div clearfix" id="add_creditcard" style="display:none;">
+
+    <div class="search-bar clearfix">
+        <h4>Add New Credit Card</h4>
+    </div>
+
+
+    <div class="content-main clearfix">
+        @using (Ajax.BeginForm("AddCreditcard", "Profile", new AjaxOptions { OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
+        {
+            @Html.AntiForgeryToken()
+            <form>
+                <ul class="text-fields">
+
+
+                    <li class="full-field">
+                        @Html.TextBoxFor(x => x.CCNo, new { name = "CCNo", @placeholder = "Card Number" })
+                        @Html.ValidationMessageFor(m => m.CCNo, "", new { @class = "text-danger error" })
+                    </li>
+                    <li class="no-margin-left form_datetime">
+                        @Html.TextBoxFor(x => x.ExpiryDate, new { name = "ExpiryDate", @placeholder = "Expiry Date",@autocomplete="On" })
+                        @Html.ValidationMessageFor(m => m.ExpiryDate, "", new { @class = "text-danger error" })
+
+                        <div class="input-append date" id="datepicker" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+                            <input size="16" type="text" value="12-02-2012" readonly>
+                            <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                  
+
+                    </li>
+                    
+                    <li>
+                        @Html.TextBoxFor(x => x.CCV, new { name = "CCV", @placeholder = "CCV" })
+                        @Html.ValidationMessageFor(m => m.CCV, "", new { @class = "text-danger error" })
+                    </li>
+                    <li class="full-field no-margin-left">
+                        @Html.TextBoxFor(x => x.BillingCode, new { name = "BillingCode", @placeholder = "Billing Postal Code" })
+                        @Html.ValidationMessageFor(m => m.BillingCode, "", new { @class = "text-danger error" })
+                    </li>
+
+                    <li class="">
+                        <input type="submit" value="ADD CREDIT CARD" />
+                        <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
+                            <p id="ModalNotification" style="color:green;display:none;">New credit card saved successfully.</p>
+
+                        </div>
+
+                        <div id="ErrorNotifications" style="display: none;margin-top: 11px;">
+                            <p id="ModalNotification" style="color:red;">Credit card with submitted details already exist.</p>
+
+                        </div>
+                    </li>
+
+                </ul>
+            </form>
+        }
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript">
+                        $(function () {
+                            $('#datepicker').datepicker({
+                                format: 'mm-dd-yyyy'
+                            });
+                        });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>

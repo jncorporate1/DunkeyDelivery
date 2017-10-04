@@ -78,9 +78,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public ActionResult About()
         {
             ViewBag.BannerImage = "press-top-banner.jpg";
-            ViewBag.Title = "About Us";
+            ViewBag.BannerTitle = "About Us";
             ViewBag.Path = "Home > About";
-            return View();
+            Global.sharedDataModel.SetSharedData(User);
+            return View(Global.sharedDataModel);
         }
 
         public ActionResult Contact()

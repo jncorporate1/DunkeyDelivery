@@ -12,6 +12,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
+            CreditCards = new HashSet<CreditCard>();
             Notifications = new HashSet<Notification>();
             Notifications1 = new HashSet<Notification>();
             ForgetPasswordToken = new HashSet<ForgetPasswordTokens>();
@@ -61,10 +62,13 @@ namespace DAL
 
         public string ProfilePictureUrl { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CreditCard> CreditCards { get; set; }
+
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
-
+        
         //[JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ForgetPasswordTokens> ForgetPasswordToken { get; set; }

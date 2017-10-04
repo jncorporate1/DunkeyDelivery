@@ -1,5 +1,6 @@
 namespace DAL
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -11,33 +12,58 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Order()
         {
-            Driver_Orders = new HashSet<Driver_Orders>();
-            Order_Items = new HashSet<Order_Items>();
+            StoreOrders = new HashSet<StoreOrder>();
         }
-
         public int Id { get; set; }
 
         [Required]
         public string OrderNo { get; set; }
 
-        public DateTime DateTime { get; set; }
+        [Required]
+        public int Status { get; set; }
 
-        public short? Status { get; set; }
+        [Required]
+        [JsonConverter(typeof(JsonCustomDateTimeConverter))]
+        public DateTime? OrderDateTime { get; set; }
 
-        public DateTime DeliveryDateTime { get; set; }
+        [JsonConverter(typeof(JsonCustomDateTimeConverter))]
+        public DateTime? DeliveryTime_From { get; set; }
 
-        public int User_Id { get; set; }
+        [JsonConverter(typeof(JsonCustomDateTimeConverter))]
+        public DateTime? DeliveryTime_To { get; set; }
 
-        public int Store_Id { get; set; }
+        public string AdditionalNote { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Driver_Orders> Driver_Orders { get; set; }
+        public int PaymentMethod { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order_Items> Order_Items { get; set; }
+        public double Subtotal { get; set; }
 
-        public virtual Store Store { get; set; }
+        public double ServiceFee { get; set; }
+
+        public double DeliveryFee { get; set; }
+
+        public double Total { get; set; }
+
+        public int User_ID { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public int? OrderPayment_Id { get; set; }
+
+        public short PaymentStatus { get; set; }
+
+        public string DeliveryAddress { get; set; }
+
+        public virtual OrderPayment OrderPayment { get; set; }
 
         public virtual User User { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreOrder> StoreOrders { get; set; }
+
+      //  public virtual DeliveryMan DeliveryMan { get; set; }
+
+        public int? DeliveryMan_Id { get; set; }
+        public bool RemoveFromDelivererHistory { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using static DunkeyDelivery.Utility;
@@ -105,13 +106,34 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             return PartialView("_DeliveryTime");
         }
-        public ActionResult OrderSummary(DeliveryDetailsViewModel model)
+        public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model)
         {
 
             Cart cart = new Models.Cart();
             cart = GetCartData();
             model.Cart = cart;
             model.SetSharedData(User);
+            OrderViewModel orderModel = new OrderViewModel();
+            orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
+            orderModel.DeliveryAddress = model.DeliveryDetails.Address;
+            //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
+            if (!string.IsNullOrEmpty(model.Id))
+            {
+                orderModel.UserId =Convert.ToInt32(model.Id);
+            }
+
+            foreach (var store in cart.Stores)
+            {
+                foreach (var cartItem in store.CartItems)
+                {
+                    orderModel.Cart.CartItems.Add(new CartItemViewModel { ItemId = cartItem.ItemId, StoreId = cartItem.StoreId, ItemType = 1, Qty = cartItem.Qty });
+                }
+            }
+
+            var responseShop = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+            var responseShopValue = responseShop.GetValue("Result").ToObject<OrderViewModel>();
+
+        
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Order Summary";
             ViewBag.BannerTitle = "Order Summary";

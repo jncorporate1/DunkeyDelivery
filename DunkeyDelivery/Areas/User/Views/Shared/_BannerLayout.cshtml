@@ -57,22 +57,22 @@
 				</div>
 				<div class="col-md-6 toplogin nopad">
 					<div class="col-md-10 nopad loginbuttons">
-                        <ul>
-                            @if (string.IsNullOrEmpty(Model.UserName))
-                            {
+						<ul>
+							@if (string.IsNullOrEmpty(Model.UserName))
+							{
 
-                                <li><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
-                                <li><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
+								<li><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
+								<li><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
 
-                            }
-                            else
-                            {
-                              
-                                <li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
-                                <li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
-                              
-                                }
-                            </ul>
+							}
+							else
+							{
+							  
+								<li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
+								<li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
+							  
+								}
+							</ul>
 					</div>
 					<div class="col-md-2 lang nopad">
 						<select>
@@ -96,8 +96,8 @@
 					<logo>
 						<div class="mlogo wow fadeInDown"> <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img width="300" height="225" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a> </div>
 					</logo>
-					<div class="col-md-5"></div>
-					<div class="col-md-7 nav5 wow fadeIn">
+					<div class="col-md-6"></div>
+					<div class="col-md-6 nav5 wow fadeIn">
 						<nav class="nav">
 							<div class="menu-header">
 								<ul id="menu-topmenu" class="menu">
@@ -110,12 +110,13 @@
 											<li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a></li>
 											<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a></li>
 											<li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a></li>
+											<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
+
 										</ul>
 									</li>
 									<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a></li>
 									<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="@Url.Action("Deals","Home",new { area = "User" })">Deals/Promotions</a></li>
 									<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="@Url.Action("Contact","Home",new { area = "User" })">Contact</a></li>
-									<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
 								</ul>
 							</div>
 							<!-- -----------------------Search Toggle ---------------------- -->
@@ -157,14 +158,54 @@
 
 		<footer class="footer overflow">
 			<div class="container">
-				<div class="col-md-5 wow fadeInLeft">
+				<div class="col-md-5 cflags wow fadeInLeft">
 					<h4>Hungry? Order in your country</h4>
-					<img src="~/Content/assets/images/footercountries.png" alt="" />
+					<div class="col-md-4">
+						<h5>Asia</h5>
+						<ul>
+							<li><img src="~/Content/assets/images/India.jpg" alt="">India</li>
+							<li><img src="~/Content/assets/images/Thailand.jpg" alt="">Thailand</li>
+							<li><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
+							<li><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
+							<li><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
+							<li><img src="~/Content/assets/images/Taiwan.jpg" alt="">Taiwan</li>
+							<li><img src="~/Content/assets/images/Bangladesh.jpg" alt="">Bangladesh</li>
+							<li><img src="~/Content/assets/images/Kazakhstan.jpg" alt="">Kazakhstan</li>
+							<li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Hong Kong</li>
+							<li><img src="~/Content/assets/images/Philippines.jpg" alt="">Philippines</li>
+							<li><img src="~/Content/assets/images/Brunei.jpg" alt="">Brunei</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<h5>Europe</h5>
+						<ul>
+							<li><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
+							<li><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
+							<li><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
+							<li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
+							<li><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
+							<li><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
+							<li><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
+						</ul>
+					</div>
+					<div class="col-md-4">
+						<h5>Middle East</h5>
+						<ul>
+							<li><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Saudi Arabia</li>
+							<li><img src="~/Content/assets/images/UAE.jpg" alt="">UAE</li>
+							<li><img src="~/Content/assets/images/Egypt.jpg" alt="">Egypt</li>
+						</ul>
+					</div>
 				</div>
 				<div class="col-md-1 nopad"></div>
-				<div class="col-md-3 nopad wow zoomIn">
+				<div class="col-md-3 nopad footercontact wow zoomIn">
 					<h5>Contact info</h5>
-					<img src="~/Content/assets/images/footercoontact.png" alt="" />
+					<ul>
+						<li><a href="javascript::">info@yoursite.com</a></li>
+						<li>350 Fourth Avenue, 34th floor New York, USA</li>
+						<li>+1 234 567 890</li>
+						<li>+1 234 567 890</li>
+					</ul>
 					<div class="clearfix"></div><br /><br />
 					<h5>Links</h5>
 
@@ -281,7 +322,7 @@
 	<script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
 
 	<script>
-        $(".dynamic").html("");
+		$(".dynamic").html("");
 		$(document).ready(function () {
 
 
@@ -326,12 +367,13 @@ function clearMessages() {
 function customSuccessMessage() {
    
 	$("#ModalNotification").css("color", "green");
-	$("#SuccessNotifications").show();
+	$("#ModalNotification").css("display", "block");
+	$("#SuccessNotifications").show().delay(3000).fadeOut();
 }
 
 function customErrorMessage() {
 	$("#ModalNotification").css("color", "red");
-	$("#ErrorNotifications").show();
+	$("#ErrorNotifications").show().delay(3000).fadeOut();
 }
 function SuccessSubmission() {
 
@@ -348,12 +390,47 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 }
 
 
-</script>
-	<script>
-
 	if ($("#successmsg").text().length>4) {
 		$(".form-control").val("");
 	}
+
+
+
+
+
+	
+	    //$("input").keyup(function () {
+	    //    $("#SuccessNotifications").hide();
+	    //    $("#ErrorNotifications").hide();
+
+	    //});
+
+
+	function openCity(evt, cityName) {
+		// Declare all variables
+		var i, tabcontent, tablinks;
+
+		// Get all elements with class="tabcontent" and hide them
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+
+		// Get all elements with class="tablinks" and remove the class "active"
+		tablinks = document.getElementsByClassName("tablinks");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].className = tablinks[i].className.replace(" active", "");
+		}
+
+		// Show the current tab, and add an "active" class to the button that opened the tab
+		document.getElementById(cityName).style.display = "block";
+		evt.currentTarget.className += " active";
+
+
+	}
+	// Get the element with id="defaultOpen" and click on it
+	//document.getElementById("defaultOpen").click();
+	$("#defaultOpen").click();
 
 	</script>
 

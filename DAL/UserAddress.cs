@@ -15,26 +15,19 @@ namespace DAL
         public int User_ID { get; set; }
 
         [Required]
-        public string Country { get; set; }
-
-        [Required]
         public string City { get; set; }
 
         [Required]
-        public string StreetName { get; set; }
-
-        public string Floor { get; set; }
-
-        public string Apartment { get; set; }
+        public string State { get; set; }
 
         [Required]
-        public string NearestLandmark { get; set; }
+        public string Telephone { get; set; }
 
         [Required]
-        public string BuildingName { get; set; }
+        public string FullAddress { get; set; }
 
         [Required]
-        public short Type { get; set; }
+        public string PostalCode { get; set; }
 
         public bool IsDeleted { get; set; }
 

@@ -7,9 +7,9 @@ namespace DunkeyDelivery.Areas.User.Models
         public Cart()
         {
             Stores = new List<StoreItem>();
-            //CartItems = new List<CartItem>();
+           // CartItems = new List<CartItem>();
         }
-        //public List<CartItem> CartItems { get; set; }
+      //  public List<CartItem> CartItems { get; set; }
         public List<StoreItem> Stores { get; set; }
         public float Total { get; set; }
         public int TotalCartItems { get; set; }

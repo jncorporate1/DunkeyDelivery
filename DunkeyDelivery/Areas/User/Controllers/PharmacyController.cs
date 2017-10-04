@@ -20,6 +20,18 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             return View();
         }
+
+
+        [AllowAnonymous]
+        public async Task<ActionResult> MedicationNames(int Store_Id, string Name="")
+        {
+            Medications responseResult = new Medications();
+            var response = await ApiCall<Medications>.CallApi("api/Products/GetMedicationNames?Store_Id="+Store_Id+ "&search_string=" + Name, null, false);
+            responseResult = response.GetValue("Result").ToObject<Medications>();
+            return Json(responseResult, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

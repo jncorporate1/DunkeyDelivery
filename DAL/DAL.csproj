@@ -58,18 +58,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlogComments.cs" />
+    <Compile Include="BlogPosts.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="CreditCard.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="Driver_Orders.cs" />
     <Compile Include="DunkeyContext.cs" />
     <Compile Include="ForgetPasswordTokens.cs" />
+    <Compile Include="JsonCustomDateTimeConverter.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Offer.cs" />
     <Compile Include="Offer_Packages.cs" />
     <Compile Include="Offer_Products.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="OrderPayment.cs" />
     <Compile Include="Order_Items.cs" />
     <Compile Include="Package.cs" />
     <Compile Include="Package_Products.cs" />
@@ -78,8 +83,10 @@
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rider.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="StoreDeliveryHours.cs" />
+    <Compile Include="StoreOrder.cs" />
     <Compile Include="StoreRatings.cs" />
     <Compile Include="StoreTags.cs" />
     <Compile Include="Admin.cs" />

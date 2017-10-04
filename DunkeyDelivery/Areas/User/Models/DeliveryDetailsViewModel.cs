@@ -58,9 +58,16 @@ namespace DunkeyDelivery.Areas.User.Models
         [DataType(DataType.Text)]
         public string ZipCode { get; set; }
 
+
+        public string AdditionalNote { get; set; }
+
     }
     public class PaymentInormation
     {
+
+        public string PaymentType { get; set; }
+
+
         [Required(ErrorMessage = "Card Number is required")]
         [RegularExpression(@"[0-9 ]+", ErrorMessage = "Enter Digits Only")]
         [StringLength(16, ErrorMessage = "Credit Card Number Should Be Of Max Length 16")]

@@ -14,11 +14,13 @@ namespace DAL
 
         public string Name { get; set; }
 
-        public int Package_Id { get; set; }
+       // public int Package_Id { get; set; }
 
         public DateTime ValidUpto { get; set; }
 
         public int DiscountedPrice { get; set; }
+        
+        public string Description { get; set; }
 
         public int DiscountPercentage { get; set; }
 
@@ -29,5 +31,7 @@ namespace DAL
         public virtual Offer Offer { get; set; }
 
         public virtual Package Package { get; set; }
+        
+        public bool IsDeleted { get; set; }
     }
 }

@@ -18,6 +18,7 @@ using Microsoft.Owin.Security.OAuth;
 using Nexmo.Api;
 using System.Net.Mail;
 using System.Data.Entity;
+using AutoMapper;
 
 namespace DunkeyAPI.Controllers
 {
@@ -69,7 +70,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
         // POST api/Account/ForgetPassword
@@ -168,7 +169,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
             //var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
 
@@ -299,7 +300,7 @@ namespace DunkeyAPI.Controllers
                             Status = (int)Global.StatusCode.NotVerified,
                             Role = model.Role,
                             Phone = model.Phone,
-                            ProfilePictureUrl = Utility.BaseUrl + ConfigurationManager.AppSettings["UserImageFolderPath"] + Path.GetFileName(newFullPath)
+                            ProfilePictureUrl = DunkeyDelivery.Utility.BaseUrl + ConfigurationManager.AppSettings["UserImageFolderPath"] + Path.GetFileName(newFullPath)
                         };
 
                         ctx.Users.Add(userModel);
@@ -316,7 +317,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
         // POST api/Account/ChangePassword
@@ -346,7 +347,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }
@@ -410,7 +411,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -434,7 +435,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -470,7 +471,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -501,7 +502,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }
@@ -521,16 +522,14 @@ namespace DunkeyAPI.Controllers
 
                     if (user != null)
                     {
-                        string code = Guid.NewGuid().ToString("N").ToUpper();
-
-
-                        user.ForgetPasswordToken.Add(new ForgetPasswordTokens { CreatedAt = DateTime.Now, IsDeleted = false, User_Id = user.Id, Code = code });
-                        ctx.SaveChanges();
-
-                        //userToken.Id = user.Id;
-                        //userToken.Code = code;
-                        //userToken.FullName = user.FullName;
-                        //userToken.Email = user.Email;
+                        var nexmoVerifyResponse = NumberVerify.Verify(new NumberVerify.VerifyRequest { brand = "INGIC", number = user.Phone });
+                        if (nexmoVerifyResponse.status == "0")
+                            return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
+                        else
+                        {
+                            nexmoVerifyResponse.error_text = "Mobile number you provided for this email is invalid.";
+                            return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
+                        }
 
                         return Ok(new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = user });
                     }
@@ -552,7 +551,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
 
@@ -627,7 +626,267 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+
+        [AllowAnonymous]
+        [Route("EditProfile")]
+        [HttpPost]
+        public async Task<IHttpActionResult> EditProfile(ProfileViewModel model)
+         {
+          
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var User = ctx.Users.FirstOrDefault(x => x.Email == model.EmailAddress);
+
+                    if (string.IsNullOrEmpty(model.Password) && string.IsNullOrEmpty(model.ConfirmPassword))
+                    {
+                        User.FirstName = model.FName;
+                        User.LastName = model.LName;
+                        User.FullName = model.FName + " " + model.LName;
+                    }else
+                    {
+                        User.FirstName = model.FName;
+                        User.LastName = model.LName;
+                        User.Password = model.Password;
+                    }
+                    ctx.SaveChanges();
+                    CustomResponse<User> response = new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = User };
+                    return Ok(response);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+          
+        }
+
+
+        [AllowAnonymous]
+        [Route("AddAddress")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddAddress(AddressViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                   
+                        UserAddress addressModel = new UserAddress
+                        {
+                            User_ID = model.User_ID,
+                            City = model.City,
+                            FullAddress = model.FullAddress,
+                            PostalCode = model.PostalCode,
+                            State=model.State,
+                            Telephone=model.Telephone,
+                            IsPrimary = false,
+                            IsDeleted=false,
+                            
+
+                        };
+
+                        ctx.UserAddresses.Add(addressModel);
+                        ctx.SaveChanges();
+
+
+                        CustomResponse<UserAddress> response = new CustomResponse<UserAddress> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = addressModel };
+                            return Ok(response);
+
+                        
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetUserAddresses")]
+        public IHttpActionResult GetUserAddresses(int User_id)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var res = ctx.UserAddresses
+                        .Where(x => x.User_ID == User_id && x.IsDeleted==false).ToList();
+                  
+
+                    Addresses addressModel = new Addresses();
+                    var f = Mapper.Map<List<AddressViewModel>>(res);
+                    addressModel.addresses = f;
+                    CustomResponse<Addresses> response = new CustomResponse<Addresses>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = addressModel
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+
+        [AllowAnonymous]
+        [Route("RemoveAddress")]
+        [HttpGet]
+        public async Task<IHttpActionResult> RemoveAddress(int address_id,int User_Id)
+        {
+
+            try
+            {
+               
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID ==User_Id && x.Id==address_id);
+
+                    if (UserAddress != null)
+                    {
+                        UserAddress.IsDeleted = true;
+                       
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Conflict",
+                            StatusCode = (int)HttpStatusCode.Conflict,
+                            Result = new Error { ErrorMessage = "User with this address deleted." }
+                        });
+                    }
+
+                    ctx.SaveChanges();
+                    CustomResponse<string> response = new CustomResponse<string> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = "Address removed successfully" };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+
+        [AllowAnonymous]
+        [Route("AddCreditCard")]
+        [HttpPost]
+        public async Task<IHttpActionResult> AddCreditCard(CreditCards model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo).FirstOrDefault();
+                    if (creditCard==null)
+                    {
+                        CreditCard creditcardModel = new CreditCard
+                        {
+                            User_ID = model.User_ID,
+                            BillingCode=model.BillingCode,
+                            CCNo=model.CCNo,
+                            CCV=model.CCV,
+                            ExpiryDate=model.ExpiryDate
+                        
+
+
+                        };
+
+                        ctx.CreditCards.Add(creditcardModel);
+                        ctx.SaveChanges();
+
+
+                        CustomResponse<CreditCard> response = new CustomResponse<CreditCard> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = creditcardModel };
+                        return Ok(response);
+                    }else
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Conflict",
+                            StatusCode = (int)HttpStatusCode.Conflict,
+                            Result = new Error { ErrorMessage = "User with this credit card already exists." }
+                        });
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetUserCreditCards")]
+        public IHttpActionResult GetUserCreditCards(int User_id)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var res = ctx.CreditCards
+                        .Where(x => x.User_ID == User_id).ToList();
+
+
+                    UserCreditCard creditcardModel = new UserCreditCard();
+                    var f = Mapper.Map<List<CreditCards>>(res);
+                    creditcardModel.CreditCards = f;
+                    CustomResponse<UserCreditCard> response = new CustomResponse<UserCreditCard>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = creditcardModel
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }

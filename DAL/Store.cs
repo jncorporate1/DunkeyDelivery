@@ -1,5 +1,6 @@
 namespace DAL
 {
+    using DAL;
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace DAL
         {
             Categories = new HashSet<Category>();
             Drivers = new HashSet<Driver>();
-            Orders = new HashSet<Order>();
+            //Orders = new HashSet<Order>();
+            StoreOrders = new HashSet<StoreOrder>();
             Payment_Method = new HashSet<Payment_Method>();
             Products = new HashSet<Product>();
             StoreRatings = new HashSet<StoreRatings>();
@@ -22,6 +24,7 @@ namespace DAL
             Offers = new HashSet<Offer>();
             StoreTags = new HashSet<StoreTags>();
             Admins = new HashSet<Admin>();
+            Packages = new HashSet<Package>();
         }
 
         public int Id { get; set; }
@@ -69,9 +72,9 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Driver> Drivers { get; set; }
 
-        [JsonIgnore]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
+        //[JsonIgnore]
+        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //public virtual ICollection<Order> Orders { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -100,5 +103,13 @@ namespace DAL
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Admin> Admins { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Package> Packages { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreOrder> StoreOrders { get; set; }
     }
 }

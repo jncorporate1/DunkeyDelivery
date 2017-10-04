@@ -1,22 +1,37 @@
-﻿
-<div class="content-div clearfix">
+﻿@model DunkeyDelivery.Areas.User.Models.CreditCard
+
+
+<div class="content-div clearfix" id="view_creditcard">
 
 
     <div class="search-bar clearfix padh4">
         <h4>Credit Cards</h4>
-        <!--<form>
-        <input type="text"  placeholder="search" />
-        <input type="submit" />
-          </form>-->
+    
     </div>
 
     <div class="content-main clearfix">
         <ul class="credit-details">
-            <li>Card Number <span>xxx-xxx-xxx-xxx</span></li>
-            <li>Expiry <span>mm-yy</span></li>
-            <li>CVV<span>125</span></li>
-            <li>Billing postal code<span>12548</span></li>
-            <li><input type="submit" value="add new card" /></li>
+            @if (Model.creditCards.Count != 0)
+            {
+                foreach (var creditCard in Model.creditCards)
+                {
+                    <li>Card Number <span>@creditCard.CCNo</span></li>
+                    <li>Expiry <span>@creditCard.ExpiryDate</span></li>
+                    <li>CVV<span>@creditCard.CCV</span></li>
+                    <li>Billing postal code<span>@creditCard.BillingCode</span></li>
+                    <hr style="width:100%;opacity 0.5;">
+                }
+            }
+            else
+            {
+                <li>Card Number <span> - </span></li>
+                <li>Expiry <span> - </span></li>
+                <li>CVV<span> - </span></li>
+                <li>Billing postal code<span> - </span></li>
+            
+            }
+            <li><input type="submit" onclick="add_creditcard_btn()" value="add new card" /></li>
         </ul>
+
     </div>
 </div>

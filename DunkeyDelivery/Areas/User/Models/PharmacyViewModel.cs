@@ -94,4 +94,25 @@ namespace DunkeyDelivery.Areas.User.Models
         public ShopViewModel storeViewModel { get; set; }
 
     }
+    public class MedicationNames
+    {
+
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int Store_Id { get; set; }
+
+        public string Size { get; set; }
+
+    }
+
+    public class Medications
+    {
+        public Medications()
+        {
+            medications = new List<MedicationNames>();
+        }
+        public List<MedicationNames> medications;
+    }
 }

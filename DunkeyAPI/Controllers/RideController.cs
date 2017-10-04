@@ -71,7 +71,7 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(Utility.LogError(ex));
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
         }

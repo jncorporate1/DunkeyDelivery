@@ -3,8 +3,43 @@
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .medication_dropdown
+    {
+    position: absolute;
+    background-color: lightgrey;
+    width: 90%;
+    height:auto;
+    overflow-y: auto;
+
+    display:none;
+     }
+    .medication_dropdown a{
+        width:100%;
+    border-bottom: 1px solid #6ebe44;
+
+      text-decoration: none;
+    }
+    .medication_dropdown a:hover{
+        background-color:#6ebe44;
+        color:white;
+    }
+    .medication_dropdown a p:hover{
+      
+        color:white;
+    }
+    .medicine_name{
+            padding-bottom: 7px !important;
+    margin-bottom: 7px !important;
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    }
+</style>
 <script>
     var fields=0;
+    var Field_id;
 
 
 </script>
@@ -81,17 +116,21 @@
                                         <div class="pharmacy-details-cont">
                                             <p>You may add multiple medications below</p>
                                             <div id="more_fields" >
-                                                <input type="text" id="0" name="medication" placeholder="Enter Medication" autocomplete="off"/>
+                                                <input type="text" id="field_0" onkeyup="medications(this.id,this.value)" name="medication" placeholder="Enter Medication" autocomplete="off"/>
 
 
                                             </div>
+                                            <div class="medication_dropdown">
+                                                <p class="medicine_name" >Medicine Name</p>
+                                           
+                                            </div>  
                                             @*@Html.TextBoxFor(x => x.medication, new { name = "medication", @placeholder = "Xanax", @autocomplete = "off" })
                                             @Html.ValidationMessageFor(m => m.medication, "", new { @class = "text-danger error" })*@
                                             <a onclick="add_fields()" style="cursor:pointer">Add more Medication</a>
 
 
                                         </div>
-
+                                       
                                     </div>
 
                                     <div class="pharmacy-details clearfix">
@@ -299,28 +338,52 @@
 </script>
 <script>
     function add_fields(){
-        $("#more_fields").append('<input type="text" id="'+fields+'" name="medication" placeholder="Enter Medication" autocomplete="off"/>');
+        $("#more_fields").append('<input type="text" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication" placeholder="Enter Medication" autocomplete="off"/>');
         fields++;
         
     }
-    //$(document).ready(function() {
-    //    var max_fields = 20; //maximum input boxes allowed
-    //    var wrapper = $("#items"); //Fields wrapper
-    //    var add_button = $(".add_field_button"); //Add button ID
- 
-    //    var x = 1; //initlal text box count
-    //    $(add_button).click(function(e){ //on add input button click
-    //        e.preventDefault();
-    //        if(x < max_fields){ //max input box allowed
-    //            x++; //text box increment
-    //            $(wrapper).append('<div class="form-group"><label for="title">Author Email:</label>' + '<input class="form-control col-md-11" id="author_email" type="email" placeholder=""name="author"/>' +'<a href="#" class="remove_field"><i class="fa fa-times"></a></div>'); //add input box
-    //        }
-    //    });
- 
-    //    $(wrapper).on("click",".remove_field", function(e){ //user click on remove field
-    //        e.preventDefault(); $(this).parent('div').remove(); x--;
-    //    })
-    //});
+    function medications(field_id,name){
+        Field_id=field_id;
+        if(name.length>3){
+
+        
+            $.ajax({
+        
+                url: '@Url.Action("MedicationNames", "Pharmacy", new { Area = "User" })',
+                type: "GET",
+                data: { Store_Id: @Model.storeViewModel.Id,Name:name },
+                success: function (data) {
+                    $(".medication_dropdown").html("");
+                    if(data.medications.length>0){
+        
+                        for(var i=0;i<data.medications.length;i++){
+                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
+                            $(".medication_dropdown").show();
+                            $(".medication_dropdown").css("display","block");
+                           
+                        }
+                      
+                   
+                    }
+                    
+                }, error: function (xhr, status, error) {
+
+                }
+            });
+        }else{
+            $(".medication_dropdown").css("display","none");
+            $(".medication_dropdown").hide();
+        }
+    }
+    function medicine_tofield(medicine_id){
+        var med_name=$("#"+medicine_id+" p").text();
+        $("#"+Field_id).val(med_name);
+        $(".medication_dropdown").css("display","none");
+        $(".medication_dropdown").hide();
+        
+
+        
+    }
 
 </script>
         <script>

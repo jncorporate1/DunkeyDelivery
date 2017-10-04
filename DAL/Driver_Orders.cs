@@ -14,10 +14,10 @@ namespace DAL
 
         public int Driver_Id { get; set; }
 
-        public int Order_Id { get; set; }
+        //public int Order_Id { get; set; }
 
         public virtual Driver Driver { get; set; }
 
-        public virtual Order Order { get; set; }
+        //public virtual Order Order { get; set; }
     }
 }

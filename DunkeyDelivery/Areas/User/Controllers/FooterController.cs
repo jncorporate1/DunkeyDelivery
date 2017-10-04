@@ -1,7 +1,9 @@
-﻿using DunkeyDelivery.Areas.User.Models;
+﻿using DunkeyDelivery;
+using DunkeyDelivery.Areas.User.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -25,15 +27,19 @@ namespace DunkeyDelivery.Areas.User.Controllers
             Global.sharedDataModel.SetSharedData(User);
             return View(Global.sharedDataModel);
         }
-        public ActionResult Blog()
+        public async Task<ActionResult> Blog()
         {
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Blog";
             ViewBag.BannerTitle = "Blog";
             ViewBag.Path = "Home > Blog";
-            Global.sharedDataModel.SetSharedData(User);
-            
-            return View("Blog", Global.sharedDataModel);
+            BlogViewModel returnResponse = new BlogViewModel();
+            var response = await ApiCall<List<PostsViewModel>>.CallApi("api/Blog/GetBlogPosts", null, false);
+            var responseResult = response.GetValue("Result").ToObject<List<PostsViewModel>>();
+            returnResponse.postsViewModel = responseResult;
+            returnResponse.SetSharedData(User);
+
+            return View("Blog", returnResponse);
         }
         public ActionResult GetRewards()
         {

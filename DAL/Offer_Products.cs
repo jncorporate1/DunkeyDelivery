@@ -17,12 +17,16 @@ namespace DAL
         public int Product_Id { get; set; }
 
         public DateTime ValidUpto { get; set; }
+        
+        public string descript { get; set; }
 
         public int DiscountedPrice { get; set; }
 
         public int DiscountPercentage { get; set; }
 
         public int SlashPrice { get; set; }
+
+        public bool IsDeleted { get; set; }
 
         public string ImageUrl { get; set; }
         
