@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyAPI", "DunkeyAPI\DunkeyAPI.csproj", "{7709898D-0C58-4FC0-BCF4-F2199560E2BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWebPanel", "BasketWebPanel\BasketWebPanel.csproj", "{4A36B3A7-1158-4A2C-B434-904E23B32FA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7709898D-0C58-4FC0-BCF4-F2199560E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7709898D-0C58-4FC0-BCF4-F2199560E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7709898D-0C58-4FC0-BCF4-F2199560E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

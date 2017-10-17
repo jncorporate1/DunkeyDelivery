@@ -89,7 +89,6 @@ namespace DunkeyDelivery.Areas.User.Models
         [DataType(DataType.Text)]
         public string MonthYear { get; set; }
 
-        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "Enter Digits Only")]
         [StringLength(4, ErrorMessage = "Tip Should Be Of Max Length 4")]
         [DataType(DataType.Text)]
         [Display(Name = "tip")]

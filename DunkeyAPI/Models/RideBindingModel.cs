@@ -21,9 +21,9 @@ namespace DunkeyAPI.Models
 
         public string Phone { get; set; }
 
-        public short? Status { get; set; }
+        public int Status { get; set; }
 
-        public short SignInType { get; set; }
+        public int SignInType { get; set; }
 
     }
 }

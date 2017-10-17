@@ -19,6 +19,7 @@ using Nexmo.Api;
 using System.Net.Mail;
 using System.Data.Entity;
 using AutoMapper;
+using static DunkeyAPI.Utility.Global;
 
 namespace DunkeyAPI.Controllers
 {
@@ -689,30 +690,43 @@ namespace DunkeyAPI.Controllers
                 }
 
 
-
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                   
+                var addressCount=ctx.UserAddresses.Where(x => x.FullAddress == model.FullAddress && x.IsDeleted==false).Count();
+
+                    if (addressCount > 0) {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Conflict",
+                            StatusCode = (int)HttpStatusCode.Conflict,
+                            Result = new Error { ErrorMessage = "User with address already exists." }
+                        });
+                    }
+                    else
+                    {
                         UserAddress addressModel = new UserAddress
                         {
                             User_ID = model.User_ID,
                             City = model.City,
                             FullAddress = model.FullAddress,
                             PostalCode = model.PostalCode,
-                            State=model.State,
-                            Telephone=model.Telephone,
+                            State = model.State,
+                            Telephone = model.Telephone,
                             IsPrimary = false,
-                            IsDeleted=false,
-                            
-
+                            IsDeleted = false,
                         };
 
-                        ctx.UserAddresses.Add(addressModel);
-                        ctx.SaveChanges();
-
-
+                            ctx.UserAddresses.Add(addressModel);
+                            ctx.SaveChanges();
                         CustomResponse<UserAddress> response = new CustomResponse<UserAddress> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = addressModel };
-                            return Ok(response);
+                        return Ok(response);
+                    }
+
+                 
+
+
+                     
+                        
 
                         
                     
@@ -890,6 +904,54 @@ namespace DunkeyAPI.Controllers
             }
 
         }
+
+
+        // admin panel services 
+        /// <summary>
+        /// Login for web admin panel
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [Route("WebPanelLogin")]
+        [HttpPost]
+        public async Task<IHttpActionResult> WebPanelLogin(WebLoginBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    DAL.User adminModel;
+
+                    adminModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+
+                    if (adminModel != null)
+                    {
+                        await adminModel.GenerateToken(Request);
+                        CustomResponse<User> response = new CustomResponse<User> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = adminModel };
+                        return Ok(response);
+                    }
+                    else
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Forbidden",
+                            StatusCode = (int)HttpStatusCode.Forbidden,
+                            Result = new Error { ErrorMessage = "Invalid Email or Password" }
+                        });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
 
     }
 

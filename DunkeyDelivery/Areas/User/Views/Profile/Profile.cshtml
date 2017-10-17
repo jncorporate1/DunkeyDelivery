@@ -7,7 +7,10 @@
     .content-div{
         background-color:white;
     }
-
+    .content-main ul.profile li{
+        height:73px;
+        margin-bottom:0px !important;
+    }
 </style>
 <div class="main-section press-main greybg details-page">
     <div class="container">
@@ -102,9 +105,24 @@
             type: "GET",
             data: { id: address_id },
             success: function (data) {
-                $("#address_" + address_id).remove();
+                
+                $("#profile_views").html(data);
             }, error: function (xhr, status, error) {
                 console.log("Error: "+data);
+            }
+        });
+    }
+
+    function repeat_order(orderNo, orderId) {
+        $.ajax({
+
+            url: '@Url.Action("RepeatOrder", "Profile",new { Area = "User"})',
+            type: "GET",
+            data: { orderId: orderNo },
+            success: function (data) {
+                $("#order_" + orderId).text("Items ordered successfully");
+            }, error: function (xhr, status, error) {
+                $("#order_" + orderId).text("Items ordered successfully");
             }
         });
     }

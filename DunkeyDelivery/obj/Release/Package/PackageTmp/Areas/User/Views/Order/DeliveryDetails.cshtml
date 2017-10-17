@@ -9,18 +9,18 @@
         <div class="row">
 
             <div class="col-md-8 delivery-left-section">
-               @using (Html.BeginForm("OrderSummary", "Order",FormMethod.Post))
-                           //new AjaxOptions { OnSuccess = "", OnFailure = "" })
+                @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post))
+                //new AjaxOptions { OnSuccess = "", OnFailure = "" })
                 {
-                <h1> Add Delivery Details</h1>
+                    <h1> Add Delivery Details</h1>
 
 
-                   <div class="row">
-              
+                    <div class="row">
+
                         <div class="col-md-6">
 
                             <div class="input-contain">
-                               
+
                                 @Html.TextBoxFor(x => x.DeliveryDetails.FirstName, new { name = "FirstName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter First Name" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.FirstName, "", new { @class = "text-danger error" })
                             </div>
@@ -32,33 +32,33 @@
                             </div>
                             <div class="input-contain">
 
-              
+
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Phone Number" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Phone, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-                               
+
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-                              
+
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })
 
                             </div>
                             <div class="input-contain">
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="padding: 0 1px 0 0;">
                                     <div class="input-contain">
 
-                                     
+
                                         @Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
                                         @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6" style="padding: 0 0 0 6px;">
                                     <div class="input-contain">
 
                                         @Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
@@ -71,13 +71,13 @@
 
                         <div class="col-md-6">
                             <div class="input-contain">
-                                <textarea rows="6" class="form-control with-no-margin" placeholder="Delivery Instruction" id="form-inputs"></textarea>
+                                <textarea rows="6" class="form-control with-no-margin" name="DeliveryDetails.AdditionalNote" placeholder="Delivery Instruction" id="form-inputs"></textarea>
                             </div>
 
                             <div class="radio-group input-contain">
                                 <input type="checkbox" id="r1" name="terms_accept" />
                                 <label for="r1">
-                                    <span id="check-box" ></span>
+                                    <span id="check-box"></span>
                                     <p>
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                         Nam elementum molestie purus, tincidunt sollicitudin odio.
@@ -86,20 +86,22 @@
                             </div>
                         </div>
 
-             
-                </div>
 
-                <div class="paymentinformation">
-                    <h1>Payment Information</h1>
-                    <div class="row">
-                        <div class="payment-tabs">
-                            <div class="col-md-6 no-pad-right">
-                                <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">New Credit Card</button></a>
+                    </div>
+
+                    <div class="paymentinformation">
+                        <h1>Payment Information</h1>
+                        <div class="row">
+                            <div class="payment-tabs">
+                                <div class="col-md-6 no-pad-right">
+                                    <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">New Credit Card</button></a>
+                                </div>
+                                <div class="col-md-6 no-pad-left">
+                                    <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
+                                </div>
+                                <input type="text" name="PaymentInformation.PaymentType" id="PaymentType" style="display:none;" />
+                                @* @Html.TextBoxFor(x => x.PaymentInformation.PaymentType, new { name = "PaymentType", @class = "form-control with-no-margin", id = "PaymentType" })*@
                             </div>
-                            <div class="col-md-6 no-pad-left">  
-                                <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
-                            </div>
-                        </div>
 
 
 
@@ -110,10 +112,10 @@
 
 
 
-                        <div class="payment-inputs clearfix">
-                     
+                            <div class="payment-inputs clearfix">
+
                                 <div class="col-md-4">
-                                 
+
 
                                     @Html.TextBoxFor(x => x.PaymentInformation.CreditCard, new { name = "CreditCard", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Card Number" })
                                     @Html.ValidationMessageFor(m => m.PaymentInformation.CreditCard, "", new { @class = "text-danger error" })
@@ -125,96 +127,111 @@
                                         @Html.TextBoxFor(x => x.PaymentInformation.MonthYear, new { name = "MonthYear", @class = "form-control with-no-margin form_datetime", id = "form-inputs", @placeholder = "mm/yyyy" })
                                         @Html.ValidationMessageFor(m => m.PaymentInformation.MonthYear, "", new { @class = "text-danger error" })
                                     </div>
-         
-                                    
+
+
 
                                 </div>
                                 <div class="col-md-3 no-pad-left">
-                               
+
                                     @Html.TextBoxFor(x => x.PaymentInformation.CVV, new { name = "CVV", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "CVV" })
                                     @Html.ValidationMessageFor(m => m.PaymentInformation.CVV, "", new { @class = "text-danger error" })
 
                                 </div>
                                 <div class="col-md-3">
-                            
+
                                     @Html.TextBoxFor(x => x.PaymentInformation.BillingPostalCode, new { name = "BillingPostalCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Billing Postal Code" })
                                     @Html.ValidationMessageFor(m => m.PaymentInformation.BillingPostalCode, "", new { @class = "text-danger error" })
 
                                 </div>
                                 <div class="col-md-12 radio-group input-contain">
                                     <input type="checkbox" id="r2" name="save_card" />
-                                    <label for="r2"><span id="check-box" ></span>Save Card for Later Use </label>
+                                    <label for="r2"><span id="check-box"></span>Save Card for Later Use </label>
                                 </div>
-                        
-                        </div>
-                    </div>
 
-
-
-
-
-
-                </div>
-
-                <div class="payment-tips">
-                    <h1>Tip with credit card</h1>
-                    <div class="row">
-                        <div class="col-md-6 no-pad-right">
-                            <div class="col-md-3 tip-credit" onclick="TipColor(this)" > <span id="tip-amount">$@(Model.Cart.Total * 0.15) </span> <br />15%</div>
-                            <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
-                            <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
-                            <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="col-md-3 tip-credit-2">$6.21 <br />30%</div>
-                            <div class="col-md-9 no-pad-left no-pad-right">
-                                @Html.TextBoxFor(x => x.PaymentInformation.Tip, new { name = "Tip", @class = "form-control with-no-margin tip-field", id = "form-inputs", @placeholder = "Enter Tip Amount" })
-                                @Html.ValidationMessageFor(m => m.PaymentInformation.Tip, "", new { @class = "text-danger error" })
-                                
                             </div>
                         </div>
+
+
+
+
+
+
                     </div>
-                    <p class="terms-line">Great Tip! $4.41 Will go straight to dunkey delivery driver</p>
-                    <a href="#" class="promo-code">Add Promo Codes</a>
-                    @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
-                    <input type="submit" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
-                   
-                </div>
-               }
+
+                    <div class="payment-tips">
+                        <h1>Tip with credit card</h1>
+                        <div class="row">
+                            <div class="col-md-6 no-pad-right">
+                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"> <span id="tip-amount">$@(Model.Cart.Total * 0.15) </span> <br />15%</div>
+                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
+                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
+                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                @*<div class="col-md-3 tip-credit-2">$6.21 <br />30%</div>*@
+                                <div class="col-md-9 no-pad-left no-pad-right">
+                                    @Html.TextBoxFor(x => x.PaymentInformation.Tip, new { name = "Tip", @class = "form-control with-no-margin tip-field", id = "form-inputs", @placeholder = "Enter Tip Amount" })
+                                    @Html.ValidationMessageFor(m => m.PaymentInformation.Tip, "", new { @class = "text-danger error" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <p class="terms-line">Great Tip! $4.41 Will go straight to dunkey delivery driver</p>
+                        <a href="#" class="promo-code">Add Promo Codes</a>
+                        @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
+
+                        @if (Model.Id != null)
+                        {
+                            <input type="submit" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
+
+                        }
+                        else
+                        {
+                            <input type="button" onclick="login_first()" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
+
+                            <p id="login_first" style="display:none;color:red;">Please Login To Process Your Order</p>
+                        }
+
+                    </div>
+                }
             </div>
-                
+
             <div class="col-md-4" id="Final">
-               @{
+                @{
                     Html.RenderAction("CartWithData", "Order", new { area = "User" });
                 }
             </div>
         </div>
-        </div>
     </div>
+</div>
 <script>
-
+    function login_first() {
+        $("#login_first").show().delay(3000).fadeOut();
+    }
 
 
     document.getElementById("place-order-btn").style.width = "80%";
 
-        var placeOrderTag =document.getElementById("order-btn-text");
-        placeOrderTag.innerHTML = "Order Total";
-        placeOrderTag.parentElement.href = "javascript: void(0)";
-        placeOrderTag.parentElement.disabled = true;
+    var placeOrderTag = document.getElementById("order-btn-text");
+    placeOrderTag.innerHTML = "Order Total";
+    placeOrderTag.parentElement.href = "javascript: void(0)";
+    placeOrderTag.parentElement.disabled = true;
 
-        function PaymentCartColor(elementObj) {
-            
-            $("#creditcard").removeClass("cardButtons");
-            $(elementObj).addClass("cardButtons");
-        }
+    function PaymentCartColor(elementObj) {
 
-        function TipColor(elementObj) {
-            console.log(elementObj);
-            $(".tip-credit").removeAttr("id");
-            $(elementObj).attr("id","tipButtons");  
-            $(".tip-field").val($("#tipButtons span").text());
-        }
-       
-        
+        $(".cardButtons").removeClass("cardButtons");
+        $(elementObj).addClass("cardButtons");
+        $("#PaymentType").val($(elementObj).text());
+
+    }
+
+    function TipColor(elementObj) {
+        console.log(elementObj);
+        $(".tip-credit").removeAttr("id");
+        $(elementObj).attr("id", "tipButtons");
+        $(".tip-field").val($("#tipButtons span").text());
+    }
+
+
 </script>

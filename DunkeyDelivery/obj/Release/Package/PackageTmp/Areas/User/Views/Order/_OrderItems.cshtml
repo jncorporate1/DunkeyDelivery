@@ -1,7 +1,7 @@
 ﻿@model  DunkeyDelivery.Areas.User.Models.Cart
 <style>
-    #MinOrderError{
-        color: red; 
+    #MinOrderError {
+        color: red;
         display: block;
         padding-top: 0px;
         padding-top: 10px;
@@ -11,31 +11,29 @@
         position: relative;
         left: -42px;
     }
-
-
 </style>
 <div class="show-order order-details" id="orderItemsDiv">
     @*<div class="order-detail-info clearfix">
-        <label class="switch">
-            <span class="del">DELIVERY</span>
-            <input type="checkbox" checked>
-            <div class="slider round" style="position:absolute;"></div>
-            <span class="pickup">PICK UP</span>
-        </label>
-        <div class="order-time clearfix">
-            <div>
-                <input type="text" id='datetimepicker10' />
-            </div>
-            <div>
-                <input type="text" id="datetimepicker3" />
-            </div>
+            <label class="switch">
+                <span class="del">DELIVERY</span>
+                <input type="checkbox" checked>
+                <div class="slider round" style="position:absolute;"></div>
+                <span class="pickup">PICK UP</span>
+            </label>
+            <div class="order-time clearfix">
+                <div>
+                    <input type="text" id='datetimepicker10' />
+                </div>
+                <div>
+                    <input type="text" id="datetimepicker3" />
+                </div>
 
-            <p class="enter-address">
-                <label><span>To:</span> Enter your address</label>
-                <input type="text" />
-            </p>
-        </div>
-    </div>*@
+                <p class="enter-address">
+                    <label><span>To:</span> Enter your address</label>
+                    <input type="text" />
+                </p>
+            </div>
+        </div>*@
     <h2>Your Order</h2>
     @foreach (var storeItem in Model.Stores)
     {
@@ -53,19 +51,26 @@
             </div>
         }
     }
-        @if (Model.Total==0)
-        {
-            <p style="text-align:center;">Your Cart Is Empty</p>
-        }
+    @if (Model.Total == 0)
+    {
+        <p style="text-align:center;">Your Cart Is Empty</p>
+    }
 
-    <h3 class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$0</span></h3>
+    <h3 class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$3</span></h3>
     <div class="row text-center">
 
         @if (Model.Total == 0 || Model.MinOrder > Model.Total)
         {
-           
+
             <button id="cart-Btn" onclick="MinOrderError()" class="place-order-btn">Go to Checkout <span>&nbsp $@Model.Total</span></button>
-            <p id="MinOrderError" style="display:none;color:red;">Min Order : $@Model.MinOrder</p>
+            if (Model.MinOrder != 0)
+            {
+                <p id="MinOrderError" style="display:none;color:red;">Min Order : $@Model.MinOrder</p>
+            }
+            else
+            {
+
+            }
 
         }
         else
@@ -79,7 +84,7 @@
 
 
 <script>
-   // $("#cart_min_order").text($("#min_order").text());
+    // $("#cart_min_order").text($("#min_order").text());
     //$('#cart-Btn').on('click', function () {
 
     //    var url = "/Order/CartWithData";

@@ -1,0 +1,61 @@
+﻿@model BasketWebPanel.BindingModels.SearchAdminModel
+<div class="panel-body panel">
+    <div class="row">
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" for="SearchFirstName" title="">First Name</label>
+                    <span class="ico-help" title="Search by a first name"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control " id="SearchFirstName" name="SearchFirstName" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchLastName" title="">Last Name</label>
+                    <span class="ico-help" title="Search by a last name"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control text-box single-line " id="SearchLastName" name="SearchLastName" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchEmail" title="">Email</label>
+                    <span class="ico-help" title="Search by a specific email"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control " id="SearchEmail" name="SearchEmail" type="text" value="">
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchPhoneNumber" title="">Phone Number</label>
+                    <span class="ico-help" title="Search by a phone number"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control text-box single-line " id="SearchPhoneNumber" name="SearchPhoneNumber" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStoreName" title="">Store Name</label>
+                    <span class="ico-help" title="Search by a store name"><i class="fa fa-question-circle"></i></span>
+                    @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+                "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", @Id = "aioStoreName" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-md-offset-5">
+            <button type="button" id="search-customers" class="btn btn-primary btn-search" onclick="OnSubmit()">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    function OnSubmit() {
+        var url = '@Url.Action("SearchAdminResults", "Admin")';
+        $('#tblSearchResult').load(url, { FirstName: $("#SearchFirstName").val(), LastName: $("#SearchLastName").val(), Phone: $("#SearchPhoneNumber").val(), Email: $("#SearchEmail").val(), StoreId: $('#aioStoreName').find(":selected").val() });
+    }
+</script>

@@ -51,7 +51,7 @@
 </div>
 <div class="current-menu-paths">
     <div class="container">
-        <p> Home > Restaurants </p>
+        <p> Home > @Request.QueryString["search"] </p>
     </div>
 </div>
 
@@ -61,11 +61,37 @@
         <div class="row">
             @if (Request.QueryString["Address"] != null)
             {
-                <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> Restaurants delivering in @Request.QueryString["Address"] </p>
+                if (Model.Store.Count() == 0)
+                {
+                    <p class="center">There are no results for your filter(s) or search criteria </p>
+
+                }
+                else if (Model.Store.Count() == 1)
+                {
+                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
+
+                }
+                else
+                {
+                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
+
+                }
             }
             else
             {
-                <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> Restaurants</p>
+                if (Model.Store.Count() == 0)
+                {
+                    <p class="center">There are no results for your filter(s) or search criteria </p>
+                }
+                else if (Model.Store.Count() == 1)
+                {
+                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] store</p>
+                }
+                else
+                {
+                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] stores</p>
+
+                }
             }
 
             @{

@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "ManageOffers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" id="success-alert">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong></strong><span>@TempData["SuccessMessage"]</span>
+                </div>
+            }
+            <div class="panel-heading">
+                <div class="x_title">
+                    <div class="row">
+                        <h3 class="pull-left">Manage Offers</h3>
+                        <div class="pull-right">
+                            <a href="@Url.Action("Index","Offers")" class="btn bg-blue">
+                                <i class="fa fa-plus-square"></i>
+                                Add new
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    @{
+                        Html.RenderAction("SearchOffer", "Offers");
+                    }
+                    <div id="tblSearchResult">
+                        @*@{
+                                Html.RenderAction("SearchOfferResults", "Offers");
+                            }*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        setTimeout(
+  function () {
+      if ($('#success-alert') != null) {
+          $('#success-alert').slideUp(500, function () {
+          });
+      }
+  }, 3000);
+    });
+</script>
+

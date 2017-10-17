@@ -28,6 +28,7 @@ namespace DAL
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<StoreRatings> StoreRatings { get; set; }
         public virtual DbSet<StoreOrder> StoreOrders { get; set; }
+        public virtual DbSet<Favourite> Favourites { get; set; }
         //public virtual DbSet<Store_Timings> Store_Timings { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
@@ -117,6 +118,24 @@ namespace DAL
                 .WithRequiredDependent(e => e.OrderPayment)
                 .WillCascadeOnDelete(false);
 
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.Favourites)
+                .WithRequired(e => e.Product)
+                .HasForeignKey(e => e.Product_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+              .HasMany(e => e.Favourites)
+              .WithRequired(e => e.User)
+              .HasForeignKey(e => e.User_ID)
+              .WillCascadeOnDelete(false);
+
+
+
+            modelBuilder.Entity<Store>()
+                .HasOptional(s => s.StoreDeliveryHours)
+                .WithRequired(ad => ad.Store);
             // new modifications end
 
 
@@ -252,11 +271,11 @@ namespace DAL
                 .HasForeignKey(e => e.Store_Id)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Store>()
-                .HasMany(e => e.StoreDeliveryHours)
-                .WithRequired(e => e.Store)
-                .HasForeignKey(e => e.Store_Id)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Store>()
+            //    .HasMany(e => e.StoreDeliveryHours)
+            //    .WithRequired(e => e.Store)
+            //    .HasForeignKey(e => e.Store_Id)
+            //    .WillCascadeOnDelete(false);
 
 
 

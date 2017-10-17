@@ -1,0 +1,328 @@
+﻿@model BasketWebPanel.Areas.Dashboard.Models.AddPackageViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="row">
+        <div id="AddUpdateDiv" class="col-md-12 col-xs-12">
+            <div class="alert alert-success" id="success-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success! </strong><span> </span>
+            </div>
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong> <span> </span>
+            </div>
+            @using (Ajax.BeginForm("", "Package", new AjaxOptions { OnSuccess = "OnSuccessPackageInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { @Id = "frmInsertPackage" }))
+            {
+                @*<form data-ajax="true" data-ajax-loading="#divLoader" id="frmInsertPackage" method="post" novalidate="novalidate">*@
+
+                @Html.AntiForgeryToken()
+                <div class="x_panel ">
+                    <div class="x_title">
+                        @if (Model.Package.Id == 0)
+                        {
+                            <h3 class="pull-left">Add New Package</h3>
+                        }
+                        else
+                        {
+                            <h3 class="pull-left">Edit Package</h3>
+                        }
+                        <div class="pull-right">
+                            <button onclick="SubmitForm()" type="button" id="btnSavePackage" class="btn btn-success"><i class="fa fa-plus-square"></i>  Save Package</button>
+                            @*<a href="#" class="btn bg-green">
+                                    <i class="fa fa-plus-square"></i>
+                                    Save Package
+                                </a>*@
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <input type="hidden" id="packageId" name="Package.Id" value="@Model.Package.Id" />
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label" for="PackageName" title="">Package Name</label>
+                                @*<input class="form-control text-box single-line " id="PackageName" name="Package.Name" type="text" value="">*@
+                                <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Package.Name" id="PackageName" data-val-required="This field is required" placeholder="Package Name" value="@Model.Package.Name">
+                                @*@Html.TextBoxFor(x => x.Package.Name)*@
+                                @Html.ValidationMessageFor(m => m.Package.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label>Package Price</label>
+                                @Html.TextBoxFor(x => x.Package.Price, new { @class = "form-control", @id = "Price", @placeholder = "Package Price", @type = "text" })
+                                @Html.ValidationMessageFor(m => m.Package.Price, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label>Store</label>
+                                @if (Model.Package.Id > 0)
+                                {
+                                    @Html.DropDownList("Package.Store_Id", new SelectList(Model.StoreOptions.Items,
+          "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName", onchange = "AddPackage_OnStoreChange(false)" })
+                                    @Html.HiddenFor(x => x.Package.Store_Id);
+                                }
+                                else
+                                {
+                                    if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                    {
+                                        @Html.DropDownList("Package.Store_Id", new SelectList(Model.StoreOptions.Items,
+              "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", @Id = "aioStoreName", onchange = "AddPackage_OnStoreChange(false)" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Package.Store_Id", new SelectList(Model.StoreOptions.Items,
+              "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName", onchange = "AddPackage_OnStoreChange(false)" })
+                                        @Html.HiddenFor(x => x.Package.Store_Id);
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 col-xs-12">
+                                <div id="UploadImage" hidden>
+                                    <label>Upload Package Image</label>
+                                    <div class="input-group image-preview" style="margin-bottom:0px">
+                                        <input type="text" class="form-control image-preview-filename" name="Package.ImageUrl" id="txtImageUrl" data-val="true" data-val-required="Please select an image" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                        <span class="input-group-btn">
+                                            <!-- image-preview-clear button -->
+                                            <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <!-- image-preview-input -->
+                                            <div class="btn btn-default image-preview-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="image-preview-input-title">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                            </div>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Package.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                    <!-- /input-group image-preview [TO HERE]-->
+                                </div>
+                                <div id="EditImage" hidden>
+                                    <label>Product Image</label>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                            <img src="@ApiCall.BaseUrl@Model.Package.ImageUrl" alt="" width="48" height="48">
+                                        </div>
+                                    </div>
+                                    <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <div hidden id="HasImage1">@Model.Package.ImageUrl</div>
+                            </div>
+                            <span style="padding-left:10px" id="ImageError" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 col-xs-12">
+                                <label>Product Description</label>
+                                @Html.TextAreaFor(x => x.Package.Description, new { @class = "form-control", placeholder = "Package Description", id = "PackageDescription" })
+                                @Html.ValidationMessageFor(m => m.Package.Description, "", new { @class = "text-danger" })
+                                @*<textarea type="text" class="form-control" id="ProductDescription" placeholder="Product Description" name="@Model.Description"></textarea>*@
+                            </div>
+                        </div>
+                        <p></p>
+                        <div id="divTable" class="table-responsive" style="overflow-x:auto; overflow-y:hidden; ">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).ready(function () {
+        AddPackage_OnStoreChange(false);
+
+        var packageId = $("#packageId").val();
+        var editImageVal = $('#HasImage1').text();
+        if (packageId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+
+
+        var table = $('#datatable').DataTable();
+
+        //$('#datatable tbody').on('click', 'tr', function () {
+        //    $(this).toggleClass('selected');
+        //});
+
+        //$('#btnSavePackage').click(function () {
+        //    alert(table.rows('.selected').data().length + ' row(s) selected');
+        //});
+        $("#Price").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        $("#Price").bind("cut copy paste", function (e) {
+            e.preventDefault();
+        });
+
+
+        // Handle form submission event
+        $('#frmInsertPackage').on('submit', function (e) {
+            // Prevent actual form submission
+            e.preventDefault();
+
+            var PackageName = $('#PackageName').val();
+            var PackageId = $('#PackageName').val();
+            var PackageDescription = $('#PackageDescription').val();
+            var Price = $('#Price').val();
+            var ImageText = $("#txtImageUrl").val();
+
+            if (PackageName == "" || PackageDescription == "" || ImageText == "" || Price == "") {
+                return false;
+            }
+
+            var tablePackageProduct = $('#datatable').DataTable();
+            var tablePackageProduct = tablePackageProduct.$('input,select,textarea').serialize();
+
+            var PackageModel = {
+                QtyTemp: 1,
+                Id: packageId,
+                Name: PackageName,
+                Price: Price,
+                Store_Id: $('#aioStoreName').find(":selected").val(),
+                Description: PackageDescription,
+                ImageUrl: ImageText
+            }
+
+            var postData = {
+                Products: tablePackageProduct,
+                Package: $.param(PackageModel)
+            }
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Index", "Package")',
+                //data: JSON.stringify(postData),
+                data: JSON.stringify(postData),
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+                },
+                success: function (data) {
+                    OnSuccessPackageInsertion()
+                }
+
+            });
+
+            return false;
+        });
+    });
+
+
+
+    function UploadImage() {
+        var AllowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        var formdata = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+        formdata.append(file.name, file);
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#ImageError").text("Only .Jpeg & .Png files are allowed.");
+            $("#clearImage").trigger("click");
+            return false;
+        }
+        else {
+            $("#ImageError").text("");
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Package/UploadImage');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("errImageUrl").innerHTML = '';
+                }
+            }
+            return false;
+        }
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Package/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage", "Package")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+
+
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+
+    function AddPackage_OnStoreChange(UncheckAllBoxes) {
+        var packageId = $("#packageId").val();
+        var url = '@Url.Action("GetStoreProducts", "Package")';
+        $('#divTable').load(url, { ProductName: null, PackageId: packageId, StoreId: $('#aioStoreName').find(":selected").val() }, function () {
+            if (UncheckAllBoxes == true) {
+                var tablePackageProduct = $('#datatable').DataTable();
+                $(':checkbox', tablePackageProduct.rows().nodes()).prop('checked', false);
+            }
+        });
+    }
+
+
+    function OnSuccessPackageInsertion() {
+        window.location.href = "@Url.Action("ManagePackages", "Package")";
+        //$("#success-alert").append("Store updated successfully.");
+        //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        //    $("#success-alert").slideUp(500);
+        //});
+        //$("#PackageName").val('');
+        //$("#Price").val('');
+        //$("#PackageDescription").val('');
+        //AddPackage_OnStoreChange(true);
+        //$("#clearImage").trigger("click");
+        //$("#EditImage").hide();
+        //$("#UploadImage").show();
+    }
+
+    function SubmitForm() {
+        $('#frmInsertPackage').submit();
+    }
+
+
+</script>

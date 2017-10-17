@@ -1,0 +1,205 @@
+﻿@model BasketWebPanel.Areas.Dashboard.Models.OfferProductAndPackagesViewModel
+<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+    }
+</style>
+<div class="tab-content panel-body" style="border:1px solid #dddddd">
+    <div class="tab-pane  active panel-default" id="1">
+        <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden;width: 100%;">
+            <table id="datatableProduct" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;     width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="hidden-lg hidden-md hidden-sm hidden-xs" @*style="display:none; width:0px; height:0px"*@></th>
+                        <th width="20px"><input id="mastercheckbox" type="checkbox"></th>
+                        <th>ID</th>
+                        <th>Product Name</th>
+                        <th>Product Price</th>
+                        <th>Store Name</th>
+                        <th>Category Name</th>
+                        <th>Product Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Products.Count; i++)
+                    {
+                        <tr>
+                            <td style="vertical-align:middle;display:none; width:0px; height:0px">@Html.CheckBoxFor(x => x.Products[i].NoUse)</td>
+                            <td style="vertical-align:middle">@Html.CheckBoxFor(x => x.Products[i].IsChecked, new { @class = "checkBoxClass" })</td>
+                            <td style="vertical-align:middle">@Model.Products[i].Id @Html.HiddenFor(x => x.Products[i].Id) @Html.HiddenFor(x => x.Products[i].OfferProductId) @Html.HiddenFor(x => x.Products[i].Product_Id) @Html.HiddenFor(x => x.Products[i].Description)</td>
+                            <td style="vertical-align:middle">@Model.Products[i].Name</td>
+                            <td style="vertical-align:middle">@Html.TextBoxFor(x => x.Products[i].Price, new { @class = "form-control priceBasket", @placeholder = "Offer Price", @type = "text" })</td>
+                            <td style="vertical-align:middle">@Model.Products[i].StoreName</td>
+                            <td style="vertical-align:middle">@Model.Products[i].CategoryName</td>
+                            <td style="vertical-align:middle; ">@Html.HiddenFor(x => x.Products[i].ImageUrl)<img src="@Model.Products[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="tab-pane   panel-default" id="2">
+        <div class="tab-pane  " id="2">
+            <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden;     width: 100%;">
+                <table id="datatablePackage" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;     width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="hidden-lg hidden-md hidden-sm hidden-xs" @*style="display:none; width:0px; height:0px"*@></th>
+                            <th class="no-sort"><input id="mastercheckbox1" type="checkbox"></th>
+                            <th>ID</th>
+                            <th>Package Name</th>
+                            <th>Package Price</th>
+                            <th>Store Name</th>
+                            <th>Package Image</th>
+                            @*<th>Quantity</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Packages.Count; i++)
+                        {
+                            <tr>
+                                <td style="vertical-align:middle;display:none; width:0px; height:0px">@Html.CheckBoxFor(x => x.Packages[i].NoUse)</td>
+                                <td style="vertical-align:middle">@Html.CheckBoxFor(x => x.Packages[i].IsChecked, new { @class = "checkBoxClass1" })</td>
+                                <td style="vertical-align:middle">@Model.Packages[i].Id @Html.HiddenFor(x => x.Packages[i].Id) @Html.HiddenFor(x => x.Packages[i].OfferPackageId) @Html.HiddenFor(x => x.Packages[i].Package_Id) @Html.HiddenFor(x => x.Packages[i].Description)</td>
+                                <td style="vertical-align:middle">@Model.Packages[i].Name</td>
+                                <td style="vertical-align:middle">@Html.TextBoxFor(x => x.Packages[i].Price, new { @class = "form-control priceBasket", @type = "text" })</td>
+                                <td style="vertical-align:middle">@Model.Packages[i].StoreName</td>
+                                <td style="vertical-align:middle; ">@Html.HiddenFor(x => x.Packages[i].ImageUrl)<img src="@Model.Packages[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                @*<td style="overflow:hidden; vertical-align:middle ">
+                                        <div class="center" style="text-align: -webkit-center; ">
+                                            <div class="input-group" style="margin-top:10px; width:150px; ">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number" disabled="disabled" style="margin-right:0px;" data-type="minus" data-field="@("Packages["+i+"].Qty")">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </button>
+                                                </span>
+                                                <input type="text" data-val="true" class="form-control input-number" data-val-number="The field Qty must be a number." style="text-align:center" data-val-required="The Qty field is required." id="@("Packages"+i+"__Qty")" name="@("Packages["+i+"].Qty")" value="@Model.Packages[i].Qty" class="valid" min="1" max="10">
+                                                <span class="input-group-btn">
+                                                    <button type="button" class="btn btn-default btn-number" data-type="plus" data-field="@("Packages["+i+"].Qty")">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ($("#offerId").val() > 0) {
+            var tblPackage = $('#datatablePackage').DataTable({
+                "pagingType": "full_numbers",
+                "columnDefs": [{
+                    "targets": [0, 1, 6],
+                    "orderable": false,
+                    className: 'select-checkbox'
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            });
+
+            var tblProduct = $('#datatableProduct').DataTable({
+                "pagingType": "full_numbers",
+                "columnDefs": [{
+                    "targets": [0, 1, 7],
+                    "orderable": false,
+                    className: 'select-checkbox'
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            });
+        }
+        else {
+            var tblPackage = $('#datatablePackage').DataTable({
+                "order": [[2, 'asc']],
+                "pagingType": "full_numbers",
+                "columnDefs": [{
+                    "targets": [0, 1, 6],
+                    "orderable": false,
+                    className: 'select-checkbox'
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            });
+
+            var tblProduct = $('#datatableProduct').DataTable({
+                "order": [[2, 'asc']],
+                "pagingType": "full_numbers",
+                "columnDefs": [{
+                    "targets": [0, 1, 7],
+                    "orderable": false,
+                    className: 'select-checkbox'
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                }
+            });
+        }
+       
+        $('#tabUL a[href="#1"]').trigger('click');
+        $(".priceBasket").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        $(".priceBasket").bind("cut copy paste", function (e) {
+            e.preventDefault();
+        });
+
+        $("#mastercheckbox").click(function () {
+            $(':checkbox', tblProduct.rows().nodes()).prop('checked', this.checked);
+        });
+
+        $(':checkbox', tblProduct.rows().nodes()).change(function () {
+            if (!$(this).prop("checked")) {
+                $("#mastercheckbox").prop("checked", false);
+            }
+        });
+
+        $("#mastercheckbox1").click(function () {
+            $(':checkbox', tblPackage.rows().nodes()).prop('checked', this.checked);
+        });
+
+        $(':checkbox', tblPackage.rows().nodes()).change(function () {
+            if (!$(this).prop("checked")) {
+                $("#mastercheckbox1").prop("checked", false);
+            }
+        });
+    });
+
+
+
+
+
+</script>

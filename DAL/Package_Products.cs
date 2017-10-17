@@ -17,6 +17,9 @@ namespace DAL
 
         public int Package_Id { get; set; }
 
+        [NotMapped]
+        public int PackageProductId { get; set; }
+
         public virtual Package Package { get; set; }
 
         public virtual Product Product { get; set; }

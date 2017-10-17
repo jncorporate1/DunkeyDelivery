@@ -3,9 +3,55 @@
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .medication_dropdown
+    {
+    position: absolute;
+    background-color: lightgrey;
+    width: 90%;
+    height:auto;
+    overflow-y: auto;
+
+    display:none;
+     }
+    .medication_dropdown a{
+      width:100%;
+      border-bottom: 1px solid #6ebe44;
+      padding-left: 16px;
+      text-decoration: none;
+    }
+    .medication_dropdown a:hover{
+        background-color:#6ebe44;
+        color:white;
+    }
+    #ui-datepicker-div > .medication_dropdown a p:hover{
+      
+        color:white;
+    }
+    .ui-widget-header{
+       background-color:#6ebe44;
+    }
+    .medicine_name{
+            padding-bottom: 7px !important;
+    margin-bottom: 7px !important;
+    width: 100%;
+    height: 100%;
+    padding: 0px 0px 0px 0px !important;
+    margin: 0px 0px 0px 0px !important;
+    }
+</style>
 <script>
     var fields=0;
+    var Field_id;
+
+
 </script>
+
+<link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+      rel="stylesheet">
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
 <div class="top-banner product-detail-banner">
     <img src="~/Content/assets/images/pharmacy-banner.png" class="img img-responsive" />
     <div class="banner-inner-text" />
@@ -73,17 +119,21 @@
                                         <div class="pharmacy-details-cont">
                                             <p>You may add multiple medications below</p>
                                             <div id="more_fields" >
-                                                <input type="text" id="0" name="medication" placeholder="Enter Medication" autocomplete="off"/>
-
+                                                <input type="text" id="field_0" onkeyup="medications(this.id,this.value)" name="medication" placeholder="Enter Medication" autocomplete="off"/>
+                                                @Html.ValidationMessageFor(m => m.medication, "", new { @class = "text-danger error" })
 
                                             </div>
+                                            <div class="medication_dropdown">
+                                                <p class="medicine_name" >Medicine Name</p>
+                                           
+                                            </div>  
                                             @*@Html.TextBoxFor(x => x.medication, new { name = "medication", @placeholder = "Xanax", @autocomplete = "off" })
                                             @Html.ValidationMessageFor(m => m.medication, "", new { @class = "text-danger error" })*@
                                             <a onclick="add_fields()" style="cursor:pointer">Add more Medication</a>
 
 
                                         </div>
-
+                                       
                                     </div>
 
                                     <div class="pharmacy-details clearfix">
@@ -122,7 +172,9 @@
 
                                             <div class="row">
                                                 <div class="col-md-6" style="padding-left:0px;">
-                                                    @Html.TextBoxFor(x => x.DateOfBirth, new { name = "DateOfBirth", @placeholder = "Birth Date" })
+                                                   <input type="text" name="DateOfBirth" placeholder="Birth Date" id="datepicker-13">
+
+                                                    @*@Html.TextBoxFor(x => x.DateOfBirth, new { name = "DateOfBirth", @placeholder = "Birth Date" })*@
                                                     @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger error" })
                                                 </div>
                                                 <div class="col-md-6" style="padding-right:0px;">
@@ -206,21 +258,21 @@
                                 <div class="col-md-12 nopadleft">
                                     <h3>Delivery hours</h3>
                                     <ul>
-                                        @if (Model.storeViewModel.StoreDeliveryHours.Count() != 0)
+                                        @if (Model.storeViewModel.StoreDeliveryHours!= null)
                                         {
 
-                                            foreach (var item in Model.storeViewModel.StoreDeliveryHours)
-                                            {
+                                            //foreach (var item in Model.storeViewModel.StoreDeliveryHours)
+                                            //{
 
-                                                <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Monday_From.ToString(@"hh\:mm")  - @item.Monday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Tuesday_From.ToString(@"hh\:mm")  - @item.Tuesday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Wednesday_From.ToString(@"hh\:mm")  - @item.Wednesday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Thursday_From.ToString(@"hh\:mm")  - @item.Thursday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Friday_From.ToString(@"hh\:mm")  - @item.Friday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Saturday_From.ToString(@"hh\:mm")  - @item.Saturday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Sunday_From.ToString(@"hh\:mm")  - @item.Sunday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Thursday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Thursday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Friday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Friday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
 
-                                            }
+                                            //}
                                         }
                                         else
                                         {
@@ -289,28 +341,52 @@
 </script>
 <script>
     function add_fields(){
-        $("#more_fields").append('<input type="text" id="'+fields+'" name="medication" placeholder="Enter Medication" autocomplete="off"/>');
+        $("#more_fields").append('<input type="text" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication" placeholder="Enter Medication" autocomplete="off"/>');
         fields++;
         
     }
-    //$(document).ready(function() {
-    //    var max_fields = 20; //maximum input boxes allowed
-    //    var wrapper = $("#items"); //Fields wrapper
-    //    var add_button = $(".add_field_button"); //Add button ID
- 
-    //    var x = 1; //initlal text box count
-    //    $(add_button).click(function(e){ //on add input button click
-    //        e.preventDefault();
-    //        if(x < max_fields){ //max input box allowed
-    //            x++; //text box increment
-    //            $(wrapper).append('<div class="form-group"><label for="title">Author Email:</label>' + '<input class="form-control col-md-11" id="author_email" type="email" placeholder=""name="author"/>' +'<a href="#" class="remove_field"><i class="fa fa-times"></a></div>'); //add input box
-    //        }
-    //    });
- 
-    //    $(wrapper).on("click",".remove_field", function(e){ //user click on remove field
-    //        e.preventDefault(); $(this).parent('div').remove(); x--;
-    //    })
-    //});
+    function medications(field_id,name){
+        Field_id=field_id;
+        if(name.length>3){
+
+        
+            $.ajax({
+        
+                url: '@Url.Action("MedicationNames", "Pharmacy", new { Area = "User" })',
+                type: "GET",
+                data: { Store_Id: @Model.storeViewModel.Id,Name:name },
+                success: function (data) {
+                    $(".medication_dropdown").html("");
+                    if(data.medications.length>0){
+        
+                        for(var i=0;i<data.medications.length;i++){
+                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
+                            $(".medication_dropdown").show();
+                            $(".medication_dropdown").css("display","block");
+                           
+                        }
+                      
+                   
+                    }
+                    
+                }, error: function (xhr, status, error) {
+
+                }
+            });
+        }else{
+            $(".medication_dropdown").css("display","none");
+            $(".medication_dropdown").hide();
+        }
+    }
+    function medicine_tofield(medicine_id){
+        var med_name=$("#"+medicine_id+" p").text();
+        $("#"+Field_id).val(med_name);
+        $(".medication_dropdown").css("display","none");
+        $(".medication_dropdown").hide();
+        
+
+        
+    }
 
 </script>
         <script>
@@ -341,3 +417,6 @@
             document.getElementById("defaultOpen").click();
 
         </script>
+<script type="text/javascript">
+    $( "#datepicker-13" ).datepicker();
+</script>   

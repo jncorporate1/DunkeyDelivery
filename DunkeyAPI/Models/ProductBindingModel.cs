@@ -16,7 +16,7 @@ namespace DunkeyAPI.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Product Price")]
-        public string Price { get; set; }
+        public double Price { get; set; }
 
       
         public int Category_Id { get; set; }

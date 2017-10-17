@@ -19,8 +19,15 @@ namespace DAL
         public int Id { get; set; }
 
         [Required]
-        public string ValidUpto { get; set; }
-        
+        public DateTime ValidFrom { get; set; }
+
+        [Required]
+        public DateTime ValidUpto { get; set; }
+
+
+        [Required]
+        public string Name { get; set; }
+
         [Required]
         public string Title { get; set; }
 
@@ -32,6 +39,11 @@ namespace DAL
         public string ImageUrl { get; set; }
 
         public int Store_Id { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

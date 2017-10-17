@@ -1,0 +1,442 @@
+﻿@model  BasketWebPanel.ViewModels.BaseViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="~/Content/images/favicon.png"/>
+    <title>Dunkey Admin Panel </title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Scripts", false/*required*/)
+
+    <style>
+        tr:hover {
+            background-color: #ededed !important;
+        }
+
+        div.panel-body.panel {
+            border: 1px solid #dddddd;
+        }
+
+        .table-responsive {
+            border: 1px solid #dddddd;
+        }
+
+        .dataTables_length {
+            margin-left: 5px;
+        }
+
+        .dataTables_filter {
+            margin-right: 5px;
+        }
+
+        .dataTables_info {
+            margin-left: 5px;
+        }
+
+        .paging_full_numbers {
+            margin-right: 2px;
+        }
+
+        table.dataTable.no-footer {
+            border-right: 0px none transparent;
+            border-left: 0px none transparent;
+        }
+
+
+
+        .iti-flag {
+            background-image: url("../../Content/intl-tel-input-master/build/img/flags.png");
+        }
+
+        @@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+            .iti-flag {
+                background-image: url("path/to/flags@2x.png");
+            }
+        }
+
+        .centeredImage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: 0px;
+        }
+
+        #divLoader {
+            position: fixed;
+            top: 0px;
+            right: 0px;
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            z-index: 10000000;
+            opacity: 0.4;
+            text-align: center;
+            filter: alpha(opacity=40);
+            /*width: 100px;
+            height: 100px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            background: url(spinner.gif) no-repeat center #fff;
+            text-align: center;
+            padding: 10px;
+            font: normal 16px Tahoma, Geneva, sans-serif;
+            border: 1px solid #666;
+            margin-left: -50px;
+            margin-top: -50px;
+            z-index: 2;
+            overflow: auto;*/
+        }
+    </style>
+</head>
+<body class="nav-md">
+
+    <div class="container body" style="max-width:100%;">
+        <input type="hidden" id="adminId" value="@Model.Id" />
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="@Url.Action("Index","Home")" class="site_title"><img class="img-circle" src="~/Content/images/fav.png" style="height: 46px; width: 43px;"></img> <span>Dunkey Admin Panel</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_pic">
+
+                            @*<img src="@Model.ProfilePictureUrl" alt="..." class="img-circle profile_img">*@
+                            <img src='@Url.Content(ApiCall.BaseUrl)@Url.Content(@Model.ProfilePictureUrl)' alt="..." class="img-circle profile_img">
+                            
+                        </div>
+                        <div class="profile_info">
+                            <span>Welcome</span>
+                            <h2 style="max-width:135px; overflow-wrap: break-word;  word-wrap: break-word; overflow: hidden;text-overflow: ellipsis;display: -webkit-box;line-height: 16px; max-height: 32px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">@Model.UserName</h2>
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+                    <br />
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            @*<h3>General</h3>*@
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a href="@Url.Action("Index","Home")"><i class="fa fa-home"></i> Dashboard</a>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-shopping-bag"></i> Products <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a href="@Url.Action("Index","Product")">Add New Product</a>
+                                            <a href="@Url.Action("ManageProducts","Product")">Manage Products</a>
+                                            <a href="@Url.Action("Index","Package")">Add New Package</a>
+                                            <a href="@Url.Action("ManagePackages","Package")">Manage Packages</a>
+
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a><i class="fa fa-sitemap"></i> Categories <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a href="@Url.Action("Index","Categories")">Add New Category</a>
+                                            <a href="@Url.Action("ManageCategories","Categories")">Manage Categories</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                @*<li>
+                                        <a><i class="fa fa-edit"></i> Catalog <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a> Products <span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">
+                                                    <li><a href="@Url.Action("Index","Product")">Add New Product</a></li>
+                                                </ul>
+                                            </li>
+
+                                            <li>
+
+                                                <a> Categories <span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">
+                                                    <li><a href="@Url.Action("Index","Categories")">Add New Categories</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>*@
+                                @*/////Stores*@
+                                <li>
+                                    <a><i class="fa fa-opencart"></i> Stores <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                            {
+                                                <a href="@Url.Action("Index", "Stores")">Add New Store</a>
+                                                <a href="@Url.Action("ManageStores", "Stores")">Manage Stores</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("Index", "Stores")">My Store</a>
+                                            }
+
+                                            @*<a> Stores <span class="fa fa-chevron-down"></span></a>*@
+                                            @*<ul class="nav child_menu">
+                                                    <li><a href="@Url.Action("Index","Stores")">Add New Stores</a></li>
+                                                    @*<li><a>Reports</a></li>
+                                                </ul>*@
+                                        </li>
+                                    </ul>
+                                </li>
+                                @*/////Offers*@
+                                @*<li>
+                                        <a><i class="fa fa-tags"></i> Offers<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>
+                                                <a href="@Url.Action("Index","Offers")">Add New Offer</a>
+                                                <a href="@Url.Action("ManageOffers","Offers")">Manage Offers</a>
+                                            </li>
+                                        </ul>
+                                    </li>*@
+                                @*/////Orders*@
+                                <li>
+                                    <a><i class="fa fa-edit"></i> Orders <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("ManageOrders","Orders")">Manage Orders</a></li>
+
+                                    </ul>
+                                </li>
+                                @*/////
+
+                                *@
+                                @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                {
+                                    @*<li>
+                                            <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">
+                                                <li>
+
+                                                    <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
+
+
+                                                </li>
+                                            </ul>
+                                        </li>*@
+                                }
+                                @*/////Users*@
+                                <li>
+                                    <a><i class="fa fa-users"></i> Admins <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                        {
+                                            <li><a href="@Url.Action("Index", "Admin")">Add New Admin</a></li>
+                                            <li><a href="@Url.Action("ManageAdmins", "Admin")">Manage Admins</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a href="@Url.Action("Index", "Admin")">My Profile</a></li>
+                                        }
+                                    </ul>
+                                </li>
+                                @*/////Setiings*@
+                                @*<li>
+                                        <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                                            <li><a href="#">Customer Settings</a></li>
+                                        </ul>
+                                    </li>*@
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                </div>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    @Model.UserName
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    @*<li><a href="javascript:;"> Profile</a></li>
+                                        <li>
+                                            <a href="javascript:;">
+                                                <span class="badge bg-red pull-right">50%</span>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li>
+                                        <li><a href="javascript:;">Help</a></li>*@
+                                    <li><a href="@Url.Action("LogOff", null, new { area = string.Empty, controller = "Account" }, Request.Url.Scheme)"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                    @*<li><a href="#" onclick="UpdateProfile()"><i class="fa fa-user pull-right"></i> Update Profile</a></li>*@
+                                    @*<li><a href="@Url.Action("ResetPassword", "Home")"><i class="fa fa-lock pull-right"></i> Reset Password</a></li>*@
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!-- /top navigation -->
+            <div id="divLoader" style="display:none;">
+                <img class="centeredImage" style="height:80px; width:80px" src="~/Content/images/ajax-loader.gif" alt="Loader" />
+            </div>
+            @RenderBody();
+            @*/////FooterSection*@
+            <footer>
+                <div class="pull-right">
+                    @*Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>*@
+                    <span style="font-size:15px">Powered by    </span> <a href="https://www.ingic.ae/" target="_blank"><img height="20px" width="70px" src="~/Content/images/ingic.png"></a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    @*@Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/fastclick")
+        @Scripts.Render("~/bundles/nprogress")
+        @Scripts.Render("~/bundles/Chart")
+        @Scripts.Render("~/bundles/gauge")
+        @Scripts.Render("~/bundles/bootstrap-progressbar")
+        @Scripts.Render("~/bundles/icheck")
+        @Scripts.Render("~/bundles/skycons")
+        @Scripts.Render("~/bundles/flot")
+        @Scripts.Render("~/bundles/date")
+        @Scripts.Render("~/bundles/daterangepicker")
+        @Scripts.Render("~/bundles/custom")*@
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/shared")
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/validators.js")"></script>
+    @*/////DatePickerFiles*@
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="~/Content/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <link href="~/Content/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $('.open-datetimepicker1').click(function (event) {
+            event.preventDefault();
+            $('#datetimepicker1').click();
+        });
+    </script>
+    <script type="text/javascript">
+        $('.open-datetimepicker2').click(function (event) {
+            event.preventDefault();
+            $('#datetimepicker2').click();
+        });
+    </script>
+    <script type="text/javascript">
+        $('.open-datetimepicker3').click(function (event) {
+            event.preventDefault();
+            $('#datetimepicker3').click();
+        });
+    </script>
+    <script type="text/javascript">
+        $('.open-datetimepicker4').click(function (event) {
+            event.preventDefault();
+            $('#datetimepicker4').click();
+        });
+    </script>
+    @*/////DatePicker*@
+    <script type="text/javascript">
+        jQuery.ajaxSetup({
+            beforeSend: function () {
+                $('#divLoader').show();
+            },
+            complete: function () {
+                $('#divLoader').hide();
+            },
+            success: function () { }
+        });
+        $(function () {
+            $('#datetimepicker1,#datetimepicker2').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                locale: {
+                    format: 'DD/MM/YYYY'
+                },
+            },
+                function (start, end, label) {
+                    var years = moment().diff(start, 'years');
+                    //alert("You are " + years + " years old.");
+                });
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+@*////PaginationScriptFiles*@
+<script src="~/Content/pagination/jquery.dataTables.min.js"></script>
+<link href="~/Content/pagination/jquery.dataTables.min.css" rel="stylesheet" />
+@*/////TimePicker*@
+<script src="~/Content/bootstrap-timepicker/jquery.timepicker.min.js"></script>
+<link href="~/Content/bootstrap-timepicker/jquery.timepicker.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $('.open-timepicker').click(function (event) {
+        event.preventDefault();
+        $('#timepicker').click();
+    });
+
+    function UpdateProfile() {
+        var adminId = $('#adminId').val();
+        var url = '@Url.Action("Index", "Admin", new { AdminId = "__id__" })';
+        window.location.href = url.replace('__id__', adminId);
+    };
+</script>
+
+<script>
+    $(function () {
+        $('#timepicker,#timepicker2,#timepicker3,#timepicker4,#timepicker5,#timepicker6,#timepicker7,#timepicker8,#timepicker9,#timepicker10,#timepicker11,#timepicker12,#timepicker13,#timepicker14,#timepicker15,#timepicker16').timepicker();
+
+    });
+</script>
+@*/////PasswordHide/UnHide*@
+<script src="~/Content/Show-Hide-Password-Field-Text-with-jQuery-Bootstrap/bootstrap-show-password.js"></script>
+<script>
+    $(function () {
+        $('#password1').password().on('show.bs.password').on('hide.bs.password');
+    });
+</script>
+<script>
+    $(function () {
+        $('#password2').password().on('show.bs.password').on('hide.bs.password');
+    });
+</script>
+<script>
+    $(function () {
+        $('#password3').password().on('show.bs.password').on('hide.bs.password');
+    });
+</script>
+@*////TagsInputScript*@
+<link href="~/Content/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" />
+<script src="~/Content/bootstrap-tagsinput/bootstrap-tagsinput-angular.js"></script>
+<script src="~/Content/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+<script>
+    $('#Tags').tagsinput({
+        //maxTags: 3,
+        //maxChars: 8
+      });
+</script>

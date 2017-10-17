@@ -62,7 +62,7 @@
                             <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
                             <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                             <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
-                            @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                            <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
                         </ul>
                         <div class="selectarea">
                             <input type="text" class="search-field " id="currentSearch" onclick="addClass(this)" onkeyup="GetLocationAddress()" placeholder="Select Your Area" @*onkeyup="search_store(this.value)"*@ />
@@ -143,7 +143,7 @@
                             <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
                             <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                             <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
-                            @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value,'Field2')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                            <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
                         </ul>
                         <div class="selectarea">
                             <input type="text" class="search-field " onclick="addClass(this)" onkeyup="GetLocationAddress()" placeholder="Select Your Area" />
@@ -186,7 +186,7 @@
                                 <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
                                 <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                                 <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
-                                @*<li id="Ride" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>*@
+                                <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
                             </ul>
 
 

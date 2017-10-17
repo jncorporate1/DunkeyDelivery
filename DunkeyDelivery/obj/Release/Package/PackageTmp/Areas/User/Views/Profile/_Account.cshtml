@@ -21,35 +21,49 @@
 
 
             </div>*@
-        @using (Ajax.BeginForm("EditProfile", "Profile", new AjaxOptions { OnSuccess = "OnSuccessInsertion", OnFailure = "OnFailedInsertion" }))
+        @using (Ajax.BeginForm("EditProfile", "Profile", new AjaxOptions { OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
         {
             @Html.AntiForgeryToken()
             <div class="col-md-12 no-pad">
                 <ul class="profile">
 
-                    @*<li>
-                        @Html.TextBoxFor(x => x.FirstName, new { name = "FirstName", @placeholder = "First Name" value=Model.FirstName })
-                        @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger error" })
+                    <li>
+                        @Html.TextBoxFor(x => x.FName, new { name = "FName", @placeholder = "First Name", value = Model.FName })
+                        @Html.ValidationMessageFor(m => m.FName, "", new { @class = "text-danger error" })
+                   @*<input type="text" placeholder="First Name" name="FName" value="@Model.FName" />*@
+                 
                     </li>
 
                     <li>
-                        @Html.TextBoxFor(x => x.LastName, new { name = "LastName", @placeholder = "Last Name" })
-                        @Html.ValidationMessageFor(m => m.LastName , "", new { @class = "text-danger error" })
-                    </li>*@
+                        @Html.TextBoxFor(x => x.LName, new { name = "LName", @placeholder = "Last Name", value = Model.LName })
+                        @Html.ValidationMessageFor(m => m.LName, "", new { @class = "text-danger error" })
+                    </li>
 
 
 
 
-                    <li><input type="text"  placeholder="First name*" value="@Model.FirstName" /></li>
+                    @*<li><input type="text"  placeholder="First name*" value="@Model.FirstName" /></li>
 
-                    <li><input type="text" placeholder="Last name*" value="@Model.LastName" /></li>
-                    <li class=""><input type="Email" placeholder="Email" value="@Model.Email"  readonly /></li>
+            <li><input type="text" placeholder="Last name*" value="@Model.LastName" /></li>*@
+                    
 
-                    <li class=""><input type="text" placeholder="New password" /></li>
-                    <li style="width:96%;" ><input type="text" placeholder="Confirm new password" /></li>
+                    <li>
+                        @Html.TextBoxFor(x => x.Password, new { name = "Password", @placeholder = "Password",@type="Password",@style="width:100%;" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger error" })
+                    </li>
+                    <li>
+                        @Html.TextBoxFor(x => x.ConfirmPassword, new { name = "ConfirmPassword", @placeholder = "Confirm Password", @type = "Password", @style = "width:100%;" })
+                        @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger error" })
+                    </li>
+                    @*<li style="width:96%;" ><input type="text" placeholder="Confirm new password" /></li>*@
                 </ul>
+               <input type="Email" placeholder="Email" value="@Model.EmailAddress" disabled readonly  hidden/>
             </div>
-        }
+
+
+
+
+
             <div class="col-md-12 nopad">
                 <h4 class="sms-noti">SMS Notifications</h4>
                 <div class="checkbox clearfix">
@@ -61,9 +75,28 @@
 
 
                 </div>
-                <input type="submit" value="Save" class="save" />
 
+                
+                <input type="Email" name="EmailAddress" value="@Model.EmailAddress" style="display:none;" />
+
+                <input type="submit" value="Save" class="save" />
+                <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
+                    <p id="ModalNotification" style="color:green;display:none;">Changes Saved Successfully</p>
+
+                </div>
+                <div style="color:red;" class="alert alert-error" id="error-alert" hidden>
+
+                    <span></span>
+                </div>
             </div>
+
+
+        }
+            
 
         </div>
     </div>
+
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,126 @@
+﻿@model BasketWebPanel.ViewModels.SearchOfferListViewModel
+<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+    }
+  
+</style>
+@*/////GridView*@
+<div class="panel-body panel">
+    <div class="">
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_content">
+                    <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden">
+                        <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                            <thead>
+                                <tr>
+
+                                    <th style="vertical-align:middle">ID</th>
+                                    <th style="vertical-align:middle">Offer Name</th>
+                                    <th style="vertical-align:middle">Store Name</th>
+                                    <th style="vertical-align:middle">Offer Image</th>
+                                    <th style="vertical-align:middle">Edit</th>
+                                    <th style="vertical-align:middle">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var offer in Model.Offers)
+                                {
+                                    <tr>
+
+                                        <td style="vertical-align:middle">@offer.Id</td>
+                                        <td style="vertical-align:middle">@offer.Name</td>
+                                        <td style="vertical-align:middle">@offer.StoreName</td>
+                                        <td style="vertical-align:middle"><img src="@ApiCall.BaseUrl@offer.ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                        <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs editButtons" data-title="Edit" data-offerid="@offer.Id" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                        <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-offerid="@offer.Id" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*/////DeletePopUp*@
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <input type="hidden" id="offerid" value="" />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this offer?</div>
+                    <label id="lblErrorOnDelete" hidden class="text-danger"></label>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" id="btnDeleteYes" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Yes</button>
+                    <button type="button" id="btnDeleteNo" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;No</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<script>
+    $(document).on("click", ".deleteButtons", function () {
+        var offerid = $(this).data('offerid');
+        $("#offerid").val(offerid);
+    });
+
+    $(document).on("click", ".editButtons", function () {
+        var OfferId = $(this).data('offerid');
+        var url = '@Url.Action("Index", "Offers", new { OfferId = "__id__" })';
+        window.location.href = url.replace('__id__', OfferId);
+    });
+
+    $(document).ready(function () {
+        $('#datatable').DataTable({
+            "pagingType": "full_numbers",
+            "columnDefs": [{
+                "targets": [3, 4, 5],
+                "orderable": false
+            }
+            ]
+        });
+    });
+    $('#btnDeleteYes').on("click", function (e) {
+        var offerid = $("#offerid").val();
+        var url = '@Url.Action("DeleteOffer", "Offers")';
+        var lblError = $("#lblErrorOnDelete");
+        $.get(url, { OfferId: offerid }, function (data) {
+            if (data == "Success") {
+                $('#deleteModal').modal('hide');
+                $(".modal-backdrop").fadeOut('slow', function () {
+                    var table = $('#datatable').DataTable();
+
+                    var indexes = table.rows().eq(0).filter(function (rowIdx) {
+                        return table.cell(rowIdx, 0).data() === offerid ? true : false;
+                    });
+                    table.rows(indexes).remove().draw(false);
+                });
+                lblError.text("");
+                lblError.hide();
+            }
+            else {
+                lblError.text(data);
+                lblError.show();
+            }
+        });
+    });
+</script>

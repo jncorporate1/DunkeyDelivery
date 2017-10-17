@@ -39,6 +39,8 @@ D:\Git\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.dll
 D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.xml
 D:\Git\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.xml
 D:\Git\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
+D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.Migrations.storedeli.resources
+D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.csproj.GenerateResource.Cache
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

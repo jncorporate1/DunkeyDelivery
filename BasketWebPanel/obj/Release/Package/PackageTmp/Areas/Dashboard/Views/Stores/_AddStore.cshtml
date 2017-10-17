@@ -1,0 +1,586 @@
+﻿@model BasketWebPanel.Areas.Dashboard.Models.AddStoreViewModel
+@*@using (Html.BeginForm("AddStore", "Stores", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
+<style>
+    /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+    #map {
+        height: 378px;
+        width: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+    }
+</style>
+<div class="alert alert-success" id="success-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+</div>
+<div class="alert alert-error" id="error-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Error! </strong><span></span>
+</div>
+@using (Ajax.BeginForm("AddStore", "Stores", new AjaxOptions { OnSuccess = "OnSuccessStoreInsertion", OnFailure = "OnFailedInsertion" }))
+
+{
+    @Html.AntiForgeryToken()
+    <div class="x_panel">
+        <div class="x_title">
+            <h3>Add New Store</h3>
+            @*<ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+
+                    <li>
+                        <a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                </ul>*@
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br />
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                    <label>Store Name</label>
+                    <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="StoreName" id="StoreName" data-val-required="Store Name is required" placeholder="Store Name" value="@Model.StoreName">
+                    @*<input type="text" data-val="true" class="form-control input-validation-error" placeholder="Username" name="Email" id="Email" value="@Model.Email" data-val-required="The Email field is required." data-val-email="The Email field is not a valid e-mail address." />*@
+                    @Html.ValidationMessageFor(m => m.StoreName, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <!-- image-preview-filename input [CUT FROM HERE]-->
+                    <label>Upload Store Logo</label>
+                    <div class="input-group image-preview">
+                        <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                        <span class="input-group-btn">
+                            <!-- image-preview-clear button -->
+                            <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                <span class="glyphicon glyphicon-remove"></span> Clear
+                            </button>
+                            <!-- image-preview-input -->
+                            <div class="btn btn-default image-preview-input">
+                                <span class="glyphicon glyphicon-folder-open"></span>
+                                <span class="image-preview-input-title">Browse</span>
+                                <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                            </div>
+                        </span>
+                    </div><!-- /input-group image-preview [TO HERE]-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Store Location</label>
+                    <div id="map" class="form-control"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label>Longitude</label>
+                            @*<input disabled type="text" name="Long" class="form-control" id="Longitude" placeholder="Longitude" data-val="true" data-val-range="Please select location from map." data-val-range-max="2147483647" data-val-range-min="1" data-val-required="Please select location from map.">*@
+                            @Html.TextBoxFor(x => x.Long, new { @id = "Longitude", @class = "form-control", @readonly = "true", @placeholder = "Longitude" })
+                            @Html.ValidationMessageFor(x => x.Long, "", new { @class = "text-danger" })
+                            @*<input class="text-box single-line" data-val="true" data-val-number="The field Long must be a number."
+                                data-val-required="The Long field is required." id="Long" name="Long" type="text" value="0">*@
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <label>Latitude</label>
+                            @*<input disabled type="text" name="Lat" class="form-control" id="Latitude" placeholder="Latitude">*@
+                            @Html.TextBoxFor(x => x.Lat, new { @id = "Latitude", @class = "form-control", @readonly = "true", @placeholder = "Latitude" })
+                            @Html.ValidationMessageFor(x => x.Lat, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 ">
+                    <label>Delivery Hours</label>
+                    <table id="datatable1" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Days</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                                <td>
+                                    Monday
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker" />
+                                        <span class="input-group-addon open-timepicker  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker2" />
+                                        <span class="input-group-addon open-timepicker2  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker3" />
+                                        <span class="input-group-addon open-timepicker3  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm " id="timepicker4" />
+                                        <span class="input-group-addon open-timepicker4  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker5" />
+                                        <span class="input-group-addon open-timepicker5  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm " id="timepicker6" />
+                                        <span class="input-group-addon open-timepicker6  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker7" />
+                                        <span class="input-group-addon open-timepicker7  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm " id="timepicker8" />
+                                        <span class="input-group-addon open-timepicker8  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker9" />
+                                        <span class="input-group-addon open-timepicker9  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker10" />
+                                        <span class="input-group-addon open-timepicker10  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker11" />
+                                        <span class="input-group-addon open-timepicker11  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm " id="timepicker12" />
+                                        <span class="input-group-addon open-timepicker12  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker13" />
+                                        <span class="input-group-addon open-timepicker13  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class='input-group date'>
+                                        <input type='text' class="form-control  input-sm" id="timepicker14" />
+                                        <span class="input-group-addon open-timepicker14  input-sm">
+                                            <span class="glyphicon glyphicon-time "></span>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <label>Description</label>
+                    <textarea type="text" class="form-control" id="ProductDescription" placeholder="Description"></textarea>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <label class="control-label" for="OpeningTime" title="">Opening Time</label>
+                            <div class='input-group date'>
+                                <input type='text' class="form-control " id="timepicker15" />
+                                <span class="input-group-addon open-timepicker15">
+                                    <span class="glyphicon glyphicon-time "></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label class="control-label" for="ClosingTime" title="">Closing Time</label>
+                            <div class='input-group date'>
+                                <input type='text' class="form-control " id="timepicker16" />
+                                <span class="input-group-addon open-timepicker16">
+                                    <span class="glyphicon glyphicon-time "></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="ln_solid"></div>*@
+        <div class="form-group">
+            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                <button class="btn btn-primary" onclick="OnResetClick()" type="reset">Reset</button>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </div>
+            <br>
+        </div>
+        @*</form>*@
+    </div>
+    @Html.ValidationMessage("Error")
+}
+<div class="row">
+    <div class="pac-card col-lg-7 col-sm-12" style="padding-right:0px; padding-left:0px" id="pac-card">
+        <div>
+            <div id="title">
+                Store Location
+            </div>
+            <div id="type-selector" class="pac-controls">
+                <input type="radio" name="type" id="changetype-all" checked="checked">
+                <label for="changetype-all" style="margin-right:5px">All</label>
+                <input type="radio" name="type" id="changetype-establishment">
+                <label for="changetype-establishment" style="margin-right:5px">Establishments</label>
+                <input type="radio" name="type" id="changetype-address">
+                <label for="changetype-address" style="margin-right:5px">Addresses</label>
+                <input type="radio" name="type" id="changetype-geocode">
+                <label for="changetype-geocode" style="margin-right:5px">Geocodes</label>
+            </div>
+            <div id="strict-bounds-selector" class="pac-controls">
+                <input type="checkbox" id="use-strict-bounds" value="">
+                <label for="use-strict-bounds">Strict Bounds</label>
+            </div>
+        </div>
+        <div id="pac-container">
+            <input id="pac-input" type="text" placeholder="Enter a location" style="width:98%">
+        </div>
+    </div>
+</div>
+<div id="infowindow-content">
+    <img src="" width="16" height="16" id="place-icon">
+    <span id="place-name" class="title"></span><br>
+    <span id="place-address"></span>
+</div>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    function OnResetClick() {
+        $("#clearImage").trigger("click");
+        ClearValidationErrorMessages();
+    }
+
+    function UploadImage() {
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileInput');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        //Creating an XMLHttpRequest and sending
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Stores/UploadImage');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                //alert(xhr.responseText);
+            }
+        }
+        return false;
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Stores/DeleteImage');
+        xhr.send("Clear");
+    }
+
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = document.getElementById('type-selector');
+        var strictBounds = document.getElementById('strict-bounds-selector');
+
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            $("#Longitude").val(event.latLng.lng);
+            $("#Latitude").val(event.latLng.lat);
+            $('#Latitude').trigger('change');
+            $('#Longitude').trigger('change');
+        });
+
+        function placeMarker(location) {
+            if (!marker || !marker.setPosition) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                });
+            } else {
+                marker.setPosition(location);
+            }
+            //if (!!infowindow && !!infowindow.close) {
+            //    infowindow.close();
+            //}
+            //infowindow = new google.maps.InfoWindow({
+            //    content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+            //});
+            //infowindow.open(map, marker);
+        }
+
+        //function placeMarker(location) {
+        //    var marker = new google.maps.Marker({
+        //        position: location,
+        //        map: map
+        //    });
+        //}
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);  // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                  (place.address_components[0] && place.address_components[0].short_name || ''),
+                  (place.address_components[1] && place.address_components[1].short_name || ''),
+                  (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            infowindowContent.children['place-icon'].src = place.icon;
+            infowindowContent.children['place-name'].textContent = place.name;
+            infowindowContent.children['place-address'].textContent = address;
+            infowindow.open(map, marker);
+
+            $("#Longitude").val(place.geometry.location.lng());
+            $("#Latitude").val(place.geometry.location.lat());
+            $('#Latitude').trigger('change');
+            $('#Longitude').trigger('change');
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        function setupClickListener(id, types) {
+            var radioButton = document.getElementById(id);
+            radioButton.addEventListener('click', function () {
+                autocomplete.setTypes(types);
+            });
+        }
+
+        setupClickListener('changetype-all', []);
+        setupClickListener('changetype-address', ['address']);
+        setupClickListener('changetype-establishment', ['establishment']);
+        setupClickListener('changetype-geocode', ['geocode']);
+
+        document.getElementById('use-strict-bounds')
+            .addEventListener('click', function () {
+                console.log('Checkbox clicked! New state=' + this.checked);
+                autocomplete.setOptions({ strictBounds: this.checked });
+            });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                map.setCenter(pos);
+                placeMarker(pos);
+                $("#Longitude").val(pos.lng);
+                $("#Latitude").val(pos.lat);
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        }
+    }
+
+    //google.maps.event.addListener(map, 'bounds_changed', function () {
+    //    alert(map.getBounds());
+    //});
+    function OnSuccessStoreInsertion() {
+        //$("#success-alert").append("Store updated successfully.");
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+        $("#StoreName").val('');
+        $("#Longitude").val('');
+        $("#Latitude").val('');
+        $("#clearImage").trigger("click");
+    }
+
+    $(document).ready(function () {
+        $('input[id$=Longitude]').bind("change", function () {
+            var a = $('span[data-valmsg-for="Long"]').empty();
+        });
+        $('input[id$=Latitude]').bind("change", function () {
+            var a = $('span[data-valmsg-for="Lat"]').empty();
+        });
+    });
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQsM3CYgTwF_35w-Qc2N8FlZGDfKASYsU&callback=initMap&libraries=places"
+        type="text/javascript"></script>

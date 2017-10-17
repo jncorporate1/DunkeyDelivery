@@ -24,7 +24,7 @@
                         <div class="left">
                             @if (Model.Store.First().BusinessType != "Laundry")
                             {
-                                <div class="product-img"><img src="@shopData.ImageUrl"></div>
+                                <div class="product-img"><img src="@Utility.BaseUrl@shopData.ImageUrl"></div>
                             }
                             <div class="product-cont">
                                 @if (Model.Store.First().BusinessType == "Alcohol")
@@ -155,7 +155,7 @@
                                 else if (Model.Store.First().BusinessType == "Alcohol")
                                 {
 
-                                    <a href="@Url.Action("Categories", "Alcohol", new { area = "User" })" class="place-order-btn">ORDER AHEAD</a>
+                                    <a href="@Url.Action("SearchStoreCategories", "UserStore",new {Store_id = shopData.Id , @SearchType=Model.Store.First().BusinessType})" class="place-order-btn">ORDER AHEAD</a>
                                 }
                                 else
                                 {

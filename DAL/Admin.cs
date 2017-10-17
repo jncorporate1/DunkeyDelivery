@@ -21,10 +21,10 @@ namespace DAL
 
         public string FullName { get; set; }
 
-        [Required]
+   
         public string BusinessName { get; set; }
 
-        [Required]
+
         public string BusinessType { get; set; }
 
      

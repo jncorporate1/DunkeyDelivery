@@ -20,7 +20,7 @@ namespace DAL
             Payment_Method = new HashSet<Payment_Method>();
             Products = new HashSet<Product>();
             StoreRatings = new HashSet<StoreRatings>();
-            StoreDeliveryHours = new HashSet<StoreDeliveryHours>();
+            //  StoreDeliveryHours = new HashSet<StoreDeliveryHours>();
             Offers = new HashSet<Offer>();
             StoreTags = new HashSet<StoreTags>();
             Admins = new HashSet<Admin>();
@@ -62,7 +62,12 @@ namespace DAL
 
         public float? MinOrderPrice { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public DbGeography Location { get; set; }
+
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -88,9 +93,9 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreRatings> StoreRatings { get; set; }
 
- 
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StoreDeliveryHours> StoreDeliveryHours { get; set; }
+        public virtual StoreDeliveryHours StoreDeliveryHours { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

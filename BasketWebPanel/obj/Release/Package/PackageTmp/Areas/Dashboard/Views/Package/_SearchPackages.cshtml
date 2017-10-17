@@ -1,0 +1,51 @@
+﻿@model BasketWebPanel.BindingModels.SearchPackageModel
+<div class="panel-body panel">
+    <div class="row">
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" for="SearchPackageName" title="">Package Name</label>
+                    <span class="ico-help" title="Search by a category name"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control " id="SearchPackageName" name="SearchCategoryName" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStoreName" title="">Store Name</label>
+                    <span class="ico-help" title="Search by a store name"><i class="fa fa-question-circle"></i></span>
+                    @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                    {
+                        @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+          "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", @Id = "aioStoreName" })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+          "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName" })
+                        @Html.HiddenFor(x => x.StoreId);
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-md-offset-5">
+            <button type="button" id="search-customers" class="btn btn-primary btn-search" onclick="OnSubmit()">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+
+    $(document).ready(function () {
+        OnSubmit();
+    });
+
+    function OnSubmit() {
+        var url = '@Url.Action("SearchPackageResults", "Package")';
+        $('#tblSearchResult').load(url, { PackageName: $("#SearchPackageName").val(), StoreId: $('#aioStoreName').find(":selected").val() });
+    }
+</script>

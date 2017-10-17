@@ -25,11 +25,11 @@ namespace DAL
 
         public string ZipCode { get; set; }   
         
-        public short? Status { get; set; } 
+        public int Status { get; set; } 
 
         [Required]
         public string Phone { get; set; }
 
-        public short SignInType { get; set; }
+        public int SignInType { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace DunkeyAPI.ViewModels
         public int TotalUsers { get; set; }
         public int TotalProducts { get; set; }
         public int TotalStores { get; set; }
+        public int TodayOrders { get; set; }
     }
 }

@@ -23,10 +23,10 @@ namespace DAL
         public string Name { get; set; }
 
         [Required]
-        public string Status { get; set; }
+        public short Status { get; set; }
 
         [Required]
-        public string Price { get; set; }
+        public double Price { get; set; }
 
 
         public string Description { get; set; }
@@ -34,6 +34,12 @@ namespace DAL
         public bool IsDeleted { get; set; }
 
         public int Store_Id { get; set; }
+
+        public string ImageUrl { get; set; }
+
+
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
 
         //[JsonIgnore]
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

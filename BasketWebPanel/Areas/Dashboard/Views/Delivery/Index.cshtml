@@ -1,0 +1,157 @@
+﻿@model BasketWebPanel.ViewModels.SearchOrdersListViewModel
+@{
+    ViewBag.Title = "AssignDeliverer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*@using (Ajax.BeginForm("Index", "Delivery", new AjaxOptions {OnSuccess = "OnSuccessDeliveryAssignInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { @Id = "frmDeliveryStatus" }))*@
+
+<form data-ajax="true" data-ajax-loading="#divLoader" id="frmDeliveryStatus" method="post" novalidate="novalidate">
+    @Html.AntiForgeryToken()
+    <style>
+        .table caption + thead tr:first-child th,
+        .table colgroup + thead tr:first-child th,
+        .table thead:first-child tr:first-child th,
+        .table caption + thead tr:first-child td,
+        .table colgroup + thead tr:first-child td,
+        .table thead:first-child tr:first-child td {
+            border-top: 0;
+            text-align: center;
+            vertical-align: central;
+        }
+    </style>
+
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="x_panel ">
+                <div class="alert alert-success" id="success-alert" hidden>
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Success! </strong><span> </span>
+                </div>
+                <div class="alert alert-error" id="error-alert" hidden>
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Error! </strong> <span> </span>
+                </div>
+                <div class="x_title">
+                    <h3 class="pull-left">Assign New Deliverer</h3>
+                    <div class="pull-right">
+                        <button type="button" onclick="SubmitForm()" id="btnSavePackage" class="btn btn-success"><i class="fa fa-plus-square"></i>  Save  </button>
+                        @*<a href="#" class="btn bg-green">
+                                <i class="fa fa-plus-square"></i>
+                                Save
+                            </a>*@
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <p>
+                </p>
+                <div class="x_content">
+                    <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden">
+                        <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th class="middled" style="vertical-align:middle"><input id="mastercheckbox" type="checkbox"></th>
+                                    <th style="vertical-align:middle">ID</th>
+                                    <th style="vertical-align:middle">Customer</th>
+                                    @*<th>Store Name</th>*@
+                                    <th style="vertical-align:middle">Created On</th>
+                                    <th style="vertical-align:middle">Payement Status</th>
+                                    <th style="vertical-align:middle">Order Total</th>
+                                    <th style="vertical-align:middle">Assign Deliverer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Orders.Count; i++)
+                                {
+                                    <tr>
+                                        <td style="vertical-align:middle">@Html.CheckBoxFor(x => Model.Orders[i].IsChecked, new { @class = "checkBoxClass" })</td>
+                                        <td style="vertical-align:middle">@Model.Orders[i].Id @Html.HiddenFor(x => Model.Orders[i].Id)</td>
+                                        <td style="vertical-align:middle">@Model.Orders[i].CustomerName @Html.HiddenFor(x => Model.Orders[i].CustomerName)</td>
+                                        @*<td style="vertical-align:middle">@Model.Orders[i].StoreName @Html.HiddenFor(x => Model.Orders[i].StoreName)</td>*@
+                                        <td style="vertical-align:middle">@Model.Orders[i].CreatedOn @Html.HiddenFor(x => Model.Orders[i].CreatedOn)</td>
+                                        <td style="vertical-align:middle">@Model.Orders[i].PaymentStatus @Html.HiddenFor(x => Model.Orders[i].PaymentStatus)</td>
+                                        <td style="vertical-align:middle">@Model.Orders[i].OrderTotal @Html.HiddenFor(x => Model.Orders[i].OrderTotal)</td>
+                                        <td style="vertical-align:middle">
+                                            <div class="form-group form-inline">
+                                                @Html.DropDownList("Orders[" + i + "].DeliveryManId", new SelectList(Model.Orders[i].DeliveryMenOptions.Items,
+"Value", "Text", Model.Orders[i].DeliveryMenOptions.SelectedValue), new { @class = "form-control" })
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).ready(function () {
+        var datatable = $('#datatable').DataTable({
+            "order": [[1, 'asc']],
+            "pagingType": "full_numbers",
+            "columnDefs": [{
+                "targets": [0, 6],
+                "orderable": false,
+                "className":"select-checkbox"
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            }
+        });
+
+        $("#mastercheckbox").click(function () {
+            $(':checkbox', datatable.rows().nodes()).prop('checked', this.checked);
+        });
+
+        $(':checkbox', datatable.rows().nodes()).change(function () {
+            if (!$(this).prop("checked")) {
+                $("#mastercheckbox").prop("checked", false);
+            }
+        });
+
+        // Handle form submission event
+        $('#frmDeliveryStatus').on('submit', function (e) {
+            // Prevent actual form submission
+            e.preventDefault();
+            var table = $('#datatable').DataTable();
+            //// Serialize form data
+            var data = table.$('input,select,textarea').serialize();
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Index", "Delivery")',
+                data: data,
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+                },
+                success: function (data) {
+                    OnSuccessDeliveryAssignInsertion()
+                }
+
+            });
+            return false;
+        });
+    });
+
+    function OnSuccessDeliveryAssignInsertion() {
+        //$("#success-alert").append("Store updated successfully.");
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+        $("#ProductName").val('');
+        $("#Price").val('');
+        $("#CatId").val('0');
+        $("#clearImage").trigger("click");
+        $("#UploadImage").show();
+        $("#EditImage").hide();
+    }
+
+    function SubmitForm() {
+        $('#frmDeliveryStatus').submit();
+    }
+</script>

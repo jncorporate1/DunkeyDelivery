@@ -15,18 +15,21 @@
     display:none;
      }
     .medication_dropdown a{
-        width:100%;
-    border-bottom: 1px solid #6ebe44;
-
+      width:100%;
+      border-bottom: 1px solid #6ebe44;
+      padding-left: 16px;
       text-decoration: none;
     }
     .medication_dropdown a:hover{
         background-color:#6ebe44;
         color:white;
     }
-    .medication_dropdown a p:hover{
+    #ui-datepicker-div > .medication_dropdown a p:hover{
       
         color:white;
+    }
+    .ui-widget-header{
+       background-color:#6ebe44;
     }
     .medicine_name{
             padding-bottom: 7px !important;
@@ -117,7 +120,7 @@
                                             <p>You may add multiple medications below</p>
                                             <div id="more_fields" >
                                                 <input type="text" id="field_0" onkeyup="medications(this.id,this.value)" name="medication" placeholder="Enter Medication" autocomplete="off"/>
-
+                                                @Html.ValidationMessageFor(m => m.medication, "", new { @class = "text-danger error" })
 
                                             </div>
                                             <div class="medication_dropdown">
@@ -255,21 +258,21 @@
                                 <div class="col-md-12 nopadleft">
                                     <h3>Delivery hours</h3>
                                     <ul>
-                                        @if (Model.storeViewModel.StoreDeliveryHours.Count() != 0)
+                                        @if (Model.storeViewModel.StoreDeliveryHours!= null)
                                         {
 
-                                            foreach (var item in Model.storeViewModel.StoreDeliveryHours)
-                                            {
+                                            //foreach (var item in Model.storeViewModel.StoreDeliveryHours)
+                                            //{
 
-                                                <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Monday_From.ToString(@"hh\:mm")  - @item.Monday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Tuesday_From.ToString(@"hh\:mm")  - @item.Tuesday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Wednesday_From.ToString(@"hh\:mm")  - @item.Wednesday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Thursday_From.ToString(@"hh\:mm")  - @item.Thursday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Friday_From.ToString(@"hh\:mm")  - @item.Friday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Saturday_From.ToString(@"hh\:mm")  - @item.Saturday_To.ToString(@"hh\:mm")</div></li>
-                                                <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Sunday_From.ToString(@"hh\:mm")  - @item.Sunday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Thursday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Thursday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Friday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Friday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
+                                                <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.storeViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.storeViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
 
-                                            }
+                                            //}
                                         }
                                         else
                                         {

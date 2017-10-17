@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static DunkeyAPI.Utility.Global;
 
 namespace DunkeyDelivery
 {
@@ -18,6 +19,16 @@ namespace DunkeyDelivery
         private static HttpClient client = new HttpClient();
 
         public static string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+
+        public static IEnumerable<T> Page<T>(this IEnumerable<T> en, int pageSize, int page)
+        {
+            return en.Skip(page * pageSize).Take(pageSize);
+        }
+
+        public static IQueryable<T> Page<T>(this IQueryable<T> en, int pageSize, int page)
+        {
+            return en.Skip(page * pageSize).Take(pageSize);
+        }
 
         public static async Task GenerateToken(this User user, HttpRequestMessage request)
         {
@@ -46,6 +57,30 @@ namespace DunkeyDelivery
                 throw ex;
             }
         }
+
+        public static async Task GenerateToken(this Admin user, HttpRequestMessage request)
+        {
+            try
+            {
+                var parameters = new Dictionary<string, string>{
+                            { "username", user.Email },
+                            { "password", user.Password },
+                            { "grant_type", "password" },
+                            { "signintype", user.Role.ToString() }
+                        };
+
+                var content = new FormUrlEncodedContent(parameters);
+                var baseUrl = request.RequestUri.AbsoluteUri.Substring(0, request.RequestUri.AbsoluteUri.IndexOf("api"));
+                var response = await client.PostAsync(baseUrl + "token", content);
+
+                user.Token = await response.Content.ReadAsAsync<Token>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         public static HttpStatusCode LogError(Exception ex)
         {
@@ -110,6 +145,27 @@ namespace DunkeyDelivery
             return DbGeography.PointFromText(wkt, srid);
         }
 
+        public enum DunkeyEntityTypes
+        {
+            Product,
+            Category,
+            Store,
+            Package,
+            Admin,
+            Offer
+        }
+        public static string GetOrderStatusName(int orderStatus)
+        {
+            try
+            {
+                return ((OrderStatuses)orderStatus).ToString();
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return null;
+            }
+        }
 
     }
 
@@ -119,6 +175,7 @@ namespace DunkeyDelivery
     {
         public static int MaximumImageSize = 1024 * 1024 * 10; // 10 Mb
         public static string ImageSize = "10 MB";
+        public const string PushFrom = "Dunkey Delivery";
         public static int VerificationCodeTimeOut = 4;
         private static int searchStoreRadius = Convert.ToInt32(ConfigurationManager.AppSettings["NearByStoreRadius"]);
         public static double NearbyStoreRadius = searchStoreRadius * 1609.344;

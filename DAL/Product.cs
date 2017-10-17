@@ -15,6 +15,7 @@ namespace DAL
           //  Order_Items = new HashSet<Order_Items>();
             Offer_Products = new HashSet<Offer_Products>();
             Package_Products = new HashSet<Package_Products>();
+            Favourites = new HashSet<Favourite>();
         }
 
         public int Id { get; set; }
@@ -22,7 +23,7 @@ namespace DAL
         [Required]
         public string Name { get; set; }
 
-        public string Price { get; set; }
+        public double Price { get; set; }
 
         public string Description { get; set; }
 
@@ -32,13 +33,16 @@ namespace DAL
 
         public bool IsDeleted { get; set; }
 
-        public int? Category_Id { get; set; }
+        public int? Category_Id { get; set; } = 0; // was optional
 
         public int Store_Id { get; set; }
 
         public string Size { get; set; }
 
         public virtual Category Category { get; set; }
+
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
 
         //[JsonIgnore]
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,6 +55,11 @@ namespace DAL
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Package_Products> Package_Products { get; set; }
+
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Favourite> Favourites { get; set; }
 
         public virtual Store Store { get; set; }
     }

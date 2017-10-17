@@ -1,0 +1,274 @@
+﻿<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+    }
+</style>
+
+<div class="panel-body panel">
+    <div class="row">
+
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" for="SearchOrderStatus" title="">Order Status</label>
+                    <span class="ico-help" title="Search by a order status"><i class="fa fa-question-circle"></i></span>
+                    <select class="form-control " id="SearchOrderStatus" name="SearchOrderStatus">   
+                        <option value="0">Initiated</option>
+                        <option value="1">In Progress</option>
+                        <option value="2">Shipped</option>
+                        <option value="3">Delivered</option>
+                    </select>
+             </div>
+
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" for="SearchPaymentStatus" title="">Payment Status</label>
+                    <span class="ico-help" title="Search by a payment status"><i class="fa fa-question-circle"></i></span>
+                    <select class="form-control" id="SearchPaymentStatus" name="SearchPaymentStatus">
+                        <option value="0">Authorized</option>
+                        <option value="1">Paid</option>
+                        <option value="2">Refunded</option>
+                         </select>
+                </div>
+
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchShippingStatus" title="">Shipping Status</label>
+                    <span class="ico-help" title="Search by a shipping status"><i class="fa fa-question-circle"></i></span>
+                    <select class="form-control " id="SearchShippingStatus" name="SearchShippingStatus">
+                    <option>Shipped</option>    
+                        <option>Delivered</option> 
+                    
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchCustomer" title="">Customer</label>
+                    <span class="ico-help" title="Search by a customer"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control text-box single-line" id="SearchCustomer" name="SearchCustomer" type="text" value="">
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-12 col-xs-12">
+              <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStartDate" title="">Start Date</label>
+                    <span class="ico-help" title="Search by a start date"><i class="fa fa-question-circle"></i></span>
+                    <div class='input-group date'  >
+                        <input type='text' class="form-control" id="datetimepicker1" />
+                        <span class="input-group-addon open-datetimepicker1">
+                        <span class="glyphicon glyphicon-calendar "></span>
+                        </span>
+                     </div>
+                </div>
+
+            </div>
+            <div class="form-group form-inline ">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <label class="control-label" for="SearchEndDate" title="">End Date</label>
+                    <span class="ico-help" title="Search by a end date"><i class="fa fa-question-circle"></i></span>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control " id="datetimepicker2" />
+                        <span class="input-group-addon open-datetimepicker2">
+                            <span class="glyphicon glyphicon-calendar "></span>
+                        </span>
+                    </div>
+                </div>
+                </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-7 col-md-offset-5">
+            <button type="button" id="search-customers" class="btn btn-primary btn-search">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+
+@*/////GridViewOfData*@
+<div class="panel-body panel">
+    <div class="">
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+                <div class="x_content">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                            <thead>
+                                <tr>
+                                  
+                                    <th>Order #</th>
+                                    <th>Order Status</th>
+                                    <th>Payment Status</th>
+                                    <th>Shipping Status</th>
+                                    <th>Customer</th>
+                                    <th>Store</th>
+                                    <th>Created On</th>
+                                    <th>Order Total</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   
+                                    <td>1</td>
+                                    <td><div class="btn-group">
+                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" id="Button1" data-toggle="dropdown" style="border-color:white" aria-haspopup="true" aria-expanded="false">
+                                              Initiated <span class="caret"></span>
+                                            </button>
+                                        <ul class="dropdown-menu" >
+                                            <li  style="padding-left: 10px; cursor:pointer; text-align:left" onclick="dropdown(this.innerHTML); ChangeToBlue()">Initiated</li>
+                                            <li style="padding-left: 10px; cursor:pointer; text-align:left" onclick="dropdown(this.innerHTML); ChangeToLightBlue()">In Progress</li>
+                                            <li style="padding-left: 10px; cursor:pointer; text-align:left" onclick="dropdown(this.innerHTML); ChangeToYellow()">Shipped</li>
+                                            <li style="padding-left: 10px; cursor:pointer; text-align:left" onclick="dropdown(this.innerHTML); ChangeToGreen();">Delivered</li>
+                                            </ul></div>
+                                       <script>
+                                           function dropdown(val) {
+                                               var y = document.getElementsByClassName('btn btn-primary btn-sm dropdown-toggle');
+                                               var aNode = y[0].innerHTML = val + ' <span class="caret"></span>';
+                                           }
+                                           function ChangeToBlue() {
+                                               document.getElementById("Button1").style.backgroundColor = "#327ab7";
+                                           }
+                                           function ChangeToLightBlue() {
+                                               document.getElementById("Button1").style.backgroundColor = "#5bc0de";
+                                           }
+                                           function ChangeToYellow() {
+                                               document.getElementById("Button1").style.backgroundColor = "#f0ad4e";
+                                           }
+                                           function ChangeToGreen() {
+                                                   document.getElementById("Button1").style.backgroundColor = "#57b457";
+                                           }
+                                       </script>
+                                       </td>
+                                    <td>Bashir</td>
+                                    <td>zainabbashir@gmail.com</td>
+                                    <td>+923333333333</td>
+                                    <td>e.l.f</td>
+                                    <td>SuperAdmin</td>
+                                    <td>5000.00</td>
+                                    <td><p data-toggle="tooltip" title="" style="margin: 0 0 0px;" data-original-title="View Details">
+                                          <p>  <a href="@Url.Action("EditOrders","Orders")">
+                                                <button type="button" class="btn btn-link" aria-label="Left Align">
+                                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                                </button></a></p>
+                                          </p>   
+                                    </td>
+                                </tr>
+                            
+                            </tbody>
+                        </table>
+                        <script>
+                             $(document).ready(function () {
+                                 $('#datatable').DataTable({
+                                     "pagingType": "full_numbers"
+                                 });
+                             });
+                        </script>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+    @*/////DeletePopUp*@
+    <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;No</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    @*/////EditPopup*@
+    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title custom_align" id="Heading">Edit User Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="text-center bg-form">
+                            <div class="img-container">
+                                <img width="150" height="150" src="http://lorempixel.com/200/200/nature/" class="img-circle" alt="Profile picture">
+                                <span class="fake-icon-edit" id="PicUpload" style="color: rgb(255, 255, 255); display:block;">
+                                    <span class="glyphicon glyphicon-camera"></span>
+                                </span>
+                            </div>
+                            <input type="file" id="image-input" onchange="readURL(this);" accept="image/*" class="form-control form-input Profile-input-file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control " type="text" placeholder="Zainab">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control " type="text" placeholder="Bashir">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control " type="email" placeholder="zainabbashir@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control " type="text" placeholder="+923333333333">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control " type="text" placeholder="e.l.f">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control " type="text" placeholder="SuperAdmin">
+                    </div>
+
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-warning btn-lg" style="width: 100%; background-color:#781d7c; border:#781d7c"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Update</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+</div>

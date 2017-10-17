@@ -1,4 +1,6 @@
-﻿@{
+﻿@model DunkeyDelivery.Areas.User.Models.BlogViewModel
+
+@{
 
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
@@ -7,10 +9,14 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 single-post-contain">
+                @foreach (var post in Model.postsViewModel)
+                {
+
+                
                 <div class="single-post">
 
                     <div class="featured-image">
-                        <img src="~/Content/assets/images/blog-image.jpg" class="img img-responsive" />
+                        <img src="@post.ImageUrl" class="img img-responsive" />
                     </div>
                     <div class="post-data clearfix">
 
@@ -23,19 +29,20 @@
                         </div>
                         <div class="col-md-10">
                             <div class="post-data-side">
-                                <h1>What to Cook in September</h1>
+                                <h1>@post.Title</h1>
                                 <ul class="post-action-list clearfix">
-                                    <li><a href="#" onclick="return false;"><span class="fa fa-user"></span>Admin</a></li>
-                                    <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> Food</a></li>
+                                    <li><a href="#" onclick="return false;"><span class="fa fa-user"></span></a></li>
+                                    <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> @post.CategoryType</a></li>
                                     <li><a href="#" onclick="return false;"><span class="fa fa-comment"></span> 0 Comments</a></li>
                                 </ul>
                                 <p>
-                                    The mornings are starting to get a little bit chillier and the sun is starting to set earlier and earlier. There’s still a bunch of late summer produce at the store, but it’s also time to start thinking about soups and stews! September is one of my favorite months (hello birthday month!) because of all the tail end summer and early fall produce. In season, right now: apples, blueberries, broccoli, cauliflower, cherries, corn, eggplant, green beans, jalapeños, peaches, potatoes, pumpkin, squash, tomatoes, and so many more. What are you guys looking forward to cooking in September?  </p>
-                            </div>
+                                   @post.Description
+                               </div>
                         </div>
                     </div>
 
                 </div>
+                }
                 @*<div class="single-post">
 
                     <div class="featured-image">
@@ -111,7 +118,10 @@
                 <div class="populer-post-section">
                     <h1 class="right-side-heading">Popular Post</h1>
                     <br />
+                    @foreach (var popular in Model.postsViewModel.Where(x=>x.is_popular==1).Take(2))
+                    {
 
+                    
                     <div class="side-post-contain">
                         <div class="side-popular-post">
                             <h1>What to Cook in September</h1>
@@ -126,6 +136,7 @@
                             </ul>
                         </div>
                        </div>
+                    }
 
                 </div>
                 <div class="populer-tag-section">

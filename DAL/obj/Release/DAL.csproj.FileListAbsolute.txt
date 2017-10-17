@@ -20,3 +20,5 @@ D:\Git\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.dll
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.pdb
+D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.Migrations.storedeli.resources
+D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.csproj.GenerateResource.Cache

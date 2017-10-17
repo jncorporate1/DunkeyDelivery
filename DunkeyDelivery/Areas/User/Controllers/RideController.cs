@@ -46,8 +46,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
             {
 
             }
-
-            return View("RideIndex");
+            model.SetSharedData(User);
+            return View("RideIndex",model);
         }
        
 

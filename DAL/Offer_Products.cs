@@ -29,7 +29,11 @@ namespace DAL
         public bool IsDeleted { get; set; }
 
         public string ImageUrl { get; set; }
-        
+
+
+        [NotMapped]
+        public int OfferProductId { get; set; }
+
         //public int Package_Id { get; set; }
 
         public virtual Offer Offer { get; set; }

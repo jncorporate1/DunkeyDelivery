@@ -3,7 +3,15 @@
     ViewBag.Title = "Profile";
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
-
+<style>
+    .content-div{
+        background-color:white;
+    }
+    .content-main ul.profile li{
+        height:73px;
+        margin-bottom:0px !important;
+    }
+</style>
 <div class="main-section press-main greybg details-page">
     <div class="container">
     
@@ -51,5 +59,72 @@
 
         }
 
+   function add_address_btn(){
+
+
+        $.ajax({
+
+            url: '@Url.Action("PageView", "Profile",new { Area = "User"})',
+            type: "GET",
+            data: { id: 5 },
+            success: function (data) {
+            
+           
+                $("#view_address").hide();
+                $("#profile_views").html(data);
+                $("#add_address").show();
+            }, error: function (xhr, status, error) {
+
+            }
+        });
+
+   }
+
+    function add_creditcard_btn() {
+        $.ajax({
+
+            url: '@Url.Action("PageView", "Profile",new { Area = "User"})',
+            type: "GET",
+            data: { id: 6 },
+            success: function (data) {
+
+                $("#view_creditcard").hide();
+                $("#profile_views").html(data);
+                $("#add_creditcard").show();
+            }, error: function (xhr, status, error) {
+
+            }
+        });
+
+
+    }
+    function remove_address(address_id) {
+        $.ajax({
+
+            url: '@Url.Action("RemoveAddress", "Profile",new { Area = "User"})',
+            type: "GET",
+            data: { id: address_id },
+            success: function (data) {
+                
+                $("#profile_views").html(data);
+            }, error: function (xhr, status, error) {
+                console.log("Error: "+data);
+            }
+        });
+    }
+
+    function repeat_order(orderNo, orderId) {
+        $.ajax({
+
+            url: '@Url.Action("RepeatOrder", "Profile",new { Area = "User"})',
+            type: "GET",
+            data: { orderId: orderNo },
+            success: function (data) {
+                $("#order_" + orderId).text("Items ordered successfully");
+            }, error: function (xhr, status, error) {
+                $("#order_" + orderId).text("Items ordered successfully");
+            }
+        });
+    }
 
 </script>

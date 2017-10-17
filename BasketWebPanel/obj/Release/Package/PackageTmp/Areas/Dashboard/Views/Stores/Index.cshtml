@@ -1,0 +1,708 @@
+﻿@model BasketWebPanel.Areas.Dashboard.Models.AddStoreViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+    #map {
+        height: 392px;
+        width: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+    }
+
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0 !important;
+        text-align: center !important;
+        vertical-align: central !important;
+    }
+
+    .table-responsive {
+        border: 0px;
+    }
+
+    /*.input-group {
+        margin-bottom: 6px !important;
+        margin-top: 6px !important;
+    }*/
+</style>
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="alert alert-success" id="success-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong></strong><span> </span>
+            </div>
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong><span></span>
+            </div>
+            <input type="hidden" id="hdnRole" value="@Model.Role">
+            @using (Ajax.BeginForm("Index", "Stores", new AjaxOptions { OnSuccess = "OnSuccessStoreInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }))
+
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Store.Id)
+
+                <div class="x_panel">
+                    <div class="x_title">
+                        @if (Model.Store.Id == 0)
+                        {
+                            <h3>Add New Store</h3>
+                        }
+                        else
+                        {
+                            <h3>Edit Store</h3>
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label>Store Name</label>
+                                <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessName" id="StoreName" data-val-required="This field is required" placeholder="Store Name" value="@Model.Store.BusinessName">
+
+                                @Html.ValidationMessageFor(m => m.Store.BusinessName, "", new { @class = "text-danger" })
+
+                                <label>Store Type</label>
+                                @*<input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type" value="@Model.Store.BusinessType">*@
+                                @if (string.IsNullOrEmpty(Model.Store.BusinessType))
+                                {
+                                    <select autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type">
+                                        <option value="Food">Food</option>
+                                        <option value="Grocery">Grocery</option>
+                                        <option value="Laundry">Laundry</option>
+                                        <option value="Alcohol">Alcohol</option>
+                                        <option value="Pharmacy">Pharmacy</option>
+                                        <option value="Retail">Retail</option>
+
+                                    </select>
+                                }
+                                else
+                                {
+                                    <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type" value="@Model.Store.BusinessType" readonly>
+                                }
+
+                                @*<input type="text" data-val="true" class="form-control input-validation-error" placeholder="Username" name="Email" id="Email" value="@Model.Email" data-val-required="The Email field is required." data-val-email="The Email field is not a valid e-mail address." />*@
+                                @Html.ValidationMessageFor(m => m.Store.BusinessType, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-xs-6 col-md-6">
+                                <div id="UploadImage" hidden>
+                                    <label>Upload Store Image</label>
+                                    <div class="input-group image-preview" style="margin-bottom:0px">
+                                        <input type="text" class="form-control image-preview-filename" name="Store.ImageUrl" id="txtImageUrl" data-val="true" data-val-required="Please select an image" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                        <span class="input-group-btn">
+                                            <!-- image-preview-clear button -->
+                                            <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <!-- image-preview-input -->
+                                            <div class="btn btn-default image-preview-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="image-preview-input-title">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <!-- /input-group image-preview [TO HERE]-->
+                                    @Html.ValidationMessageFor(m => m.Store.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                </div>
+                                <div id="EditImage" hidden>
+                                    <label>Store Image</label>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                            <img src="@ApiCall.BaseUrl@Model.Store.ImageUrl" alt="" width="48" height="48">
+                                        </div>
+                                    </div>
+                                    <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <div hidden id="HasImage1">@Model.Store.ImageUrl</div>
+                                <span style="padding-left:0px" id="ImageError" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label>Store Location</label>
+                                <div id="map" class="form-control"></div>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>Longitude</label>
+                                        @Html.TextBoxFor(x => x.Store.Longitude, new { @id = "Longitude", @class = "form-control", @readonly = "true", @placeholder = "Longitude" })
+                                        @Html.ValidationMessageFor(x => x.Store.Longitude, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <label>Latitude</label>
+                                        @Html.TextBoxFor(x => x.Store.Latitude, new { @id = "Latitude", @class = "form-control", @readonly = "true", @placeholder = "Latitude" })
+                                        @Html.ValidationMessageFor(x => x.Store.Latitude, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 ">
+                                <label>Delivery Hours</label>
+                                <div class="table-responsive" @*style="overflow-x:scroll; overflow-y:hidden"*@>
+                                    <table id="datatable1" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                                        <thead>
+                                            <tr>
+                                                <th style="vertical-align:middle">Days</th>
+                                                <th style="vertical-align:middle">Start Time</th>
+                                                <th style="vertical-align:middle">End Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="vertical-align:middle">
+                                                    Monday
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input class="form-control  input-sm" id="timepicker" name="Store.StoreDeliveryHours.Monday_From" type="text" value="@Model.Store.StoreDeliveryHours.Monday_From">
+                                                        <span class="input-group-addon open-timepicker  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker2" name="Store.StoreDeliveryHours.Monday_To" value="@Model.Store.StoreDeliveryHours.Monday_To" />
+                                                        <span class="input-group-addon open-timepicker2  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Tuesday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker3" name="Store.StoreDeliveryHours.Tuesday_From" value="@Model.Store.StoreDeliveryHours.Tuesday_From" />
+                                                        <span class="input-group-addon open-timepicker3  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm " id="timepicker4" name="Store.StoreDeliveryHours.Tuesday_To" value="@Model.Store.StoreDeliveryHours.Tuesday_To" />
+                                                        <span class="input-group-addon open-timepicker4  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Wednesday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker5" name="Store.StoreDeliveryHours.Wednesday_From" value="@Model.Store.StoreDeliveryHours.Wednesday_From" />
+                                                        <span class="input-group-addon open-timepicker5  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm " id="timepicker6" name="Store.StoreDeliveryHours.Wednesday_To" value="@Model.Store.StoreDeliveryHours.Wednesday_To" />
+                                                        <span class="input-group-addon open-timepicker6  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Thursday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker7" name="Store.StoreDeliveryHours.Thursday_From" value="@Model.Store.StoreDeliveryHours.Thursday_From" />
+                                                        <span class="input-group-addon open-timepicker7  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm " id="timepicker8" name="Store.StoreDeliveryHours.Thursday_To" value="@Model.Store.StoreDeliveryHours.Thursday_To" />
+                                                        <span class="input-group-addon open-timepicker8  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Friday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker9" name="Store.StoreDeliveryHours.Friday_From" value="@Model.Store.StoreDeliveryHours.Friday_From" />
+                                                        <span class="input-group-addon open-timepicker9  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker10" name="Store.StoreDeliveryHours.Friday_To" value="@Model.Store.StoreDeliveryHours.Friday_To" />
+                                                        <span class="input-group-addon open-timepicker10  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Saturday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker11" name="Store.StoreDeliveryHours.Saturday_From" value="@Model.Store.StoreDeliveryHours.Saturday_From" />
+                                                        <span class="input-group-addon open-timepicker11  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm " id="timepicker12" name="Store.StoreDeliveryHours.Saturday_To" value="@Model.Store.StoreDeliveryHours.Saturday_To" />
+                                                        <span class="input-group-addon open-timepicker12  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:middle">Sunday</td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker13" name="Store.StoreDeliveryHours.Sunday_From" value="@Model.Store.StoreDeliveryHours.Sunday_From" />
+                                                        <span class="input-group-addon open-timepicker13  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:middle">
+                                                    <div class='input-group date' style=" margin-bottom 6px !important; margin-top 6px !important;">
+                                                        <input type='text' class="form-control  input-sm" id="timepicker14" name="Store.StoreDeliveryHours.Sunday_To" value="@Model.Store.StoreDeliveryHours.Sunday_To" />
+                                                        <span class="input-group-addon open-timepicker14  input-sm">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label>Description</label>
+                                @Html.TextAreaFor(x => x.Store.Description, new { @class = "form-control", placeholder = "Description", id = "StoreDescription" })
+                                @Html.ValidationMessageFor(x => x.Store.Description, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="control-label" for="OpeningTime" title="">Opening Time</label>
+                                        <div class='input-group date'>
+                                            <input type='text' class="form-control " id="timepicker15" name="Store.Open_From" value="@Model.Store.Open_From" />
+                                            <span class="input-group-addon open-timepicker15">
+                                                <span class="glyphicon glyphicon-time "></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label class="control-label" for="ClosingTime" title="">Closing Time</label>
+                                        <div class='input-group date'>
+                                            <input type='text' class="form-control " id="timepicker16" name="Store.Open_To" value="@Model.Store.Open_To" />
+                                            <span class="input-group-addon open-timepicker16">
+                                                <span class="glyphicon glyphicon-time "></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label>Address</label>
+                                @Html.TextAreaFor(x => x.Store.Address, new { @class = "form-control ", placeholder = "Address", id = "StoreAddress" })
+                                @Html.ValidationMessageFor(x => x.Store.Address, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="ln_solid"></div>*@
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                            <button class="btn btn-primary" onclick="OnResetClick()" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                        <br>
+                    </div>
+                    @*</form>*@
+                </div>
+                @Html.ValidationMessage("Error")
+            }
+            <div class="row">
+                <div class="pac-card col-lg-7 col-sm-12" style="padding-right:0px; padding-left:0px" id="pac-card">
+                    <div>
+                        <div id="title">
+                            Store Location
+                        </div>
+                        <div id="type-selector" class="pac-controls">
+                            <input type="radio" name="type" id="changetype-all" checked="checked">
+                            <label for="changetype-all" style="margin-right:5px">All</label>
+                            <input type="radio" name="type" id="changetype-establishment">
+                            <label for="changetype-establishment" style="margin-right:5px">Establishments</label>
+                            <input type="radio" name="type" id="changetype-address">
+                            <label for="changetype-address" style="margin-right:5px">Addresses</label>
+                            <input type="radio" name="type" id="changetype-geocode">
+                            <label for="changetype-geocode" style="margin-right:5px">Geocodes</label>
+                        </div>
+                        <div id="strict-bounds-selector" class="pac-controls">
+                            <input type="checkbox" id="use-strict-bounds" value="">
+                            <label for="use-strict-bounds">Strict Bounds</label>
+                        </div>
+                    </div>
+                    <div id="pac-container">
+                        <input id="pac-input" type="text" placeholder="Enter a location" style="width:98%">
+                    </div>
+                </div>
+            </div>
+            <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name" class="title"></span><br>
+                <span id="place-address"></span>
+            </div>
+            @*@Html.Partial("_AddStore")*@
+        </div>
+    </div>
+</div>
+
+
+
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage", "Stores")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function OnResetClick() {
+        $("#clearImage").trigger("click");
+        ClearValidationErrorMessages();
+    }
+
+    function UploadImage() {
+        var AllowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        var formdata = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var file = fileInput.files[0];
+        formdata.append(file.name, file);
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#ImageError").text("Only .Jpeg & .Png files are allowed.");
+            $("#clearImage").trigger("click");
+            return false;
+        }
+        else {
+            $("#ImageError").text("");
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Stores/UploadImage');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("errImageUrl").innerHTML = '';
+                }
+            }
+            return false;
+        }
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Stores/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -33.8688, lng: 151.2195 },
+            zoom: 13
+        });
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = document.getElementById('type-selector');
+        var strictBounds = document.getElementById('strict-bounds-selector');
+
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', map);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+            map: map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        google.maps.event.addListener(map, 'click', function (event) {
+            placeMarker(event.latLng);
+            $("#Longitude").val(event.latLng.lng);
+            $("#Latitude").val(event.latLng.lat);
+            $('#Latitude').trigger('change');
+            $('#Longitude').trigger('change');
+        });
+
+        function placeMarker(location) {
+            if (!marker || !marker.setPosition) {
+                marker = new google.maps.Marker({
+                    position: location,
+                    map: map,
+                });
+            } else {
+                marker.setPosition(location);
+            }
+            //if (!!infowindow && !!infowindow.close) {
+            //    infowindow.close();
+            //}
+            //infowindow = new google.maps.InfoWindow({
+            //    content: 'Latitude: ' + location.lat() + '<br>Longitude: ' + location.lng()
+            //});
+            //infowindow.open(map, marker);
+        }
+
+        //function placeMarker(location) {
+        //    var marker = new google.maps.Marker({
+        //        position: location,
+        //        map: map
+        //    });
+        //}
+
+        autocomplete.addListener('place_changed', function () {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                window.alert("No details available for input: '" + place.name + "'");
+                return;
+            }
+
+            // If the place has a geometry, then present it on a map.
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);  // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                  (place.address_components[0] && place.address_components[0].short_name || ''),
+                  (place.address_components[1] && place.address_components[1].short_name || ''),
+                  (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            infowindowContent.children['place-icon'].src = place.icon;
+            infowindowContent.children['place-name'].textContent = place.name;
+            infowindowContent.children['place-address'].textContent = address;
+            infowindow.open(map, marker);
+
+            $("#Longitude").val(place.geometry.location.lng());
+            $("#Latitude").val(place.geometry.location.lat());
+            $('#Latitude').trigger('change');
+            $('#Longitude').trigger('change');
+        });
+
+        // Sets a listener on a radio button to change the filter type on Places
+        // Autocomplete.
+        function setupClickListener(id, types) {
+            var radioButton = document.getElementById(id);
+            radioButton.addEventListener('click', function () {
+                autocomplete.setTypes(types);
+            });
+        }
+
+        setupClickListener('changetype-all', []);
+        setupClickListener('changetype-address', ['address']);
+        setupClickListener('changetype-establishment', ['establishment']);
+        setupClickListener('changetype-geocode', ['geocode']);
+
+        document.getElementById('use-strict-bounds')
+            .addEventListener('click', function () {
+                console.log('Checkbox clicked! New state=' + this.checked);
+                autocomplete.setOptions({ strictBounds: this.checked });
+            });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                if ($("#Store_Id").val() > 0) {
+
+                    var storePos = new google.maps.LatLng($('#Latitude').val(), parseFloat($('#Longitude').val()));
+                    map.setCenter(storePos);
+                    placeMarker(storePos);
+                }
+                else {
+                    map.setCenter(pos);
+                    placeMarker(pos);
+                }
+                $("#Longitude").val(pos.lng);
+                $("#Latitude").val(pos.lat);
+            }, function () {
+                handleLocationError(true, infoWindow, map.getCenter());
+            });
+        }
+    }
+
+    //google.maps.event.addListener(map, 'bounds_changed', function () {
+    //    alert(map.getBounds());
+    //});
+    function OnSuccessStoreInsertion() {
+        if ($('#hdnRole').val() == "SubAdmin") {
+            $("#success-alert span").text("The store has been updated successfully.");
+            $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+                $("#success-alert").slideUp(500);
+            });
+        }
+        else {
+            window.location.href = "@Url.Action("ManageStores", "Stores")";
+        }
+        //$("#success-alert").append("Store updated successfully.");
+        //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        //    $("#success-alert").slideUp(500);
+        //});
+        //if ($('#hdnRole').val() == "SubAdmin")
+        //    return;
+        //$("#StoreName").val('');
+        //$("#Longitude").val('');
+        //$("#Latitude").val('');
+        //$("#clearImage").trigger("click");
+        //$("#EditImage").hide();
+        //$("#UploadImage").show();
+    }
+
+    $(document).ready(function () {
+        var storeId = $("#Store_Id").val();
+        var editImageVal = $('#HasImage1').text();
+        if (storeId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+
+        $('input[id$=Longitude]').bind("change", function () {
+            var a = $('span[data-valmsg-for="Long"]').empty();
+        });
+        $('input[id$=Latitude]').bind("change", function () {
+            var a = $('span[data-valmsg-for="Lat"]').empty();
+        });
+    });
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQsM3CYgTwF_35w-Qc2N8FlZGDfKASYsU&callback=initMap&libraries=places"
+        type="text/javascript"></script>

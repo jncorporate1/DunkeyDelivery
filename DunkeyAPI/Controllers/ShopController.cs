@@ -211,7 +211,7 @@ namespace DunkeyAPI.Models
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var res = ctx.Stores.Include("StoreTags").Where(x => x.BusinessType == Type).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
+                    var res = ctx.Stores.Include("StoreTags").Where(x => x.BusinessType == Type && x.IsDeleted==false).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
                     var TotalStores = ctx.Stores.Where(x => x.BusinessType == Type).Count();
 
                     CustomResponse<Shop> response = new CustomResponse<Shop>
@@ -237,7 +237,7 @@ namespace DunkeyAPI.Models
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-                var res = ctx.Stores.Where(x => x.Id == Id).Include("StoreDeliveryHours").First();
+                var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").First();
 
                 CustomResponse<Store> response = new CustomResponse<Store>
                 {
@@ -531,19 +531,19 @@ namespace DunkeyAPI.Models
                 DunkeyContext ctx = new DunkeyContext();
                 SideBar SidebarModel = new SideBar();
 
-                var query = "select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags join Stores on Stores.Id = StoreTags.Store_Id where Stores.BusinessType = '" + CategoryType + "' GROUP BY StoreTags.Tag ORDER BY TotalCount DESC";
+                var query = "select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags join Stores on Stores.Id = StoreTags.Store_Id where Stores.BusinessType = '" + CategoryType + "' AND Stores.IsDeleted='false' GROUP BY StoreTags.Tag ORDER BY TotalCount DESC";
                 var cuisines = ctx.Database.SqlQuery<Cuisines>(query).ToList();
 
 
 
                 //select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags GROUP BY StoreTags.Tag ORDER BY TotalCount DESC
                 #region Get Store Counts
-                SidebarModel.StoreCounts.TotalFoodStores = ctx.Stores.Where(x => x.BusinessType == "Food").Count();
-                SidebarModel.StoreCounts.TotalGroceryStores = ctx.Stores.Where(x => x.BusinessType == "Grocery").Count();
-                SidebarModel.StoreCounts.TotalAlcoholtores = ctx.Stores.Where(x => x.BusinessType == "Alcohol").Count();
-                SidebarModel.StoreCounts.TotalPharmacyStores = ctx.Stores.Where(x => x.BusinessType == "Pharmacy").Count();
-                SidebarModel.StoreCounts.TotalLaundryStores = ctx.Stores.Where(x => x.BusinessType == "Laundry").Count();
-                SidebarModel.StoreCounts.TotalRetailStores = ctx.Stores.Where(x => x.BusinessType == "Retail").Count();
+                SidebarModel.StoreCounts.TotalFoodStores = ctx.Stores.Where(x => x.BusinessType == "Food" && x.IsDeleted==false).Count();
+                SidebarModel.StoreCounts.TotalGroceryStores = ctx.Stores.Where(x => x.BusinessType == "Grocery" && x.IsDeleted == false).Count();
+                SidebarModel.StoreCounts.TotalAlcoholtores = ctx.Stores.Where(x => x.BusinessType == "Alcohol" && x.IsDeleted == false).Count();
+                SidebarModel.StoreCounts.TotalPharmacyStores = ctx.Stores.Where(x => x.BusinessType == "Pharmacy" && x.IsDeleted == false).Count();
+                SidebarModel.StoreCounts.TotalLaundryStores = ctx.Stores.Where(x => x.BusinessType == "Laundry" && x.IsDeleted == false).Count();
+                SidebarModel.StoreCounts.TotalRetailStores = ctx.Stores.Where(x => x.BusinessType == "Retail" && x.IsDeleted == false).Count();
                 #endregion
 
                 var f = Mapper.Map<List<Cuisines>>(cuisines);

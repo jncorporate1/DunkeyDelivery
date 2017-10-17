@@ -26,6 +26,20 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
+        public static void CalculateAverageRating(this Store store)
+        {
+            try
+            {
+                if (store.StoreRatings.Count > 0)
+                {
+                    store.AverageRating = store.StoreRatings.Average(x => x.Rating);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         public static void SetOrderItem(this Order_Items orderItem, CartItemViewModel model)
         {
@@ -33,7 +47,7 @@ namespace DunkeyAPI.ExtensionMethods
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-
+                    model.ItemType = 0;
                     switch (model.ItemType)
                     {
                         case (int)CartItemTypes.Product:

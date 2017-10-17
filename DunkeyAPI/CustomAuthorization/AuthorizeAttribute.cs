@@ -23,5 +23,9 @@ namespace DunkeyDelivery
                 };
             }
         }
+        public AuthorizeAttribute(params string[] roles) : base()
+        {
+            Roles = string.Join(",", roles);
+        }
     }
 }

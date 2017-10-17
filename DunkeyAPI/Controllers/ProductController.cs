@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DAL;
 using DunkeyAPI.Models;
+using DunkeyAPI.Models.Admin;
 using DunkeyAPI.ViewModels;
 using DunkeyDelivery;
 using System;
@@ -14,6 +15,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using static DunkeyAPI.Utility.Global;
 
 namespace DunkeyAPI.Controllers
 {
@@ -101,7 +103,7 @@ namespace DunkeyAPI.Controllers
 
                 ProductBindingModel model = new ProductBindingModel();
                 model.Name = httpRequest.Params["Name"];
-                model.Price = httpRequest.Params["Price"];
+                model.Price =Convert.ToDouble(httpRequest.Params["Price"]);
                 model.Category_Id = Convert.ToInt32(httpRequest.Params["CatId"]);
                 model.Description = httpRequest.Params["Description"];
                 model.Store_Id = Convert.ToInt32(httpRequest.Params["StoreId"]);
@@ -639,6 +641,110 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
 
+        }
+        // admin panel services 
+
+
+        [HttpGet]
+        [Route("GetProductsByCategoryId")]
+        public async Task<IHttpActionResult> GetProductsByCategoryId(int CatId, int UserId, int PageSize, int PageNo, string filterTypes = "", bool IsAll = false)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var userFavourites = ctx.Favourites.Where(x => x.User_ID == UserId && x.IsDeleted == false).ToList();
+                    List<Product> products;
+                    int TotalCount;
+
+                    if (IsAll)
+                    {
+                        var CatIds = ctx.Categories.Where(x => x.Id == CatId || x.ParentCategoryId == CatId).Select(x => x.Id).ToList();
+                        TotalCount = ctx.Products.Count(x => CatIds.Contains(x.Category_Id.Value) && x.IsDeleted == false);
+                        products = ctx.Products.Where(x => CatIds.Contains(x.Category_Id.Value) && x.IsDeleted == false).OrderByDescending(x => x.Id).Page(PageSize, PageNo).ToList();
+                    }
+                    else
+                    {
+                        TotalCount = ctx.Products.Count(x => x.Category_Id == CatId && x.IsDeleted == false);
+                        products = ctx.Products.Where(x => x.Category_Id == CatId && x.IsDeleted == false).OrderByDescending(x => x.Id).Page(PageSize, PageNo).ToList();
+                    }
+
+                    //foreach (var product in products)
+                    //{
+                    //    product.Weight = Convert.ToString(product.WeightInGrams) + " gm";
+
+                    //    if (userFavourites.Any(x => x.Product_Id == product.Id))
+                    //        product.IsFavourite = true;
+                    //    else
+                    //        product.IsFavourite = false;
+                    //}
+
+                    return Ok(new CustomResponse<ProductsViewModel>
+                    {
+                        Message = ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new ProductsViewModel
+                        {
+                            Count = TotalCount,
+                            Products = products
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [HttpGet]
+        [Route("GetProductCount")]
+        public async Task<IHttpActionResult> GetProductCount()
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    ProductCountViewModel model = new ProductCountViewModel { TotalProducts = ctx.Products.Count(x => x.IsDeleted == false) };
+                    CustomResponse<ProductCountViewModel> response = new CustomResponse<ProductCountViewModel>
+                    {
+                        Message = ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = model
+                    };
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllProductsByStoreId")]
+        public async Task<IHttpActionResult> GetAllProductsByStoreId(int StoreId, int UserId, int PageSize, int PageNo, string filterTypes = "")
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    return Ok(new CustomResponse<ProductsViewModel>
+                    {
+                        Message = ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new ProductsViewModel
+                        {
+                            Count = ctx.Products.Count(x => x.Store_Id == StoreId && x.IsDeleted == false),
+                            Products = ctx.Products.Where(x => x.Store_Id == StoreId && x.IsDeleted == false).OrderByDescending(x => x.Id).Page(PageSize, PageNo).ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
         }
 
     }

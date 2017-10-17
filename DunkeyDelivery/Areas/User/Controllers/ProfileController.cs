@@ -25,35 +25,76 @@ namespace DunkeyDelivery.Areas.User.Controllers
             return View("Profile", Global.sharedDataModel);
         }
 
-        public async Task<ActionResult> PageView(int id)
+        public async Task<ActionResult> PageView(int id,int? PageSize,int? PageNo)
         {
             if (id == 0)
             {
+                #region OrderHistory
                 // for Order History 
+                PageNo = 0;
+                PageSize = 6;
+                var claimIdentity = ((ClaimsIdentity)User.Identity);
+                var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+                var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId+ "&SignInType="+0+ "&IsCurrentOrder="+true+ "&PageSize="+PageSize+"&PageNo="+PageNo, null, false);
 
-                return PartialView("_OrderHistory");
-                
+                if (response is Error)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+
+                }
+                if (response == null)
+                {
+
+                }
+
+
+                var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
+                responseResult.SetSharedData(User);
+                return PartialView("_OrderHistory",responseResult);
+                #endregion
+
             }
             else if (id == 1)
             {
+                #region RecurringOrders
                 // for recurring orders
+                PageNo = 0;
+                PageSize = 6;
+                var claimIdentity = ((ClaimsIdentity)User.Identity);
+                var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+                var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId + "&SignInType=" + 0 + "&IsCurrentOrder=" + true + "&PageSize=" + PageSize + "&PageNo=" + PageNo, null, false);
 
-                return PartialView("_RecurringOrders");
+                if (response is Error)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
 
+                }
+                if (response == null)
+                {
+
+                }
+
+
+                var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
+                responseResult.SetSharedData(User);
+          
+                return PartialView("_RecurringOrders", responseResult);
+                #endregion
             }
             else if (id == 2)
             {
+                #region ProfileView
                 // for account ( Profile View )
                 Global.sharedDataModel.SetSharedData(User);
                 ProfileViewModel model = new ProfileViewModel(Global.sharedDataModel);
                
                 //Global.sharedDataModel.SetSharedData(User);
                 return PartialView("_Account",model);
-
+                #endregion
             }
             else if (id == 3)
             {
-
+                #region Address
                 // for addresses
                 var claimIdentity = ((ClaimsIdentity)User.Identity);
                 var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
@@ -73,10 +114,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 var responseResult = response.GetValue("Result").ToObject<Addresses>();
                 responseResult.SetSharedData(User);
                 return PartialView("_Addresses",responseResult);
-
+                #endregion
             }
             else if (id == 4)
             {
+                #region CreditCard
                 // for credit cards
                 var claimIdentity = ((ClaimsIdentity)User.Identity);
                 var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
@@ -96,16 +138,20 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 var responseResult = response.GetValue("Result").ToObject<CreditCard>();
              
                 return PartialView("_CreditCards", responseResult);
+                #endregion
 
-            }else if (id==5)
+            }
+            else if (id==5)
             {
-
+                #region AddAddress
                 return PartialView("_AddAddress",new AddressViewModel());
+                #endregion
             }
             else if (id == 6)
             {
-
+                #region AddCreditCard
                 return PartialView("_AddCreditCard", new CreditCardViewModel());
+                #endregion
             }
             Global.sharedDataModel.SetSharedData(User);
             return PartialView("_Account",Global.sharedDataModel);
@@ -254,10 +300,40 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             }
             var responseShopValue = response.GetValue("Result").ToObject<string>();
-
-            return Json(responseShopValue, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("PageView",new { id = 3 });
+          //  return Json(responseShopValue, JsonRequestBehavior.AllowGet);
         }
 
 
+        public async Task<ActionResult> RepeatOrder(string orderId)
+        {
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+                var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/RepeatOrder?OrderId=" + orderId, null, false);
+
+                if (response is Error)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+
+                }
+                if (response == null)
+                {
+
+                }
+
+
+                var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
+                
+
+                return Json(responseResult, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@
                 <div class="single-rest">
                     <div class="row">
                         <div class="col-md-5 rest-image">
-                            <img src="@shopData.ImageUrl" class="img img-responsive" />
+                            <img src="@Utility.BaseUrl@shopData.ImageUrl" class="img img-responsive" />
                         </div>
                         <div class="col-md-7 no-pad-left">
                             <a href="@Url.Action("SearchStoreCategories", "Food", new { Store_id = shopData.Id })"> <h2>@shopData.BusinessName</h2></a>
@@ -73,7 +73,7 @@
                                         }
                                         else
                                         {
-                                            <a href="#">@Tag.Tag ,</a>
+                                            <a href="#">@Tag.Tag, </a>
                                         }
 
                                     }

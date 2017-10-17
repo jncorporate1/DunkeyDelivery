@@ -113,6 +113,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public string FullAddress { get; set; }
 
         [Required(ErrorMessage = "Postal Code is required")]
+        [RegularExpression(@"^[0-9*#+]+$", ErrorMessage = "Enter Digits Only")]
         public string PostalCode { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -134,6 +135,9 @@ namespace DunkeyDelivery.Areas.User.Models
         [Required(ErrorMessage = "Card Number is required")]
         [RegularExpression(@"[0-9 ]+", ErrorMessage = "Enter Digits Only")]
         [StringLength(16, ErrorMessage = "Credit Card Number Should Be Of Max Length 16")]
+        [MinLength(12,ErrorMessage = "Credit Card Number Should Be Of Min Length 12")]
+        [MaxLength(16, ErrorMessage = "Credit Card Number Should Be Of Max Length 16")]
+
         [DataType(DataType.Text)]
         [Display(Name = "Credit Card")]
         public string CCNo { get; set; }
@@ -145,7 +149,6 @@ namespace DunkeyDelivery.Areas.User.Models
         public string ExpiryDate { get; set; }
 
         [Required(ErrorMessage = "CVV is required")]
-        [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "invalid CVV")]
         [MaxLength(4, ErrorMessage = "CVV Should Be Of Max Length 4"), MinLength(3, ErrorMessage = "CVV Should Be Of   Min Length 3")]
         [StringLength(4, ErrorMessage = "CVV Should Be Of Max Length 4")]
         [DataType(DataType.Text)]

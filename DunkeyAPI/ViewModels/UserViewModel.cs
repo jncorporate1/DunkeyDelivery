@@ -156,7 +156,7 @@ namespace DunkeyAPI.ViewModels
 
         public string ZipCode { get; set; }
 
-        public short? Status { get; set; }
+        public int Status { get; set; }
 
         public string Phone { get; set; }
 

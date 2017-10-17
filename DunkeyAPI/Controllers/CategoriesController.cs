@@ -10,6 +10,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity;
 using AutoMapper;
+using System.Threading.Tasks;
+using static DunkeyAPI.Utility.Global;
 
 namespace DunkeyAPI.Controllers
 {
@@ -109,7 +111,81 @@ namespace DunkeyAPI.Controllers
             }
 
         }
+        // services for adminpanel 
+        //[BasketApi.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin", "User", "Guest")]
+        //[RoutePrefix("api")]
+        //public class CategoryController : ApiController
+        //{
+            [Route("GetAllCategoriesByStoreId")]
+            public async Task<IHttpActionResult> GetAllCategoriesByStoreId(int StoreId)
+            {
+                try
+                {
+                    using (DunkeyContext ctx = new DunkeyContext())
+                    {
+                        CustomResponse<IEnumerable<Category>> response = new CustomResponse<IEnumerable<Category>>
+                        {
+                            Message = ResponseMessages.Success,
+                            StatusCode = (int)HttpStatusCode.OK,
+                            Result = ctx.Categories.Where(x => x.Store_Id == StoreId && x.IsDeleted == false).OrderBy(x => x.Name).ToList()
+                        };
+                        return Ok(response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+                }
+            }
 
+            [Route("GetCategoriesByStoreId")]
+            public async Task<IHttpActionResult> GetAllCategoriesByStoreIdUser(int StoreId)
+            {
+                try
+                {
+                    using (DunkeyContext ctx = new DunkeyContext())
+                    {
+                        CustomResponse<Models.Admin.CategoriesViewModel> response = new CustomResponse<Models.Admin.CategoriesViewModel>
+                        {
+                            Message = ResponseMessages.Success,
+                            StatusCode = (int)HttpStatusCode.OK,
+                            Result = new Models.Admin.CategoriesViewModel { Categories = ctx.Categories.Where(x => x.Store_Id == StoreId && x.ParentCategoryId == 0 && x.IsDeleted == false).OrderBy(x => x.Name).ToList() }
+
+                        };
+                        return Ok(response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+                }
+            }
+
+
+            [Route("GetSubCategoriesByCatId")]
+            public async Task<IHttpActionResult> GetSubCategoriesByCatId(int CatId)
+            {
+                try
+                {
+                    using (DunkeyContext ctx = new DunkeyContext())
+                    {
+                        var categories = ctx.Categories.Where(x => x.ParentCategoryId == CatId && x.IsDeleted == false).OrderBy(x => x.Name).ToList();
+                        categories.Insert(0, new Category { Name = "All", Id = CatId });
+                        CustomResponse<Models.Admin.CategoriesViewModel> response = new CustomResponse<Models.Admin.CategoriesViewModel>
+                        {
+                            Message = ResponseMessages.Success,
+                            StatusCode = (int)HttpStatusCode.OK,
+                            Result = new Models.Admin.CategoriesViewModel { Categories = categories }
+                        };
+                        return Ok(response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+                }
+            }
+        
 
     }
 }

@@ -1,0 +1,356 @@
+﻿<div class="panel-body panel">
+    <div class="row">
+
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" for="SearchCategoryName" title="">Category Name</label>
+                    <span class="ico-help" title="Search by a category name"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control " id="SearchCategoryName" name="SearchCategoryName" type="text" value="">
+                </div>
+
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStoreName" title="">Store Name</label>
+                    <span class="ico-help" title="Search by a store name"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control text-box single-line " id="SearchStoreName" name="SearchStoreName" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchParentCategory" title="">Parent Category</label>
+                    <span class="ico-help" title="Search by a parent category"><i class="fa fa-question-circle"></i></span>
+                    <input class="form-control" id="SearchParentCategory" name="SearchParentCategory" type="text" value="">
+                </div>
+
+            </div>
+        </div>
+        
+
+    </div>
+
+<div class="row">
+    <div class="col-md-7 col-md-offset-5">
+        <button type="button" id="search-customers" class="btn btn-primary btn-search">
+            <i class="fa fa-search"></i>
+            Search
+        </button>
+    </div>
+</div>
+    </div>
+
+@*/////GridView*@
+<div class="panel-body panel">
+<div class="">
+    <div class="title_right">
+        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+            <div class="x_content">
+                <div class="table-responsive">
+                    <table id="datatable" class="table table-striped table-bordered" @*style="table-layout: fixed; width:auto "*@>
+                        <thead>
+                            <tr>
+                                <th><input id="mastercheckbox" type="checkbox"></th>
+                                <th>ID</th>
+                                <th>Category Name</th>
+                                <th>Store Name</th>
+                                <th>Parent Category</th>
+                                <th>Category Image</th>
+                                <th>Category Description</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>1</td>
+                                <td>Zainab</td>
+                                <td>Bashir</td>
+                                <td>zainabbashir@gmail.com</td>
+                                <td>+923333333333</td>
+                                <td>Password</td>
+                           
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>2</td>
+                                <td>Muhammad</td>
+                                <td>Mohsin</td>
+                                <td>muhammadmohsin@gmail.com</td>
+                                <td>+923333333322</td>
+                                <td>Password</td>
+                              
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>3</td>
+                                <td>Muhammad</td>
+                                <td>Ashfaq</td>
+                                <td>muhammadashfaq@gmail.com</td>
+                                <td>+923333333434</td>
+                                <td>Password</td>
+                              
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>1</td>
+                                <td>Zainab</td>
+                                <td>Bashir</td>
+                                <td>zainabbashir@gmail.com</td>
+                                <td>+923333333333</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>2</td>
+                                <td>Muhammad</td>
+                                <td>Mohsin</td>
+                                <td>muhammadmohsin@gmail.com</td>
+                                <td>+923333333322</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>3</td>
+                                <td>Muhammad</td>
+                                <td>Ashfaq</td>
+                                <td>muhammadashfaq@gmail.com</td>
+                                <td>+923333333434</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>1</td>
+                                <td>Zainab</td>
+                                <td>Bashir</td>
+                                <td>zainabbashir@gmail.com</td>
+                                <td>+923333333333</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>2</td>
+                                <td>Muhammad</td>
+                                <td>Mohsin</td>
+                                <td>muhammadmohsin@gmail.com</td>
+                                <td>+923333333322</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>3</td>
+                                <td>Muhammad</td>
+                                <td>Ashfaq</td>
+                                <td>muhammadashfaq@gmail.com</td>
+                                <td>+923333333434</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>1</td>
+                                <td>Zainab</td>
+                                <td>Bashir</td>
+                                <td>zainabbashir@gmail.com</td>
+                                <td>+923333333333</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>2</td>
+                                <td>Muhammad</td>
+                                <td>Mohsin</td>
+                                <td>muhammadmohsin@gmail.com</td>
+                                <td>+923333333322</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>3</td>
+                                <td>Muhammad</td>
+                                <td>Ashfaq</td>
+                                <td>muhammadashfaq@gmail.com</td>
+                                <td>+923333333434</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>1</td>
+                                <td>Zainab</td>
+                                <td>Bashir</td>
+                                <td>zainabbashir@gmail.com</td>
+                                <td>+923333333333</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>2</td>
+                                <td>Muhammad</td>
+                                <td>Mohsin</td>
+                                <td>muhammadmohsin@gmail.com</td>
+                                <td>+923333333322</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+                            <tr>
+                                <td><input id="mastercheckbox" type="checkbox"></td>
+                                <td>3</td>
+                                <td>Muhammad</td>
+                                <td>Ashfaq</td>
+                                <td>muhammadashfaq@gmail.com</td>
+                                <td>+923333333434</td>
+                                <td>Password</td>
+
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                <td><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <script>
+                         $(document).ready(function () {
+                             $('#datatable').DataTable({
+                                 "pagingType": "full_numbers"
+                             });
+                         });
+                    </script>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+@*/////DeletePopUp*@
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@*/////EditPopup*@
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Edit User Detail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div class="text-center bg-form">
+                        <div class="img-container">
+                            <img width="150" height="150" src="http://lorempixel.com/200/200/nature/" class="img-circle" alt="Profile picture">
+                            <span class="fake-icon-edit" id="PicUpload" style="color: rgb(255, 255, 255); display:block;">
+                                <span class="glyphicon glyphicon-camera"></span>
+                            </span>
+                        </div>
+                        <input type="file" id="image-input" onchange="readURL(this);" accept="image/*" class="form-control form-input Profile-input-file">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Zainab">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="Bashir">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="email" placeholder="zainabbashir@gmail.com">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="+923333333333">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="password" placeholder="Confirm Password">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="e.l.f">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="SuperAdmin">
+                </div>
+
+                @*<div class="form-group">
+                      <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
+                    </div>*@
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-warning btn-lg" style="width: 100%; background-color:#781d7c; border:#781d7c"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Update</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+    </div>

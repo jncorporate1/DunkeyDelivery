@@ -30,7 +30,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public int Id { get; set; }
 
         public string FirstName { get; set; }
-        
+
         public string LastName { get; set; }
 
         public string Address { get; set; }
@@ -38,9 +38,9 @@ namespace DunkeyDelivery.Areas.User.Models
         public string BusinessName { get; set; }
         
         public string BusinessType { get; set; }
-        
+
         public string Email { get; set; }
-        
+
         public short ZipCode { get; set; }
 
         public double AverageRating { get; set; }
@@ -64,7 +64,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public double Distance { get; set; }
 
         public IEnumerable<StoreTags> StoreTags { get; set; }
-        public IEnumerable<DeliveryHours> StoreDeliveryHours { get; set; }
+        public DeliveryHours StoreDeliveryHours { get; set; }
 
 
 

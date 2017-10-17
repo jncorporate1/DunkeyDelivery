@@ -1,0 +1,341 @@
+﻿@model BasketWebPanel.ViewModels.AddOfferViewModel
+@{
+    ViewBag.Title = "AddOffer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .center {
+        width: 150px;
+        margin: 1px 1px 1px 1px;
+    }
+
+    div.center {
+        width: 140px;
+        height: 28px;
+    }
+</style>
+<div class="right_col" role="main">
+    <div class="row">
+        <div id="AddUpdateDiv" class="col-md-12 col-xs-12">
+            <div class="alert alert-success" id="success-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success! </strong><span> </span>
+            </div>
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong> <span> </span>
+            </div>
+            @using (Ajax.BeginForm("Index", "Offers", new AjaxOptions { HttpMethod = "Post", OnSuccess = "OnSuccessOfferInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { @Id = "frmInsertOffer" }))
+            {
+                @*<form data-ajax="true" data-ajax-loading="#divLoader" id="frmInsertOffer" method="post" novalidate="novalidate">*@
+                @Html.AntiForgeryToken()
+                <div class="x_panel ">
+                    <div class="x_title">
+                        @if (Model.Offer.Id == 0)
+                        {
+                            <h3 class="pull-left">Add New Offer</h3>
+                        }
+                        else
+                        {
+                            <h3 class="pull-left">Edit Offer</h3>
+                        }
+                        <div class="pull-right">
+                            <button type="button" onclick="SubmitForm()" id="btnSavePackage" class="btn btn-success"><i class="fa fa-plus-square"></i>  Save Offer</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <input type="hidden" id="offerId" name="Offer.Id" value="@Model.Offer.Id" />
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label class="control-label" for="OfferName" title="">Offer Name</label>
+                                <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Offer.Name" id="OfferName" data-val-required="This field is required" placeholder="Offer Name" value="@Model.Offer.Name">
+                                @Html.ValidationMessageFor(m => m.Offer.Name, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                <label>Store</label>
+                                @if (Model.Offer.Id > 0)
+                                {
+                                    @Html.DropDownList("Offer.Store_Id", new SelectList(Model.StoreOptions.Items,
+                    "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName", onchange = "AddOffer_OnStoreChange(false)" })
+                                    @Html.HiddenFor(x => x.Offer.Store_Id);
+                                }
+                                else
+                                {
+                                    if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                    {
+                                        @Html.DropDownList("Offer.Store_Id", new SelectList(Model.StoreOptions.Items,
+                                 "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", @Id = "aioStoreName", onchange = "AddOffer_OnStoreChange(false)" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Offer.Store_Id", new SelectList(Model.StoreOptions.Items,
+                    "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName", onchange = "AddOffer_OnStoreChange(false)" })
+                                        @Html.HiddenFor(x => x.Offer.Store_Id);
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group form-inline ">
+                                <label class="control-label" for="SearchStartDate" title="">Valid From</label>
+                                @*@Html.EditorFor(x => x.Offer.ValidFrom, new { @class = "date" })
+                                    @Html.ValidationSummary() *@
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id="datetimepicker3" value="@Model.Offer.ValidFrom" name="Offer.ValidFrom" />
+                                    <span class="input-group-addon open-datetimepicker3">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        <span class="glyphicon glyphicon-time "></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="form-group form-inline ">
+                                <label class="control-label" for="SearchEndDate" title="">Valid To</label>
+                                <div class='input-group date'>
+                                    <input type='text' class="form-control" id="datetimepicker4" value="@Model.Offer.ValidTo" name="Offer.ValidTo" />
+                                    <span class="input-group-addon open-datetimepicker4">
+                                        <span class="glyphicon glyphicon-calendar "></span>
+                                        <span class="glyphicon glyphicon-time "></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div id="UploadImage" hidden>
+                                <label>Upload Offer Image</label>
+                                <div class="input-group image-preview">
+                                    <input type="text" class="form-control image-preview-filename" name="Offer.ImageUrl" id="txtImageUrl" data-val="true" data-val-required="Please select an image" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                    <span class="input-group-btn">
+                                        <!-- image-preview-clear button -->
+                                        <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                            <span class="glyphicon glyphicon-remove"></span> Clear
+                                        </button>
+                                        <!-- image-preview-input -->
+                                        <div class="btn btn-default image-preview-input">
+                                            <span class="glyphicon glyphicon-folder-open"></span>
+                                            <span class="image-preview-input-title">Browse</span>
+                                            <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                        </div>
+                                    </span>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Offer.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                <!-- /input-group image-preview [TO HERE]-->
+                            </div>
+                            <div id="EditImage" hidden>
+                                <label>Offer Image</label>
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                        <img src="@ApiCall.BaseUrl@Model.Offer.ImageUrl" alt="" width="48" height="48">
+                                    </div>
+                                </div>
+                                <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+                            </div>
+                            <div hidden id="HasImage1">@Model.Offer.ImageUrl</div>
+                        </div>
+                        <label style="padding-left:10px" id="ImageError" class="text-danger"></label>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <label>Description</label>
+                            @*  <textarea type="text" name="Offer.Description" class="form-control" id="OfferDescription" placeholder="Description">@Model.Offer.Description</textarea>*@
+                            @Html.TextAreaFor(x => x.Offer.Description, new { @class = "form-control", placeholder = "Offer Description", id = "OfferDescription" })
+                            @Html.ValidationMessageFor(x => x.Offer.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <p></p>
+                    <div id="exTab2" class="container">
+                        <ul class="nav nav-tabs" id="tabUL">
+                            <li class="active">
+                                <a href="#1" data-toggle="tab">Products</a>
+                            </li>
+                            <li>
+                                <a href="#2" data-toggle="tab">Packages</a>
+                            </li>
+                        </ul>
+                        <div id="divProductTable">
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).ready(function () {
+        AddOffer_OnStoreChange(false);
+
+        var offerId = $("#offerId").val();
+        var editImageVal = $('#HasImage1').text();
+        if (offerId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+
+        // Handle form submission event
+        $('#frmInsertOffer').on('submit', function (e) {
+            // Prevent actual form submission
+            e.preventDefault();
+
+            var OfferName = $('#OfferName').val();
+            var OfferDescription = $('#OfferDescription').val();
+            var ImageText = $("#txtImageUrl").val();
+
+            if (OfferName == "" || OfferDescription == "" || ImageText == "") {
+                return false;
+            }
+            var tablePackage = $('#datatablePackage').DataTable();
+            var tableProduct = $('#datatableProduct').DataTable();
+
+            var tablePackageData = tablePackage.$('input,select,textarea').serialize();
+            var tableProductData = tableProduct.$('input,select,textarea').serialize();
+
+            var OfferModel = {
+                NoVal: "NoVal",
+                Id: offerId,
+                Name: OfferName,
+                Store_Id: $('#aioStoreName').find(":selected").val(),
+                ValidFrom: $('#datetimepicker3').val(),
+                ValidTo: $('#datetimepicker4').val(),
+                Description: OfferDescription,
+                ImageUrl: ImageText
+            }
+
+            var postData = {
+                Products: tableProductData,
+                Packages: tablePackageData,
+                Offer: $.param(OfferModel)
+            }
+
+            // Submit form data via Ajax
+            $.ajax({
+                type: "POST",
+                //dataType: "json",
+                //contentType: "application/json; charset=utf-8",
+                url: '@Url.Action("Index", "Offers")',
+                data: JSON.stringify(postData),
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+                },
+                success: function (data) {
+                    OnSuccessOfferInsertion()
+                }
+
+            });
+            return false;
+        });
+    });
+
+    function AddOffer_OnStoreChange(UncheckAllBoxes) {
+        var offerId = $("#offerId").val();
+        var url = '@Url.Action("GetStoreProducts", "Offers")';
+        $('#divProductTable').load(url, { OfferName: null, OfferId: offerId, StoreId: $('#aioStoreName').find(":selected").val() }, function () {
+            if (UncheckAllBoxes == true) {
+                var tblProduct = $('#datatableProduct').DataTable();
+                $(':checkbox', tblProduct.rows().nodes()).prop('checked', false);
+                var tblPackage = $('#datatablePackage').DataTable();
+                $(':checkbox', tblPackage.rows().nodes()).prop('checked', false);
+            }
+        })
+    }
+
+
+    $(function () {
+        $('#datetimepicker3,#datetimepicker4').daterangepicker({
+            singleDatePicker: true,
+            timePicker: true,
+            timePickerIncrement: 15,
+            locale: {
+                format: 'DD/MM/YYYY h:mm A'
+            },
+            showDropdowns: true
+        },
+            function (start, end, label) {
+                $("#hdnFromDate").val(start.format('DD-MM-YYYY h:mm A'))
+                //var years = moment().diff(start, 'years');
+                //alert("You are " + years + " years old.");
+            });
+
+    });
+
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage", "Offers")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function OnResetClick() {
+        $("#clearImage").trigger("click");
+        ClearValidationErrorMessages();
+    }
+
+    function SubmitForm() {
+        $('#frmInsertOffer').submit();
+    }
+
+    function UploadImage() {
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileInput');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        //Creating an XMLHttpRequest and sending
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Offers/UploadImage');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                document.getElementById("errImageUrl").innerHTML = '';
+            }
+        }
+        return false;
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Offers/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function OnSuccessOfferInsertion() {
+        window.location.href = "@Url.Action("ManageOffers", "Offers")";
+        //$("#success-alert").append("Store updated successfully.");
+        //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        //    $("#success-alert").slideUp(500);
+        //});
+        //$("#OfferName").val('');
+        //$("#clearImage").trigger("click");
+        //$("#OfferDescription").val('');
+        //AddOffer_OnStoreChange(true);
+        //$("#clearImage").trigger("click");
+        //$("#EditImage").hide();
+        //$("#UploadImage").show();
+    }
+
+
+</script>

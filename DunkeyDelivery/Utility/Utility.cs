@@ -21,6 +21,7 @@ namespace DunkeyDelivery
     public class ApiCall<T>
     {
         static HttpClient client;
+        public static string BaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"];
         //public static string BaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"];      //"http://10.100.28.44/";
 
         static ApiCall()

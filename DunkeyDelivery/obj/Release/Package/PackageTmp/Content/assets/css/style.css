@@ -205,7 +205,7 @@ nav.fixed {
 	color: #FFF;
 }
 .footercontact ul li {
-	background: url(~/Content/assets/images/n1.png) no-repeat left center;
+	background: url(../images/n1.png) no-repeat left center;
 	padding-left: 35px;
 	margin-bottom: 3%;
 	padding-top: 5px;
@@ -229,13 +229,13 @@ nav.fixed {
 	color: #656565 !important;
 }
 .footercontact ul li+li {
-	background: url(~/Content/assets/images/n2.png) no-repeat left center;
+	background: url(../images/n2.png) no-repeat left center;
 }
 .footercontact ul li+li+li {
-	background: url(~/Content/assets/images/n3.png) no-repeat left center;
+	background: url(../images/n3.png) no-repeat left center;
 }
 .footercontact ul li+li+li+li {
-	background: url(~/Content/assets/images/n4.png) no-repeat left center;
+	background: url(../images/n4.png) no-repeat left center;
 }
 .searchform input {
 	float: right;
@@ -408,7 +408,7 @@ nav.fixed {
 	display: block !important;
 }
 .selectarea input[type="text"] {
-	background: url(~/Content/assets/images/mapng.png) no-repeat 95% center;
+	background: url(../images/mapng.png) no-repeat 95% center;
 	border: 1px solid #fff;
 	color: #fff;
 	margin-bottom: 15px;

@@ -93,7 +93,7 @@ namespace DunkeyAPI.ClientViewModel
 
         public ICollection<StoreTags> storeTags { get; set; }
 
-        public ICollection<StoreDeliveryHours> storeDeliveryHours { get; set; }
+        public StoreDeliveryHours storeDeliveryHours { get; set; }
     }
     public class NearByStores
     {
@@ -170,7 +170,7 @@ namespace DunkeyAPI.ClientViewModel
 
         public ICollection<StoreTags> storeTags { get; set; }
 
-        public ICollection<StoreDeliveryHours> storeDeliveryHours { get; set; }
+        public StoreDeliveryHours storeDeliveryHours { get; set; }
 
 
     }

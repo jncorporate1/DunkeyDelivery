@@ -1,0 +1,163 @@
+﻿@model BasketWebPanel.UserViewModel
+
+<div class="alert alert-success" id="success-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Success! </strong>
+</div>
+
+<div class="alert alert-error" id="error-alert" hidden>
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Error! </strong> <span> </span>
+</div>
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+</style>
+@*@using (Html.BeginForm("AddUser", "Admin", FormMethod.Post, new { role = "form" }))*@
+@using (Ajax.BeginForm("AddUser", "Admin", new AjaxOptions { OnSuccess = "OnUserSuccessInsertion", OnFailure = "OnFailedInsertion" }))
+
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>First Name</label>
+            @* <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="FirstName" id="FirstName" data-val-required="FirstName is required" placeholder="First Name" value="@Model.FirstName">*@
+            @Html.TextBoxFor(x => x.FirstName, new { @autofocus = "", @class = "form-control", id = "FirstName", @placeholder = "First Name" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <label>Last Name</label>
+            @*<input type="text" data-val="true" class="form-control input-validation-error" name="LastName" id="LastName" data-val-required="LastName is required" placeholder="Last Name" value="@Model.LastName">*@
+            @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", id = "LastName", @placeholder = "Last Name" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>Email</label>
+            @*<input type="email" data-val="true" class="form-control input-validation-error" name="Email" id="Email" data-val-required="Email is required" placeholder="Email" value="@Model.Email">*@
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", id = "Email", @placeholder = "Email", @type = "email" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <label>Phone Number</label>
+            <input type="tel" data-val="true" data-val-required="Phone Number is required" class="form-control input-validation-error numbersOnly" maxlength="15" name="PhoneNumber" id="PhoneNumber" data-val-length="Phone Number length should be at least 10 digits" data-val-length-max="15" data-val-length-min="10" data-val-required="Phone Number is required" placeholder="Phone Number" value="@Model.PhoneNumber">
+
+            @*<input type="tel" id="PhoneNumber" class="form-control" placeholder="Phone Number" maxlength="12">*@
+            @*@Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control", id = "PhoneNumber", @placeholder = "Phone Number", @type = "number", @min="0",
+                    @onkeypress = "return event.charCode >= 48 && event.charCode <= 57"
+                })*@
+            @* <label id="lblPhoneError" class="text-danger field-validation-error" style="font-weight: normal"> </label>*@
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>Password</label>
+            @*  <input type="password" data-val="true" class="form-control input-validation-error" name="Password" id="Password" data-val-required="Password is required" placeholder="Password" value="@Model.Password">*@
+            @Html.PasswordFor(x => x.Password, new { @class = "form-control", id = "Password", @placeholder = "Password" })
+            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <label>Confirm Password</label>
+            @*<input type="password" data-val="true" class="form-control input-validation-error" name="ConfirmPassword" id="ConfirmPassword" data-val-required="ConfirmPassword is required" placeholder="Confirm Password" value="@Model.ConfirmPassword">*@
+            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword", @placeholder = "Confirm Password" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-xs-6">
+            <label>Store Name</label>
+            @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+                "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control" })
+        </div>
+        <div class="col-md-6 col-xs-6">
+            <label>Role</label>
+            @Html.DropDownList("SignInType", new SelectList(Model.RoleOptions.Items,
+                "value", "Text", Model.RoleOptions.SelectedValue), new { @class = "form-control" })
+        </div>
+    </div>
+    @*<div class="col-md-12 col-xs-12 text-right " style="margin-top:20px;">
+            <input type="Submit" class="btn btn-success btn-lg" value="Create" />
+        </div>*@
+    <div class="form-group">
+        <div class="col-md-12 col-sm-12 col-xs-12 text-right" style="margin-top:20px;">
+            <button id="btnReset" onclick="ClearValidationErrorMessages()" class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+}
+
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/intlTelInput.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/utils.js"></script>
+<script>
+    $(function () {
+        $("#PhoneNumber").intlTelInput({
+            allowExtensions: true,
+            autoFormat: true,
+            autoHideDialCode: false,
+            autoPlaceholder: false,
+            defaultCountry: "auto",
+            ipinfoToken: "yolo",
+            nationalMode: false,
+            numberType: "MOBILE",
+            //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+            //preferredCountries: ['cn', 'jp'],
+            preventInvalidNumbers: true,
+            utilsScript: "lib/libphonenumber/build/utils.js"
+        });
+    });
+
+    function OnUserSuccessInsertion() {
+        //$("#success-alert").append("Store updated successfully.");
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+        $("#FirstName").val('');
+        $("#LastName").val('');
+        $("#Email").val('');
+        $("#PhoneNumber").val('');
+        $("#Password").val('');
+        $("#ConfirmPassword").val('');
+        $("#SignInType").val('2');
+    }
+
+    jQuery('.numbersOnly').keypress(function () {
+        //return (event.charCode >= 48 && event.charCode <= 57) && (event.charCode = 43);
+        return (event.charCode == 43 || (event.charCode >= 48 && event.charCode <= 57));
+    });
+
+    //$("#PhoneNumber").on
+    //$("#PhoneNumber").intlTelInput();
+
+    //$("#PhoneNumber").change(function () {
+    //    var telInput = $("#PhoneNumber");
+    //    if ($.trim(telInput.val())) {
+    //        if (telInput.intlTelInput("isValidNumber")) {
+    //            //alert('Valid');
+    //        }
+    //        else {
+    //            //$('span[data-valmsg-for="PhoneNumber"]').append("<span for=\"PhoneNumber\" class=\"\">Phone Number is invalid</span>");
+    //            $("#lblPhoneError").text("Phone Number is invalid");
+    //            //$('span').data('data-valmsg-for', 'PhoneNumber').append("<span for=\"PhoneNumber\" class=\"\">Phone Number is invalid</span>");
+    //            //alert('invalid');
+    //        }
+    //    }
+    //});
+    //function onPhoneChange() {
+    //    var intlNumber = $("#PhoneNumber").intlTelInput("getNumber");
+    //    $("#lblPhoneError").text("");
+    //}
+
+    //insertionQ('span').every(function (element) {
+    //    $("#lblPhoneError").text("");
+    //});
+</script>
+
+

@@ -30,10 +30,17 @@ namespace DAL
 
         public int? ParentCategoryId { get; set; }
 
+        public bool IsDeleted { get; set; }
+
+        public string ImageUrl { get; set; }// optional 
+
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 
         public virtual Store Store { get; set; }
+
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
     }
 }

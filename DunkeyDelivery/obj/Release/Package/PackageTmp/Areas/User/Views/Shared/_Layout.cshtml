@@ -22,11 +22,11 @@
 	<!------------------------ Jquery CDN ------------------------------------>
 	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<meta name='robots' content='noindex,follow' />
-	<link rel='dns-prefetch' href='//s.w.org' />
-   <script type="text/javascript">
+	@*<link rel='dns-prefetch' href='//s.w.org' />*@
+   @*<script type="text/javascript">
 		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "http:\/\/localhost\/dunkeyDelivery\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3" } };
 		!function (a, b, c) { function d(a) { var b, c, d, e, f = String.fromCharCode; if (!k || !k.fillText) return !1; switch (k.clearRect(0, 0, j.width, j.height), k.textBaseline = "top", k.font = "600 32px Arial", a) { case "flag": return k.fillText(f(55356, 56826, 55356, 56819), 0, 0), !(j.toDataURL().length < 3e3) && (k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 65039, 8205, 55356, 57096), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 55356, 57096), 0, 0), c = j.toDataURL(), b !== c); case "emoji4": return k.fillText(f(55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0), d = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55357, 56425, 55356, 57341, 55357, 56507), 0, 0), e = j.toDataURL(), d !== e } return !1 } function e(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var f, g, h, i, j = b.createElement("canvas"), k = j.getContext && j.getContext("2d"); for (i = Array("flag", "emoji4"), c.supports = { everything: !0, everythingExceptFlag: !0 }, h = 0; h < i.length; h++) c.supports[i[h]] = d(i[h]), c.supports.everything = c.supports.everything && c.supports[i[h]], "flag" !== i[h] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[i[h]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (g = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", g, !1), a.addEventListener("load", g, !1)) : (a.attachEvent("onload", g), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), f = c.source || {}, f.concatemoji ? e(f.concatemoji) : f.wpemoji && f.twemoji && (e(f.twemoji), e(f.wpemoji))) }(window, document, window._wpemojiSettings);
-	</script>
+	</script>*@
 	<style type="text/css">
 		img.wp-smiley,
 		img.emoji {
@@ -105,31 +105,32 @@
 					<logo>
 						<div class="mlogo wow fadeInDown"> <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img width="300" height="225" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a> </div>
 					</logo>
-					<div class="col-md-5"></div>
-					<div class="col-md-7 nav5 wow fadeIn">
+					<div class="col-md-6"></div>
+					<div class="col-md-6 nav5 wow fadeIn">
 						<nav class="nav">
 							<div class="menu-header">
-								<ul id="menu-topmenu" class="menu">
+								<ul id="menu-topmenu" class="menu" >
 									<li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="@Url.Action("Index","Home",new {area="User" })">Home</a></li>
 									<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-20">
 										<a href="#">Delivery</a>
-										<ul class="sub-menu">
-											<li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23"><a href="@Url.Action("Search","Home",new { search="Food" })">Food</a></li>
-											<li id="menu-item-24" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery</a></li>
-											<li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a></li>
-											<li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a></li>
-											<li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a></li>
-										</ul>
+                                        <ul class="sub-menu">
+                                            <li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23"><a href="@Url.Action("Search","Home",new { search="Food" })">Food</a></li>
+                                            <li id="menu-item-24" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery</a></li>
+                                            <li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a></li>
+                                            <li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a></li>
+                                            <li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a></li>
+                                            <li id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
+
+                                        </ul>
 									</li>
 									<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a></li>
 									<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="@Url.Action("Deals","Home",new { area = "User" })">Deals/Promotions</a></li>
 									<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="@Url.Action("Contact","Home",new { area = "User" })">Contact</a></li>
-									<li id="menu-item-27" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-27"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
 								</ul>
 							</div>
 							<!-- -----------------------Search Toggle ---------------------- -->
 
-							<searchtoggle>
+							@*<searchtoggle>
 								<div class="searchtoggle"><img src="~/Content/assets/images/search-icon.png" alt=""></div>
 								<div class="searchpanel">
 									<form method="get" onsubmit="return false" id="searchform" class="searchform" action="">
@@ -137,7 +138,7 @@
 										<input type="text" value="" name="s" id="s" placeholder="Search" />
 									</form>
 								</div>
-							</searchtoggle>
+							</searchtoggle>*@
 						</nav>
 					</div>
 
@@ -152,14 +153,54 @@
 
 	   <footer class="footer overflow">
 			<div class="container">
-				<div class="col-md-5 wow fadeInLeft">
-					<h4>Hungry? Order in your country</h4>
-					<img src="~/Content/assets/images/footercountries.png" alt="" />
-				</div>
+                <div class="col-md-5 cflags wow fadeInLeft">
+                    <h4>Hungry? Order in your country</h4>
+                    <div class="col-md-4">
+                        <h5>Asia</h5>
+                        <ul>
+                            <li><img src="~/Content/assets/images/India.jpg" alt="">India</li>
+                            <li><img src="~/Content/assets/images/Thailand.jpg" alt="">Thailand</li>
+                            <li><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
+                            <li><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
+                            <li><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
+                            <li><img src="~/Content/assets/images/Taiwan.jpg" alt="">Taiwan</li>
+                            <li><img src="~/Content/assets/images/Bangladesh.jpg" alt="">Bangladesh</li>
+                            <li><img src="~/Content/assets/images/Kazakhstan.jpg" alt="">Kazakhstan</li>
+                            <li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Hong Kong</li>
+                            <li><img src="~/Content/assets/images/Philippines.jpg" alt="">Philippines</li>
+                            <li><img src="~/Content/assets/images/Brunei.jpg" alt="">Brunei</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Europe</h5>
+                        <ul>
+                            <li><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
+                            <li><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
+                            <li><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
+                            <li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
+                            <li><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
+                            <li><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
+                            <li><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Middle East</h5>
+                        <ul>
+                            <li><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Saudi Arabia</li>
+                            <li><img src="~/Content/assets/images/UAE.jpg" alt="">UAE</li>
+                            <li><img src="~/Content/assets/images/Egypt.jpg" alt="">Egypt</li>
+                        </ul>
+                    </div>
+                </div>
 				<div class="col-md-1 nopad"></div>
-				<div class="col-md-3 nopad wow zoomIn">
+				<div class="col-md-3 nopad footercontact wow zoomIn">
 					<h5>Contact info</h5>
-					<img src="~/Content/assets/images/footercoontact.png" alt="" />
+                    <ul>
+                        <li><a href="javascript::">info@yoursite.com</a></li>
+                        <li>350 Fourth Avenue, 34th floor New York, USA</li>
+                        <li>+1 234 567 890</li>
+                        <li>+1 234 567 890</li>
+                    </ul>
 					<div class="clearfix"></div><br /><br />
 					<h5>Links</h5>
 
@@ -262,8 +303,8 @@
 	<!------------------------ WOW Animation CDN------------------------------------>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-	<script>new WOW().init();</script>
-	<script type='text/javascript' src='http://webserver-03:679/dunkeyDelivery/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>
+	@*<script>new WOW().init();</script>
+	<script type='text/javascript' src='http://webserver-03:679/dunkeyDelivery/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>*@
 
 	<script src="~/Scripts/commonJs.js"></script>
 	<script src="~/Scripts/jquery.validate.js"></script>
@@ -332,6 +373,11 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 	$("#Notifications").show();
 
 }
+
+if ($("#successmsg").text().length > 4) {
+    $(".form-control").val("");
+}
+
 $(function () {
     $('#datetimepicker10').datetimepicker({
         viewMode: 'years',
@@ -344,6 +390,33 @@ $(function () {
         format: 'LT'
     });
 });
+
+
+function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+
+
+}
+// Get the element with id="defaultOpen" and click on it
+//document.getElementById("defaultOpen").click();
+$("#defaultOpen").click();
 	</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>

@@ -66,8 +66,13 @@
     <Compile Include="Driver.cs" />
     <Compile Include="Driver_Orders.cs" />
     <Compile Include="DunkeyContext.cs" />
+    <Compile Include="Favourite.cs" />
     <Compile Include="ForgetPasswordTokens.cs" />
     <Compile Include="JsonCustomDateTimeConverter.cs" />
+    <Compile Include="Migrations\201710071243167_storedeli.cs" />
+    <Compile Include="Migrations\201710071243167_storedeli.Designer.cs">
+      <DependentUpon>201710071243167_storedeli.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Offer.cs" />
@@ -97,6 +102,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201710071243167_storedeli.resx">
+      <DependentUpon>201710071243167_storedeli.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
