@@ -1,0 +1,111 @@
+﻿@model DunkeyDelivery.Areas.User.Models.ShoppingCartViewModel
+
+
+<section class="cart-main-page">
+    <div class="container">
+        <div class="col-md-8 nopad-left">
+            <div class="cart-list clearfix">
+                <div class="cart-heading clearfix">
+                    <div class="col-md-4">
+                        Product
+                    </div>
+                    <div class="col-md-2">
+                        Quantity
+                    </div>
+                    <div class="col-md-2">
+                        Price
+                    </div>
+                    <div class="col-md-2">
+                        Total
+                    </div>
+                    <div class="col-md-2">
+                        Remove
+                    </div>
+                </div>
+
+                <ul class="shopping-list">
+                    @if (Model.cart.TotalCartItems != 0)
+                    {
+                        foreach (var item in Model.cart.Stores)
+                        {
+                            foreach (var cart_item in item.CartItems)
+                            {
+
+
+
+                                <li>
+                                    <div class="col-md-4">
+                                        <p>@cart_item.Name</p>
+                                    </div>
+
+                                    <div class="col-md-2 rel-col">
+
+
+                                        <a id="@cart_item.ItemId" onclick="Increase(this.id)" class="plus-icon inc-icon">+</a>
+
+                                        <input type="number" id="value_@cart_item.ItemId" onchange="enableBtn()"  value="@cart_item.Qty" />
+
+                                        <a  style="cursor:pointer" onclick="Decrease(this.id)" id="@cart_item.ItemId" class="minus-icon inc-icon">-</a>
+
+
+                                        @*<a href="#" class="minus-icon inc-icon">-</a>*@
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p class="price">$@cart_item.Price</p>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <p class="total-price">$@cart_item.Total</p>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <a href="#" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <div class="col-md-12 text-center">
+                                <p>
+                                    <img src="~/Content/assets/images/empty-cart.png" style="height:100px;" />
+
+                                </p>
+                                <p style="color:black;"><b>Your cart is empty! </b></p>
+
+                                <a class="btn btn-default">Add More Items</a>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+
+
+            <div class="enter-coupon left">
+                <input type="text" placeholder="Enter Coupon Code" />
+                <input type="submit" value="APPLY" />
+            </div>
+
+            <a href="#" class="btn btn-default right">UPDATE CART</a>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="cart-total clearfix">
+                <div class="cart-heading">
+                    CART TOTAL
+                </div>
+                <ul>
+                    <li><p>Cart Subtotal <span>$604.00</span></p></li>
+                    <li><p>Order Total <span>$172.00</span></p></li>
+                    <a href="#" class="proceed-btn">PROCEED TO CHECKOUT</a>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>

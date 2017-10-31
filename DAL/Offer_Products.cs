@@ -16,7 +16,7 @@ namespace DAL
 
         public int Product_Id { get; set; }
 
-        public DateTime ValidUpto { get; set; }
+        //public DateTime ValidUpto { get; set; }
         
         public string descript { get; set; }
 

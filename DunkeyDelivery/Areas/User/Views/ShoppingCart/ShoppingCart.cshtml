@@ -1,0 +1,56 @@
+﻿@model DunkeyDelivery.Areas.User.Models.ShoppingCartViewModel
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+<div id="ShopingCartDiv">
+    @{
+        Html.RenderAction("GetShoppingCart", "Profile");
+    }
+</div>
+<script>
+
+  @*  function AddToCart(id, productName, price, size, StoreId) {
+        var StoreName= $("#addCart").attr("storeName");
+        console.log(JSON.stringify(StoreName));
+        var data = {
+            ItemId: id,
+            name: productName,
+            price: price,
+            type: 0,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+                $.post("@Url.Action("GetShoppingCart", "Profile")",
+            function (e) {
+                $("#ShopingCartDiv").load(e);
+            });
+            });
+
+    }
+
+
+
+    function DeleteCartItem(itemId, type, StoreId) {
+        var data = {
+            ItemId: itemId,
+            type: type,
+            StoreId: StoreId
+        }
+
+        $.post("@Url.Action("DeleteCartItem", "Order")", data,
+        function (e) {
+            $.post("@Url.Action("GetShoppingCart", "Profile")",
+          function (e) {
+              $("#ShopingCartDiv").load(e);
+          });
+        })
+
+    }*@
+
+
+</script>

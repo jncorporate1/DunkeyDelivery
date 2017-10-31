@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DunkeyDelivery.ViewModels;
+using System.Collections.Generic;
 
 namespace DunkeyDelivery.Areas.User.Models
 {
@@ -38,6 +39,16 @@ namespace DunkeyDelivery.Areas.User.Models
         public int StoreId { get; set; }
         public string StoreName { get; set; }
         
+    }
+
+    public class ShoppingCartViewModel : BaseViewModel
+    {
+        public ShoppingCartViewModel()
+        {
+            cart = new Cart();
+        }
+        public Cart cart { get; set; }
+
     }
    
    

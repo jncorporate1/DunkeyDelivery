@@ -1,5 +1,6 @@
 ﻿using DunkeyDelivery.Areas.User.Models;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -335,5 +336,83 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 throw ex;
             }
         }
+
+
+        public async Task<ActionResult> ShoppingCart()
+        {
+            try
+            {
+                ShoppingCartViewModel model = new ShoppingCartViewModel();
+                model.SetSharedData(User);
+                ViewBag.Title = "Shopping Cart";
+                ViewBag.BannerImage = "press-top-banner.jpg";
+                ViewBag.BannerTitle = "SHOPPING CART";
+                ViewBag.Path = "Home > Shopping Cart";
+                return View("~/Areas/User/Views/ShoppingCart/ShoppingCart.cshtml", model);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+//        var TotalCartItems = 0;
+//        HttpCookie cookie = new HttpCookie("Cart");
+//        ShoppingCartViewModel model = new ShoppingCartViewModel();
+//        Cart cart = new Cart();
+//                if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
+//                {
+//                    var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
+//        cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
+                   
+//                    foreach (var store in cart.Stores)
+//                    {
+//                        TotalCartItems += store.CartItems.Count;
+//                    }
+//    cart.TotalCartItems = TotalCartItems;
+//                }
+//model.SetSharedData(User);
+//                model.cart = cart;
+//                ViewBag.Title = "Shopping Cart";
+//                ViewBag.BannerImage = "press-top-banner.jpg";
+//                ViewBag.BannerTitle = "SHOPPING CART";
+//                ViewBag.Path = "Home > Shopping Cart";
+//                return PartialView("~/Areas/User/Views/ShoppingCart/_ShoppingCart.cshtml", model);
+
+public async Task<ActionResult> GetShoppingCart()
+        {
+            try
+            {
+                var TotalCartItems = 0;
+                HttpCookie cookie = new HttpCookie("Cart");
+                ShoppingCartViewModel model = new ShoppingCartViewModel();
+                Cart cart = new Cart();
+                if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
+                {
+                    var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
+                    cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
+
+                    foreach (var store in cart.Stores)
+                    {
+                        TotalCartItems += store.CartItems.Count;
+                    }
+                    cart.TotalCartItems = TotalCartItems;
+                }
+                model.SetSharedData(User);
+                model.cart = cart;
+                ViewBag.Title = "Shopping Cart";
+                ViewBag.BannerImage = "press-top-banner.jpg";
+                ViewBag.BannerTitle = "SHOPPING CART";
+                ViewBag.Path = "Home > Shopping Cart";
+                return PartialView("~/Areas/User/Views/ShoppingCart/_ShoppingCart.cshtml", model);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
     }
 }

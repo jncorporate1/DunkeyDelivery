@@ -15,7 +15,7 @@ namespace DAL
 
         public string Name { get; set; }
 
-        public DateTime ValidUpto { get; set; }
+        //public DateTime ValidUpto { get; set; }
 
         public int DiscountedPrice { get; set; }
 

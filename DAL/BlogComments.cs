@@ -12,8 +12,18 @@ namespace DAL
 
         public int Id { get; set; }
 
-        public string Comment { get; set; }
+        public string Message { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime PostedDate { get; set; }
+        
+        public int Post_Id { get; set; }
+
+        public int User_Id { get; set; }
+        [JsonIgnore]
+        public virtual BlogPosts Post { get; set; }
+        
         public virtual User User { get; set; }
 
 

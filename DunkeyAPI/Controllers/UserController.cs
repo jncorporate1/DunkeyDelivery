@@ -926,14 +926,14 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    DAL.User adminModel;
+                    DAL.Admin adminModel;
 
-                    adminModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                    adminModel = ctx.Admins.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
 
                     if (adminModel != null)
                     {
                         await adminModel.GenerateToken(Request);
-                        CustomResponse<User> response = new CustomResponse<User> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = adminModel };
+                        CustomResponse<Admin> response = new CustomResponse<Admin> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = adminModel };
                         return Ok(response);
                     }
                     else

@@ -40,8 +40,8 @@ namespace DunkeyAPI.Controllers
                             return Ok(new CustomResponse<Package> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Packages.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
 
                         case (int)DunkeyEntityTypes.Admin:
-                            return Ok(new CustomResponse<DAL.Admin> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Admins.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
-
+                             return Ok(new CustomResponse<DAL.Admin> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Admins.FirstOrDefault(x => x.Id == Id) });
+                      
                         case (int)DunkeyEntityTypes.Offer:
                             return Ok(new CustomResponse<DAL.Offer> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Offers.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
 

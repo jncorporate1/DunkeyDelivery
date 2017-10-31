@@ -72,11 +72,14 @@ namespace DAL
                 .WillCascadeOnDelete(false);
             // new modifications 
 
-            //modelBuilder.Entity<BlogPosts>()
-            //    .HasMany(e => e.User)
-            //    .WithOptional(e => e.)
-            //    .HasForeignKey(e => e.)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<BlogPosts>()
+                .HasMany(e => e.BlogComments)
+                .WithRequired(e => e.Post)
+                .HasForeignKey(e => e.Post_Id)
+                .WillCascadeOnDelete(false);
+
+           
+
 
 
 

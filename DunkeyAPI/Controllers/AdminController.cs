@@ -929,7 +929,7 @@ namespace DunkeyAPI.Controllers
             }
         }
 
-        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+      
         /// <summary>
         /// Get Dashboard Stats
         /// </summary>

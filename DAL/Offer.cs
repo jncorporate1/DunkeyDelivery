@@ -19,9 +19,11 @@ namespace DAL
         public int Id { get; set; }
 
         [Required]
+      
         public DateTime ValidFrom { get; set; }
 
         [Required]
+       
         public DateTime ValidUpto { get; set; }
 
 

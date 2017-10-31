@@ -28,48 +28,105 @@ namespace DunkeyDelivery
             {
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
+                var form = await context.Request.ReadFormAsync();
+
+                var SignInType =Convert.ToInt32(form["signintype"]);
+
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var user = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
-                    if (user != null)
+                    //DeliveryMan deliveryManModel = null;
+                    User userModel = null;
+                    Admin adminModel = null;
+
+                    if (SignInType == 1)
                     {
-                        identity.AddClaim(new Claim("username", context.UserName));
-                        identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-                        switch (user.Role)
+                        //deliveryManModel = ctx.DeliveryMen.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
+                        //if (deliveryManModel != null)
+                        //{
+                        //    identity.AddClaim(new Claim("username", context.UserName));
+                        //    identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                        //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Deliverer.ToString()));
+                        //    context.Validated(identity);
+                        //}
+                        //else
+                        //{
+                        //    var json = Newtonsoft.Json.JsonConvert.SerializeObject(ctx.Users.FirstOrDefault());
+                        //    context.SetError("invalid username or password!", json);
+                        //}
+                    }
+                    else if (SignInType == 0 || SignInType == 5)
+                    {
+                        userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
+
+                        if (userModel != null)
                         {
-                            case 0:
-                                identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User));
-                                break;
-                            //case 1:
-                            //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Deliverer));
-                            //    break;
-                            case 2:
-                                identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SubAdmin));
-                                break;
-                            case 3:
-                                identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SuperAdmin));
-                                break;
-                            case 4:
-                                identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.ApplicationAdmin));
-                                break;
-                            default:
-                                break;
+                            identity.AddClaim(new Claim("username", context.UserName));
+                            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                            switch (SignInType)
+                            {
+                                case 0:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User.ToString()));
+                                    break;
+                                //case 1:
+                                //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Deliverer.ToString()));
+                                //    break;
+                                case 2:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SubAdmin.ToString()));
+                                    break;
+                                case 3:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SuperAdmin.ToString()));
+                                    break;
+                                case 4:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.ApplicationAdmin.ToString()));
+                                    break;
+                                //case 5:
+                                //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Guest.ToString()));
+                                //    break;
+                                default:
+                                    break;
+                            }
+                            context.Validated(identity);
                         }
-                        //identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User));
-                        context.Validated(identity);
+                        else
+                        {
+                            var json = Newtonsoft.Json.JsonConvert.SerializeObject(ctx.Users.FirstOrDefault());
+                            context.SetError("invalid username or password!", json);
+                        }
                     }
-                    else if (context.UserName == "admin" && context.Password == "admin")
+                    else if (SignInType == 2 || SignInType == 3 || SignInType == 4)
                     {
-                        identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                        identity.AddClaim(new Claim("username", "admin"));
-                        identity.AddClaim(new Claim(ClaimTypes.Name, "admin"));
-                        context.Validated(identity);
-                    }
-                    else
-                    {
-                        var json = Newtonsoft.Json.JsonConvert.SerializeObject(ctx.Users.FirstOrDefault());
-                        context.SetError("invalid username or password!", json);
-                        //context.Response.Headers.Add("AuthorizationResponse", new[] { "Failed" });
+                        adminModel = ctx.Admins.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
+                        if (adminModel != null)
+                        {
+                            identity.AddClaim(new Claim("username", context.UserName));
+                            identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
+                            switch (adminModel.Role)
+                            {
+                                case 0:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.User.ToString()));
+                                    break;
+                                //case 1:
+                                //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Deliverer.ToString()));
+                                //    break;
+                                case 2:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SubAdmin.ToString()));
+                                    break;
+                                case 3:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.SuperAdmin.ToString()));
+                                    break;
+                                case 4:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.ApplicationAdmin.ToString()));
+                                    break;
+                                default:
+                                    break;
+                            }
+                            context.Validated(identity);
+                        }
+                        else
+                        {
+                            var json = Newtonsoft.Json.JsonConvert.SerializeObject(ctx.Users.FirstOrDefault());
+                            context.SetError("invalid username or password!", json);
+                        }
                     }
                 }
             }
@@ -95,6 +152,7 @@ namespace DunkeyDelivery
             //} 
             #endregion
         }
+
         public static MemoryStream GenerateStreamFromString(string value)
         {
             return new MemoryStream(Encoding.UTF8.GetBytes(value ?? ""));
