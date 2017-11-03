@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DAL;
+using DunkeyAPI.Models;
 using DunkeyAPI.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using System.Data.Entity;
+
 
 namespace DunkeyAPI.Controllers
 {
@@ -31,7 +34,7 @@ namespace DunkeyAPI.Controllers
                 model.CategoryType = httpRequest.Params["CategoryType"];
                 model.DateOfPosting = Convert.ToDateTime(httpRequest.Params["DateOfPosting"]);
                 model.Description = httpRequest.Params["Description"];
-                model.User_ID=Convert.ToInt32(httpRequest.Params["User_Id"]);
+                model.User_ID = Convert.ToInt32(httpRequest.Params["User_Id"]);
                 Validate(model);
 
                 #region Validations
@@ -122,13 +125,13 @@ namespace DunkeyAPI.Controllers
 
                         BlogPosts post = new BlogPosts
                         {
-                            Title=model.Title,
-                            CategoryType=model.CategoryType,
-                            Description=model.Description,
+                            Title = model.Title,
+                            CategoryType = model.CategoryType,
+                            Description = model.Description,
                             ImageUrl = DunkeyDelivery.Utility.BaseUrl + ConfigurationManager.AppSettings["UserImageFolderPath"] + Path.GetFileName(newFullPath),
-                            DateOfPosting=model.DateOfPosting,
-                            User_ID=model.User_ID
-                        
+                            DateOfPosting = model.DateOfPosting,
+                            User_ID = model.User_ID
+
                         };
                         ctx.BlogPosts.Add(post);
                         ctx.SaveChanges();
@@ -156,9 +159,9 @@ namespace DunkeyAPI.Controllers
 
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("InsertComments")]
-        public IHttpActionResult InsertComments(string Email,string Message,int Post_id)
+        public IHttpActionResult InsertComments(string Email, string Message, int Post_id, int UserId)
         {
 
             try
@@ -170,12 +173,14 @@ namespace DunkeyAPI.Controllers
                 }
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    BlogComments Comment = new BlogComments {
-                        Message=Message,
-                        PostedDate=DateTime.Now,
-                        CreatedDate=DateTime.Now
+                    BlogComments Comment = new BlogComments
+                    {
+                        Message = Message,
+                        PostedDate = DateTime.Now,
+                        CreatedDate = DateTime.Now,
+                        User_Id = UserId
                     };
-                    var BlogData=ctx.BlogPosts.Include().Where(x => x.Id==Post_id && x.User.Email==Email).FirstOrDefault();
+                    var BlogData = ctx.BlogPosts.Where(x => x.Id == Post_id).FirstOrDefault();
                     BlogData.BlogComments.Add(Comment);
                     ctx.SaveChanges();
 
@@ -197,21 +202,62 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+       
+
         [HttpGet]
         [Route("GetBlogPosts")]
-        public IHttpActionResult GetBlogPosts()
+        public IHttpActionResult GetBlogPosts(int Page=0,int Items=6)
         {
             try
             {
-                DunkeyContext ctx = new DunkeyContext();
-                List<BlogViewModel> postsModel = new List<BlogViewModel>();
-                var res = ctx.BlogPosts.ToList();
 
-                var f = Mapper.Map<List<BlogViewModel>>(res);
-                postsModel = f;
-                CustomResponse<List<BlogViewModel>> response = new CustomResponse<List<BlogViewModel>>
-                { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = postsModel };
-                return Ok(response);
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+
+                    BlogPostListViewModel model = new BlogPostListViewModel();
+                    model.BlogPosts = ctx.BlogPosts.Include(c => c.User).Skip(Page*Items).Take(Items).ToList();
+
+                    foreach (var post in model.BlogPosts)
+                    {
+                        post.TotalComments = ctx.BlogComments.Count(x=>x.Post_Id==post.Id);
+                    }
+
+
+                    // popular categories
+                    var query = "select CategoryType, COUNT(CategoryType)AS TotalCount from BlogPosts GROUP BY BlogPosts.CategoryType  ORDER BY TotalCount DESC OFFSET 0 ROWS  FETCH NEXT 3 ROWS ONLY";
+                    var popularCategories = ctx.Database.SqlQuery<popularCategories>(query).ToList();
+                    model.popularCategories = popularCategories;
+
+                    CustomResponse<BlogPostListViewModel> response = new CustomResponse<BlogPostListViewModel>
+                    {
+                        Message = DunkeyDelivery.Global.SuccessMessage,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = model
+                    };
+
+                    return Ok(response);
+
+                    //return Ok(new CustomResponse<BlogPostListViewModel>
+                    //{
+                    //    Message = "Success",
+                    //    StatusCode = (int)HttpStatusCode.OK,
+                    //    Result = new BlogPostListViewModel
+                    //    {
+                    //        BlogPosts = ctx.BlogPosts.Include(c => c.User).Include(c => c.BlogComments).Select(x => new BlogPosts
+                    //        {
+                    //            TotalComments = x.BlogComments.Count,
+                    //            Id = x.Id,
+                    //            Title= x.Title,
+                    //            is_popular=x.is_popular,
+                    //            ImageUrl= x.ImageUrl,
+                    //            User= x.User,
+                    //            Description=x.Description,
+                    //            DateOfPosting= x.DateOfPosting,
+                    //            CategoryType= x.CategoryType
+                    //        }).ToList()
+                    //    }
+                    //});
+                }
 
             }
             catch (Exception ex)
@@ -228,7 +274,7 @@ namespace DunkeyAPI.Controllers
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-              
+
                 var res = ctx.BlogPosts.FirstOrDefault();
 
                 CustomResponse<BlogPosts> response = new CustomResponse<BlogPosts>

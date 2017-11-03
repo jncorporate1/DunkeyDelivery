@@ -140,32 +140,9 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                                 <label>Store Name</label>
-                                <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessName" id="StoreName" data-val-required="This field is required" placeholder="Store Name" value="@Model.Store.BusinessName">
-
-                                @Html.ValidationMessageFor(m => m.Store.BusinessName, "", new { @class = "text-danger" })
-
-                                <label>Store Type</label>
-                                @*<input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type" value="@Model.Store.BusinessType">*@
-                                @if (string.IsNullOrEmpty(Model.Store.BusinessType))
-                                {
-                                    <select autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type">
-                                        <option value="Food">Food</option>
-                                        <option value="Grocery">Grocery</option>
-                                        <option value="Laundry">Laundry</option>
-                                        <option value="Alcohol">Alcohol</option>
-                                        <option value="Pharmacy">Pharmacy</option>
-                                        <option value="Retail">Retail</option>
-
-                                    </select>
-                                }
-                                else
-                                {
-                                    <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.BusinessType" id="" data-val-required="This field is required" placeholder="Store Type" value="@Model.Store.BusinessType" readonly>
-                                }
-
+                                <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Store.Name" id="StoreName" data-val-required="This field is required" placeholder="Store Name" value="@Model.Store.Name">
                                 @*<input type="text" data-val="true" class="form-control input-validation-error" placeholder="Username" name="Email" id="Email" value="@Model.Email" data-val-required="The Email field is required." data-val-email="The Email field is not a valid e-mail address." />*@
-                                @Html.ValidationMessageFor(m => m.Store.BusinessType, "", new { @class = "text-danger" })
-
+                                @Html.ValidationMessageFor(m => m.Store.Name, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-xs-6 col-md-6">
                                 <div id="UploadImage" hidden>
@@ -639,7 +616,7 @@
                     lng: position.coords.longitude
                 };
                 if ($("#Store_Id").val() > 0) {
-
+                    
                     var storePos = new google.maps.LatLng($('#Latitude').val(), parseFloat($('#Longitude').val()));
                     map.setCenter(storePos);
                     placeMarker(storePos);
@@ -651,6 +628,12 @@
                 $("#Longitude").val(pos.lng);
                 $("#Latitude").val(pos.lat);
             }, function () {
+                if ($("#Store_Id").val() > 0) {
+
+                    var storePos = new google.maps.LatLng($('#Latitude').val(), parseFloat($('#Longitude').val()));
+                    map.setCenter(storePos);
+                    placeMarker(storePos);
+                }
                 handleLocationError(true, infoWindow, map.getCenter());
             });
         }

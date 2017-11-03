@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace BasketWebPanel.ViewModels
+﻿namespace BasketWebPanel.ViewModels
 {
     public class SearchProductViewModel
     {
@@ -14,7 +12,6 @@ namespace BasketWebPanel.ViewModels
 
         public string Weight { get; set; }
 
-       
         public string Image { get; set; }
 
         public string VideoUrl { get; set; }
@@ -35,6 +32,9 @@ namespace BasketWebPanel.ViewModels
         public int Qty { get; set; } = 1;
 
         public bool IsChecked { get; set; }
+
+        public double AverageRating { get; set; }
+
 
     }
 }

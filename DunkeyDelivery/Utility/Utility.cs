@@ -27,10 +27,10 @@ namespace DunkeyDelivery
         static ApiCall()
         {
             client = new HttpClient();
-
+             
             //client.BaseAddress = new Uri("http://10.100.28.47/");
 
-            client.BaseAddress = new Uri("http://localhost:58401/");
+            client.BaseAddress = new Uri("http://10.100.28.38/");
 
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

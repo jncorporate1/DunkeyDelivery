@@ -45,6 +45,6 @@
 
     function OnSubmit() {
         var url = '@Url.Action("SearchOfferResults", "Offers")';
-        $('#tblSearchResult').load(url, { CategoryName: $("#SearchOfferName").val(), StoreId: $('#aioStoreName').find(":selected").val() });
+        $('#tblSearchResult').load(url, { OfferName: $("#SearchOfferName").val(), StoreId: $('#aioStoreName').find(":selected").val() });
     }
 </script>

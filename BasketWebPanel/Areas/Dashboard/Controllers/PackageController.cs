@@ -89,7 +89,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //Edit Scenario
             if (PackageId.HasValue)
             {
-                var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Package, "Id=" + PackageId.Value));
+                var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Package, "Id=" + PackageId.Value));
                 if (responseProduct == null || responseProduct is Error)
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 else
@@ -273,7 +273,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Package, "Id=" + PackageId));
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Package, "Id=" + PackageId));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
                 else

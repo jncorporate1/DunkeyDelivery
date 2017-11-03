@@ -12,5 +12,6 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         public int TotalStores { get; set; }
         public int TotalUsers { get; set; }
         public int TodayOrders { get; set; }
+        public double MonthlyEarning { get; set; }
     }
 }

@@ -175,6 +175,7 @@ namespace DunkeyDelivery
     {
         public static int MaximumImageSize = 1024 * 1024 * 10; // 10 Mb
         public static string ImageSize = "10 MB";
+        public static int PointsToReward = 20;
         public const string PushFrom = "Dunkey Delivery";
         public static int VerificationCodeTimeOut = 4;
         private static int searchStoreRadius = Convert.ToInt32(ConfigurationManager.AppSettings["NearByStoreRadius"]);

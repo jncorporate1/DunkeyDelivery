@@ -1,0 +1,251 @@
+﻿@model BasketWebPanel.ViewModels.SearchUserViewModel
+@{
+    ViewBag.Title = "ViewUsers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+        vertical-align: central;
+    }
+
+    p {
+        margin: 0 0 0px !important;
+    }
+</style>
+<form data-ajax="true" data-ajax-loading="#divLoader" id="frmViewUsers" method="post" novalidate="novalidate">
+    @Html.AntiForgeryToken()
+    <div class="right_col" role="main">
+        <div class="row">
+            <div class="x_panel ">
+                <div class="x_title">
+                    <h3 class="pull-left">Users</h3>
+                    <div class="pull-right">
+                        <button type="submit" id="btnSaveUserStatuses" class="btn btn-success"><i class="fa fa-plus-square"></i>  Save </button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <p>
+                </p>
+                <div class="x_content">
+                    <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden">
+                        <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align:middle" width="20px"><input id="mastercheckbox" type="checkbox"></th>
+                                    <th style="vertical-align:middle">ID</th>
+                                    <th style="vertical-align:middle">Name</th>
+                                    <th style="vertical-align:middle">Email</th>
+                                    <th style="vertical-align:middle">Phone Number</th>
+                                    <th style="vertical-align:middle">Image</th>
+                                    <th style="vertical-align:middle">Status</th>
+                                    <th style="vertical-align:middle">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Users.Count; i++)
+                                {
+                                <tr>
+                                    <td style="vertical-align:middle" data-userstatus="@Model.Users[i].IsDeleted" data-index="@i" id="@Model.Users[i].Id">@Html.CheckBoxFor(x => Model.Users[i].IsChecked, new { @userid = Model.Users[i].Id, @class = "checkBoxClass" })</td>
+                                    <td style="vertical-align:middle">@Model.Users[i].Id</td>
+                                    <td style="vertical-align:middle">@Model.Users[i].FullName</td>
+                                    <td style="vertical-align:middle">@Model.Users[i].Email</td>
+                                    <td style="vertical-align:middle">@Model.Users[i].Phone</td>
+                                    <td style="vertical-align:middle; "><img src="@ApiCall.BaseUrl@Model.Users[i].ProfilePictureUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                    <td id="hdnUserStatusId_@i" data-userstatus="@Model.Users[i].IsDeleted">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" id="@("btnUserStatus_" + i)" data-toggle="dropdown" value="@Model.Users[i].IsDeleted" style="border-color:white" aria-haspopup="true" aria-expanded="false">
+                                                @Model.Users[i].StatusName <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (SelectListItem userStatusOption in Model.StatusOptions.Items)
+                                                    {
+                                                    <li data-userid="@Model.Users[i].Id" style="padding-left: 10px; cursor:pointer; text-align:left" onclick="StatusChanged(@i, this.innerHTML, @userStatusOption.Value, this.getAttribute('data-userid'));">@userStatusOption.Text</li>
+                                                    }
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td class="centered" style="vertical-align:middle">
+                                        <p data-toggle="tooltip" title="View Details" style="margin: 0px 0px 0px !important;" data-original-title="View Details">
+                                        <p>
+                                            <button title="Coming soon" type="button" class="btn btn-link" aria-label="Left Align">
+                                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                            </button>
+                                        </p>
+                                        </p>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    var selectedUsers = [];
+    $(document).ready(function () {
+        var table = $('#datatable').DataTable({
+            "pagingType": "full_numbers",
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: [0, 4, 5, 6, 7]
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [
+                [1, 'asc']
+            ]
+        });
+
+        table.rows().every(function (rowIdx) {
+            var chkBoxCell = table.cell(rowIdx, 0).node()
+            ChangeStatusColor(rowIdx, $(chkBoxCell).data("userstatus"));
+        })
+
+      
+
+        $(':checkbox', table.rows().nodes()).change(function () {
+            if (!$(this).prop("checked")) {
+                $("#mastercheckbox").prop("checked", false);
+            }
+        });
+
+        
+    })
+
+    $("#mastercheckbox").click(function () {
+        var table = $('#datatable').DataTable();
+        var isChecked = this.checked;
+        $(':checkbox', table.rows().nodes()).prop('checked', isChecked);
+
+        selectedUsers = [];
+
+        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+
+            var chkBoxCell = table.cell(rowIdx, 0).node()
+
+            if (isChecked) {
+
+                var userObj = {
+                    UserId: $(chkBoxCell).attr("id"),
+                    Status: $(chkBoxCell).data("userstatus")
+                }
+
+                selectedUsers.push(userObj)
+            }
+            else {
+                selectedUsers = [];
+            }
+        });
+    });
+
+    $('#datatable').on('change', 'input[type=checkbox][id!=mastercheckbox]', function (e) {
+        var table = $('#datatable').DataTable();
+        var $check = $(this);
+        var chkBoxCell = table.cell("#" + $check.attr("userid")).node();
+
+        if ($check.is(":checked") == true) {
+
+            var checked = jQuery.inArray($check.val(), selectedUsers);
+
+
+            if (checked == -1) {
+
+                //add id to selectedDeliverers.
+                var userObj = {
+                    UserId: $(chkBoxCell).attr("id"),
+                    Status: $(chkBoxCell).data("userstatus")
+                }
+
+                selectedUsers.push(userObj);
+            }
+        } else {
+
+            selectedUsers = selectedUsers.filter(function (el) {
+                return el.UserId !== $(chkBoxCell).attr("id");
+            });
+        }
+    });
+
+    function OnSuccessUsersViewInsertion() {
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    }
+
+    // Handle form submission event
+    $('#frmViewUsers').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+
+        var table = $('#datatable').DataTable();
+
+        var postData = {
+            selectedUsers: selectedUsers
+        };
+
+        addAntiForgeryToken(postData);
+
+        // Submit form data via Ajax
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveUserStatuses", "Users")',
+            data: postData,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+            },
+            success: function (data) {
+                OnSuccessStatusInsertion()
+            }
+
+        });
+    });
+
+    function StatusChanged(index, text, value, userId) {
+        var table = $('#datatable').DataTable();
+
+        var btn = document.getElementById('btnUserStatus_' + index)
+        btn.innerHTML = text + ' <span class="caret"></span>';
+        $(table.cell("#" + userId).node()).data("userstatus", value);
+
+        if (document.getElementById("Users_" + index + "__IsChecked").checked == true) {
+            //remove from selectedorders
+            selectedUsers = selectedUsers.filter(function (el) {
+                return el.UserId !== userId;
+            });
+
+            //add into selectedorder
+            var userObj = {
+                UserId: userId,
+                Status: value
+            }
+
+            selectedUsers.push(userObj);
+        }
+        ChangeStatusColor(index, value);
+    }
+
+    function ChangeStatusColor(rowNum, statusType) {
+        if (statusType == false || statusType == "False") { // Accepted
+            var btn = document.getElementById("btnUserStatus_" + rowNum);
+            btn.style.backgroundColor = "#008080";
+        }
+        else if (statusType == true || statusType == "True") { // Rejected
+            document.getElementById("btnUserStatus_" + rowNum).style.backgroundColor = "#e6194b";
+        }
+    }
+</script>

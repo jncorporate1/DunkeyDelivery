@@ -50,7 +50,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
         public JsonResult FetchCategories(int storeId) // its a GET, not a POST
         {
-             var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Categories/GetAllCategoriesByStoreId", User, GetRequest: true, parameters: "StoreId=" + storeId));
+            var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Categories/GetAllCategoriesByStoreId", User, GetRequest: true, parameters: "StoreId=" + storeId));
             var responseCategories = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
             var tempCats = responseCategories.ToList();
 
@@ -80,7 +80,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             if (ProductId.HasValue)
             {
-                var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Product, "Id=" + ProductId.Value));
+                var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Product, "Id=" + ProductId.Value));
                 if (responseProduct == null || responseProduct is Error)
                     ;
                 else
@@ -95,7 +95,12 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //Providing CategoryList
             model.CategoryOptions = Utility.GetCategoryOptions(User, initialStoreId, "None");
 
+            model.WeightOptions = Utility.GetWeightOptions();
 
+            if (model.Product.WeightUnit == (int)WeightUnits.kg)
+            {
+                model.Product.WeightInGrams = model.Product.WeightInKiloGrams;
+            }
 
             //return PartialView("_AddProduct", model);
             return View(model);
@@ -111,6 +116,12 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 if (!ModelState.IsValid)
                 {
                     return View(model);
+                }
+
+                if (model.Product.WeightUnit == (int)WeightUnits.kg)
+                {
+                    model.Product.WeightInKiloGrams = model.Product.WeightInGrams;
+                    model.Product.WeightInGrams = null;
                 }
 
                 MultipartFormDataContent content;
@@ -154,17 +165,23 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     content.Add(new StringContent(model.Product.Id.ToString()), "Id");
                 }
+
                 content.Add(new StringContent(model.Product.Name), "Name");
                 content.Add(new StringContent(model.Product.Price.ToString()), "Price");
-                if (!string.IsNullOrEmpty(model.Product.Size))
-                {
-                    content.Add(new StringContent(model.Product.Size), "Size");
-                }
-                
                 content.Add(new StringContent(model.Product.Category_Id.ToString()), "Category_Id");
                 content.Add(new StringContent(model.Product.Store_Id.ToString()), "Store_Id");
                 content.Add(new StringContent(model.Product.Description), "Description");
-                content.Add(new StringContent(Convert.ToString(model.Product.WeightInGrams)), "Weight");
+                content.Add(new StringContent(model.Product.WeightUnit.ToString()), "WeightUnit");
+
+                if (model.Product.WeightInGrams.HasValue)
+                {
+                    content.Add(new StringContent(Convert.ToString(model.Product.WeightInGrams)), "WeightInGrams");
+                }
+                else
+                {
+                    content.Add(new StringContent(Convert.ToString(model.Product.WeightInKiloGrams)), "WeightInKiloGrams");
+                }
+
                 content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "ImageDeletedOnEdit");
                 response = await ApiCall.CallApi("api/Admin/AddProduct", User, isMultipart: true, multipartContent: content);
                 if (firstCall && response.ToString().Contains("UnAuthorized"))
@@ -263,7 +280,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Product, "Id=" + ProductId));
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Product, "Id=" + ProductId));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
                 else

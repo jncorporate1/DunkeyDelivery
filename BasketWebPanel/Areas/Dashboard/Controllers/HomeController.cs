@@ -26,8 +26,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             WebDashboardStatsViewModel model = new WebDashboardStatsViewModel();
 
             var response = await ApiCall.CallApi("api/Admin/GetAdminDashboardStats", User, GetRequest: true);
-
-            if (response is Error)
+            
+            if (response is Error || response == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
             }

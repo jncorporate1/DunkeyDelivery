@@ -51,7 +51,7 @@
                 <td style="vertical-align:middle">@Model.Products[i].Price @Html.HiddenFor(x => x.Products[i].Price)</td>
                 <td style="vertical-align:middle">@Model.Products[i].StoreName @Html.HiddenFor(x => x.Products[i].StoreName)</td>
                 <td style="vertical-align:middle">@Model.Products[i].CategoryName @Html.HiddenFor(x => x.Products[i].CategoryName)</td>
-                <td style="vertical-align:middle"><img src="@Model.Products[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                <td style="vertical-align:middle"><img src="@ApiCall.BaseUrl@Model.Products[i].Image" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
                 <td style="overflow:hidden; vertical-align:middle ">
                     <div class="center" style="text-align: -webkit-center; ">
                         <div class="input-group" style="margin-top:10px; width:150px; ">

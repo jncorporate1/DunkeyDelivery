@@ -95,37 +95,18 @@
                                 <label>Weight</label>
                                 <div class="input-group" style="display:flex">
                                     @Html.TextBoxFor(x => x.Product.WeightInGrams, new { @class = "form-control", @id = "Weight", @placeholder = "Weight ", @type = "text" })
-                                    <select id="Weight" class="selectpicker form-control" data-live-search="true" style="width:100px !important" title="Unit">
-                                        <option>gm</option>
-                                        <option>kg</option>
-                                    </select>
+                                    @Html.DropDownList("Product.WeightUnit", new SelectList(Model.WeightOptions.Items,
+                                   "value","Text", Model.WeightOptions.SelectedValue), new {@class= "selectpicker form-control", @style= "width:100px !important" })
+                                    @*<select id="Weight" name="Product.WeightUnit" class="selectpicker form-control" data-live-search="true" style="width:100px !important" title="Unit">
+                                        <option value="1">gm</option>
+                                        <option value="2">kg</option>
+                                    </select>*@
                                     @*<input type="number" data-val="true" class="form-control input-validation-error" name="Product.Weight" id="Weight" data-val-required="Weight is required" placeholder="Weight">*@
                                 </div>
 
                                     @Html.ValidationMessageFor(m => m.Product.WeightInGrams, "", new { @class = "text-danger" })
                                    
                                 </div>
-
-                            <div class="col-xs-6 col-md-6 col-xs-12 form-group has-feedback">
-                                <label>Size</label>
-                                <div class="input-group" style="display:flex">
-                                    <select id="Size" name="Product.Size" class="selectpicker form-control" data-live-search="true" title="Unit">
-                                        <option value="">Select Option</option>
-                                        <option value="Regular">Regular</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="Large">Large</option>
-                                        <option value="Extra Large">Extra Large</option>
-
-                                    </select>
-                                    @*<input type="number" data-val="true" class="form-control input-validation-error" name="Product.Weight" id="Weight" data-val-required="Weight is required" placeholder="Weight">*@
-                                </div>
-
-
-                            </div>
-
-
-
-
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-12 col-xs-12">

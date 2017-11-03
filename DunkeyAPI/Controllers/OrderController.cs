@@ -46,6 +46,17 @@ namespace DunkeyAPI.Controllers
 
 						ctx.Orders.Add(order);
 						await ctx.SaveChangesAsync();
+						var CurrentUser = ctx.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+						if (CurrentUser.RewardPoints == 0)
+						{
+							CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
+						}
+						else
+						{
+							CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
+						}
+						ctx.SaveChanges();
+
 					}
 
 					return Ok(new CustomResponse<OrderSummaryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = new OrderSummaryViewModel(order) });
@@ -62,8 +73,17 @@ namespace DunkeyAPI.Controllers
 						{
 							ctx.Orders.Add(order);
 							await ctx.SaveChangesAsync();
+							var CurrentUser=ctx.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+							if (CurrentUser.RewardPoints == 0)
+							{
+								CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
+							}else
+							{
+								CurrentUser.RewardPoints =CurrentUser.RewardPoints + (order.Subtotal*DunkeyDelivery.Global.PointsToReward);
+							}
+							ctx.SaveChanges();
 						}
-
+						
 						return Ok(new CustomResponse<OrderSummaryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = new OrderSummaryViewModel(order) });
 					}
 					else

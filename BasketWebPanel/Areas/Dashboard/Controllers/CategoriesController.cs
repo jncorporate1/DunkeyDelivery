@@ -67,7 +67,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
                 if (CategoryId.HasValue)
                 {
-                    var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Category, "Id=" + CategoryId.Value));
+                    var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Category, "Id=" + CategoryId.Value));
                     if (responseProduct == null || responseProduct is Error)
                         ;
                     else
@@ -83,12 +83,9 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     model.Category.Store_Id = model.StoreId;
                 }
 
-
-
                 model.SetSharedData(User);
-                return View(model);
 
-                //return PartialView("_AddCategory", model);
+                return View(model);
             }
             catch (Exception ex)
             {
@@ -250,7 +247,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Category, "Id=" + CategoryId));
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Category, "Id=" + CategoryId));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
                 else

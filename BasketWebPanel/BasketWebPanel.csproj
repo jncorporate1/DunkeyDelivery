@@ -44,6 +44,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -182,16 +194,21 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Dashboard\Controllers\AdminController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\CategoriesController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\DeliverersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\DeliveryController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\NotificationsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\OffersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\PackageController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\StoresController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
     <Compile Include="Areas\Dashboard\Models\AddCategoryViewModel.cs" />
+    <Compile Include="Areas\Dashboard\Models\AddNotificationsViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AddPackageViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AddProductViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AddStoreViewModel.cs" />
@@ -199,6 +216,7 @@
     <Compile Include="Areas\Dashboard\Models\OfferProdutcsViewModel.cs" />
     <Compile Include="BindingModels\CategoriesBindingModel.cs" />
     <Compile Include="BindingModels\ChangeOrderStatusModel.cs" />
+    <Compile Include="BindingModels\NotificationBindingModel.cs" />
     <Compile Include="BindingModels\OfferBindingModel.cs" />
     <Compile Include="BindingModels\PackageBindingModel.cs" />
     <Compile Include="BindingModels\ProductBindingModel.cs" />
@@ -206,6 +224,9 @@
     <Compile Include="BindingModels\ResetPasswordBindingModel.cs" />
     <Compile Include="BindingModels\SearchOfferBindingModel.cs" />
     <Compile Include="Controllers\UtilityController.cs" />
+    <Compile Include="Custom\DbGeographyyConverter.cs" />
+    <Compile Include="Custom\ElmahHandledErrorLoggerFilter.cs" />
+    <Compile Include="Hubs\MyHub.cs" />
     <Compile Include="Utility\EnumHelpers.cs" />
     <Compile Include="ViewModels\AddAdminViewModel.cs" />
     <Compile Include="ViewModels\AddOfferViewModel.cs" />
@@ -213,6 +234,7 @@
     <Compile Include="ViewModels\ReadyForDeliveryOrdersViewModel.cs" />
     <Compile Include="ViewModels\SearchCategoriesViewModel.cs" />
     <Compile Include="ViewModels\SearchCategoryViewModel.cs" />
+    <Compile Include="ViewModels\SearchNotificationsViewModel.cs" />
     <Compile Include="ViewModels\SearchOffersViewModel.cs" />
     <Compile Include="ViewModels\SearchPackageViewModel.cs" />
     <Compile Include="ViewModels\SearchProductsViewModel.cs" />
@@ -237,12 +259,14 @@
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\SearchProductViewModel.cs" />
-    <Compile Include="ViewModels\SearchUsersViewModel.cs" />
+    <Compile Include="ViewModels\SearchUserViewModel.cs" />
+    <Compile Include="ViewModels\SearchAdminsViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModel.cs" />
     <Compile Include="ViewModels\StoreViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
     <Content Include="Content\admin-custom\css\custom.css" />
     <Content Include="Content\admin-custom\images\back_disabled.png" />
     <Content Include="Content\admin-custom\images\back_enabled.png" />
@@ -257,10 +281,12 @@
     <Content Include="Content\bootstrap-daterangepicker\demo.html" />
     <Content Include="Content\bootstrap-daterangepicker\drp.png" />
     <Content Include="Content\bootstrap-daterangepicker\package.js" />
+    <Content Include="Content\bootstrap-starrating\star-rating.css" />
+    <Content Include="Content\bootstrap-starrating\star-rating.js" />
     <Content Include="Content\bootstrap-tagsinput\bootstrap-tagsinput-angular.js" />
     <Content Include="Content\bootstrap-tagsinput\bootstrap-tagsinput.css" />
     <Content Include="Content\bootstrap-tagsinput\bootstrap-tagsinput.js" />
-    <Content Include="Content\images\favicon.png" />
+    <Content Include="Content\images\fav.png" />
     <Content Include="Content\images\Logo1.png" />
     <Content Include="Content\images\sort_asc.png" />
     <Content Include="Content\images\sort_asc_disabled.png" />
@@ -623,6 +649,8 @@
     <Content Include="Content\images\american-express.png" />
     <Content Include="Content\images\cropper.jpg" />
     <Content Include="Content\images\default_product.gif" />
+    <Content Include="Content\images\favicon.ico" />
+    <Content Include="Content\images\favicon1.ico" />
     <Content Include="Content\images\image.jpg" />
     <Content Include="Content\images\img.jpg" />
     <Content Include="Content\images\inbox.png" />
@@ -1015,6 +1043,13 @@
     <Content Include="Areas\Dashboard\Views\Offers\ManageOffers.cshtml" />
     <Content Include="Areas\Dashboard\Views\Offers\_SearchOffer.cshtml" />
     <Content Include="Areas\Dashboard\Views\Offers\_SearchOfferResults.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Notifications\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Notifications\ManageNotifications.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Users\ManageUsers.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Deliverers\ManageDeliverers.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Users\User.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Deliverers\Deliverer.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1134,7 +1169,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1166,14 +1203,15 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Dashboard\ViewModels\" />
     <Folder Include="Areas\Dashboard\Views\Settings\" />
-    <Folder Include="Areas\Dashboard\Views\Shared\" />
     <Folder Include="Views\Utility\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>

@@ -55,7 +55,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
 
         public string Weight { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string Image { get; set; }
 
         public string VideoUrl { get; set; }
 

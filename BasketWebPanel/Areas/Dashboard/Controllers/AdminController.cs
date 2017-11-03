@@ -64,7 +64,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             if (AdminId.HasValue)
             {
-                var responseAdmin = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Admin, "Id=" + AdminId.Value));
+                var responseAdmin = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Admin, "Id=" + AdminId.Value));
                 if (responseAdmin == null || responseAdmin is Error)
                     ;
                 else
@@ -248,7 +248,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Admin, "Id=" + AdminId));
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Admin, "Id=" + AdminId));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
                 else

@@ -33,7 +33,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             }
             if (StoreId.HasValue)
             {
-                var responseStore = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Store, "Id=" + StoreId.Value));
+                var responseStore = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Store, "Id=" + StoreId.Value));
                 if (responseStore == null || responseStore is Error)
                     ;
                 else
@@ -109,7 +109,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             {
                 content.Add(new StringContent(model.Store.Id.ToString()), "Id");
             }
-            content.Add(new StringContent(model.Store.BusinessName), "StoreName");
+            content.Add(new StringContent(model.Store.Name), "StoreName");
             content.Add(new StringContent(model.Store.Latitude.ToString()), "Lat");
             content.Add(new StringContent(model.Store.Longitude.ToString()), "Long");
             content.Add(new StringContent(model.Store.Open_From.ToString()), "Open_From");
@@ -117,7 +117,6 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             content.Add(new StringContent(Convert.ToString(model.Store.Description)), "Description");
             content.Add(new StringContent(Convert.ToString(model.Store.Address)), "Address");
             content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "ImageDeletedOnEdit");
-            content.Add(new StringContent(model.Store.BusinessType), "BusinessType");
             var packageProducts = JsonConvert.SerializeObject(model.Store.StoreDeliveryHours);
 
 
@@ -207,7 +206,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)DunkeyEntityTypes.Store, "Id=" + StoreId));
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/DeleteEntity", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Store, "Id=" + StoreId));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
                 else

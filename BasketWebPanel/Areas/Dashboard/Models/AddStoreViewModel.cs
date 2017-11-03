@@ -28,10 +28,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Store Name is required")]
-        public string BusinessName { get; set; }
-
-        [Required(ErrorMessage = "Store Type is required")]
-        public string BusinessType { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Please select location from map")]
         public double Latitude { get; set; }

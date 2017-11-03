@@ -8,8 +8,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="~/Content/images/favicon.png"/>
-    <title>Dunkey Admin Panel </title>
+    <link rel="shortcut icon" href="~/Content/images/favicon.ico" />
+    <title>Basket Admin Panel </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Scripts", false/*required*/)
@@ -108,7 +108,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="@Url.Action("Index","Home")" class="site_title"><img class="img-circle" src="~/Content/images/fav.png" style="height: 46px; width: 43px;"></img> <span>Dunkey Admin Panel</span></a>
+                        <a href="@Url.Action("Index","Home")" class="site_title"><img class="img-circle" src="~/Content/images/Favicon1.ico"></img> <span>Basket Admin Panel</span></a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
@@ -117,11 +117,10 @@
 
                             @*<img src="@Model.ProfilePictureUrl" alt="..." class="img-circle profile_img">*@
                             <img src='@Url.Content(ApiCall.BaseUrl)@Url.Content(@Model.ProfilePictureUrl)' alt="..." class="img-circle profile_img">
-                            
                         </div>
                         <div class="profile_info">
-                            <span>Welcome</span>
-                            <h2 style="max-width:135px; overflow-wrap: break-word;  word-wrap: break-word; overflow: hidden;text-overflow: ellipsis;display: -webkit-box;line-height: 16px; max-height: 32px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">@Model.UserName</h2>
+                            <span>Welcome,</span>
+                            <h2 style=" max-width:135px; overflow-wrap: break-word;  word-wrap: break-word; overflow: hidden;text-overflow: ellipsis;display: -webkit-box;line-height: 16px; max-height: 32px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">@Model.UserName</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -198,15 +197,15 @@
                                     </ul>
                                 </li>
                                 @*/////Offers*@
-                                @*<li>
-                                        <a><i class="fa fa-tags"></i> Offers<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li>
-                                                <a href="@Url.Action("Index","Offers")">Add New Offer</a>
-                                                <a href="@Url.Action("ManageOffers","Offers")">Manage Offers</a>
-                                            </li>
-                                        </ul>
-                                    </li>*@
+                                <li>
+                                    <a><i class="fa fa-tags"></i> Offers<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a href="@Url.Action("Index","Offers")">Add New Offer</a>
+                                            <a href="@Url.Action("ManageOffers","Offers")">Manage Offers</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 @*/////Orders*@
                                 <li>
                                     <a><i class="fa fa-edit"></i> Orders <span class="fa fa-chevron-down"></span></a>
@@ -215,23 +214,35 @@
 
                                     </ul>
                                 </li>
-                                @*/////
-
-                                *@
+                                @*/////Delivery*@
                                 @if (Model.Role == Utility.RoleTypes.SuperAdmin)
                                 {
-                                    @*<li>
-                                            <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">
-                                                <li>
+                                    <li>
+                                        <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li>
 
-                                                    <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
+                                                <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
 
-
-                                                </li>
-                                            </ul>
-                                        </li>*@
+                                                @*<a href="#">Manage Deliverers</a>*@
+                                            </li>
+                                        </ul>
+                                    </li>
                                 }
+
+                                @*/////Delivery*@
+                                @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                {*@
+                                    <li>
+                                        <a><i class="fa fa-users"></i> App Users<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li> <a href="@Url.Action("ManageDeliverers","Deliverers")">View Deliverers</a> </li>
+                                            <li> <a href="@Url.Action("ManageUsers","Users")">View Users</a> </li>
+                                        </ul>
+                                    </li>
+                                @*}*@
+
+
                                 @*/////Users*@
                                 <li>
                                     <a><i class="fa fa-users"></i> Admins <span class="fa fa-chevron-down"></span></a>
@@ -256,7 +267,22 @@
                                         </ul>
                                     </li>*@
 
-
+                                @*Notifications*@
+                                 <li>
+                                        <a><i class="fa fa-bell"></i> Notifications <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("Index","Notifications")">Add New Notifications</a></li>
+                                            <li><a href="@Url.Action("ManageNotifications", "Notifications")">View Notifications</a></li>
+                                        </ul>
+                                    </li>
+                                @*/////Setiings*@
+                                @*<li>
+                                    <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                                        <li><a href="#">Customer Settings</a></li>
+                                    </ul>
+                                </li>*@
                             </ul>
                         </div>
                     </div>
@@ -286,8 +312,8 @@
                                         </li>
                                         <li><a href="javascript:;">Help</a></li>*@
                                     <li><a href="@Url.Action("LogOff", null, new { area = string.Empty, controller = "Account" }, Request.Url.Scheme)"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                                    @*<li><a href="#" onclick="UpdateProfile()"><i class="fa fa-user pull-right"></i> Update Profile</a></li>*@
-                                    @*<li><a href="@Url.Action("ResetPassword", "Home")"><i class="fa fa-lock pull-right"></i> Reset Password</a></li>*@
+                                    <li><a href="#" onclick="UpdateProfile()"><i class="fa fa-user pull-right"></i> Update Profile</a></li>
+                                    <li><a href="@Url.Action("ResetPassword", "Home")"><i class="fa fa-lock pull-right"></i> Reset Password</a></li>
                                 </ul>
                             </li>
 
@@ -440,3 +466,6 @@
         //maxChars: 8
       });
 </script>
+@*/////StarRatingPlugin*@
+<link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />
+<script src="~/Content/bootstrap-starrating/star-rating.js"></script>

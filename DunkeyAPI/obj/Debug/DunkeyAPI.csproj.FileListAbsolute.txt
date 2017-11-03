@@ -346,3 +346,5 @@ D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll

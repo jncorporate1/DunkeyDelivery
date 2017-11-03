@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
 
-   public partial  class BlogPosts
+    public partial  class BlogPosts
     {
 
         public BlogPosts()
@@ -34,12 +35,16 @@
 
         public short is_popular { get; set; }
 
-        public virtual User User { get; set; }
+        //public virtual User User { get; set; }
 
-        //public virtual BlogComments Comments { get; set; }
-        
+        [NotMapped]
+        public int TotalComments { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BlogComments> BlogComments { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual User User { get; set; }
 
 
 

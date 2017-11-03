@@ -29,6 +29,7 @@ namespace DAL
         public virtual DbSet<StoreRatings> StoreRatings { get; set; }
         public virtual DbSet<StoreOrder> StoreOrders { get; set; }
         public virtual DbSet<Favourite> Favourites { get; set; }
+
         //public virtual DbSet<Store_Timings> Store_Timings { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
@@ -47,9 +48,15 @@ namespace DAL
         public virtual DbSet<Settings> Settings { get; set; }
         public virtual DbSet<BlogPosts> BlogPosts { get; set; }
         public virtual DbSet<BlogComments> BlogComments { get; set; }
-
-
         public virtual DbSet<StoreDeliveryHours> StoreDeliveryHours { get; set; }
+        public virtual DbSet<RewardMilestones> RewardMilestones { get; set; }
+        public virtual DbSet<UserRewards> UserRewards { get; set; }
+        public virtual DbSet<RewardPrize> RewardPrize { get; set; }
+
+
+
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 
@@ -72,16 +79,45 @@ namespace DAL
                 .WillCascadeOnDelete(false);
             // new modifications 
 
+            modelBuilder.Entity<RewardPrize>()
+            .HasMany(e => e.RewardMilestones)
+            .WithOptional(e => e.RewardPrize)
+            .HasForeignKey(e => e.RewardPrize_Id)
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+              .HasMany(e => e.UserRewards)
+              .WithRequired(e => e.User)
+              .HasForeignKey(e => e.User_Id)
+              .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<RewardMilestones>()
+              .HasMany(e => e.UserRewards)
+              .WithRequired(e => e.RewardMilestones)
+              .HasForeignKey(e => e.RewardMilestones_Id)
+              .WillCascadeOnDelete(false);
+
+
             modelBuilder.Entity<BlogPosts>()
                 .HasMany(e => e.BlogComments)
                 .WithRequired(e => e.Post)
                 .HasForeignKey(e => e.Post_Id)
                 .WillCascadeOnDelete(false);
 
-           
+
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.BlogComments)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.User_Id)
+                .WillCascadeOnDelete(false);
 
 
 
+            modelBuilder.Entity<User>()
+               .HasMany(e => e.BlogPosts)
+               .WithRequired(e => e.User)
+               .HasForeignKey(e => e.User_ID)
+               .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Store>()
                  .HasMany(e => e.Packages)

@@ -91,7 +91,7 @@ namespace BasketWebPanel
 
     class MyRegularExpressions
     {
-        public const string Price = @"^\$?(\d{1,6}(\,\d{3})*|(\d+))(\.\d{1,2})?$";
+        public const string Price = @"^\$?(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$";
         public const string Name = @"^[A-z]+$";
     }
 
@@ -113,7 +113,19 @@ namespace BasketWebPanel
             ApplicationAdmin = 4
         }
 
-        public enum DunkeyEntityTypes
+        public enum WeightUnits
+        {
+            gm = 1,
+            kg = 2
+        }
+
+        public enum UserStatusTypes
+        {
+            Active = 0,
+            Blocked = 1
+        }
+
+        public enum BasketEntityTypes
         {
             Product,
             Category,
@@ -139,6 +151,8 @@ namespace BasketWebPanel
         public enum OrderStatuses
         {
             Initiated,
+            Accepted,
+            Rejected,
             [Display(Name = "In Progress")]
             InProgress,
             [Display(Name = "Ready For Delivery")]
@@ -184,6 +198,27 @@ namespace BasketWebPanel
             }
         }
 
+        public static SelectList GetUserStatusOptions(string DefaultName = "")
+        {
+            try
+            {
+                List<SelectListItem> options = new List<SelectListItem>();
+
+                options.Add(new SelectListItem { Text = "Active", Value = "false" });
+                options.Add(new SelectListItem { Text = "Blocked", Value = "true" });
+
+                if (DefaultName != "")
+                    options.Insert(0, new SelectListItem { Text = DefaultName, Value = "0" });
+
+                return new SelectList(options);
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return null;
+            }
+        }
+
         public static SelectList GetPaymentMethodOptions(string DefaultName = "")
         {
             try
@@ -194,7 +229,7 @@ namespace BasketWebPanel
                 {
                     options.Add(new SelectListItem { Text = paymentMethod.ToString(), Value = (((int)paymentMethod) + 1).ToString() });
                 }
-                
+
                 if (DefaultName != "")
                     options.Insert(0, new SelectListItem { Text = DefaultName, Value = "0" });
 
@@ -214,7 +249,48 @@ namespace BasketWebPanel
 
                 foreach (OrderStatuses orderStatus in Enum.GetValues(typeof(OrderStatuses)))
                 {
-                    options.Add(new SelectListItem { Text = orderStatus.ToString(), Value = (((int)orderStatus) + 1).ToString() });
+                    if (orderStatus == OrderStatuses.AssignedToDeliverer)
+                    {
+                        options.Add(new SelectListItem { Text = "Assigned To Deliverer", Value = (((int)orderStatus) + 1).ToString() });
+                    }
+                    else if (orderStatus == OrderStatuses.DelivererInProgress)
+                    {
+                        options.Add(new SelectListItem { Text = "Deliverer In Progress", Value = (((int)orderStatus) + 1).ToString() });
+                    }
+                    else if (orderStatus == OrderStatuses.InProgress)
+                    {
+                        options.Add(new SelectListItem { Text = "In Progress", Value = (((int)orderStatus) + 1).ToString() });
+                    }
+                    else if (orderStatus == OrderStatuses.ReadyForDelivery)
+                    {
+                        options.Add(new SelectListItem { Text = "Ready For Delivery", Value = (((int)orderStatus) + 1).ToString() });
+                    }
+                    else
+                        options.Add(new SelectListItem { Text = orderStatus.ToString(), Value = (((int)orderStatus) + 1).ToString() });
+                }
+
+
+                if (DefaultName != "")
+                    options.Insert(0, new SelectListItem { Text = DefaultName, Value = "0" });
+
+                return new SelectList(options);
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return null;
+            }
+        }
+
+        public static SelectList GetPaymentStatusOptions(string DefaultName = "")
+        {
+            try
+            {
+                List<SelectListItem> options = new List<SelectListItem>();
+
+                foreach (PaymentStatuses paymentStatus in Enum.GetValues(typeof(PaymentStatuses)))
+                {
+                    options.Add(new SelectListItem { Text = paymentStatus.ToString(), Value = (((int)paymentStatus) + 1).ToString() });
                 }
 
 
@@ -229,15 +305,15 @@ namespace BasketWebPanel
             }
         }
 
-        public static SelectList GetPaymentStatusOptions(string DefaultName = "")
+        public static SelectList GetWeightOptions(string DefaultName = "")
         {
             try
             {
                 List<SelectListItem> options = new List<SelectListItem>();
 
-                foreach (PaymentStatuses paymentStatus in Enum.GetValues(typeof(PaymentStatuses)))
+                foreach (WeightUnits weightUnit in Enum.GetValues(typeof(WeightUnits)))
                 {
-                    options.Add(new SelectListItem { Text = paymentStatus.ToString(), Value = (((int)paymentStatus) + 1).ToString() });
+                    options.Add(new SelectListItem { Text = weightUnit.ToString(), Value = ((int)weightUnit).ToString() });
                 }
 
 
@@ -334,7 +410,7 @@ namespace BasketWebPanel
             }
         }
 
-        
+
     }
 
     class Global

@@ -10,7 +10,8 @@ namespace BasketWebPanel.BindingModels
         public string Name { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        //[Range(1, 10000000, ErrorMessage = "Please enter a valid price")]
+        [Range(1, 10000, ErrorMessage = "Please enter a valid price")]
+        [RegularExpression(MyRegularExpressions.Price, ErrorMessage = "Please enter a valid price")]
         public double? Price { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -22,7 +23,9 @@ namespace BasketWebPanel.BindingModels
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid weight")]
         public double? WeightInGrams { get; set; }
 
-        public double WeightInKiloGrams { get; set; }
+        public double? WeightInKiloGrams { get; set; }
+
+        public int WeightUnit { get; set; }
 
         [Required]
         public string ImageUrl { get; set; }

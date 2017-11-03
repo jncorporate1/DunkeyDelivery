@@ -74,45 +74,86 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult SaveOrderStatuses(SearchOrdersListViewModel model)
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveOrderStatus(List<ChangeOrderStatusModel> selectedOrders)
         {
             try
             {
-                var selectedOrders = model.Orders.Where(x => x.IsChecked).ToList();
-
-                if (selectedOrders == null || selectedOrders.Count > 0)
+                if (selectedOrders == null)
                 {
-                    ChangeOrderStatusListModel postModel = new ChangeOrderStatusListModel();
-
-                    foreach (var order in selectedOrders)
-                    {
-                        postModel.Orders.Add(new ChangeOrderStatusModel { OrderId = order.Id, StoreOrder_Id = order.StoreOrder_Id, Status = (order.OrderStatus - 1) });
-                    }
-
-                    var apiResponse = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/ChangeOrderStatus", User, postModel));
-
-                    if (apiResponse == null || apiResponse is Error)
-                        return new HttpStatusCodeResult(500, "Internal Server Error");
-                    else
-                    {
-                        model.OrderStatusOptions = Utility.GetOrderStatusOptions();
-                        foreach (var order in model.Orders)
-                        {
-                            order.OrderStatus = order.OrderStatus + 1;
-                        }
-                        model.SetSharedData(User);
-                        return PartialView("_SearchOrderResults", model);
-                    }
-                }
-                else
                     return new HttpStatusCodeResult((int)HttpStatusCode.Forbidden, "Select an order to save");
+                }
+
+                foreach (var order in selectedOrders)
+                {
+                    order.Status = order.Status - 1;
+                }
+
+                ChangeOrderStatusListModel postModel = new ChangeOrderStatusListModel();
+                postModel.Orders = selectedOrders;
+
+                var apiResponse = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/ChangeOrderStatus", User, postModel));
+
+                if (apiResponse == null || apiResponse is Error)
+                    return new HttpStatusCodeResult(500, "Internal Server Error");
+                else
+                {
+                    SearchOrdersListViewModel model = new SearchOrdersListViewModel();
+                    model.OrderStatusOptions = Utility.GetOrderStatusOptions();
+                    foreach (var order in model.Orders)
+                    {
+                        order.OrderStatus = order.OrderStatus + 1;
+                    }
+                    model.SetSharedData(User);
+                    return PartialView("_SearchOrderResults", model);
+                }
             }
             catch (Exception ex)
             {
-                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError, ex.Message);
+                return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError, "Internal Server Error");
             }
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult SaveOrderStatuses(SearchOrdersListViewModel model)
+        //{
+        //    try
+        //    {
+        //        var selectedOrders = model.Orders.Where(x => x.IsChecked).ToList();
+
+        //        if (selectedOrders == null || selectedOrders.Count > 0)
+        //        {
+        //            ChangeOrderStatusListModel postModel = new ChangeOrderStatusListModel();
+
+        //            foreach (var order in selectedOrders)
+        //            {
+        //                postModel.Orders.Add(new ChangeOrderStatusModel { OrderId = order.Id, StoreOrder_Id = order.StoreOrder_Id, Status = (order.OrderStatus - 1) });
+        //            }
+
+        //            var apiResponse = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/ChangeOrderStatus", User, postModel));
+
+        //            if (apiResponse == null || apiResponse is Error)
+        //                return new HttpStatusCodeResult(500, "Internal Server Error");
+        //            else
+        //            {
+        //                model.OrderStatusOptions = Utility.GetOrderStatusOptions();
+        //                foreach (var order in model.Orders)
+        //                {
+        //                    order.OrderStatus = order.OrderStatus + 1;
+        //                }
+        //                model.SetSharedData(User);
+        //                return PartialView("_SearchOrderResults", model);
+        //            }
+        //        }
+        //        else
+        //            return new HttpStatusCodeResult((int)HttpStatusCode.Forbidden, "Select an order to save");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpStatusCodeResult((int)HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //}
 
         public ActionResult EditOrders()
         {

@@ -121,6 +121,10 @@
       <HintPath>..\packages\Nexmo.Csharp.Client.2.2.2\lib\net452\Nexmo.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Swashbuckle.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cd1bb07a5ac7c7bc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Swashbuckle.Core.5.6.0\lib\net40\Swashbuckle.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
@@ -185,6 +189,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -251,6 +259,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Client\ClientAreaRegistration.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
@@ -301,6 +310,7 @@
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
+    <Compile Include="Controllers\RewardsController.cs" />
     <Compile Include="Controllers\RideController.cs" />
     <Compile Include="Controllers\StoresController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -326,11 +336,13 @@
     <Compile Include="Models\Admin\SearchProductViewModel.cs" />
     <Compile Include="Models\Admin\StoreCountViewModel.cs" />
     <Compile Include="Models\Admin\StoresViewModel.cs" />
+    <Compile Include="Models\BlogVMl.cs" />
     <Compile Include="Models\DriverBindingModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Models\MerchantBindingModel.cs" />
     <Compile Include="Models\ProductBindingModel.cs" />
+    <Compile Include="Models\RewardViewModel.cs" />
     <Compile Include="Models\RideBindingModel.cs" />
     <Compile Include="Models\ShopBindingModel.cs" />
     <Compile Include="Models\UserViewModels.cs" />
@@ -466,6 +478,9 @@
       <Project>{1185b06b-ada0-41d9-a5d2-c99bfd9f3dd8}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,8 @@
 ﻿@model BasketWebPanel.ViewModels.SearchProductsViewModel
+@*/////StarRatingPlugin*@
+<link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />
+<script src="~/Content/bootstrap-starrating/star-rating.js"></script>
+
 <style>
     .table caption + thead tr:first-child th,
     .table colgroup + thead tr:first-child th,
@@ -9,6 +13,9 @@
         border-top: 0;
         text-align: center;
         vertical-align: central;
+    }
+    .caption {
+        background: transparent !important;
     }
     /*td {
         height: 40px;
@@ -64,6 +71,7 @@
                                 <tr>
                                     <th class="middled sorting_disabled" style="vertical-align:middle">ID</th>
                                     <th style="vertical-align:middle">Product Name</th>
+                                    <th style="vertical-align:middle">Ratings</th>
                                     <th style="vertical-align:middle">Product Price</th>
                                     <th style="vertical-align:middle">Store Name</th>
                                     <th style="vertical-align:middle">Category Name</th>
@@ -78,10 +86,11 @@
                                     <tr>
                                         <td style="vertical-align:middle">@product.Id</td>
                                         <td style="vertical-align:middle">@product.Name</td>
+                                        <td style="vertical-align:middle"><input id="input-2" name="input-2" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value="@product.AverageRating"></td>
                                         <td style="vertical-align:middle">@product.Price</td>
                                         <td style="vertical-align:middle">@product.StoreName</td>
                                         <td style="vertical-align:middle">@product.CategoryName</td>
-                                        <td style="vertical-align:middle; "><img src="@ApiCall.BaseUrl@product.Image" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                        <td style="vertical-align:middle; "><img src="@ApiCall.BaseUrl@product.ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
                                         <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs editButtons" data-title="Edit" data-productid="@product.Id" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
                                         <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productId="@product.Id" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                                     </tr>

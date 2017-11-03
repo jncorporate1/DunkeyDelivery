@@ -20,6 +20,9 @@ namespace DAL
             Orders = new HashSet<Order>();
             Payment_Details = new HashSet<Payment_Details>();
             UserAddresses = new HashSet<UserAddress>();
+            BlogComments = new HashSet<BlogComments>();
+        
+
 
         }
 
@@ -44,6 +47,8 @@ namespace DAL
 
         public string Address { get; set; }
 
+        public double RewardPoints { get; set; } = 0;
+
         public string City { get; set; }
 
         public string State { get; set; }
@@ -62,6 +67,8 @@ namespace DAL
         public string VerificationToken { get; set; }
 
         public string ProfilePictureUrl { get; set; }
+
+         
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CreditCard> CreditCards { get; set; }
@@ -91,6 +98,17 @@ namespace DAL
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAddress> UserAddresses { get; set; }
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BlogPosts> BlogPosts { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BlogComments> BlogComments { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserRewards> UserRewards { get; set; }
 
         [NotMapped]
         public Token Token { get; set; }

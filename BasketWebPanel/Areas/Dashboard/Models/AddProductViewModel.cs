@@ -11,6 +11,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         {
             StoreOptions = new SelectList(new List<SelectListItem>());
             CategoryOptions = new SelectList(new List<SelectListItem>());
+            WeightOptions = new SelectList(new List<SelectListItem>());
             Product = new ProductBindingModel();
         }
         
@@ -19,5 +20,8 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         public SelectList CategoryOptions { get; internal set; }
         
         public ProductBindingModel Product { get; set; }
+
+        public SelectList WeightOptions { get; internal set; }
+
     }
 }
