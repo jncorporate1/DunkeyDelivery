@@ -294,6 +294,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="BindingModels\AccountBindingModel.cs" />
     <Compile Include="BindingModels\ChangeOrderStatusBindingModel.cs" />
+    <Compile Include="BindingModels\PharmacyRequestBindingModel.cs" />
     <Compile Include="BindingModels\StoreBindingModel.cs" />
     <Compile Include="ClientViewModel\ClientStoreViewModel.cs" />
     <Compile Include="ClientViewModel\StoreTagViewModel.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\PharmacyController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ResetPasswordController.cs" />
     <Compile Include="Controllers\RewardsController.cs" />
@@ -366,6 +368,7 @@
     <Compile Include="ViewModels\OrdersHistoryViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
+    <Compile Include="ViewModels\PharmacyRequestViewModel.cs" />
     <Compile Include="ViewModels\Shop.cs" />
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />

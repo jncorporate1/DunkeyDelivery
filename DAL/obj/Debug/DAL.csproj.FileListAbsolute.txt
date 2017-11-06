@@ -44,3 +44,14 @@ D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.csproj.GenerateResource.Cache
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
 D:\Git\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\DAL.dll.config
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\DAL.dll
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\DAL.pdb
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.dll
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.dll
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.dll
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.xml
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.xml
+F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
+F:\VS\GitRepository\DunkeyDelivery\DAL\obj\Debug\DAL.dll
+F:\VS\GitRepository\DunkeyDelivery\DAL\obj\Debug\DAL.pdb

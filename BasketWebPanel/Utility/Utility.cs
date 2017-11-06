@@ -219,6 +219,27 @@ namespace BasketWebPanel
             }
         }
 
+        public static SelectList GetPharmacyRequestStatusOptions(string DefaultName = "")
+        {
+            try
+            {
+                List<SelectListItem> options = new List<SelectListItem>();
+
+                options.Add(new SelectListItem { Text = "Accepted", Value = "1" });
+                options.Add(new SelectListItem { Text = "Rejected", Value = "2" });
+
+                if (DefaultName != "")
+                    options.Insert(0, new SelectListItem { Text = DefaultName, Value = "0" });
+
+                return new SelectList(options);
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return null;
+            }
+        }
+
         public static SelectList GetPaymentMethodOptions(string DefaultName = "")
         {
             try

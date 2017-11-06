@@ -1944,5 +1944,26 @@ and
         }
 
 
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [Route("ChangePharmacyRequestStatuses")]
+        public async Task<IHttpActionResult> ChangePharmacyRequestStatuses(ChangePharmacyStatusListBindingModel model)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    foreach (var request in model.PharmacyRequests)
+                        ctx.PharmacyRequest.FirstOrDefault(x => x.Id == request.PharmacyId).Status = request.Status;
+
+                    ctx.SaveChanges();
+                }
+
+                return Ok(new CustomResponse<string> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
     }
 }

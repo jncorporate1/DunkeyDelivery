@@ -52,6 +52,8 @@ namespace DAL
         public virtual DbSet<RewardMilestones> RewardMilestones { get; set; }
         public virtual DbSet<UserRewards> UserRewards { get; set; }
         public virtual DbSet<RewardPrize> RewardPrize { get; set; }
+        public virtual DbSet<PharmacyRequest> PharmacyRequest { get; set; }
+        public virtual DbSet<PharmacyRequest_Products> PharmacyRequest_Products { get; set; }
 
 
 
@@ -59,6 +61,17 @@ namespace DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.PharmacyRequest_Products)
+                .WithRequired(e => e.Product)
+                .HasForeignKey(e => e.Product_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PharmacyRequest>()
+                .HasMany(e => e.PharmacyRequest_Products)
+                .WithRequired(e => e.PharmacyRequest)
+                .HasForeignKey(e => e.PharmacyRequest_Id)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.CreditCards)

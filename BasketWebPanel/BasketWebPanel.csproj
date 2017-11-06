@@ -201,6 +201,7 @@
     <Compile Include="Areas\Dashboard\Controllers\OffersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\PackageController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\PharmacyController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\ProductController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
@@ -226,7 +227,6 @@
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Custom\DbGeographyyConverter.cs" />
     <Compile Include="Custom\ElmahHandledErrorLoggerFilter.cs" />
-    <Compile Include="Hubs\MyHub.cs" />
     <Compile Include="Utility\EnumHelpers.cs" />
     <Compile Include="ViewModels\AddAdminViewModel.cs" />
     <Compile Include="ViewModels\AddOfferViewModel.cs" />
@@ -237,6 +237,7 @@
     <Compile Include="ViewModels\SearchNotificationsViewModel.cs" />
     <Compile Include="ViewModels\SearchOffersViewModel.cs" />
     <Compile Include="ViewModels\SearchPackageViewModel.cs" />
+    <Compile Include="ViewModels\SearchPharmacyRequestsViewModel.cs" />
     <Compile Include="ViewModels\SearchProductsViewModel.cs" />
     <Compile Include="BindingModels\AsyncHelpers.cs" />
     <Compile Include="BindingModels\CategoryBindingModel.cs" />
@@ -1050,6 +1051,10 @@
     <Content Include="Areas\Dashboard\Views\Shared\Error.cshtml" />
     <Content Include="Areas\Dashboard\Views\Users\User.cshtml" />
     <Content Include="Areas\Dashboard\Views\Deliverers\Deliverer.cshtml" />
+    <Content Include="Areas\Dashboard\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Pharmacy\ManagePharmacyRequests.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
