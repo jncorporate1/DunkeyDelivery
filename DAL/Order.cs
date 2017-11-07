@@ -24,7 +24,7 @@ namespace DAL
 
         [Required]
         [JsonConverter(typeof(JsonCustomDateTimeConverter))]
-        public DateTime? OrderDateTime { get; set; }
+        public DateTime OrderDateTime { get; set; }
 
         [JsonConverter(typeof(JsonCustomDateTimeConverter))]
         public DateTime? DeliveryTime_From { get; set; }

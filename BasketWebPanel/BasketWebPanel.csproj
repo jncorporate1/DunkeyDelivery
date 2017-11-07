@@ -1055,6 +1055,7 @@
     <Content Include="Areas\Dashboard\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Dashboard\Views\Pharmacy\ManagePharmacyRequests.cshtml" />
     <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Notifications\MyNotifications.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

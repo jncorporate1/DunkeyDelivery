@@ -930,7 +930,7 @@ namespace DunkeyAPI.Controllers
                 {
                     DAL.Admin adminModel;
 
-                    adminModel = ctx.Admins.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                    adminModel = ctx.Admins.Include(x=>x.Notifications).FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
 
                     if (adminModel != null)
                     {
@@ -952,12 +952,5 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
-
-
-
     }
-
-
-
-
 }

@@ -364,11 +364,13 @@
     <Compile Include="ViewModels\CatViewModel.cs" />
     <Compile Include="ViewModels\ClientProductViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
+    <Compile Include="ViewModels\NotificationBindingModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\OrdersHistoryViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\PharmacyRequestViewModel.cs" />
+    <Compile Include="ViewModels\SearchAdminNotificationsViewModel.cs" />
     <Compile Include="ViewModels\Shop.cs" />
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />

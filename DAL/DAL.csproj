@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminNotifications.cs" />
+    <Compile Include="AdminSubAdminNotifications.cs" />
     <Compile Include="BlogComments.cs" />
     <Compile Include="BlogPosts.cs" />
     <Compile Include="Category.cs" />

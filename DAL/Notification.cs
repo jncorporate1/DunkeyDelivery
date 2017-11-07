@@ -12,16 +12,16 @@ namespace DAL
 
         [Required]
         public string Title { get; set; }
-
+        
         [Required]
-        public string Body { get; set; }
+        public string Text { get; set; }
 
         public int User_Id { get; set; }
 
-        public int User1_Id { get; set; }
-
         public virtual User User { get; set; }
 
-        public virtual User User1 { get; set; }
+        public int Status { get; set; }
+
+        public int AdminNotification_Id { get; set; }
     }
 }

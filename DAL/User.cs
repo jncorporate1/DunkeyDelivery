@@ -112,5 +112,7 @@ namespace DAL
 
         [NotMapped]
         public Token Token { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

@@ -68,8 +68,8 @@
             margin-left: 0px;
         }
 
-        @@media screen and (max-width:990px){
-             .centeredImage {
+        @@media screen and (max-width:990px) {
+            .centeredImage {
                 margin-left: -10%;
             }
         }
@@ -126,7 +126,7 @@
                         </div>
                         <div class="profile_info">
                             <span>Welcome,</span>
-                            <h2 style=" max-width:135px; overflow-wrap: break-word;  word-wrap: break-word; overflow: hidden;text-overflow: ellipsis;display: -webkit-box;line-height: 16px; max-height: 32px;-webkit-line-clamp: 2;-webkit-box-orient: vertical;">@Model.UserName</h2>
+                            <h2 style=" max-width:135px; overflow-wrap break-word; word-wrap break-word; overflow hidden;text-overflow ellipsis;display -webkit-box;line-height 16px; max-height 32px;-webkit-line-clamp 2;-webkit-box-orient vertical;">@Model.UserName</h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -238,14 +238,14 @@
 
                                 @*/////Delivery*@
                                 @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
-                                {*@
-                                    <li>
-                                        <a><i class="fa fa-users"></i> App Users<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li> <a href="@Url.Action("ManageDeliverers","Deliverers")">View Deliverers</a> </li>
-                                            <li> <a href="@Url.Action("ManageUsers","Users")">View Users</a> </li>
-                                        </ul>
-                                    </li>
+                                    {*@
+                                <li>
+                                    <a><i class="fa fa-users"></i> App Users<span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li> <a href="@Url.Action("ManageDeliverers","Deliverers")">View Deliverers</a> </li>
+                                        <li> <a href="@Url.Action("ManageUsers","Users")">View Users</a> </li>
+                                    </ul>
+                                </li>
                                 @*}*@
 
 
@@ -274,13 +274,18 @@
                                     </li>*@
 
                                 @*Notifications*@
-                                 <li>
-                                        <a><i class="fa fa-bell"></i> Notifications <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="@Url.Action("Index","Notifications")">Add New Notifications</a></li>
-                                            <li><a href="@Url.Action("ManageNotifications", "Notifications")">View Notifications</a></li>
-                                        </ul>
-                                    </li>
+
+                                <li>
+                                    <a><i class="fa fa-bell"></i> Notifications <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                        {
+                                            <li><a href="@Url.Action("Index", "Notifications")">Add New Notifications</a></li>
+                                            <li><a href="@Url.Action("ManageNotifications", "Notifications")">View Sent Notifications</a></li>
+                                        }
+                                        <li><a href="@Url.Action("MyNotifications", "Notifications")">My Notifications</a></li>
+                                    </ul>
+                                </li>
 
                                 @*Pharmacy*@
                                 <li>
@@ -291,12 +296,12 @@
                                 </li>
                                 @*/////Setiings*@
                                 @*<li>
-                                    <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
-                                        <li><a href="#">Customer Settings</a></li>
-                                    </ul>
-                                </li>*@
+                                        <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                                            <li><a href="#">Customer Settings</a></li>
+                                        </ul>
+                                    </li>*@
                             </ul>
                         </div>
                     </div>
@@ -330,7 +335,34 @@
                                     <li><a href="@Url.Action("ResetPassword", "Home")"><i class="fa fa-lock pull-right"></i> Reset Password</a></li>
                                 </ul>
                             </li>
-
+                            <li role="presentation" class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-envelope-o"></i>
+                                    @if (@Model.UnreadNotificationsCount > 0)
+                                    {
+                                        <span class="badge bg-green">@Model.UnreadNotificationsCount</span>
+                                    }
+                                </a>
+                                <ul id="menuNotifications" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                    @*<li>
+                                            <a>
+                                                <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
+                                                <span>
+                                                    <span>John Smith</span>
+                                                    <span class="time">3 mins ago</span>
+                                                </span>
+                                                <span class="message">
+                                                    Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                </span>
+                                            </a>
+                                        </li>*@
+                                    <li>
+                                        <div class="text-center">
+                                            <a href="@Url.Action("MyNotifications", "Notifications")"><strong>See All Alerts </strong><i class="fa fa-angle-right"></i></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -478,7 +510,22 @@
     $('#Tags').tagsinput({
         //maxTags: 3,
         //maxChars: 8
-      });
+    });
+</script>
+<script>
+    $.ajax({
+        type: "Get",
+        url: '@Url.Action("MyNotificationsJson", "Notifications", new { area = "Dashboard"})',
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+        },
+        success: function (data) {
+            $.each(data.Notifications, function (i, obj) {
+                $('#menuNotifications li:eq(0)').before('<li><a><span><span>' + obj.Title + '</span><span class="time">3 mins ago</span></span><span class="message">' + obj.Text + '</span></a></li>');
+            });
+        }
+
+    });
 </script>
 @*/////StarRatingPlugin*@
 <link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />

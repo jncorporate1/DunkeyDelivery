@@ -25,8 +25,10 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             WebDashboardStatsViewModel model = new WebDashboardStatsViewModel();
 
-            var response = await ApiCall.CallApi("api/Admin/GetAdminDashboardStats", User, GetRequest: true);
-            
+            model.SetSharedData(User);
+
+            var response = await ApiCall.CallApi("api/Admin/GetAdminDashboardStats", User, GetRequest: true, parameters: "AdminId=" + model.Id);
+
             if (response is Error || response == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
@@ -34,6 +36,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             else
             {
                 model = response.GetValue("Result").ToObject<WebDashboardStatsViewModel>();
+                User.AddUpdateClaim("UnreadNotificationCount", model.UnreadNotificationsCount.ToString());
             }
             //model.UserName = fullName == null ? "John Doe" : fullName.Value;
             //model.ProfilePictureUrl = profilePictureUrl == null ? "http://10.100.28.44:809/Content/images/img.jpg" : "http://10.100.28.44:809/Content/images/img.jpg";
