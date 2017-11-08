@@ -55,8 +55,13 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Stripe.net, Version=11.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.11.7.1\lib\net45\Stripe.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -191,6 +196,7 @@
     <Compile Include="Areas\Dashboard\Models\WebDashboardStatsViewModel.cs" />
     <Compile Include="Areas\User\Controllers\BlogController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\User\Controllers\StripeController.cs" />
     <Compile Include="Areas\User\Models\AccountViewModel.cs" />
     <Compile Include="Areas\User\Models\AlcoholViewModel.cs" />
     <Compile Include="Areas\User\Models\BlogViewModel.cs" />
@@ -1208,6 +1214,7 @@
     <Content Include="Content\bootstrap-datepicker\tests\README.md" />
     <Content Include="Areas\User\Views\ShoppingCart\ShoppingCart.cshtml" />
     <Content Include="Areas\User\Views\ShoppingCart\_ShoppingCart.cshtml" />
+    <Content Include="Areas\User\Views\Stripe\Index.cshtml" />
     <None Include="Properties\PublishProfiles\DunkeyDeliveryWeb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />

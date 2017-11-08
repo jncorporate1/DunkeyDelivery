@@ -3,6 +3,7 @@ using DunkeyDelivery.Models;
 using DunkeyDelivery.ViewModels;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -172,6 +173,28 @@ namespace DunkeyDelivery
             SubAdmin = 2,
             SuperAdmin = 3,
             ApplicationAdmin = 4
+        }
+
+        public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken)
+        {
+            var customers = new StripeCustomerService();
+            var charges = new StripeChargeService();
+
+            var customer = customers.Create(new StripeCustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = charges.Create(new StripeChargeCreateOptions
+            {
+                Amount = 500,//charge in cents
+                Description = "Sample Charge",
+                Currency = "usd",
+                CustomerId = customer.Id
+            });
+
+            return charge;
         }
     }
     public static class DefaultImages
