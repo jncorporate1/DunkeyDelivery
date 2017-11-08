@@ -50,6 +50,11 @@ namespace DunkeyAPI.Controllers
                         CreatedDate = DateTime.Now
                     };
 
+                    foreach (var productId in model.Product_Ids)
+                    {
+                        pharmModel.PharmacyRequest_Products.Add(new PharmacyRequest_Products { Product_Id = productId });
+                    }
+
                     ctx.PharmacyRequest.Add(pharmModel);
                     ctx.SaveChanges();
                     return Ok(new CustomResponse<PharmacyRequest> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
