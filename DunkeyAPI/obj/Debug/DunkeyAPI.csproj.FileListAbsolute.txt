@@ -287,6 +287,7 @@ D:\Git\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Web.Infrastructure.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\Newtonsoft.Json.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\Nexmo.Api.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\Owin.dll
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Net.Http.Formatting.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Runtime.InteropServices.RuntimeInformation.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.Helpers.dll
@@ -299,6 +300,7 @@ D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.Razor.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.WebPages.Deployment.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.WebPages.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.WebPages.Razor.dll
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebGrease.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\DAL.pdb
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.xml
@@ -346,5 +348,3 @@ D:\Git\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
-D:\Git\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
-D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll

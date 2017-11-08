@@ -59,5 +59,9 @@ namespace DAL
         public bool ImageDeletedOnEdit { get; set; }
         public string ImageUrl { get; set; }
 
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BlogPosts> BlogPosts { get; set; }
+
     }
 }

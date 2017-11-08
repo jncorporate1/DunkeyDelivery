@@ -628,3 +628,13 @@ MessageObject reference not set to an instance of an object.
 
 StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUser(Int32 UserId) in F:\VS\GitRepository\BasketWebPanel\BasketWebPanel\Areas\Dashboard\Controllers\UsersController.cs:line 86
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUser(Int32 UserId) in D:\Git\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\UsersController.cs:line 86
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUser(Int32 UserId) in D:\Git\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\UsersController.cs:line 86
+------******------

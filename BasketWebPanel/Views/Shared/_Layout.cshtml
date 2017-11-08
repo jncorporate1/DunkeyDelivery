@@ -8,8 +8,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="~/Content/images/favicon.ico" />
-    <title>Basket Admin Panel </title>
+
+    <link rel="shortcut icon" href="~/Content/images/Logo1.png" />
+    <title>Dunkey Admin Panel </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("Scripts", false/*required*/)
@@ -114,7 +115,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="@Url.Action("Index","Home")" class="site_title"><img class="img-circle" src="~/Content/images/fav.png"></img> <span>Basket Admin Panel</span></a>
+                        <a href="@Url.Action("Index","Home")" class="site_title"><img style="height:56px;" class="img-circle" src="~/Content/images/fav.png"></img> <span>Dunkey Admin</span></a>
                     </div>
                     <div class="clearfix"></div>
                     <!-- menu profile quick info -->
@@ -221,7 +222,7 @@
                                     </ul>
                                 </li>
                                 @*/////Delivery*@
-                                @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
                                 {
                                     <li>
                                         <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
@@ -230,11 +231,11 @@
 
                                                 <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
 
-                                                @*<a href="#">Manage Deliverers</a>*@
+                                                @*<a href="#">Manage Deliverers</a>
                                             </li>
                                         </ul>
                                     </li>
-                                }
+                                }*@
 
                                 @*/////Delivery*@
                                 @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
@@ -242,7 +243,7 @@
                                     <li>
                                         <a><i class="fa fa-users"></i> App Users<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li> <a href="@Url.Action("ManageDeliverers","Deliverers")">View Deliverers</a> </li>
+                                           @* <li> <a href="@Url.Action("ManageDeliverers","Deliverers")">View Deliverers</a> </li>*@
                                             <li> <a href="@Url.Action("ManageUsers","Users")">View Users</a> </li>
                                         </ul>
                                     </li>
@@ -281,14 +282,31 @@
                                             <li><a href="@Url.Action("ManageNotifications", "Notifications")">View Notifications</a></li>
                                         </ul>
                                     </li>
+                                @*/////Content management*@
+                                <li>
+                                    <a><i class="fa fa-tasks"></i> Content Management  <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+
+                                        <li><a href="@Url.Action("AboutUs","Content")">About Us</a></li>
+                                        <li><a href="@Url.Action("Investors","Content")">Investors</a></li>
+                                        <li><a href="@Url.Action("Partners","Content")">Partners</a></li>
+                                        <li><a href="@Url.Action("ManageContent","Content")">Manage Content</a></li>
+
+
+                                    </ul>
+                                </li>
+
                                 @*/////Setiings*@
-                                @*<li>
+                                <li>
                                     <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
-                                        <li><a href="#">Customer Settings</a></li>
+
+                                        <li><a href="@Url.Action("Index","Blog")">Create Blog Post</a></li>
+                                        <li><a href="@Url.Action("ManageBlogs","Blog")">Manage Blog Post</a></li>
+                                        @*<li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                                        <li><a href="#">Customer Settings</a></li>*@
                                     </ul>
-                                </li>*@
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -336,7 +354,7 @@
             <footer>
                 <div class="pull-right">
                     @*Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>*@
-                    <span style="font-size:15px">Powered by    </span> <a href="https://www.ingic.ae/" target="_blank"><img height="20px" width="70px" src="~/Content/images/ingic.png"></a>
+                    <span style="font-size:15px">Powered by    </span> <a href="https://www.pixelslogodesign.com/" target="_blank"><img height="20px" width="70px" src="~/Content/images/pixels.png"></a>
                 </div>
                 <div class="clearfix"></div>
             </footer>

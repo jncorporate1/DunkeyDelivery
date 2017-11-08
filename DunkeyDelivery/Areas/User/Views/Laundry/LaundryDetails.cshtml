@@ -122,7 +122,7 @@
                                                              
                                                                 </a>
 
-                                                            </li>
+                                                        </li>
                                                     }
                                                 </ul>
                                             </div>
@@ -208,21 +208,17 @@
                         <div class="col-md-12 nopadleft">
                             <h3>Delivery hours</h3>
                             <ul>
-                                @if (Model.StoreViewModel.StoreDeliveryHours.Count() != 0)
+                                @if (Model.StoreViewModel.StoreDeliveryHours != null)
                                 {
+                                        <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Thursday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Thursday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Friday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Friday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
+                                        <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
 
-                                    foreach (var item in Model.StoreViewModel.StoreDeliveryHours)
-                                    {
-
-                                        <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Monday_From.ToString(@"hh\:mm")  - @item.Monday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Tuesday_From.ToString(@"hh\:mm")  - @item.Tuesday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Wednesday_From.ToString(@"hh\:mm")  - @item.Wednesday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Thursday_From.ToString(@"hh\:mm")  - @item.Thursday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Friday_From.ToString(@"hh\:mm")  - @item.Friday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Saturday_From.ToString(@"hh\:mm")  - @item.Saturday_To.ToString(@"hh\:mm")</div></li>
-                                        <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@item.Sunday_From.ToString(@"hh\:mm")  - @item.Sunday_To.ToString(@"hh\:mm")</div></li>
-
-                                    }
+                                    
                                 }
                                 else
                                 {

@@ -109,7 +109,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             {
                 content.Add(new StringContent(model.Store.Id.ToString()), "Id");
             }
-            content.Add(new StringContent(model.Store.Name), "StoreName");
+            content.Add(new StringContent(model.Store.BusinessName), "StoreName");
+            content.Add(new StringContent(model.Store.BusinessType), "StoreType");
             content.Add(new StringContent(model.Store.Latitude.ToString()), "Lat");
             content.Add(new StringContent(model.Store.Longitude.ToString()), "Long");
             content.Add(new StringContent(model.Store.Open_From.ToString()), "Open_From");

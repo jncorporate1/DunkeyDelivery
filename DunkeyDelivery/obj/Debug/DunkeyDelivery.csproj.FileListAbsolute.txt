@@ -229,6 +229,7 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.O
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
+D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\csc.exe
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -289,7 +290,6 @@ D:\Git\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Deployment.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Razor.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Antlr3.Runtime.pdb
-D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.SqlServer.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Owin.xml

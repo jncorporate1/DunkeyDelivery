@@ -19,10 +19,6 @@
             <ul>
                 @if (Model.shopViewModel.StoreDeliveryHours != null)
                 {
-
-                    //foreach (var item in Model.shopViewModel.StoreDeliveryHours)
-                    //{
-
                         <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.shopViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.shopViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
                         <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.shopViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.shopViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
                         <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.shopViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.shopViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
@@ -31,7 +27,7 @@
                         <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.shopViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.shopViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
                         <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.shopViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.shopViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
 
-                    //}
+               
                 }
                 else
                 {

@@ -270,6 +270,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         public ActionResult SearchOfferResults(SearchOfferModel model)
         {
             SearchOfferListViewModel returnModel = new SearchOfferListViewModel();
+
             var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/SearchOffers", User, null, true, false, null, "OfferName=" + model.OfferName, "StoreId=" + model.StoreId));
             if (response == null || response is Error)
             {

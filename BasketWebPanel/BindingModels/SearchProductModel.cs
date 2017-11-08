@@ -78,4 +78,14 @@ namespace BasketWebPanel.BindingModels
 
         public SelectList StoreOptions { get; internal set; }
     }
+    public class SearchBlogModel
+    {
+        public string BlogTitle { get; set; } = "";
+        public string CategoryType { get; set; } = "";
+        public string DateOfPosting { get; set; }
+        public int? BlogId { get; set; }
+
+        
+    }
+
 }

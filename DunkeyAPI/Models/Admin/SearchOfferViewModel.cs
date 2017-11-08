@@ -17,7 +17,7 @@ namespace DunkeyAPI.Models.Admin
 
         public string Description { get; set; }
 
-        public int Status { get; set; }
+        public string Status { get; set; }
 
         public string ImageUrl { get; set; }
 

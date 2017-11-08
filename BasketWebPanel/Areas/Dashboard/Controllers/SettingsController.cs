@@ -18,5 +18,12 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             Global.sharedDataModel.SetSharedData(User);
             return View(Global.sharedDataModel);
         }
+        public ActionResult AboutSettings()
+        {
+            
+
+            Global.sharedDataModel.SetSharedData(User);
+            return View(Global.sharedDataModel);
+        }
     }
 }

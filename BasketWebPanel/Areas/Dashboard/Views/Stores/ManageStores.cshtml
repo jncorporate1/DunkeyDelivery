@@ -99,6 +99,7 @@
                                                         <tr>
                                                             <th class="middled" style="vertical-align:middle">ID</th>
                                                             <th style="vertical-align:middle">Store Name</th>
+                                                            <th style="vertical-align:middle">Store Type</th>
                                                             <th style="vertical-align:middle">Ratings</th>
                                                             <th style="vertical-align:middle">Longitude</th>
                                                             <th style="vertical-align:middle">Latitude</th>
@@ -114,7 +115,9 @@
                                                         {
                                                             <tr>
                                                                 <td style="vertical-align:middle">@store.Id</td>
-                                                                <td style="vertical-align:middle">@store.Name</td>
+                                                                <td style="vertical-align:middle">@store.BusinessName</td>
+                                                                <td style="vertical-align:middle">@store.BusinessType</td>
+
                                                                 <td style="vertical-align:middle"><input id="input-2" name="input-2" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value="@store.AverageRating"></td>
                                                                 <td style="vertical-align:middle">@store.Longitude</td>
                                                                 <td style="vertical-align:middle">@store.Latitude</td>
