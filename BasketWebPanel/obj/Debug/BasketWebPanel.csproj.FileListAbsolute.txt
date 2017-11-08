@@ -377,3 +377,4 @@ F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Tw
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.dll
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.pdb
+F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.csprojResolveAssemblyReference.cache

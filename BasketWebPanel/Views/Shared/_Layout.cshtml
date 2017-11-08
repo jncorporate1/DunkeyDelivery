@@ -336,14 +336,18 @@
                                 </ul>
                             </li>
                             <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                <a onclick="GetUnreadNotifications(true)" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-envelope-o"></i>
                                     @if (@Model.UnreadNotificationsCount > 0)
                                     {
-                                        <span class="badge bg-green">@Model.UnreadNotificationsCount</span>
+                                        <span id="spanNotificationBadgeCount" class="badge bg-green">@Model.UnreadNotificationsCount</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="display:none" id="spanNotificationBadgeCount" class="badge bg-green">@Model.UnreadNotificationsCount</span>
                                     }
                                 </a>
-                                <ul id="menuNotifications" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                <ul style="overflow: auto; max-height: 300px" id="menuNotifications" class="dropdown-menu list-unstyled msg_list" role="menu">
                                     @*<li>
                                             <a>
                                                 <span class="image"><img src="images/img.jpg" alt="Profile Image"></span>
@@ -513,19 +517,63 @@
     });
 </script>
 <script>
-    $.ajax({
-        type: "Get",
-        url: '@Url.Action("MyNotificationsJson", "Notifications", new { area = "Dashboard"})',
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
-        },
-        success: function (data) {
-            $.each(data.Notifications, function (i, obj) {
-                $('#menuNotifications li:eq(0)').before('<li><a><span><span>' + obj.Title + '</span><span class="time">3 mins ago</span></span><span class="message">' + obj.Text + '</span></a></li>');
+    $(document).ready(function () {
+        GetUnreadNotifications();
+    })
+
+    function GetUnreadNotifications(hideloader) {
+        if (hideloader == true) {
+            $.ajax({
+                type: "Get",
+                beforeSend: function () {
+
+                },
+                url: '@Url.Action("MyNotificationsJson", "Notifications", new { area = "Dashboard"})',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+                },
+                success: function (data) {
+                    var NotificationBadge = $('#spanNotificationBadgeCount');
+                    NotificationBadge.text(data.Notifications.length);
+                    if (NotificationBadge.text() == "0") {
+                        NotificationBadge.hide();
+                    }
+                    else {
+                        NotificationBadge.show();
+                    }
+                    $('#menuNotifications li').not('li:last').remove();
+                    $.each(data.Notifications, function (i, obj) {
+                        $('#menuNotifications li:eq(0)').before('<li><a><span><span>' + obj.Title + '</span><span class="time">' + obj.TimeText + '</span></span><span class="message">' + obj.Text + '</span></a></li>');
+                    });
+                }
+
             });
         }
+        else {
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("MyNotificationsJson", "Notifications", new { area = "Dashboard"})',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+                },
+                success: function (data) {
+                    var NotificationBadge = $('#spanNotificationBadgeCount');
+                    NotificationBadge.text(data.Notifications.length);
+                    if (NotificationBadge.text() == "0") {
+                        NotificationBadge.hide();
+                    }
+                    else {
+                        NotificationBadge.show();
+                    }
+                    $('#menuNotifications li').not('li:last').remove();
+                    $.each(data.Notifications, function (i, obj) {
+                        $('#menuNotifications li:eq(0)').before('<li><a><span><span>' + obj.Title + '</span><span class="time">3 mins ago</span></span><span class="message">' + obj.Text + '</span></a></li>');
+                    });
+                }
 
-    });
+            });
+        }
+    }
 </script>
 @*/////StarRatingPlugin*@
 <link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />

@@ -75,6 +75,17 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 else
                 {
                     model = response.GetValue("Result").ToObject<MyNotificationsViewModel>();
+                    foreach (var notification in model.Notifications)
+                    {
+                        var timeDifference = DateTime.Now.Subtract(notification.CreatedDate);
+                        if (timeDifference.Days > 0)
+                            notification.TimeText = timeDifference.Days + (timeDifference.Days == 1 ? " day ago" : " days ago");
+                        else if (timeDifference.Hours > 0)
+                            notification.TimeText = timeDifference.Hours + (timeDifference.Hours == 1 ? " hour ago" : " hours ago");
+                        else
+                            notification.TimeText = timeDifference.Minutes + (timeDifference.Minutes <= 1 ? " minute ago" : " minutes ago");
+                    }
+                    User.AddUpdateClaim("UnreadNotificationCount", model.Notifications.Count.ToString());
                     return Json(new { Notifications = model.Notifications }, JsonRequestBehavior.AllowGet);
                 }
 
@@ -153,12 +164,19 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
         public ActionResult MarkNotificationAsRead(int NotificationId)
         {
-            var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/MarkNotificationAsRead", User, null, true, false, null, "Id=" + NotificationId));
+            var claimIdentity = ((ClaimsIdentity)User.Identity);
+            var AdminId = Convert.ToInt32(claimIdentity.Claims.FirstOrDefault(x => x.Type == "AdminId").Value);
+
+            var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/MarkNotificationAsRead", User, null, true, false, null, "Id=" + NotificationId, "AdminId=" + AdminId));
 
             if (response is Error)
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Internal Server Error");
             else
-                return Json("Success", JsonRequestBehavior.AllowGet);
+            {
+                var unreadNotificationCount = response.GetValue("Result").ToObject<string>();
+                User.AddUpdateClaim("UnreadNotificationCount", unreadNotificationCount);
+                return Json(new { UnreadNotificationCount = unreadNotificationCount }, JsonRequestBehavior.AllowGet);
+            }
 
         }
     }

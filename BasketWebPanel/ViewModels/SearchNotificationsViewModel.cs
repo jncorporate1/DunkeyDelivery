@@ -47,5 +47,6 @@ namespace BasketWebPanel.ViewModels
         public string Text { get; set; }
         public int Status { get; set; }
         public DateTime CreatedDate { get; set; }
+        public string TimeText { get; set; }
     }
 }

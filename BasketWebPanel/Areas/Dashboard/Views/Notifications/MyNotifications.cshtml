@@ -114,6 +114,15 @@
                 OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
             },
             success: function (data) {
+                debugger;
+                var NotificationBadge = $('#spanNotificationBadgeCount');
+                NotificationBadge.text(data.UnreadNotificationCount);
+                if (NotificationBadge.text() == "0") {
+                    NotificationBadge.hide();
+                }
+                else {
+                    NotificationBadge.show();
+                }
                 $('#btnMarkRead_' + index).hide();
                 $('#lblStatus_' + index).show();
             }

@@ -2066,7 +2066,7 @@ and
         [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
         [HttpGet]
         [Route("MarkNotificationAsRead")]
-        public async Task<IHttpActionResult> MarkNotificationAsRead(int Id)
+        public async Task<IHttpActionResult> MarkNotificationAsRead(int Id, int AdminId)
         {
             try
             {
@@ -2078,7 +2078,8 @@ and
                     return Ok(new CustomResponse<string>
                     {
                         Message = Utility.Global.ResponseMessages.Success,
-                        StatusCode = (int)HttpStatusCode.OK
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = ctx.AdminSubAdminNotifications.Count(x=>x.AdminId == AdminId && x.Status == 0).ToString()
                     });
                 }
             }
