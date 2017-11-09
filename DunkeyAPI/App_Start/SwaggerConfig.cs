@@ -2,11 +2,36 @@ using System.Web.Http;
 using WebActivatorEx;
 using DunkeyAPI;
 using Swashbuckle.Application;
+using Swashbuckle.Swagger;
+using System.Collections.Generic;
+using System.Web.Http.Description;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
 namespace DunkeyAPI
 {
+    public class AddAuthTokenHeaderParameter : IOperationFilter
+    {
+
+        public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
+        {
+            if (operation.parameters == null)
+                operation.parameters = new List<Parameter>();
+
+            if (operation.operationId != "User_Login" && operation.operationId != "User_Register" && operation.operationId != "User_ResetPasswordThroughEmail")
+            {
+                operation.parameters.Add(new Parameter
+                {
+                    name = "Authorization",
+                    @in = "header",
+                    type = "string",
+                    required = true
+                });
+            }
+        }
+
+    }
+
     public class SwaggerConfig
     {
         public static void Register()
@@ -33,6 +58,9 @@ namespace DunkeyAPI
                         // additional fields by chaining methods off SingleApiVersion.
                         //
                         c.SingleApiVersion("v1", "DunkeyAPI");
+
+                        //Adding Token Filter
+                        c.OperationFilter<AddAuthTokenHeaderParameter>();
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
@@ -61,7 +89,7 @@ namespace DunkeyAPI
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
                         //    .Name("apiKey")

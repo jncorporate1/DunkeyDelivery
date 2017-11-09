@@ -631,10 +631,20 @@ StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUs
 
 MessageObject reference not set to an instance of an object.
 
-StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUser(Int32 UserId) in D:\Git\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\UsersController.cs:line 86
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.PharmacyController.Index(Nullable`1 Id) in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\PharmacyController.cs:line 27
 ------******------
 
 MessageObject reference not set to an instance of an object.
 
-StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.UsersController.GetUser(Int32 UserId) in D:\Git\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\UsersController.cs:line 86
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.PharmacyController.Index(Nullable`1 Id) in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\PharmacyController.cs:line 27
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.PharmacyController.Index(Nullable`1 Id) in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\PharmacyController.cs:line 27
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.PharmacyController.Index(Nullable`1 Id) in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\PharmacyController.cs:line 27
 ------******------

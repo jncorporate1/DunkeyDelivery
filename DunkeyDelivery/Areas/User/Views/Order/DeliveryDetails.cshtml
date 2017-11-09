@@ -4,12 +4,18 @@
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
 
+<style>
+    .stripe-button-el {
+        background-color: red;
+    }
+</style>
+
 <div class="main-section delivery-main-section greybg">
     <div class="container">
         <div class="row">
 
             <div class="col-md-8 delivery-left-section">
-                @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post))
+                @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post, new { @id = "frmOrderSummary" }))
                 //new AjaxOptions { OnSuccess = "", OnFailure = "" })
                 {
                     <h1> Add Delivery Details</h1>
@@ -166,6 +172,7 @@
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
+                                <input type="hidden" id="hdnTipAmount" name="TipAmount" value="" />
                             </div>
 
                             <div class="col-md-6">
@@ -183,7 +190,17 @@
 
                         @if (Model.Id != null)
                         {
-                            <input type="submit" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
+                            <input id="btnPlaceOrder" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
+                            <input hidden id="btnPlaceOrderStripe" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
+
+                            @*<script src = "//checkout.stripe.com/v2/checkout.js"
+                                        class="stripe-button"
+                                        data-key="@ViewBag.StripePublishKey"
+                                        data-locale="auto"
+                                        data-description="Sample Charge"
+                                        data-amount="500">
+                                </script>*@
+                            @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
 
                         }
                         else
@@ -194,6 +211,9 @@
                         }
 
                     </div>
+                    <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
+                    <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
+                    <input type="hidden" id="hdnCartTotal" value="@Model.Cart.Total" />
                 }
             </div>
 
@@ -205,6 +225,9 @@
         </div>
     </div>
 </div>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
     function login_first() {
         $("#login_first").show().delay(3000).fadeOut();
@@ -227,11 +250,49 @@
     }
 
     function TipColor(elementObj) {
-        console.log(elementObj);
         $(".tip-credit").removeAttr("id");
         $(elementObj).attr("id", "tipButtons");
         $(".tip-field").val($("#tipButtons span").text());
+        $('#hdnTipAmount').val(parseInt($("#tipButtons span").text().substring(1).trim()))
     }
 
+    var handler = StripeCheckout.configure({
+        key: 'pk_test_uI3smz0aIMtmAL4ybGvy3n1G',
+        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        locale: 'auto',
+        token: function (token) {
+            $('#hdnStripeId').val(token.id);
+            $('#hdnStripeEmail').val(token.email);
+            $('#frmOrderSummary').submit();
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+        }
+    });
 
+    document.getElementById('btnPlaceOrderStripe').addEventListener('click', function (e) {
+        var amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt($("#tipButtons span").text().substring(1).trim())) * 100);
+        // Open Checkout with further options:
+        handler.open({
+            name: 'Dunkey Delivery',
+            amount: amountToCharge  //amount in cents
+        });
+        e.preventDefault();
+    });
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function () {
+        handler.close();
+    });
+
+    // Handle form submission event
+    $('#frmOrderSummary').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+        if ($(this).valid()) {
+            $('#btnPlaceOrderStripe').trigger('click');
+        }
+        else {
+            return false;
+        }
+    });
 </script>

@@ -23,6 +23,10 @@ namespace BasketWebPanel.ViewModels
 
     public class AdminViewModel : BaseViewModel
     {
+        public AdminViewModel()
+        {
+            Notifications = new HashSet<MyNotificationBindingModel>();
+        }
         public int Id { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -72,5 +76,7 @@ namespace BasketWebPanel.ViewModels
         public string ImageUrl { get; set; }
 
         public Token Token { get; set; }
+        
+        public ICollection<MyNotificationBindingModel> Notifications { get; set; }
     }
 }

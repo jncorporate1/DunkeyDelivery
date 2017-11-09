@@ -23,6 +23,8 @@ namespace DunkeyAPI.ViewModels
 
         public string DeliveryAddress { get; set; }
 
+        public double TipAmount { get; set; }
+
         public OrderViewModel()
         {
             Cart = new CartViewModel();

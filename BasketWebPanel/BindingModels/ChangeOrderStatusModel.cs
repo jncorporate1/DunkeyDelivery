@@ -5,6 +5,22 @@ using System.Web;
 
 namespace BasketWebPanel.BindingModels
 {
+    public class ChangePharmacyStatusModel
+    {
+        public int PharmacyId { get; set; }
+        public int Status { get; set; }
+    }
+
+    public class ChangePharmacyStatusListModel
+    {
+        public ChangePharmacyStatusListModel()
+        {
+            PharmacyRequests = new List<ChangePharmacyStatusModel>();
+        }
+
+        public List<ChangePharmacyStatusModel> PharmacyRequests { get; set; }
+    }
+
     public class ChangeOrderStatusModel
     {
         public int OrderId { get; set; }

@@ -11,6 +11,12 @@ namespace DAL
 {
     public partial class Admin
     {
+        public Admin()
+        {
+            Notifications = new HashSet<AdminSubAdminNotifications>();
+            BlogPosts = new HashSet<BlogPosts>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -21,13 +27,13 @@ namespace DAL
 
         public string FullName { get; set; }
 
-   
+
         public string BusinessName { get; set; }
 
 
         public string BusinessType { get; set; }
 
-     
+
         public string ZipCode { get; set; }
 
 
@@ -57,11 +63,15 @@ namespace DAL
 
         [NotMapped]
         public bool ImageDeletedOnEdit { get; set; }
+
         public string ImageUrl { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BlogPosts> BlogPosts { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminSubAdminNotifications> Notifications { get; set; }
 
     }
 }

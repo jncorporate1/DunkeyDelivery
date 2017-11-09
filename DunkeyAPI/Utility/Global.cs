@@ -7,6 +7,13 @@ namespace DunkeyAPI.Utility
 {
     public static class Global
     {
+        public enum NotificationTargetAudienceTypes
+        {
+            UserAndDeliverer = 1,
+            User = 2,
+            Deliverer = 3,
+            SubAdmins = 4
+        }
 
         public enum CartItemTypes
         {
