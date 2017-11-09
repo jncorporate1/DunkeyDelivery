@@ -51,11 +51,13 @@ namespace DAL
         public virtual DbSet<StoreDeliveryHours> StoreDeliveryHours { get; set; }
         public virtual DbSet<RewardMilestones> RewardMilestones { get; set; }
         public virtual DbSet<UserRewards> UserRewards { get; set; }
+        public virtual DbSet<Contributors> Contributors { get; set; }
         public virtual DbSet<RewardPrize> RewardPrize { get; set; }
         public virtual DbSet<PharmacyRequest> PharmacyRequest { get; set; }
         public virtual DbSet<PharmacyRequest_Products> PharmacyRequest_Products { get; set; }
         public virtual DbSet<AdminNotifications> AdminNotifications { get; set; }
         public virtual DbSet<AdminSubAdminNotifications> AdminSubAdminNotifications { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -130,10 +132,10 @@ namespace DAL
 
 
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<Admin>()
                .HasMany(e => e.BlogPosts)
-               .WithRequired(e => e.User)
-               .HasForeignKey(e => e.User_ID)
+               .WithRequired(e => e.Admin)
+               .HasForeignKey(e => e.Admin_ID)
                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Store>()

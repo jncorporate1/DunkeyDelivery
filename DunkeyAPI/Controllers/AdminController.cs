@@ -720,7 +720,7 @@ namespace DunkeyAPI.Controllers
                 model.Longitude = Convert.ToDouble(httpRequest.Params["Long"]);
                 model.Description = httpRequest.Params["Description"];
                 model.Address = httpRequest.Params["Address"];
-                model.BusinessType = httpRequest.Params["BusinessType"];
+                model.BusinessType = httpRequest.Params["StoreType"];
                 model.MinDeliveryCharges = 5;
                 model.MinDeliveryTime = 45;
                 model.MinOrderPrice = 15;
@@ -1108,7 +1108,7 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var query = "select Offers.*, Stores.Name as StoreName from Offers join Stores on Offers.Store_Id = Stores.Id where Offers.IsDeleted = 0 and Stores.IsDeleted = 0";
+                    var query = "select Offers.*, Stores.BusinessName as StoreName from Offers join Stores on Offers.Store_Id = Stores.Id where Offers.IsDeleted = 0 and Stores.IsDeleted = 0";
 
                     if (!String.IsNullOrEmpty(OfferName))
                         query += " And Offers.Name Like '%" + OfferName + "%'";
@@ -1118,6 +1118,7 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
 
                     var offers = ctx.Database.SqlQuery<SearchOfferViewModel>(query).ToList();
                     return Ok(new CustomResponse<SearchOfferListViewModel> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = new SearchOfferListViewModel { Offers = offers } });
+                    //return Ok();
                 }
             }
             catch (Exception ex)
@@ -2088,5 +2089,31 @@ and
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [HttpGet]
+        [Route("GetUsers")]
+        public async Task<IHttpActionResult> GetUsers()
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    return Ok(new CustomResponse<SearchUsersViewModel>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new SearchUsersViewModel
+                        {
+                            Users = ctx.Users.ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(LogError(ex));
+            }
+        }
+
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="BlogPosts.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="Contributors.cs" />
     <Compile Include="CreditCard.cs" />
     <Compile Include="Driver.cs" />
     <Compile Include="Driver_Orders.cs" />

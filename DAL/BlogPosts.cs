@@ -26,7 +26,7 @@
 
         public string ImageUrl { get; set; }
 
-        public int User_ID { get; set; }
+        public int Admin_ID { get; set; }
 
         [Required]
         public string Description { get; set; }
@@ -35,16 +35,21 @@
 
         public short is_popular { get; set; }
 
+        public short? is_deleted { get; set; } = 0;
+
         //public virtual User User { get; set; }
 
         [NotMapped]
         public int TotalComments { get; set; }
 
+        [NotMapped]
+        public bool ImageDeletedOnEdit { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BlogComments> BlogComments { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual User User { get; set; }
+        public virtual Admin Admin { get; set; }
 
 
 

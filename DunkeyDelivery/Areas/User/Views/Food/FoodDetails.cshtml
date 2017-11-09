@@ -64,7 +64,7 @@
             <div class="col-md-9">
                 <ul class="tabs-list clearfix">
                     <li>
-                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+                        <button class="tab-btn tablinks active"  onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
                     </li>
                     <li>
                         <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
@@ -133,7 +133,25 @@
                     </div>
                 </div>
                 <div class="tab1 tabcontent" id="paris">
-                    <h1> No content</h1>
+                    <div class="reviews-main clearfix reviews-tab">
+                        <h4>Reviews</h4>
+                        <p class="based-on">
+                            <img class="no-review" src="~/Content/assets/images/no-rating.png" />
+                            There are no reviews yet
+                        </p>
+                        <ul>
+                            @*<li>
+                        <img src="~/Content/assets/images/rating.png" />
+                        <p>
+                            By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                            The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                            tasty it literally blew me away.
+                        </p>
+                    </li>*@
+
+
+                        </ul>
+                    </div>
                 </div>
                 <div class="tab1 tabcontent" id="newyork">
 

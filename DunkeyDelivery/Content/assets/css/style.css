@@ -113,6 +113,9 @@ max-height: 300px;
 	display:none;
 }
 
+.no-review{
+    height: 18px;
+}
 /*
 	Umer's Css Custom end
 */
@@ -2940,7 +2943,7 @@ ul.investor-list li img {
 	color: #ffffff !important;
 	font-weight: 200;
 	font-size: 28px;
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 }
 .banner-inner-data {
 	font-size: 16px !important;

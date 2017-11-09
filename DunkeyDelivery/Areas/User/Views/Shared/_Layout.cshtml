@@ -392,7 +392,9 @@ $(function () {
         format: 'LT'
     });
 });
-
+$(document).ready(function () {
+    $("#defaultOpen").addClass("active");
+});
 
 function openCity(evt, cityName) {
     // Declare all variables
@@ -417,8 +419,8 @@ function openCity(evt, cityName) {
 
 }
 // Get the element with id="defaultOpen" and click on it
-//document.getElementById("defaultOpen").click();
-$("#defaultOpen").click();
+        //document.getElementById("defaultOpen").click();
+
 	</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>

@@ -7,12 +7,17 @@ html , body{
 
 /* Added By Umer Start */
 #ProductDescription{
-max-width: 490px;
-max-height: 150px;
-min-width:200px;
-min-height:50px;
+    max-width: 490px;
+    max-height: 150px;
+    min-width:200px;
+    min-height:50px;
 }
-
+#BlogDescription{
+    max-width: 1027px;
+    max-height: 150px;
+    min-width:200px;
+    min-height:50px;
+}
 .image-preview-input {
     position: relative;
 	overflow: hidden;
