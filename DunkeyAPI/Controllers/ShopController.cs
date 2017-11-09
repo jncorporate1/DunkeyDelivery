@@ -319,7 +319,7 @@ namespace DunkeyAPI.Models
 
         [HttpGet]
         [Route("GetFilteredStores")]
-        public IHttpActionResult GetFilteredStores(string FilterType, string CategoryType, int Items, int Page)
+        public IHttpActionResult GetFilteredStores(string FilterType, string CategoryType, int Items, int Page,DateTime CurrentTime)
         {
             try
             {
@@ -345,18 +345,63 @@ namespace DunkeyAPI.Models
                 }
                 else if (FilterType.Contains("Free delivery"))
                 {
-                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0);
+                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0 || x.MinDeliveryCharges==null);
                     res.Store = ctx.Stores.Include(x => x.StoreTags).Where(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
 
                 }
                 else if (FilterType.Contains("Fast Delivery"))
                 {
-                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType && x.MinDeliveryTime < 30);
-                    res.Store = ctx.Stores.Include(x => x.StoreTags).Where(x => x.BusinessType == CategoryType && x.MinDeliveryTime <= 30).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType);
+                    res.Store = ctx.Stores.Include(x => x.StoreTags).Where(x => x.BusinessType == CategoryType).OrderBy(x => x.MinDeliveryTime).ThenBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
 
                 }
 
-                else if (FilterType.Contains("All") || FilterType.Contains("Open Restaurants"))
+                else if (FilterType.Contains("Open Restaurants"))
+                {
+                    #region Condition for day and store timings
+                    
+                    if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Monday) )
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Monday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Monday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Tuesday))
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Tuesday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Tuesday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Wednesday))
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Wednesday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Wednesday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Thursday))
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Thursday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Thursday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Friday))
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Friday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Friday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Saturday))
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Saturday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Saturday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    else
+                    {
+                        res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Sunday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Sunday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+
+                    }
+                    #endregion
+                    
+                }
+                else if(FilterType.Contains("All"))
+                {
+                    res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+                }else if (FilterType.Contains("Online payment avaiable"))
                 {
                     res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
                 }

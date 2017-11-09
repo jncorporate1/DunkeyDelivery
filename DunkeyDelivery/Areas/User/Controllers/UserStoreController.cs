@@ -40,9 +40,20 @@ namespace DunkeyDelivery.Areas.User.Controllers
                         Page = 0;
                     }
                 }
-                var response = await ApiCall<Shop>.CallApi("api/Shop/GetFilteredStores?FilterType=" + FilterType + "&CategoryType=" + CategoryType + "&Items=" + Items + "&Page=" + Page, null, false);
+                var response = await ApiCall<Shop>.CallApi("api/Shop/GetFilteredStores?FilterType=" + FilterType + "&CategoryType=" + CategoryType + "&Items=" + Items + "&Page=" + Page+"&CurrentTime="+DateTime.Now, null, false);
 
                 var responseShopValue = response.GetValue("Result").ToObject<Shop>();
+                #region SettingDefaultStoreImage
+                foreach (var shop in responseShopValue.Store)
+                {
+                    if (shop.ImageUrl == null)
+                    {
+
+                        shop.ImageUrl = DefaultImages.StoreDefaultImage();
+                    }
+                }
+                #endregion
+
                 //    return PartialView("~/Areas/User/Views/Food/_StoresList.cshtml", responseShopValue);
                 if (CategoryType == "Food")
                 {

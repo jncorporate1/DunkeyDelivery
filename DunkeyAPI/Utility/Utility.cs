@@ -174,6 +174,7 @@ namespace DunkeyDelivery
     public class Global
     {
         public static int MaximumImageSize = 1024 * 1024 * 10; // 10 Mb
+        public static int MinDeliveryTime = 30;
         public static string ImageSize = "10 MB";
         public static int PointsToReward = 20;
         public const string PushFrom = "Dunkey Delivery";
