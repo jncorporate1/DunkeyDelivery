@@ -25,10 +25,15 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public string DeliveryAddress { get; set; }
 
+        public double Total { get; set; }
+
+        public double TipAmount { get; set; }
+
         public OrderViewModel()
         {
             Cart = new CartViewModel();
         }
+
         public CartViewModel Cart { get; set; }
 
     }

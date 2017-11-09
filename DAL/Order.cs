@@ -44,6 +44,8 @@ namespace DAL
 
         public double Total { get; set; }
 
+        public double TipAmount { get; set; }
+
         public int User_ID { get; set; }
 
         public bool IsDeleted { get; set; }

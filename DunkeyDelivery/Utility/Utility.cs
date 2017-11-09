@@ -175,7 +175,7 @@ namespace DunkeyDelivery
             ApplicationAdmin = 4
         }
 
-        public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken)
+        public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken, int amount)
         {
             var customers = new StripeCustomerService();
             var charges = new StripeChargeService();
@@ -188,15 +188,16 @@ namespace DunkeyDelivery
 
             var charge = charges.Create(new StripeChargeCreateOptions
             {
-                Amount = 500,//charge in cents
-                Description = "Sample Charge",
+                Amount = amount * 100, //charge in cents
+                Description = "Dunkey Delivery",
                 Currency = "usd",
-                CustomerId = customer.Id
+                CustomerId = customer.Id,
             });
 
             return charge;
         }
     }
+
     public static class DefaultImages
     {
         //public static string UserDefaultImage()

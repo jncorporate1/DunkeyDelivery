@@ -111,8 +111,6 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
         public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model, string stripeEmail, string stripeToken)
         {
-            StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId);
-
             Cart cart = new Models.Cart();
             cart = GetCartData();
             model.Cart = cart;
@@ -120,6 +118,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             OrderViewModel orderModel = new OrderViewModel();
             orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
             orderModel.DeliveryAddress = model.DeliveryDetails.Address;
+            orderModel.TipAmount = model.TipAmount;
             //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
             if (!string.IsNullOrEmpty(model.Id))
             {
@@ -134,10 +133,21 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
             }
 
-            var responseShop = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
-            var responseShopValue = responseShop.GetValue("Result").ToObject<OrderViewModel>();
+            //Charge user
+            StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
 
+            var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+            var Order = responseOrder.GetValue("Result").ToObject<OrderViewModel>();
 
+            // Remove cart from Cookies
+            if (Request.Cookies["Cart"] != null)
+            {
+                var c = new HttpCookie("Cart");
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+
+            
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Order Summary";
             ViewBag.BannerTitle = "Order Summary";

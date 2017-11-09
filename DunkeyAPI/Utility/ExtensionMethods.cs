@@ -194,9 +194,9 @@ namespace DunkeyAPI.ExtensionMethods
         public static void CalculateTotal(this Order order)
         {
             order.CalculateSubTotal();
-            order.ServiceFee = 3;
+            order.ServiceFee = 0;
             order.DeliveryFee = DunkeySettings.DeliveryFee;
-            order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal;
+            order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal + order.TipAmount;
         }
 
     }

@@ -15,6 +15,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public PaymentInormation PaymentInformation { get; set; }
         public string StripeEmail { get; set; }
         public string StripeId { get; set; }
+        public double TipAmount { get; set; }
     }
 
     public class DeliveryDetails

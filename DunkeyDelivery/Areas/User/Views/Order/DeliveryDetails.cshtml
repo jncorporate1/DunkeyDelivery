@@ -172,6 +172,7 @@
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
                                 <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
+                                <input type="hidden" id="hdnTipAmount" name="TipAmount" value="" />
                             </div>
 
                             <div class="col-md-6">
@@ -212,6 +213,7 @@
                     </div>
                     <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
                     <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
+                    <input type="hidden" id="hdnCartTotal" value="@Model.Cart.Total" />
                 }
             </div>
 
@@ -248,10 +250,10 @@
     }
 
     function TipColor(elementObj) {
-        console.log(elementObj);
         $(".tip-credit").removeAttr("id");
         $(elementObj).attr("id", "tipButtons");
         $(".tip-field").val($("#tipButtons span").text());
+        $('#hdnTipAmount').val(parseInt($("#tipButtons span").text().substring(1).trim()))
     }
 
     var handler = StripeCheckout.configure({
@@ -268,11 +270,11 @@
     });
 
     document.getElementById('btnPlaceOrderStripe').addEventListener('click', function (e) {
+        var amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt($("#tipButtons span").text().substring(1).trim())) * 100);
         // Open Checkout with further options:
         handler.open({
             name: 'Dunkey Delivery',
-            description: '2 widgets',
-            amount: 2000
+            amount: amountToCharge  //amount in cents
         });
         e.preventDefault();
     });
@@ -286,7 +288,6 @@
     $('#frmOrderSummary').on('submit', function (e) {
         // Prevent actual form submission
         e.preventDefault();
-        debugger;
         if ($(this).valid()) {
             $('#btnPlaceOrderStripe').trigger('click');
         }
