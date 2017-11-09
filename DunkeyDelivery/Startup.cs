@@ -1,5 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Stripe;
+using System.Configuration;
 
 [assembly: OwinStartupAttribute(typeof(DunkeyDelivery.Startup))]
 namespace DunkeyDelivery
@@ -9,6 +11,7 @@ namespace DunkeyDelivery
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            StripeConfiguration.SetApiKey(ConfigurationManager.AppSettings["stripeSecretKey"]);
         }
     }
 }

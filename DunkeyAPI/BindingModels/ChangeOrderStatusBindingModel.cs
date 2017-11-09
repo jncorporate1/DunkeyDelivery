@@ -20,4 +20,19 @@ namespace DunkeyAPI.BindingModels
         }
         public List<ChangeOrderStatusBindingModel> Orders { get; set; }
     }
+
+    public class ChangePharmacyStatusBindingModel
+    {
+        public int PharmacyId { get; set; }
+        public int Status { get; set; }
+    }
+
+    public class ChangePharmacyStatusListBindingModel
+    {
+        public ChangePharmacyStatusListBindingModel()
+        {
+            PharmacyRequests = new List<ChangePharmacyStatusBindingModel>();
+        }
+        public List<ChangePharmacyStatusBindingModel> PharmacyRequests { get; set; }
+    }
 }

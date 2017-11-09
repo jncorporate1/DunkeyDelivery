@@ -11,8 +11,11 @@ namespace DunkeyDelivery.Areas.User.Models
     public class DeliveryDetailsViewModel : BaseViewModel
     {
         public Cart Cart { get; set; }
-       public DeliveryDetails DeliveryDetails { get; set; }
-       public PaymentInormation PaymentInformation { get; set; }
+        public DeliveryDetails DeliveryDetails { get; set; }
+        public PaymentInormation PaymentInformation { get; set; }
+        public string StripeEmail { get; set; }
+        public string StripeId { get; set; }
+        public double TipAmount { get; set; }
     }
 
     public class DeliveryDetails
@@ -25,7 +28,7 @@ namespace DunkeyDelivery.Areas.User.Models
 
         [Required(ErrorMessage = "Last Name is required")]
         [DataType(DataType.Text)]
-       // [RegularExpression(@"^[A-z]+$", ErrorMessage = "Use Alphabets Only Without Spaces")]
+        // [RegularExpression(@"^[A-z]+$", ErrorMessage = "Use Alphabets Only Without Spaces")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
@@ -76,8 +79,8 @@ namespace DunkeyDelivery.Areas.User.Models
         public string CreditCard { get; set; }
 
         [Required(ErrorMessage = "CVV is required")]
-      //  [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "invalid CVV")]
-        [MaxLength(4,ErrorMessage = "CVV Should Be Of Max Length 4"), MinLength(3,ErrorMessage = "CVV Should Be Of   Min Length 3")]
+        //  [RegularExpression(@"^[0-9]{4}$", ErrorMessage = "invalid CVV")]
+        [MaxLength(4, ErrorMessage = "CVV Should Be Of Max Length 4"), MinLength(3, ErrorMessage = "CVV Should Be Of   Min Length 3")]
         //[StringLength(4, ErrorMessage = "CVV Should Be Of Max Length 4")]
         [DataType(DataType.Text)]
         [Display(Name = "CVV")]
@@ -85,7 +88,7 @@ namespace DunkeyDelivery.Areas.User.Models
 
         [Required(ErrorMessage = "Expiry Date is required")]
         [Display(Name = "Expiry Date")]
-       // [RegularExpression(@"(0[1-9]|10|11|12)/20[0-9]{2}$", ErrorMessage = "Enter Valid Expiry Date")]
+        // [RegularExpression(@"(0[1-9]|10|11|12)/20[0-9]{2}$", ErrorMessage = "Enter Valid Expiry Date")]
         [DataType(DataType.Text)]
         public string MonthYear { get; set; }
 

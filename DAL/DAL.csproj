@@ -58,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminNotifications.cs" />
+    <Compile Include="AdminSubAdminNotifications.cs" />
     <Compile Include="BlogComments.cs" />
     <Compile Include="BlogPosts.cs" />
     <Compile Include="Category.cs" />
@@ -70,10 +72,6 @@
     <Compile Include="Favourite.cs" />
     <Compile Include="ForgetPasswordTokens.cs" />
     <Compile Include="JsonCustomDateTimeConverter.cs" />
-    <Compile Include="Migrations\201710071243167_storedeli.cs" />
-    <Compile Include="Migrations\201710071243167_storedeli.Designer.cs">
-      <DependentUpon>201710071243167_storedeli.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Offer.cs" />
@@ -86,6 +84,8 @@
     <Compile Include="Package_Products.cs" />
     <Compile Include="Payment_Details.cs" />
     <Compile Include="Payment_Method.cs" />
+    <Compile Include="PharmacyRequest.cs" />
+    <Compile Include="PharmacyRequest_Products.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RewardMilestones.cs" />
@@ -106,11 +106,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710071243167_storedeli.resx">
-      <DependentUpon>201710071243167_storedeli.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

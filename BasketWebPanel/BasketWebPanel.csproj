@@ -203,6 +203,7 @@
     <Compile Include="Areas\Dashboard\Controllers\OffersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\PackageController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\PharmacyController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\ProductController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Controllers\UtilityController.cs" />
     <Compile Include="Custom\DbGeographyyConverter.cs" />
     <Compile Include="Custom\ElmahHandledErrorLoggerFilter.cs" />
-    <Compile Include="Hubs\MyHub.cs" />
     <Compile Include="Utility\EnumHelpers.cs" />
     <Compile Include="ViewModels\AddAdminViewModel.cs" />
     <Compile Include="ViewModels\AddBlogViewModel.cs" />
@@ -244,6 +244,7 @@
     <Compile Include="ViewModels\SearchNotificationsViewModel.cs" />
     <Compile Include="ViewModels\SearchOffersViewModel.cs" />
     <Compile Include="ViewModels\SearchPackageViewModel.cs" />
+    <Compile Include="ViewModels\SearchPharmacyRequestsViewModel.cs" />
     <Compile Include="ViewModels\SearchProductsViewModel.cs" />
     <Compile Include="BindingModels\AsyncHelpers.cs" />
     <Compile Include="BindingModels\CategoryBindingModel.cs" />
@@ -1065,6 +1066,11 @@
     <Content Include="Areas\Dashboard\Views\Content\Investors.cshtml" />
     <Content Include="Areas\Dashboard\Views\Content\_SearchContent.cshtml" />
     <Content Include="Areas\Dashboard\Views\Content\_SearchContentResults.cshtml" />
+    <Content Include="Areas\Dashboard\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Pharmacy\ManagePharmacyRequests.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Notifications\MyNotifications.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

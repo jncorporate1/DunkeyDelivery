@@ -91,7 +91,7 @@ namespace DunkeyAPI.Controllers
 
         // admin panel services 
 
-       // [BasketApi.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        // [BasketApi.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
         /// <summary>
         /// Add admin
         /// </summary>
@@ -417,7 +417,7 @@ namespace DunkeyAPI.Controllers
                                 {
                                     Message = "UnsupportedMediaType",
                                     StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
-                                    Result = new Error { ErrorMessage = "Please Upload a file upto " +  DunkeyDelivery.Global.ImageSize }
+                                    Result = new Error { ErrorMessage = "Please Upload a file upto " + DunkeyDelivery.Global.ImageSize }
                                 });
                             }
                             else
@@ -527,7 +527,7 @@ namespace DunkeyAPI.Controllers
                 {
                     model.Size = httpRequest.Params["Size"];
                 }
-                
+
 
 
                 Validate(model);
@@ -929,21 +929,29 @@ namespace DunkeyAPI.Controllers
             }
         }
 
-      
+
         /// <summary>
         /// Get Dashboard Stats
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("GetAdminDashboardStats")]
-        public async Task<IHttpActionResult> GetAdminDashboardStats()
+        public async Task<IHttpActionResult> GetAdminDashboardStats(int AdminId)
         {
             try
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     DateTime TodayDate = DateTime.Now.Date;
-                    WebDashboardStatsViewModel model = new WebDashboardStatsViewModel { TotalProducts = ctx.Products.Count(x => x.IsDeleted == false), TotalStores = ctx.Stores.Count(), TotalUsers = ctx.Users.Count(), TodayOrders = ctx.Orders.Count(x => DbFunctions.TruncateTime(x.OrderDateTime) == TodayDate.Date) };
+                    WebDashboardStatsViewModel model = new WebDashboardStatsViewModel
+                    {
+                        UnreadNotificationsCount = ctx.AdminSubAdminNotifications.Count(x => x.AdminId == AdminId && x.Status == 0),
+                        TotalProducts = ctx.Products.Count(x => x.IsDeleted == false),
+                        TotalStores = ctx.Stores.Count(),
+                        TotalUsers = ctx.Users.Count(),
+                        TodayOrders = ctx.Orders.Count(x => DbFunctions.TruncateTime(x.OrderDateTime) == TodayDate.Date),
+                        MonthlyEarning = ctx.Orders.Where(x => x.OrderDateTime.Month == DateTime.Now.Month).Sum(x => (double?)(x.Total)) ?? 0
+                    };
                     CustomResponse<WebDashboardStatsViewModel> response = new CustomResponse<WebDashboardStatsViewModel>
                     {
                         Message = ResponseMessages.Success,
@@ -1194,67 +1202,67 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
             }
         }
 
-//        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
-//        [HttpGet]
-//        [Route("GetReadyForDeliveryOrders")]
-//        public async Task<IHttpActionResult> GetReadyForDeliveryOrders()
-//        {
-//            try
-//            {
-//                using (DunkeyContext ctx = new DunkeyContext())
-//                {
-//                    #region query
-//                    var query = @"
-//select 
-//Orders.Id,
-//Orders.OrderDateTime as CreatedOn,
-//Orders.Total as OrderTotal,
-//Orders.DeliveryMan_Id as DeliveryManId,
-//Case When Orders.PaymentMethod = 0 Then 'Pending' Else 'Paid' End As PaymentStatus,
-//Stores.Name as StoreName,
-//Stores.Id as StoreId,
-//Stores.Location as StoreLocation,
-//Users.FullName as CustomerName
-//from Orders
-//join Users on Users.ID = Orders.User_ID
-//join StoreOrders on StoreOrders.Order_Id = Orders.Id
-//join Stores on Stores.Id = StoreOrders.Store_Id
-//where 
-//Orders.IsDeleted = 0
-//and Orders.Status = " + (int)OrderStatuses.ReadyForDelivery;
-//                    #endregion
+        //        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        //        [HttpGet]
+        //        [Route("GetReadyForDeliveryOrders")]
+        //        public async Task<IHttpActionResult> GetReadyForDeliveryOrders()
+        //        {
+        //            try
+        //            {
+        //                using (DunkeyContext ctx = new DunkeyContext())
+        //                {
+        //                    #region query
+        //                    var query = @"
+        //select 
+        //Orders.Id,
+        //Orders.OrderDateTime as CreatedOn,
+        //Orders.Total as OrderTotal,
+        //Orders.DeliveryMan_Id as DeliveryManId,
+        //Case When Orders.PaymentMethod = 0 Then 'Pending' Else 'Paid' End As PaymentStatus,
+        //Stores.Name as StoreName,
+        //Stores.Id as StoreId,
+        //Stores.Location as StoreLocation,
+        //Users.FullName as CustomerName
+        //from Orders
+        //join Users on Users.ID = Orders.User_ID
+        //join StoreOrders on StoreOrders.Order_Id = Orders.Id
+        //join Stores on Stores.Id = StoreOrders.Store_Id
+        //where 
+        //Orders.IsDeleted = 0
+        //and Orders.Status = " + (int)OrderStatuses.ReadyForDelivery;
+        //                    #endregion
 
-//                    SearchOrdersListViewModel responseModel = new SearchOrdersListViewModel { Orders = ctx.Database.SqlQuery<SearchOrdersViewModel>(query).ToList() };
+        //                    SearchOrdersListViewModel responseModel = new SearchOrdersListViewModel { Orders = ctx.Database.SqlQuery<SearchOrdersViewModel>(query).ToList() };
 
-//                    foreach (var order in responseModel.Orders)
-//                    {
-//                        var deliveryMen = ctx.DeliveryMen.Where(x => x.Location.Distance(order.StoreLocation) < Global.NearbyStoreRadius).ToList();
+        //                    foreach (var order in responseModel.Orders)
+        //                    {
+        //                        var deliveryMen = ctx.DeliveryMen.Where(x => x.Location.Distance(order.StoreLocation) < Global.NearbyStoreRadius).ToList();
 
-//                        foreach (var deliverer in deliveryMen)
-//                        {
-//                            order.DeliveryMen.Add(new DelivererOptionsViewModel { Id = deliverer.Id, Name = deliverer.FullName });
-//                        }
-//                    }
+        //                        foreach (var deliverer in deliveryMen)
+        //                        {
+        //                            order.DeliveryMen.Add(new DelivererOptionsViewModel { Id = deliverer.Id, Name = deliverer.FullName });
+        //                        }
+        //                    }
 
-//                    //If a deliverer is in radius any of store in order. That deliverer will be selected.
+        //                    //If a deliverer is in radius any of store in order. That deliverer will be selected.
 
-//                    var duplicateOrders = responseModel.Orders.GroupBy(x => x.Id).Where(g => g.Count() > 1).Select(y => y.Key);
+        //                    var duplicateOrders = responseModel.Orders.GroupBy(x => x.Id).Where(g => g.Count() > 1).Select(y => y.Key);
 
-//                    var DuplicateDeliveryMenUnion = responseModel.Orders.Where(x => duplicateOrders.Contains(x.Id)).SelectMany(x1 => x1.DeliveryMen).Distinct(new DelivererOptionsViewModel.Comparer()).ToList();
+        //                    var DuplicateDeliveryMenUnion = responseModel.Orders.Where(x => duplicateOrders.Contains(x.Id)).SelectMany(x1 => x1.DeliveryMen).Distinct(new DelivererOptionsViewModel.Comparer()).ToList();
 
-//                    foreach (var order in responseModel.Orders.Where(x => duplicateOrders.Contains(x.Id)))
-//                    {
-//                        order.DeliveryMen = DuplicateDeliveryMenUnion;
-//                    }
+        //                    foreach (var order in responseModel.Orders.Where(x => duplicateOrders.Contains(x.Id)))
+        //                    {
+        //                        order.DeliveryMen = DuplicateDeliveryMenUnion;
+        //                    }
 
-//                    return Ok(new CustomResponse<SearchOrdersListViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                return StatusCode(Utility.LogError(ex));
-//            }
-//        }
+        //                    return Ok(new CustomResponse<SearchOrdersListViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return StatusCode(Utility.LogError(ex));
+        //            }
+        //        }
 
 
         //[BasketApi.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
@@ -1425,7 +1433,7 @@ and
                     model.ImageDeletedOnEdit = Convert.ToBoolean(httpRequest.Params["ImageDeletedOnEdit"]);
                 }
                 model.Name = httpRequest.Params["Name"];
-                model.Price =Convert.ToDouble(httpRequest.Params["Price"]);
+                model.Price = Convert.ToDouble(httpRequest.Params["Price"]);
                 model.Description = httpRequest.Params["Description"];
                 model.Store_Id = Convert.ToInt32(httpRequest.Params["Store_Id"]);
                 model.Status = 0;
@@ -1945,6 +1953,142 @@ and
         }
 
 
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [Route("ChangePharmacyRequestStatuses")]
+        public async Task<IHttpActionResult> ChangePharmacyRequestStatuses(ChangePharmacyStatusListBindingModel model)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    foreach (var request in model.PharmacyRequests)
+                        ctx.PharmacyRequest.FirstOrDefault(x => x.Id == request.PharmacyId).Status = request.Status;
+
+                    ctx.SaveChanges();
+                }
+
+                return Ok(new CustomResponse<string> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
+        [DunkeyDelivery.Authorize("SuperAdmin", "ApplicationAdmin")]
+        [Route("AddNotification")]
+        public async Task<IHttpActionResult> AddNotification(NotificationBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    AdminNotifications adminNotification = new AdminNotifications { CreatedDate = DateTime.Now, Title = model.Title, TargetAudienceType = model.TargetAudience, Description = model.Description };
+
+                    ctx.AdminNotifications.Add(adminNotification);
+                    ctx.SaveChanges();
+
+                    if (model.TargetAudience == (int)NotificationTargetAudienceTypes.SubAdmins)
+                    {
+                        var subAdmins = ctx.Admins.Where(x => x.IsDeleted == false && x.Status == 1 && x.Role == (int)DunkeyDelivery.CustomAuthorization.RolesCode.SubAdmin);
+
+                        await subAdmins.ForEachAsync(a => a.Notifications.Add(new AdminSubAdminNotifications { CreatedDate = DateTime.Now, Title = model.Title, Text = model.Description, Status = 0, AdminNotification_Id = adminNotification.Id }));
+
+                        await ctx.SaveChangesAsync();
+
+                    }
+                    return Ok(new CustomResponse<string> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [DunkeyDelivery.Authorize("SuperAdmin", "ApplicationAdmin")]
+        [HttpGet]
+        [Route("SearchNotifications")]
+        public async Task<IHttpActionResult> SearchNotifications()
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    return Ok(new CustomResponse<SearchAdminNotificationsViewModel>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new SearchAdminNotificationsViewModel
+                        {
+                            Notifications = ctx.AdminNotifications.ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [HttpGet]
+        [Route("GetMyNotifications")]
+        public async Task<IHttpActionResult> GetMyNotifications(int Id, bool Unread = false)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    return Ok(new CustomResponse<SearchSubAdminNotificationsViewModel>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new SearchSubAdminNotificationsViewModel
+                        {
+                            Notifications = Unread ? ctx.AdminSubAdminNotifications.Where(x => x.AdminId == Id && x.Status == 0).ToList() : ctx.AdminSubAdminNotifications.Where(x => x.AdminId == Id).ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [HttpGet]
+        [Route("MarkNotificationAsRead")]
+        public async Task<IHttpActionResult> MarkNotificationAsRead(int Id, int AdminId)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    ctx.AdminSubAdminNotifications.FirstOrDefault(x => x.Id == Id).Status = 1;
+                    ctx.SaveChanges();
+
+                    return Ok(new CustomResponse<string>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = ctx.AdminSubAdminNotifications.Count(x=>x.AdminId == AdminId && x.Status == 0).ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
         [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
         [HttpGet]
         [Route("GetUsers")]

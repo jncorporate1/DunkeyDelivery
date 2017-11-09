@@ -107,6 +107,7 @@ namespace BasketWebPanel.Controllers
                     identity.AddClaim(new Claim("access_token", adminModel.Token.access_token));
                     identity.AddClaim(new Claim("token_type", adminModel.Token.token_type));
                     identity.AddClaim(new Claim("expires_in", adminModel.Token.expires_in));
+                    identity.AddClaim(new Claim("UnreadNotificationCount", adminModel.Notifications.Count(x=>x.Status == 0).ToString()));
                     //identity.AddClaim(new Claim("refresh_token", adminModel.Token.refresh_token));
                     if (adminModel.Store_Id != null)
                         identity.AddClaim(new Claim("StoreId", Convert.ToString(adminModel.Store_Id)));
@@ -121,8 +122,7 @@ namespace BasketWebPanel.Controllers
             }
             catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
 

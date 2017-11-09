@@ -1,7 +1,9 @@
 ﻿using DunkeyDelivery.Areas.User.Models;
 using Newtonsoft.Json.Linq;
+using Stripe;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,9 +21,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
             return View();
         }
         public ActionResult OrderItems(float? MinOrder)
-         {
+        {
             Cart cart = new Cart();
-            
+
             var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
             if (cartCookie != null && String.IsNullOrEmpty(cartCookie.Value) == false)
             {
@@ -58,16 +60,16 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public ActionResult DeliveryDetails()
         {
-
-           
+            var stripePublishKey = ConfigurationManager.AppSettings["StripePublishableKey"];
+            ViewBag.StripePublishKey = stripePublishKey;
             DeliveryDetailsViewModel deliveryModel = new DeliveryDetailsViewModel();
-            deliveryModel.Cart= GetCartData();
+            deliveryModel.Cart = GetCartData();
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Delivery Details";
             ViewBag.BannerTitle = "Delivery Details";
             ViewBag.Path = "Home > Delivery Details";
             deliveryModel.SetSharedData(User);
-            return View("DeliveryDetails",deliveryModel);
+            return View("DeliveryDetails", deliveryModel);
         }
 
 
@@ -95,7 +97,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             Cart cart = new Cart();
             cart = GetCartData();
-            return PartialView("_Cart",cart);
+            return PartialView("_Cart", cart);
         }
 
         public ActionResult Cart()
@@ -106,9 +108,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             return PartialView("_DeliveryTime");
         }
-        public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model)
-        {
 
+        public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model, string stripeEmail, string stripeToken)
+        {
             Cart cart = new Models.Cart();
             cart = GetCartData();
             model.Cart = cart;
@@ -116,10 +118,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
             OrderViewModel orderModel = new OrderViewModel();
             orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
             orderModel.DeliveryAddress = model.DeliveryDetails.Address;
+            orderModel.TipAmount = model.TipAmount;
             //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
             if (!string.IsNullOrEmpty(model.Id))
             {
-                orderModel.UserId =Convert.ToInt32(model.Id);
+                orderModel.UserId = Convert.ToInt32(model.Id);
             }
 
             foreach (var store in cart.Stores)
@@ -130,10 +133,21 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
             }
 
-            var responseShop = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
-            var responseShopValue = responseShop.GetValue("Result").ToObject<OrderViewModel>();
+            //Charge user
+            StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
 
-        
+            var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+            var Order = responseOrder.GetValue("Result").ToObject<OrderViewModel>();
+
+            // Remove cart from Cookies
+            if (Request.Cookies["Cart"] != null)
+            {
+                var c = new HttpCookie("Cart");
+                c.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(c);
+            }
+
+            
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Order Summary";
             ViewBag.BannerTitle = "Order Summary";
@@ -149,7 +163,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         //[HttpPost]
         public JsonResult GetCart()
         {
-            var TotalCartItems=0;
+            var TotalCartItems = 0;
             HttpCookie cookie = new HttpCookie("Cart");
             Cart cart = new Cart();
             if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
@@ -159,13 +173,13 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 //CartItem existingCartItem;
                 foreach (var store in cart.Stores)
                 {
-                    TotalCartItems+=store.CartItems.Count;
+                    TotalCartItems += store.CartItems.Count;
                 }
                 //var existingCartItem = cart.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type && x.StoreId == model.StoreId);
                 cart.TotalCartItems = TotalCartItems;
                 //var existingStore = cart.Stores;
             }
-                return Json(cart, JsonRequestBehavior.AllowGet);
+            return Json(cart, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
