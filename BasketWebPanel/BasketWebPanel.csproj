@@ -208,6 +208,7 @@
     <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\StoresController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\TaxController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
     <Compile Include="Areas\Dashboard\DashboardAreaRegistration.cs" />
     <Compile Include="Areas\Dashboard\Models\AddCategoryViewModel.cs" />
@@ -271,6 +272,8 @@
     <Compile Include="ViewModels\SearchAdminsViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModel.cs" />
     <Compile Include="ViewModels\StoreViewModel.cs" />
+    <Compile Include="ViewModels\TaxViewModel.cs" />
+    <Compile Include="ViewModels\TaxViewModels.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1071,6 +1074,7 @@
     <Content Include="Areas\Dashboard\Views\Pharmacy\ManagePharmacyRequests.cshtml" />
     <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Notifications\MyNotifications.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Tax\Index.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

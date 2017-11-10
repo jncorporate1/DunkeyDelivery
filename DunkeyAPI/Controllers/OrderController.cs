@@ -37,10 +37,11 @@ namespace DunkeyAPI.Controllers
                 if (model.Cart.CartItems.Count() > 0)
                 {
                     order = new Order();
-                    order.MakeOrder(model);
-
                     using (DunkeyContext ctx = new DunkeyContext())
                     {
+                        order.MakeOrder(model, ctx);
+
+
                         order.DeliveryTime_From = DateTime.Now;
                         order.DeliveryTime_To = DateTime.Now;
 
@@ -67,10 +68,11 @@ namespace DunkeyAPI.Controllers
                     if (model.Cart.CartItems.Count() > 0)
                     {
                         order = new Order();
-                        order.MakeOrder(model);
-
                         using (DunkeyContext ctx = new DunkeyContext())
                         {
+                            order.MakeOrder(model, ctx);
+
+
                             ctx.Orders.Add(order);
                             await ctx.SaveChangesAsync();
                             var CurrentUser = ctx.Users.Where(x => x.Id == model.UserId).FirstOrDefault();

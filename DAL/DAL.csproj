@@ -62,6 +62,7 @@
     <Compile Include="AdminSubAdminNotifications.cs" />
     <Compile Include="BlogComments.cs" />
     <Compile Include="BlogPosts.cs" />
+    <Compile Include="BusinessTypeTax.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="ContactUs.cs" />
     <Compile Include="Contributors.cs" />

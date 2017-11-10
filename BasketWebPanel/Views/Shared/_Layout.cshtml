@@ -162,24 +162,24 @@
                                     </ul>
                                 </li>
                                 @*<li>
-                                        <a><i class="fa fa-edit"></i> Catalog <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li>
-                                                <a> Products <span class="fa fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu">
-                                                    <li><a href="@Url.Action("Index","Product")">Add New Product</a></li>
-                                                </ul>
-                                            </li>
+                <a><i class="fa fa-edit"></i> Catalog <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li>
+                        <a> Products <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="@Url.Action("Index","Product")">Add New Product</a></li>
+                        </ul>
+                    </li>
 
-                                            <li>
+                    <li>
 
-                                                <a> Categories <span class="fa fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu">
-                                                    <li><a href="@Url.Action("Index","Categories")">Add New Categories</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>*@
+                        <a> Categories <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="@Url.Action("Index","Categories")">Add New Categories</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>*@
                                 @*/////Stores*@
                                 <li>
                                     <a><i class="fa fa-opencart"></i> Stores <span class="fa fa-chevron-down"></span></a>
@@ -197,9 +197,9 @@
 
                                             @*<a> Stores <span class="fa fa-chevron-down"></span></a>*@
                                             @*<ul class="nav child_menu">
-                                                    <li><a href="@Url.Action("Index","Stores")">Add New Stores</a></li>
-                                                    @*<li><a>Reports</a></li>
-                                                </ul>*@
+                            <li><a href="@Url.Action("Index","Stores")">Add New Stores</a></li>
+                            @*<li><a>Reports</a></li>
+                        </ul>*@
                                         </li>
                                     </ul>
                                 </li>
@@ -223,23 +223,23 @@
                                 </li>
                                 @*/////Delivery*@
                                 @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
-                                {
-                                    <li>
-                                        <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li>
+            {
+                <li>
+                    <a><i class="fa fa-truck"></i> Delivery<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li>
 
-                                                <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
+                            <a href="@Url.Action("Index", "Delivery")">Assign Orders to DeliveryMen</a>
 
-                                                @*<a href="#">Manage Deliverers</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                }*@
+                            @*<a href="#">Manage Deliverers</a>
+                        </li>
+                    </ul>
+                </li>
+            }*@
 
                                 @*/////Delivery*@
                                 @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
-                                    {*@
+            {*@
                                 <li>
                                     <a><i class="fa fa-users"></i> App Users<span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
@@ -267,12 +267,12 @@
                                 </li>
                                 @*/////Setiings*@
                                 @*<li>
-                                        <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
-                                            <li><a href="#">Customer Settings</a></li>
-                                        </ul>
-                                    </li>*@
+                <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                    <li><a href="#">Customer Settings</a></li>
+                </ul>
+            </li>*@
 
                                 @*Notifications*@
 
@@ -295,27 +295,30 @@
                                         <li><a href="@Url.Action("ManagePharmacy", "Pharmacy")">View Requests</a></li>
                                     </ul>
                                 </li>
+                            @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                            {
                                 @*/////Content management*@
                                 <li>
                                     <a><i class="fa fa-tasks"></i> Content Management  <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
 
-                                        <li><a href="@Url.Action(" AboutUs","Content")">About Us</a></li>
-                                        <li><a href="@Url.Action(" Investors","Content")">Investors</a></li>
-                                        <li><a href="@Url.Action(" Partners","Content")">Partners</a></li>
-                                        <li><a href="@Url.Action(" ManageContent","Content")">Manage Content</a></li>
-
+                                        <li><a href="@Url.Action("AboutUs", "Content")">About Us</a></li>
+                                        <li><a href="@Url.Action("Investors", "Content")">Investors</a></li>
+                                        <li><a href="@Url.Action("Partners", "Content")">Partners</a></li>
+                                        <li><a href="@Url.Action("ManageContent", "Content")">Manage Content</a></li>
+                                        <li><a href="@Url.Action("Index","Tax")">Tax Settings</a></li>
 
                                     </ul>
                                 </li>
                                 @*/////Setiings*@
+                                }
                                 @*<li>
-                                    <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
-                                        <li><a href="#">Customer Settings</a></li>
-                                    </ul>
-                                </li>*@
+                <a><i class="fa fa-gears"></i> Settings <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                    <li><a href="@Url.Action("GeneralSettings","Settings")">General Settings</a></li>
+                    <li><a href="#">Customer Settings</a></li>
+                </ul>
+            </li>*@
                             </ul>
                         </div>
                     </div>

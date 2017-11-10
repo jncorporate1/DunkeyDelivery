@@ -33,33 +33,35 @@
 
 
 
-                                <li>
+                                <li id="list_@(cart_item.ItemId)" > 
                                     <div class="col-md-4">
                                         <p>@cart_item.Name</p>
                                     </div>
 
-                                    <div class="col-md-2 rel-col">
+                                    <div class="col-md-2 rel-col">                                  
 
 
-                                        <a id="@cart_item.ItemId" onclick="Increase(this.id)" class="plus-icon inc-icon">+</a>
 
-                                        <input type="number" id="value_@cart_item.ItemId" onchange="enableBtn()"  value="@cart_item.Qty" />
+                                        <a id="addCart" storeName="@cart_item.StoreName"  onclick="AddToCart('@cart_item.ItemId','@cart_item.Name','@cart_item.Price','@cart_item.Size','@cart_item.StoreId')"  class="plus-icon inc-icon">+</a>
 
-                                        <a  style="cursor:pointer" onclick="Decrease(this.id)" id="@cart_item.ItemId" class="minus-icon inc-icon">-</a>
+                                      
 
+                                        <input type="number"  class="item_@(cart_item.ItemId)"  value="@cart_item.Qty" readonly/>
 
-                                        @*<a href="#" class="minus-icon inc-icon">-</a>*@
+                                        
+                                        <a style="cursor:pointer" onclick="DeleteCartItem('@cart_item.ItemId','@cart_item.Type','@cart_item.StoreId','@cart_item.Price')" id="@cart_item.ItemId" class="minus-icon inc-icon">-</a>
+                                 
                                     </div>
                                     <div class="col-md-2">
                                         <p class="price">$@cart_item.Price</p>
                                     </div>
 
                                     <div class="col-md-2">
-                                        <p class="total-price">$@cart_item.Total</p>
+                                        <p class="total-price_@(cart_item.ItemId)">$@cart_item.Total</p>
                                     </div>
 
                                     <div class="col-md-2">
-                                        <a href="#" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
+                                        <a onclick="RemoveCartItem('@cart_item.ItemId', '@cart_item.Name', '@cart_item.Price', '@cart_item.Size', '@cart_item.StoreId','@cart_item.Type')" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
                                     </div>
                                 </li>
                             }
@@ -75,7 +77,7 @@
                                 </p>
                                 <p style="color:black;"><b>Your cart is empty! </b></p>
 
-                                <a class="btn btn-default">Add More Items</a>
+                                <a id class="btn btn-default">Add More Items</a>
                             </div>
                         </li>
                     }
@@ -85,12 +87,12 @@
             </div>
 
 
-            <div class="enter-coupon left">
+            @*<div class="enter-coupon left">
                 <input type="text" placeholder="Enter Coupon Code" />
                 <input type="submit" value="APPLY" />
-            </div>
+            </div>*@
 
-            <a href="#" class="btn btn-default right">UPDATE CART</a>
+            @*<a href="#" class="btn btn-default right">UPDATE CART</a>*@
 
         </div>
 
@@ -100,8 +102,8 @@
                     CART TOTAL
                 </div>
                 <ul>
-                    <li><p>Cart Subtotal <span>$604.00</span></p></li>
-                    <li><p>Order Total <span>$172.00</span></p></li>
+                    <li><p>Cart Subtotal <span id="cart_subtotal" >$@Model.cart.Total</span></p></li>
+                    <li><p>Order Total <span id="order_total" >$@Model.cart.Total</span></p></li>
                     <a href="#" class="proceed-btn">PROCEED TO CHECKOUT</a>
                 </ul>
             </div>

@@ -67,5 +67,6 @@ namespace DAL
 
         public int? DeliveryMan_Id { get; set; }
         public bool RemoveFromDelivererHistory { get; set; }
+        public double TotalTaxDeducted { get; set; }
     }
 }

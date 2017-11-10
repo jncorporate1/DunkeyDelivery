@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,11 +38,35 @@ namespace DAL
 
         public int Order_Id { get; set; }
 
+        [NotMapped]
+        public double BusinessTypeTax { get; set; }
+
+        [NotMapped]
+        public string BusinessType { get; set; }
+
         public virtual Order Order { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order_Items> Order_Items { get; set; }
 
         public virtual Store Store { get; set; }
+
+        public class DistinctComparerOnBusinessType : IEqualityComparer<StoreOrder>
+        {
+            public bool Equals(StoreOrder x, StoreOrder y)
+            {
+                return x.BusinessType == y.BusinessType;
+            }
+
+            public int GetHashCode(StoreOrder obj)
+            {
+                unchecked  // overflow is fine
+                {
+                    int hash = 17;
+                    hash = hash * 23 + (obj.Id).GetHashCode();
+                    return hash;
+                }
+            }
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace DunkeyAPI.ViewModels
             ServiceFee = order.ServiceFee;
             DeliveryFee = order.DeliveryFee;
             Total = order.Total;
+            TotalTaxDeducted = order.TotalTaxDeducted;
         }
 
         public int OrderId { get; set; }
@@ -44,6 +45,10 @@ namespace DunkeyAPI.ViewModels
         public double DeliveryFee { get; set; }
 
         public double Total { get; set; }
+
+        public double TotalTaxDeducted { get; set; }
+
+
 
     }
 }

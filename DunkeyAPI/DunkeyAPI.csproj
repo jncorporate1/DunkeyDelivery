@@ -378,6 +378,7 @@
     <Compile Include="ViewModels\Shop.cs" />
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />
+    <Compile Include="ViewModels\TaxViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WebDashboardStatsViewModel.cs" />
   </ItemGroup>
