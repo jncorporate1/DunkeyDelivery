@@ -17,7 +17,8 @@ namespace DunkeyAPI.ViewModels
             PaymentMethodType = order.PaymentMethod;
             ServiceFee = order.ServiceFee;
             DeliveryFee = order.DeliveryFee;
-            
+            Total = order.Total;
+            TotalTaxDeducted = order.TotalTaxDeducted;
         }
 
         public int OrderId { get; set; }

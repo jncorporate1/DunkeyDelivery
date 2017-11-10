@@ -2080,7 +2080,7 @@ and
                     {
                         Message = Utility.Global.ResponseMessages.Success,
                         StatusCode = (int)HttpStatusCode.OK,
-                        Result = ctx.AdminSubAdminNotifications.Count(x=>x.AdminId == AdminId && x.Status == 0).ToString()
+                        Result = ctx.AdminSubAdminNotifications.Count(x => x.AdminId == AdminId && x.Status == 0).ToString()
                     });
                 }
             }
@@ -2114,6 +2114,69 @@ and
                 return StatusCode(LogError(ex));
             }
         }
+
+        [HttpGet]
+        [Route("GetTaxes")]
+        public async Task<IHttpActionResult> GetTaxes()
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+
+                    return Ok(new CustomResponse<TaxListViewModel>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new TaxListViewModel
+                        {
+                            Tax = ctx.BusinessTypeTax.ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(LogError(ex));
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateTaxes")]
+        public async Task<IHttpActionResult> UpdateTaxes(TaxListViewModel model)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    foreach (var item in model.Tax)
+                    {
+                        var CategoryTax = ctx.BusinessTypeTax.Where(x => x.Id == item.Id).FirstOrDefault();
+                        CategoryTax.Tax = item.Tax;
+                        ctx.SaveChanges();
+                    }
+
+                    return Ok(new CustomResponse<TaxListViewModel>
+                    {
+                        Message = Utility.Global.ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = new TaxListViewModel
+                        {
+                            Tax = ctx.BusinessTypeTax.ToList()
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(LogError(ex));
+            }
+        }
+
+
+
+
+
 
     }
 }

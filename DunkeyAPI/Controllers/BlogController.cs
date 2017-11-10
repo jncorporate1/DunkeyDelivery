@@ -284,10 +284,11 @@ namespace DunkeyAPI.Controllers
                 {
 
                     BlogPostListViewModel model = new BlogPostListViewModel();
-                    model.BlogPosts = ctx.BlogPosts.Include(c => c.Admin).Skip(Page*Items).Take(Items).ToList();
+                    model.BlogPosts = ctx.BlogPosts.Include(c => c.Admin).OrderBy(x=>x.Title).Skip(Page*Items).Take(Items).ToList();
 
                     foreach (var post in model.BlogPosts)
                     {
+                      
                         post.TotalComments = ctx.BlogComments.Count(x=>x.Post_Id==post.Id);
                     }
 

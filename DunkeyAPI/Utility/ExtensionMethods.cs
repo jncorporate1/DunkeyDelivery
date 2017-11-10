@@ -41,47 +41,45 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void SetOrderItem(this Order_Items orderItem, CartItemViewModel model)
+        public static void SetOrderItem(this Order_Items orderItem, CartItemViewModel model, DunkeyContext ctx)
         {
             try
             {
-                using (DunkeyContext ctx = new DunkeyContext())
+                model.ItemType = 0;
+                switch (model.ItemType)
                 {
-                    model.ItemType = 0;
-                    switch (model.ItemType)
-                    {
-                        case (int)CartItemTypes.Product:
-                            orderItem.Product_Id = model.ItemId;
-                            var product = ctx.Products.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                            orderItem.Name = product.Name;
-                            orderItem.Price =Convert.ToDouble(product.Price);
-                            orderItem.Description = product.Description;
-                            break;
-                        case (int)CartItemTypes.Package:
-                            orderItem.Package_Id = model.ItemId;
-                            var package = ctx.Packages.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                            orderItem.Name = package.Name;
-                            orderItem.Price = Convert.ToDouble(package.Price);
-                            orderItem.Description = package.Description;
-                            break;
-                        case (int)CartItemTypes.Offer_Product:
-                            orderItem.Offer_Product_Id = model.ItemId;
-                            var offerProduct = ctx.Offer_Products.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                            orderItem.Name = offerProduct.Name;
-                            orderItem.Price = offerProduct.DiscountedPrice;
-                            orderItem.Description = offerProduct.descript;
-                            break;
-                        case (int)CartItemTypes.Offer_Package:
-                            orderItem.Offer_Package_Id = model.ItemId;
-                            var offerPackage = ctx.Offer_Packages.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                            orderItem.Name = offerPackage.Name;
-                            orderItem.Price = offerPackage.DiscountedPrice;
-                            orderItem.Description = offerPackage.Description;
-                            break;
-                        default:
-                            throw new Exception("Invalid CartItemType");
-                    }
+                    case (int)CartItemTypes.Product:
+                        orderItem.Product_Id = model.ItemId;
+                        var product = ctx.Products.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = product.Name;
+                        orderItem.Price = Convert.ToDouble(product.Price);
+                        orderItem.Description = product.Description;
+                        break;
+                    case (int)CartItemTypes.Package:
+                        orderItem.Package_Id = model.ItemId;
+                        var package = ctx.Packages.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = package.Name;
+                        orderItem.Price = Convert.ToDouble(package.Price);
+                        orderItem.Description = package.Description;
+                        break;
+                    case (int)CartItemTypes.Offer_Product:
+                        orderItem.Offer_Product_Id = model.ItemId;
+                        var offerProduct = ctx.Offer_Products.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = offerProduct.Name;
+                        orderItem.Price = offerProduct.DiscountedPrice;
+                        orderItem.Description = offerProduct.descript;
+                        break;
+                    case (int)CartItemTypes.Offer_Package:
+                        orderItem.Offer_Package_Id = model.ItemId;
+                        var offerPackage = ctx.Offer_Packages.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = offerPackage.Name;
+                        orderItem.Price = offerPackage.DiscountedPrice;
+                        orderItem.Description = offerPackage.Description;
+                        break;
+                    default:
+                        throw new Exception("Invalid CartItemType");
                 }
+
 
                 orderItem.Qty = model.Qty;
             }
@@ -91,14 +89,20 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void AddNewStoreOrder(this Order order, CartItemViewModel model)
+        public static void AddNewStoreOrder(this Order order, CartItemViewModel model, DunkeyContext ctx)
         {
             try
             {
                 StoreOrder storeOrder = new StoreOrder();
                 storeOrder.Store_Id = model.StoreId;
                 storeOrder.OrderNo = Guid.NewGuid().ToString("N").ToUpper();
-                storeOrder.AddNewOrderItem(model);
+                storeOrder.AddNewOrderItem(model, ctx);
+                var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType == ctx.Stores.FirstOrDefault(x1 => x1.Id == model.StoreId).BusinessType);
+                if (businessTypeTax != null)
+                {
+                    storeOrder.BusinessTypeTax = businessTypeTax.Tax;
+                    storeOrder.BusinessType = businessTypeTax.BusinessType;
+                }
                 order.StoreOrders.Add(storeOrder);
             }
             catch (Exception)
@@ -107,12 +111,12 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void AddNewOrderItem(this StoreOrder storeOrder, CartItemViewModel model)
+        public static void AddNewOrderItem(this StoreOrder storeOrder, CartItemViewModel model, DunkeyContext ctx)
         {
             try
             {
                 Order_Items orderItem = new Order_Items();
-                orderItem.SetOrderItem(model);
+                orderItem.SetOrderItem(model, ctx);
                 storeOrder.Order_Items.Add(orderItem);
             }
             catch (Exception)
@@ -144,6 +148,9 @@ namespace DunkeyAPI.ExtensionMethods
                 order.DeliveryDetails_AddtionalNote = model.DeliveryDetails.AdditionalNote;
 
 
+                order.DeliveryAddress = model.DeliveryAddress;
+                order.AdditionalNote = model.AdditionalNote;
+                order.TipAmount = model.TipAmount;
             }
             catch (Exception)
             {
@@ -151,7 +158,7 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void MakeOrder(this Order order, OrderViewModel model)
+        public static void MakeOrder(this Order order, OrderViewModel model, DunkeyContext ctx)
         {
             try
             {
@@ -160,7 +167,7 @@ namespace DunkeyAPI.ExtensionMethods
                 {
                     if (order.StoreOrders.Count == 0)
                     {
-                        order.AddNewStoreOrder(cartItem);
+                        order.AddNewStoreOrder(cartItem, ctx);
                     }
                     else
                     {
@@ -168,11 +175,11 @@ namespace DunkeyAPI.ExtensionMethods
 
                         if (existingStoreOrder == null)
                         {
-                            order.AddNewStoreOrder(cartItem);
+                            order.AddNewStoreOrder(cartItem, ctx);
                         }
                         else
                         {
-                            existingStoreOrder.AddNewOrderItem(cartItem);
+                            existingStoreOrder.AddNewOrderItem(cartItem, ctx);
                         }
                     }
                 }
@@ -203,10 +210,21 @@ namespace DunkeyAPI.ExtensionMethods
 
         public static void CalculateTotal(this Order order)
         {
-            order.CalculateSubTotal();
-            order.ServiceFee = 0;
-            order.DeliveryFee = DunkeySettings.DeliveryFee;
-            order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal + order.TipAmount;
+            try
+            {
+
+                order.CalculateSubTotal();
+                order.ServiceFee = 0;
+                order.DeliveryFee = DunkeySettings.DeliveryFee;
+                order.TotalTaxDeducted = order.StoreOrders.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+                order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal + order.TipAmount + order.TotalTaxDeducted;
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
     }

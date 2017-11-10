@@ -11,9 +11,9 @@
 </div>
 <script>
 
-  @*  function AddToCart(id, productName, price, size, StoreId) {
+    function AddToCart(id, productName, price, size, StoreId) {
         var StoreName= $("#addCart").attr("storeName");
-        console.log(JSON.stringify(StoreName));
+
         var data = {
             ItemId: id,
             name: productName,
@@ -25,17 +25,52 @@
         }
         $.post("@Url.Action("AddToCart","Order")", data,
             function (e) {
-                $.post("@Url.Action("GetShoppingCart", "Profile")",
-            function (e) {
-                $("#ShopingCartDiv").load(e);
-            });
+
+                $("#cart_subtotal").val(function (i, val) {
+
+                    return val + price;
+                });
+
+                $(".item_" + id).val(function (i, val) {
+                    val++;
+                    $(".total-price_" + id).text("$" + (val * price));
+
+                    return val;
+                });
+
             });
 
     }
 
+    function RemoveCartItem(id, StoreId,type) {
+        var data = {
+            ItemId: id,
+            type: type,
+            StoreId: StoreId
+
+        }
+        $.post("@Url.Action("RemoveCartItem", "Order")", data,
+        function (e) {
+
+            EmptyCart(id);
+
+        })
+
+    }
+
+    function EmptyCart(id) {
+        $("#list_" + id).remove();
+        if ($('li[id*="list_"]').length == 0) {
+            $(".shopping-list").html(` <li><div class="col-md-12 text-center"> <p><img src="~/Content/assets/images/empty-cart.png" style="height:100px;" /></p>
+                                <p style="color:black;"><b>Your cart is empty! </b></p>
 
 
-    function DeleteCartItem(itemId, type, StoreId) {
+                            </div>
+                        </li>`);
+        }
+    }
+
+    function DeleteCartItem(itemId, type, StoreId,price) {
         var data = {
             ItemId: itemId,
             type: type,
@@ -44,13 +79,29 @@
 
         $.post("@Url.Action("DeleteCartItem", "Order")", data,
         function (e) {
-            $.post("@Url.Action("GetShoppingCart", "Profile")",
-          function (e) {
-              $("#ShopingCartDiv").load(e);
-          });
-        })
+            $(".item_" + itemId).val(function (i, val) {
+                if (val <= 1) {
 
-    }*@
+                    EmptyCart(itemId);
+                }
+                val--;
+                $(".total-price_" + itemId).text("$" + (val * price));
+
+                $("#cart_subtotal").val(function (i, val) {
+                    return val-price;
+                });
+
+
+                return val;
+            });
+
+        });
+
+    }
+
+    $("#more-items").click(function () {
+        window.location = '@Url.Action("Search","Home",new { search="Food" })';
+    });
 
 
 </script>

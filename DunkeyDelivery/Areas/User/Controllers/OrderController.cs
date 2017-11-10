@@ -271,11 +271,43 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     }
                     else
                     {
-                        existingStore.CartItems.Remove(cartItem);
+                       
+                         existingStore.CartItems.Remove(cartItem);
 
                         if (existingStore.CartItems.Count == 0)
                             cart.Stores.Remove(existingStore);
                     }
+
+                }
+
+                //cart.Total = cart.CartItems.Sum(x => x.Total);
+                cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total);
+                cartCookie.Value = JObject.FromObject(cart).ToString();
+                Request.RequestContext.HttpContext.Response.Cookies.Set(cartCookie);
+            }
+
+            return Content("Ok");
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCartItem(CartItem model)
+        {
+            Cart cart;
+            if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
+            {
+                var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
+                cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
+
+                //var cartItem = cart.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type && x.StoreId == model.StoreId);
+                var existingStore = cart.Stores.FirstOrDefault(x => x.StoreId == model.StoreId);
+                var cartItem = existingStore.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type);
+
+                if (cartItem != null)
+                {
+                    existingStore.CartItems.Remove(cartItem);
+                    if (existingStore.CartItems.Count == 0)
+                        cart.Stores.Remove(existingStore);
+                    
 
                 }
 
