@@ -20,7 +20,6 @@ namespace DunkeyAPI.Controllers
     [RoutePrefix("api/Order")]
     public class OrderController : ApiController
     {
-
         [HttpPost]
         [Route("InsertOrder")]
         public async Task<IHttpActionResult> InsertOrder(OrderViewModel model)
@@ -56,44 +55,12 @@ namespace DunkeyAPI.Controllers
                             CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
                         }
                         ctx.SaveChanges();
-
+                        
+                        return Ok(new CustomResponse<Order> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
                     }
-
-                    return Ok(new CustomResponse<OrderSummaryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = new OrderSummaryViewModel(order) });
-                }
-                else if (System.Web.HttpContext.Current.Request.Params["Cart"] != null)
-                {
-                    model.Cart = JsonConvert.DeserializeObject<CartViewModel>(System.Web.HttpContext.Current.Request.Params["Cart"]);
-                    if (model.Cart.CartItems.Count() > 0)
-                    {
-                        order = new Order();
-                        order.MakeOrder(model);
-
-                        using (DunkeyContext ctx = new DunkeyContext())
-                        {
-                            ctx.Orders.Add(order);
-                            await ctx.SaveChangesAsync();
-                            var CurrentUser = ctx.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
-                            if (CurrentUser.RewardPoints == 0)
-                            {
-                                CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
-                            }
-                            else
-                            {
-                                CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
-                            }
-                            ctx.SaveChanges();
-                        }
-
-                        return Ok(new CustomResponse<OrderSummaryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = new OrderSummaryViewModel(order) });
-                    }
-                    else
-                        return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "No items in the cart." } });
                 }
                 else
                     return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "No items in the cart." } });
-
-
 
             }
             catch (Exception ex)
@@ -169,52 +136,7 @@ namespace DunkeyAPI.Controllers
                     var storeOrderIds = string.Join(",", storeOrders.Select(x => x.Id.ToString()));
 
                     #region OrderItemsQuery
-                    //var orderItemsQuery = @"
-                    //                    SELECT
-                    //                      CASE
-                    //                        WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
-                    //                        WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Id
-                    //                        WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Id
-                    //                        WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Id
-                    //                      END AS ItemId,
-                    //                      CASE
-                    //                        WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Name
-                    //                        WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Name
-                    //                        WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Name
-                    //                        WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Name
-                    //                      END AS Name,
-                    //                      CASE
-                    //                        WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Price
-                    //                        WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Price
-                    //                        WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.DiscountedPrice
-                    //                        WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.DiscountedPrice
-                    //                      END AS Price,
-                    //                      CASE
-                    //                        WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Image
 
-                    //                        WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.ImageUrl
-                    //                        WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.ImageUrl
-                    //                      END AS ImageUrl,
-                    //                    CASE 
-                    //                    When ISNULL(Order_Items.Product_Id, 0) <> 0 Then Products.Id
-                    //                    When ISNULL(Order_Items.Package_Id, 0) <> 0 Then Packages.Id
-                    //                    When ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 Then Offer_Products.Id
-                    //                    When ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 Then Offer_Packages.Id
-                    //                    END as ItemId, 
-                    //                      Order_Items.Id,
-                    //                      Order_Items.Qty,
-
-                    //                      Order_Items.StoreOrder_Id
-                    //                    FROM Order_Items
-                    //                    LEFT JOIN products
-                    //                      ON products.Id = Order_Items.Product_Id
-                    //                    LEFT JOIN Packages
-                    //                      ON Packages.Id = Order_Items.Package_Id
-                    //                    LEFT JOIN Offer_Products
-                    //                      ON Offer_Products.Id = Order_Items.Offer_Product_Id
-                    //                    LEFT JOIN Offer_Packages
-                    //                      ON Offer_Packages.Id = Order_Items.Offer_Package_Id
-                    //                    WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     var orderItemsQuery = @"SELECT   
 
 CASE   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id 
@@ -257,18 +179,6 @@ CASE   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
 
                     var orderItems = ctx.Database.SqlQuery<OrderItemViewModel>(orderItemsQuery).ToList();
 
-                    //var userFavourites = ctx.Favourites.Where(x => x.User_ID == UserId && x.IsDeleted == false).ToList();
-
-                    //foreach (var orderItem in orderItems)
-                    //{
-                    //	orderItem.Weight = Convert.ToString(orderItem.WeightInGrams) + " gm";
-
-                    //                   if (userFavourites.Any(x => x.Product_Id == orderItem.Id))
-                    //                       orderItem.IsFavourite = true;
-                    //                   else
-                    //                       orderItem.IsFavourite = false;
-                    //               }
-
                     foreach (var orderItem in orderItems)
                     {
                         storeOrders.FirstOrDefault(x => x.Id == orderItem.StoreOrder_Id).OrderItems.Add(orderItem);
@@ -281,45 +191,6 @@ CASE   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
 
                     return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
 
-                    #region CommentedOldLogic
-                    //OrdersHistoryViewModel ordersHistoryViewModel = new OrdersHistoryViewModel();
-
-                    //if (IsCurrentOrder)
-                    //{
-                    //    if (SignInType == (int)RoleTypes.User)
-                    //    {
-                    //        ordersHistoryViewModel.Count = ctx.Orders.Count(x => x.User_ID == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed);
-
-                    //        ordersHistoryViewModel.orders = ctx.Orders.Include(x => x.StoreOrders.Select(x1 => x1.Order_Items.Select(x2 => x2.Product.Store)))
-                    //            .Where(x => x.User_ID == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed).OrderBy(x => x.Id).Page(PageSize, PageNo).ToList();
-                    //    }
-                    //    else
-                    //    {
-                    //        ordersHistoryViewModel.Count = ctx.Orders.Count(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed);
-
-                    //        ordersHistoryViewModel.orders = ctx.Orders.Include(x => x.StoreOrders.Select(x1 => x1.Order_Items.Select(x2 => x2.Product.Store)))
-                    //         .Where(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed).OrderBy(x => x.Id).Page(PageSize, PageNo).ToList();
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    if (SignInType == (int)RoleTypes.User)
-                    //    {
-                    //        ordersHistoryViewModel.Count = ctx.Orders.Count(x => x.User_ID == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed);
-
-                    //        ordersHistoryViewModel.orders = ctx.Orders.Include(x => x.StoreOrders.Select(x1 => x1.Order_Items.Select(x2 => x2.Product.Store)))
-                    //            .Where(x => x.User_ID == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed).OrderBy(x => x.Id).Page(PageSize, PageNo).ToList();
-                    //    }
-                    //    else
-                    //    {
-                    //        ordersHistoryViewModel.Count = ctx.Orders.Count(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed);
-
-                    //        ordersHistoryViewModel.orders = ctx.Orders.Include(x => x.StoreOrders.Select(x1 => x1.Order_Items.Select(x2 => x2.Product.Store)))
-                    //            .Where(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed).OrderBy(x => x.Id).Page(PageSize, PageNo).ToList();
-                    //    }
-                    //}
-                    //return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ordersHistoryViewModel }); 
-                    #endregion
                 }
             }
             catch (Exception ex)

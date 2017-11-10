@@ -16,6 +16,36 @@ namespace DunkeyAPI.ViewModels
 
     public class OrderVM
     {
+        public OrderVM(Order order)
+        {
+            Id = order.Id;
+            OrderDateTime = order.OrderDateTime;
+            DeliveryTime_From = order.DeliveryTime_From;
+            DeliveryTime_To = order.DeliveryTime_To;
+            PaymentMethod = order.PaymentMethod;
+            Subtotal = order.Subtotal;
+            ServiceFee = order.ServiceFee;
+            DeliveryFee = order.DeliveryFee;
+
+            //DeliveryDetails
+            DeliveryDetails_FirstName = order.DeliveryDetails_FirstName;
+            DeliveryDetails_LastName = order.DeliveryDetails_LastName;
+            DeliveryDetails_Phone = order.DeliveryDetails_Phone;
+            DeliveryDetails_ZipCode = order.DeliveryDetails_ZipCode;
+            DeliveryDetails_Email = order.DeliveryDetails_Email;
+            DeliveryDetails_City = order.DeliveryDetails_City;
+            DeliveryDetails_AddtionalNote = order.DeliveryDetails_AddtionalNote;
+            DeliveryDetails_Address = order.DeliveryDetails_Address;
+
+            //Totals
+            Subtotal = order.Subtotal;
+            Total = order.Total;
+            TotalTaxDeducted = order.TotalTaxDeducted;
+            TipAmount = order.TipAmount;
+
+            StoreOrders = new HashSet<StoreOrderViewModel>();
+        }
+
         public OrderVM()
         {
             StoreOrders = new HashSet<StoreOrderViewModel>();
@@ -30,13 +60,11 @@ namespace DunkeyAPI.ViewModels
         public DateTime OrderDateTime { get; set; }
 
         [JsonConverter(typeof(JsonCustomDateTimeConverter))]
-        public DateTime DeliveryTime_From { get; set; }
+        public DateTime? DeliveryTime_From { get; set; }
 
         [JsonConverter(typeof(JsonCustomDateTimeConverter))]
-        public DateTime DeliveryTime_To { get; set; }
-
-        public string AdditionalNote { get; set; }
-
+        public DateTime? DeliveryTime_To { get; set; }
+        
         public int PaymentMethod { get; set; }
 
         public double Subtotal { get; set; }
@@ -47,17 +75,28 @@ namespace DunkeyAPI.ViewModels
 
         public double Total { get; set; }
 
+        public double TipAmount { get; set; }
+
         public int User_ID { get; set; }
 
         public bool IsDeleted { get; set; }
 
         public int? OrderPayment_Id { get; set; }
 
-        public string DeliveryAddress { get; set; }
-
         public int? DeliveryMan_Id { get; set; }
 
         public string UserFullName { get; set; }
+
+        public double TotalTaxDeducted { get; set; }
+
+        public string DeliveryDetails_FirstName { get; set; }
+        public string DeliveryDetails_LastName { get; set; }
+        public string DeliveryDetails_Phone { get; set; }
+        public string DeliveryDetails_ZipCode { get; set; }
+        public string DeliveryDetails_Email { get; set; }
+        public string DeliveryDetails_City { get; set; }
+        public string DeliveryDetails_Address { get; set; }
+        public string DeliveryDetails_AddtionalNote { get; set; }
 
         public virtual ICollection<StoreOrderViewModel> StoreOrders { get; set; }
     }
@@ -108,13 +147,6 @@ namespace DunkeyAPI.ViewModels
 
         public string Description { get; set; }
 
-        //public string Weight { get; set; }
-
-        //public double WeightInGrams { get; set; }
-
-        //public double WeightInKiloGrams { get; set; }
-
         public string ImageUrl { get; set; }
-        public bool IsFavourite { get; internal set; }
     }
 }

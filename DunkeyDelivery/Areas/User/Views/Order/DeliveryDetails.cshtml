@@ -214,6 +214,7 @@
                     <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
                     <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
                     <input type="hidden" id="hdnCartTotal" value="@Model.Cart.Total" />
+                    <input type="hidden" id="hdnPublishableKey" value="@Model.StripeSettings.PublishableKey">
                 }
             </div>
 
@@ -257,8 +258,9 @@
     }
 
     var handler = StripeCheckout.configure({
-        key: 'pk_test_uI3smz0aIMtmAL4ybGvy3n1G',
-        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        key: $('#hdnPublishableKey').val(),
+        //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        image: '/Content/assets/images/logo2.png',
         locale: 'auto',
         token: function (token) {
             $('#hdnStripeId').val(token.id);

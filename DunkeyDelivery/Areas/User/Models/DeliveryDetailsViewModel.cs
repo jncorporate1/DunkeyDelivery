@@ -1,4 +1,5 @@
-﻿using DunkeyDelivery.ViewModels;
+﻿using DunkeyDelivery.Models;
+using DunkeyDelivery.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,12 +11,19 @@ namespace DunkeyDelivery.Areas.User.Models
     //Testing Comment
     public class DeliveryDetailsViewModel : BaseViewModel
     {
+        public DeliveryDetailsViewModel()
+        {
+            StripeSettings = new StripeSettings();
+        }
+
         public Cart Cart { get; set; }
         public DeliveryDetails DeliveryDetails { get; set; }
         public PaymentInormation PaymentInformation { get; set; }
+        public StripeSettings StripeSettings { get; set; }
         public string StripeEmail { get; set; }
         public string StripeId { get; set; }
         public double TipAmount { get; set; }
+        public double TotalTaxDeducted { get; set; }
     }
 
     public class DeliveryDetails

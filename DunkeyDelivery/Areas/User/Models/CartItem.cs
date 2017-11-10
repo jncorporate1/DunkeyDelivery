@@ -12,7 +12,7 @@ namespace DunkeyDelivery.Areas.User.Models
         }
       //  public List<CartItem> CartItems { get; set; }
         public List<StoreItem> Stores { get; set; }
-        public float Total { get; set; }
+        public double Total { get; set; }
         public int TotalCartItems { get; set; }
         public float? MinOrder { get; set; } = 0;
     }

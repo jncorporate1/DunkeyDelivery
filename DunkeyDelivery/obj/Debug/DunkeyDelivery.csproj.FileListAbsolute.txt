@@ -341,6 +341,7 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Tw
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Web.Infrastructure.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Newtonsoft.Json.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Owin.dll
+F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Stripe.net.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\System.Net.Http.Formatting.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\System.Web.Helpers.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\System.Web.Http.dll
@@ -383,4 +384,4 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Mi
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
-F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Stripe.net.dll
+F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -64,6 +65,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.StripePublishKey = stripePublishKey;
             DeliveryDetailsViewModel deliveryModel = new DeliveryDetailsViewModel();
             deliveryModel.Cart = GetCartData();
+            if (deliveryModel.Cart.Stores.Count == 0)
+            {
+                return RedirectToAction("Index", "Home", new { area = "User" });
+            }
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Delivery Details";
             ViewBag.BannerTitle = "Delivery Details";
@@ -111,14 +116,20 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
         public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model, string stripeEmail, string stripeToken)
         {
+            if (model.DeliveryDetails == null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "User" });
+            }
+
             Cart cart = new Models.Cart();
             cart = GetCartData();
             model.Cart = cart;
-            model.SetSharedData(User);
             OrderViewModel orderModel = new OrderViewModel();
             orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
             orderModel.DeliveryAddress = model.DeliveryDetails.Address;
             orderModel.TipAmount = model.TipAmount;
+            orderModel.DeliveryDetails = model.DeliveryDetails;
+            model.SetSharedData(User);
             //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
             if (!string.IsNullOrEmpty(model.Id))
             {
@@ -136,9 +147,15 @@ namespace DunkeyDelivery.Areas.User.Controllers
             //Charge user
             StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
 
-            var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
-            var Order = responseOrder.GetValue("Result").ToObject<OrderViewModel>();
+            if (stripeCharge.Status != "succeeded")
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Payment Failed");
+            }
 
+            var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+
+            var orderServer = responseOrder.GetValue("Result").ToObject<OrderBindingModel>();
+            
             // Remove cart from Cookies
             if (Request.Cookies["Cart"] != null)
             {
@@ -146,13 +163,12 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 c.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(c);
             }
-
-            
+            orderServer.SetSharedData(User);
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Order Summary";
             ViewBag.BannerTitle = "Order Summary";
             ViewBag.Path = "Home > Order Summary";
-            return View("OrderSummary", model);
+            return View("OrderSummary", orderServer);
         }
 
         public JsonResult StoreToSession()

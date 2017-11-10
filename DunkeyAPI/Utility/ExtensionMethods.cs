@@ -132,8 +132,18 @@ namespace DunkeyAPI.ExtensionMethods
                 order.DeliveryTime_To = model.DeliveryDateTime_To;
                 order.PaymentMethod = model.PaymentMethodType;
                 order.User_ID = model.UserId;
-                order.DeliveryAddress = model.DeliveryAddress;
-                order.AdditionalNote = model.AdditionalNote;
+
+                //Set Delivery Details
+                order.DeliveryDetails_FirstName = model.DeliveryDetails.FirstName;
+                order.DeliveryDetails_LastName = model.DeliveryDetails.LastName;
+                order.DeliveryDetails_Phone = model.DeliveryDetails.Phone;
+                order.DeliveryDetails_ZipCode = model.DeliveryDetails.ZipCode;
+                order.DeliveryDetails_Email = model.DeliveryDetails.Email;
+                order.DeliveryDetails_City = model.DeliveryDetails.City;
+                order.DeliveryDetails_Address = model.DeliveryDetails.Address;
+                order.DeliveryDetails_AddtionalNote = model.DeliveryDetails.AdditionalNote;
+
+
             }
             catch (Exception)
             {
