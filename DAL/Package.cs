@@ -12,7 +12,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Package()
         {
-            //Offer_Packages = new HashSet<Offer_Packages>();
+            Offer_Packages = new HashSet<Offer_Packages>();
             //Order_Items = new HashSet<Order_Items>();
             Package_Products = new HashSet<Package_Products>();
         }
@@ -41,9 +41,9 @@ namespace DAL
         [NotMapped]
         public bool ImageDeletedOnEdit { get; set; }
 
-        //[JsonIgnore]
-        //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        //public virtual ICollection<Offer_Packages> Offer_Packages { get; set; }
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Offer_Packages> Offer_Packages { get; set; }
 
         //[JsonIgnore]
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

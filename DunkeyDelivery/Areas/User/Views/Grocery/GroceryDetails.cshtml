@@ -55,7 +55,7 @@
                                     if (Model.Categories.First() == category)
                                     {
                                         <li class="active" id="item_@category.Id">
-                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new {id="first_element", Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new {id="first_element", Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Category_Id = @category.Id }, new AjaxOptions()
                                        {
 
                                            HttpMethod = "GET",
@@ -72,7 +72,7 @@
                                         @*<li><a href="@Url.Action("GetCategoryProducts","UserStore",new {Category_Id=@category.Id })">@category.Name </a></li>*@
                                         @*<li><a href="" id="@category.Id" onclick="getCategoryProducts(this.id)">@category.Name </a></li>*@
                                         <li id="item_@category.Id">
-                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Category_Id = @category.Id }, new AjaxOptions()
                                        {
 
                                            HttpMethod = "GET",

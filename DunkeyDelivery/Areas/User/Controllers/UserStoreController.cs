@@ -40,7 +40,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                         Page = 0;
                     }
                 }
-                var response = await ApiCall<Shop>.CallApi("api/Shop/GetFilteredStores?FilterType=" + FilterType + "&CategoryType=" + CategoryType + "&Items=" + Items + "&Page=" + Page+"&CurrentTime="+DateTime.Now, null, false);
+                var response = await ApiCall<Shop>.CallApi("api/Shop/GetFilteredStores?FilterType=" + FilterType + "&CategoryType=" + CategoryType + "&Items=" + Items + "&Page=" + Page + "&CurrentTime=" + DateTime.Now, null, false);
 
                 var responseShopValue = response.GetValue("Result").ToObject<Shop>();
                 #region SettingDefaultStoreImage
@@ -77,7 +77,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
 
             var Shop = await ApiCall<ShopViewModel>.CallApi("api/Shop/GetStoreById?Id=" + model.Store_id + "", null, false);
-            
+
             if (model.SearchType == "Laundry")
             {
                 #region Laundry Store 
@@ -92,13 +92,13 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 var responseShop = Shop.GetValue("Result").ToObject<ShopViewModel>();
 
                 #region SettingDefaultStoreImage
-                
-                    if (responseShop.ImageUrl == null)
-                    {
+
+                if (responseShop.ImageUrl == null)
+                {
 
                     responseShop.ImageUrl = DefaultImages.StoreDefaultImage();
-                    }
-                
+                }
+
                 #endregion
 
 
@@ -110,7 +110,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             else if (model.SearchType == "Alcohol")
             {
                 #region Alcohol Store 
-                AlcoholViewModel viewModel =new AlcoholViewModel();
+                AlcoholViewModel viewModel = new AlcoholViewModel();
                 var apiResponse = await ApiCall<List<CategoryViewModel>>.CallApi("api/Shop/GetStoreCategories?Store_id=" + model.Store_id + "", null, false);
                 viewModel.categoryViewModel.CategoryViewModel = apiResponse.GetValue("Result").ToObject<List<CategoryViewModel>>();
 
@@ -164,7 +164,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 #endregion
                 viewModel.SetSharedData(User);
-                return View("~/Areas/User/Views/Retail/RetailDetails.cshtml",viewModel);
+                return View("~/Areas/User/Views/Retail/RetailDetails.cshtml", viewModel);
                 #endregion
             }
             else
@@ -218,7 +218,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 #endregion
                 modelResponse.Products = responseValueProduct;
-
+                modelResponse.shopViewModel = new ShopViewModel { Id = model.Store_id, BusinessType = model.BusinessType, BusinessTypeTax = model.BusinessTypeTax };
                 return PartialView("~/Areas/User/Views/Food/_FoodDetails.cshtml", modelResponse);
                 // return PartialView("~/Areas/User/Views/Product/_ProductItems.cshtml", modelResponse);
 
@@ -249,7 +249,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public ActionResult StoreInfo(CategoryProductViewModel Model)
         {
-     
+
             return PartialView("~/Areas/User/Views/Store/_StoreInfo.cshtml", Model);
         }
 

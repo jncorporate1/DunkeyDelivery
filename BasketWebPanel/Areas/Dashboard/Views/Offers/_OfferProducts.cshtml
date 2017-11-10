@@ -37,7 +37,7 @@
                             <td style="vertical-align:middle">@Html.TextBoxFor(x => x.Products[i].Price, new { @class = "form-control priceBasket", @placeholder = "Offer Price", @type = "text" })</td>
                             <td style="vertical-align:middle">@Model.Products[i].StoreName</td>
                             <td style="vertical-align:middle">@Model.Products[i].CategoryName</td>
-                            <td style="vertical-align:middle; ">@Html.HiddenFor(x => x.Products[i].ImageUrl)<img src="@ApiCall.BaseUrl@Model.Products[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                            <td style="vertical-align:middle">@Html.HiddenFor(x => x.Products[i].Image)<img src="@ApiCall.BaseUrl@Model.Products[i].Image" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
                         </tr>
                     }
                 </tbody>
@@ -70,7 +70,7 @@
                                 <td style="vertical-align:middle">@Model.Packages[i].Name</td>
                                 <td style="vertical-align:middle">@Html.TextBoxFor(x => x.Packages[i].Price, new { @class = "form-control priceBasket", @type = "text" })</td>
                                 <td style="vertical-align:middle">@Model.Packages[i].StoreName</td>
-                                <td style="vertical-align:middle; ">@Html.HiddenFor(x => x.Packages[i].ImageUrl)<img src="@Model.Packages[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                <td style="vertical-align:middle">@Html.HiddenFor(x => x.Packages[i].ImageUrl)<img src="@ApiCall.BaseUrl@Model.Packages[i].ImageUrl" style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
                                 @*<td style="overflow:hidden; vertical-align:middle ">
                                         <div class="center" style="text-align: -webkit-center; ">
                                             <div class="input-group" style="margin-top:10px; width:150px; ">

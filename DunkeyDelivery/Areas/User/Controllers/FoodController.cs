@@ -32,7 +32,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 responseShopValue.ImageUrl = DefaultImages.StoreDefaultImage();
             }
             modelResponse.shopViewModel = responseShopValue;
-            //ViewBag.StoreDetails = responseShopValue.First();
+            ViewBag.StoreDetails = responseShopValue;
 
 
             #endregion
@@ -61,7 +61,6 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public ActionResult GetCategoryProducts(short Category_Id, SearchStoreCategoriesViewModel model)
         {
-
             CategoryProductViewModel modelResponse = new CategoryProductViewModel();
             #region GetProducts
             var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall<ProductViewModel>.CallApi("api/Products/ProductsByCategory?Category_Id=" + model.Category_Id + "", null, false));
@@ -70,7 +69,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             #endregion
           //  var test = responseValueProduct.First().Store.BusinessName;
             modelResponse.Products = responseValueProduct;
-
+            modelResponse.shopViewModel = new ShopViewModel { Id = model.Store_id, BusinessType = model.BusinessType, BusinessTypeTax = model.BusinessTypeTax};
             return PartialView("~/Areas/User/Views/Food/_FoodDetails.cshtml", modelResponse);
         }
 

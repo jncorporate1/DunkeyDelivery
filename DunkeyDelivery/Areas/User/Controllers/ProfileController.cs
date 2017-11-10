@@ -26,7 +26,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             return View("Profile", Global.sharedDataModel);
         }
 
-        public async Task<ActionResult> PageView(int id,int? PageSize,int? PageNo)
+        public async Task<ActionResult> PageView(int id, int? PageSize, int? PageNo)
         {
             if (id == 0)
             {
@@ -36,7 +36,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 PageSize = 6;
                 var claimIdentity = ((ClaimsIdentity)User.Identity);
                 var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
-                var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId+ "&SignInType="+0+ "&IsCurrentOrder="+true+ "&PageSize="+PageSize+"&PageNo="+PageNo, null, false);
+                var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId + "&SignInType=" + 0 + "&IsCurrentOrder=" + true + "&PageSize=" + PageSize + "&PageNo=" + PageNo, null, false);
 
                 if (response is Error)
                 {
@@ -51,7 +51,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
                 responseResult.SetSharedData(User);
-                return PartialView("_OrderHistory",responseResult);
+                return PartialView("_OrderHistory", responseResult);
                 #endregion
 
             }
@@ -78,7 +78,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
                 responseResult.SetSharedData(User);
-          
+
                 return PartialView("_RecurringOrders", responseResult);
                 #endregion
             }
@@ -88,9 +88,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 // for account ( Profile View )
                 Global.sharedDataModel.SetSharedData(User);
                 ProfileViewModel model = new ProfileViewModel(Global.sharedDataModel);
-               
+
                 //Global.sharedDataModel.SetSharedData(User);
-                return PartialView("_Account",model);
+                return PartialView("_Account", model);
                 #endregion
             }
             else if (id == 3)
@@ -114,7 +114,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 var responseResult = response.GetValue("Result").ToObject<Addresses>();
                 responseResult.SetSharedData(User);
-                return PartialView("_Addresses",responseResult);
+                return PartialView("_Addresses", responseResult);
                 #endregion
             }
             else if (id == 4)
@@ -137,15 +137,15 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
 
                 var responseResult = response.GetValue("Result").ToObject<CreditCard>();
-             
+
                 return PartialView("_CreditCards", responseResult);
                 #endregion
 
             }
-            else if (id==5)
+            else if (id == 5)
             {
                 #region AddAddress
-                return PartialView("_AddAddress",new AddressViewModel());
+                return PartialView("_AddAddress", new AddressViewModel());
                 #endregion
             }
             else if (id == 6)
@@ -155,7 +155,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 #endregion
             }
             Global.sharedDataModel.SetSharedData(User);
-            return PartialView("_Account",Global.sharedDataModel);
+            return PartialView("_Account", Global.sharedDataModel);
         }
 
         [HttpPost]
@@ -164,7 +164,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public async Task<ActionResult> EditProfile(Profile model, string returnUrl)
         {
             Profile models = new Profile();
-          
+
 
             if (!ModelState.IsValid)
             {
@@ -184,7 +184,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             }
 
-            var UpdatedUser= ChangeBaseViewModel(model);
+            var UpdatedUser = ChangeBaseViewModel(model);
             return Json(UpdatedUser, JsonRequestBehavior.AllowGet);
         }
 
@@ -203,9 +203,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
             AddressViewModel models = new AddressViewModel();
             var claimIdentity = ((ClaimsIdentity)User.Identity);
             var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
-            model.User_ID =Convert.ToInt32(userId);
+            model.User_ID = Convert.ToInt32(userId);
 
-           
+
 
             var response = await ApiCall<AddressViewModel>.CallApi("api/User/AddAddress", model);
 
@@ -220,7 +220,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             }
 
-          
+
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
@@ -270,7 +270,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
 
                 return Json(model);
-                
+
             }
             catch (Exception ex)
             {
@@ -279,7 +279,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
         }
 
- 
+
         [AllowAnonymous]
         public async Task<ActionResult> RemoveAddress(int id)
         {
@@ -287,8 +287,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
             var claimIdentity = ((ClaimsIdentity)User.Identity);
             var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
             var User_ID = Convert.ToInt32(userId);
-            var response = await ApiCall<string>.CallApi("api/User/RemoveAddress?address_id=" + id+"&User_Id="+ User_ID, null, false);
-           
+            var response = await ApiCall<string>.CallApi("api/User/RemoveAddress?address_id=" + id + "&User_Id=" + User_ID, null, false);
+
 
 
             if (response is Error)
@@ -301,8 +301,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             }
             var responseShopValue = response.GetValue("Result").ToObject<string>();
-            return RedirectToAction("PageView",new { id = 3 });
-          //  return Json(responseShopValue, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("PageView", new { id = 3 });
+            //  return Json(responseShopValue, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -325,7 +325,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
 
                 var responseResult = response.GetValue("Result").ToObject<OrdersHistoryViewModel>();
-                
+
 
                 return Json(responseResult, JsonRequestBehavior.AllowGet);
 
@@ -356,30 +356,30 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 throw ex;
             }
         }
-//        var TotalCartItems = 0;
-//        HttpCookie cookie = new HttpCookie("Cart");
-//        ShoppingCartViewModel model = new ShoppingCartViewModel();
-//        Cart cart = new Cart();
-//                if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
-//                {
-//                    var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
-//        cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
-                   
-//                    foreach (var store in cart.Stores)
-//                    {
-//                        TotalCartItems += store.CartItems.Count;
-//                    }
-//    cart.TotalCartItems = TotalCartItems;
-//                }
-//model.SetSharedData(User);
-//                model.cart = cart;
-//                ViewBag.Title = "Shopping Cart";
-//                ViewBag.BannerImage = "press-top-banner.jpg";
-//                ViewBag.BannerTitle = "SHOPPING CART";
-//                ViewBag.Path = "Home > Shopping Cart";
-//                return PartialView("~/Areas/User/Views/ShoppingCart/_ShoppingCart.cshtml", model);
+        //        var TotalCartItems = 0;
+        //        HttpCookie cookie = new HttpCookie("Cart");
+        //        ShoppingCartViewModel model = new ShoppingCartViewModel();
+        //        Cart cart = new Cart();
+        //                if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
+        //                {
+        //                    var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
+        //        cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
 
-public async Task<ActionResult> GetShoppingCart()
+        //                    foreach (var store in cart.Stores)
+        //                    {
+        //                        TotalCartItems += store.CartItems.Count;
+        //                    }
+        //    cart.TotalCartItems = TotalCartItems;
+        //                }
+        //model.SetSharedData(User);
+        //                model.cart = cart;
+        //                ViewBag.Title = "Shopping Cart";
+        //                ViewBag.BannerImage = "press-top-banner.jpg";
+        //                ViewBag.BannerTitle = "SHOPPING CART";
+        //                ViewBag.Path = "Home > Shopping Cart";
+        //                return PartialView("~/Areas/User/Views/ShoppingCart/_ShoppingCart.cshtml", model);
+
+        public async Task<ActionResult> GetShoppingCart()
         {
             try
             {

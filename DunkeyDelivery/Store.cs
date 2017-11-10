@@ -29,6 +29,7 @@ namespace DunkeyDelivery
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string BusinessType { get; set; }
+        public double BusinessTypeTax { get; set; }
         public string Phone { get; set; }
         public Nullable<short> ZipCode { get; set; }
         public string LastName { get; set; }

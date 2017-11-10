@@ -39,8 +39,7 @@ namespace DunkeyAPI.Controllers
                     using (DunkeyContext ctx = new DunkeyContext())
                     {
                         order.MakeOrder(model, ctx);
-
-
+                        
                         order.DeliveryTime_From = DateTime.Now;
                         order.DeliveryTime_To = DateTime.Now;
 

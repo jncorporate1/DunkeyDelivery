@@ -95,6 +95,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
                 cart.TotalCartItems = TotalCartItems;
             }
+            cart.Tax = cart.Stores.Distinct(new StoreItem.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+
             return cart;
         }
 
@@ -155,7 +157,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
 
             var orderServer = responseOrder.GetValue("Result").ToObject<OrderBindingModel>();
-            
+
             // Remove cart from Cookies
             if (Request.Cookies["Cart"] != null)
             {
@@ -213,8 +215,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 if (existingStore != null)
                 {
                     var existingCartItem = existingStore.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type);
-
-
+                    
                     if (existingCartItem != null)
                     {
                         existingCartItem.Qty += 1;
@@ -229,24 +230,23 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 else
                 {
                     model.Total = model.Price;
-                    cart.Stores.Add(new StoreItem { StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
+                    cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
                 }
 
             }
             else
             {
                 model.Total = model.Price;
-                cart.Stores.Add(new StoreItem { StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
-                //cart..CartItems.Add(model);
+                cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
             }
 
             //cart.Total = cart.CartItems.Sum(x => x.Total);
-            cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total);
+            cart.Tax = cart.Stores.Distinct(new StoreItem.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+            cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total) + cart.Tax;
             cookie.Value = JObject.FromObject(cart).ToString();
             Request.RequestContext.HttpContext.Response.Cookies.Add(cookie);
 
             return new EmptyResult();
-
         }
 
         [HttpPost]
@@ -271,8 +271,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     }
                     else
                     {
-                       
-                         existingStore.CartItems.Remove(cartItem);
+
+                        existingStore.CartItems.Remove(cartItem);
 
                         if (existingStore.CartItems.Count == 0)
                             cart.Stores.Remove(existingStore);
@@ -281,7 +281,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
 
                 //cart.Total = cart.CartItems.Sum(x => x.Total);
-                cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total);
+                cart.Tax = cart.Stores.Distinct(new StoreItem.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+                cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total) + cart.Tax;
                 cartCookie.Value = JObject.FromObject(cart).ToString();
                 Request.RequestContext.HttpContext.Response.Cookies.Set(cartCookie);
             }
@@ -307,12 +308,13 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     existingStore.CartItems.Remove(cartItem);
                     if (existingStore.CartItems.Count == 0)
                         cart.Stores.Remove(existingStore);
-                    
+
 
                 }
 
                 //cart.Total = cart.CartItems.Sum(x => x.Total);
-                cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total);
+                cart.Tax = cart.Stores.Distinct(new StoreItem.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+                cart.Total = cart.Stores.SelectMany(x => x.CartItems).Sum(x => x.Total) + cart.Tax;
                 cartCookie.Value = JObject.FromObject(cart).ToString();
                 Request.RequestContext.HttpContext.Response.Cookies.Set(cartCookie);
             }

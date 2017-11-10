@@ -1,5 +1,6 @@
 namespace DAL
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -12,27 +13,26 @@ namespace DAL
 
         public int Offer_Id { get; set; }
 
-        public string Name { get; set; }
-
         public int Product_Id { get; set; }
-
-        //public DateTime ValidUpto { get; set; }
-        
-        public string descript { get; set; }
-
-        public int DiscountedPrice { get; set; }
-
-        public int DiscountPercentage { get; set; }
-
-        public int SlashPrice { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public string ImageUrl { get; set; }
-
 
         [NotMapped]
         public int OfferProductId { get; set; }
+
+        //public DateTime ValidUpto { get; set; }
+
+        public string Description { get; set; }
+
+        [JsonProperty("Price")]
+        public double DiscountedPrice { get; set; }
+
+        public int DiscountPercentage { get; set; }
+
+        public double SlashPrice { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public bool IsDeleted { get; set; }
+        //public int Qty { get; set; }
 
         //public int Package_Id { get; set; }
 

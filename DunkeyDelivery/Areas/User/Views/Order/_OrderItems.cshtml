@@ -45,7 +45,6 @@
                 <h6 class="order-size_actions">
                     @cartItem.Size <span>
                         <a style="cursor:pointer" onclick="DeleteCartItem('@cartItem.ItemId', '@cartItem.Type', '@cartItem.StoreId')"><i class="fa fa-trash"></i></a>
-
                     </span>
                 </h6>
             </div>
@@ -56,7 +55,7 @@
         <p style="text-align:center;">Your Cart Is Empty</p>
     }
 
-    <h3 class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$3</span></h3>
+    <h3 class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$@Model.Tax</span></h3>
     <div class="row text-center">
 
         @if (Model.Total == 0 || Model.MinOrder > Model.Total)
