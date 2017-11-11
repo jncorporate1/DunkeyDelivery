@@ -63,7 +63,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
                 model.StoreOptions = Utility.GetStoresOptions(User);
 
-                initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
+                if (model.StoreOptions.Count() > 0)
+                    initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
 
                 if (CategoryId.HasValue)
                 {
@@ -127,7 +128,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
                 ByteArrayContent fileContent;
                 JObject response;
-                
+
                 bool firstCall = true;
                 callAgain: content = new MultipartFormDataContent();
                 if (FileAttached)
@@ -166,7 +167,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                         TempData["SuccessMessage"] = "The category has been updated successfully.";
                     else
                         TempData["SuccessMessage"] = "The category has been added successfully.";
-                    
+
                     return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
                 }
             }
