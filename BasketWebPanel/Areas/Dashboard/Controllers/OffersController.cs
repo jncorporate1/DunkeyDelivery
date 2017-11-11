@@ -17,6 +17,7 @@ using static BasketWebPanel.Utility;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class OffersController : Controller
     {
         public ActionResult GetStoreProducts(SearchOfferBindingModel model)

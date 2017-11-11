@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class PharmacyController : Controller
     {
         // GET: Dashboard/Pharmacy
@@ -42,7 +43,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             SearchPharmacyRequestsViewModel model = new SearchPharmacyRequestsViewModel();
 
-            if (response is Error)
+            if (response == null || response is Error)
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Internal Server Error");
             else
                 model = response.GetValue("Result").ToObject<SearchPharmacyRequestsViewModel>();

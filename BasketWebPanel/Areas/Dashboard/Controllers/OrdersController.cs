@@ -11,6 +11,7 @@ using static BasketWebPanel.Utility;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         public ActionResult ManageOrders()

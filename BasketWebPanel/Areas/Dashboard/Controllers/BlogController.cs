@@ -16,6 +16,7 @@ using static BasketWebPanel.Utility;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class BlogController : Controller
     {
         // GET: Dashboard/Blog

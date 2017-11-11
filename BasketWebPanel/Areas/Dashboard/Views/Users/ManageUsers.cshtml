@@ -25,6 +25,14 @@
     <div class="right_col" role="main">
         <div class="row">
             <div class="x_panel ">
+                <div hidden class="alert alert-success" id="success-alert">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Success!</strong><span></span>
+                </div>
+                <div class="alert alert-error" id="error-alert" hidden>
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong>Error! </strong><span></span>
+                </div>
                 <div class="x_title">
                     <h3 class="pull-left">Users</h3>
                     <div class="pull-right">
@@ -181,7 +189,7 @@
         }
     });
 
-    function OnSuccessUsersViewInsertion() {
+    function OnSuccessUserStatusInsertion() {
         $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
             $("#success-alert").slideUp(500);
         });
@@ -209,7 +217,7 @@
                 OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
             },
             success: function (data) {
-                OnSuccessStatusInsertion()
+                OnSuccessUserStatusInsertion()
             }
 
         });

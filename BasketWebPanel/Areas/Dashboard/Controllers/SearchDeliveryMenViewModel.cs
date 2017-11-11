@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.ViewModels
 {
+
     public class SearchDeliveryMenViewModel : BaseViewModel
     {
         public SearchDeliveryMenViewModel()

@@ -48,7 +48,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password && x.IsDeleted == false);
 
                    
                     if (userModel != null)
