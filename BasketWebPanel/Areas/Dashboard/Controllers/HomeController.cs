@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: Dashboard/Home

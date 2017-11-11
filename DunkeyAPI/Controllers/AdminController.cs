@@ -2173,7 +2173,28 @@ and
             }
         }
 
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [HttpPost]
+        [Route("ChangeUserStatuses")]
+        public async Task<IHttpActionResult> ChangeUserStatuses(ChangeUserStatusListBindingModel model)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    foreach (var user in model.Users)
+                        ctx.Users.FirstOrDefault(x => x.Id == user.UserId).IsDeleted = user.Status;
 
+                    ctx.SaveChanges();
+                }
+
+                return Ok(new CustomResponse<string> { Message = DunkeyAPI.Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(LogError(ex));
+            }
+        }
 
 
 

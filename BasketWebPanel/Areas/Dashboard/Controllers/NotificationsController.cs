@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class NotificationsController : Controller
     {
         // GET: Dashboard/Notifications
@@ -63,11 +64,10 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         public ActionResult MyNotificationsJson()
         {
             try
-            {
-                var claimIdentity = ((ClaimsIdentity)User.Identity);
-                var Id = Convert.ToInt32(claimIdentity.Claims.FirstOrDefault(x => x.Type == "AdminId").Value);
+            {   
                 MyNotificationsViewModel model = new MyNotificationsViewModel();
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/GetMyNotifications", User, null, true, false, null, "Id=" + Id, "Unread=true"));
+                model.SetSharedData(User);
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Admin/GetMyNotifications", User, null, true, false, null, "Id=" + model.Id, "Unread=true"));
                 if (response is Error)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Internal Server Error");

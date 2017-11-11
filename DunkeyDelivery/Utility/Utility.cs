@@ -7,6 +7,7 @@ using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -179,6 +180,33 @@ namespace DunkeyDelivery
             SubAdmin = 2,
             SuperAdmin = 3,
             ApplicationAdmin = 4
+        }
+
+        public static HttpStatusCode LogError(Exception ex)
+        {
+
+            try
+            {
+                using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "/ErrorLog.txt"))
+                {
+                    if (ex.Message != null)
+                    {
+                        sw.WriteLine(Environment.NewLine + "Message" + ex.Message);
+                        sw.WriteLine(Environment.NewLine + "StackTrace" + ex.StackTrace);
+                    }
+                    if (ex.InnerException != null)
+                    {
+                        sw.WriteLine(Environment.NewLine + "Inner Exception : " + ex.InnerException.Message);
+                        sw.WriteLine(Environment.NewLine + "InnerExceptionStackTrace : " + ex.InnerException.StackTrace);
+                    }
+                    sw.WriteLine("------******------");
+                }
+                return HttpStatusCode.InternalServerError;
+            }
+            catch (Exception)
+            {
+                return HttpStatusCode.InternalServerError;
+            }
         }
 
         public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken, int amount)

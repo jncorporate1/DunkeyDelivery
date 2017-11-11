@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class TaxController : Controller
     {
         // GET: Dashboard/Tax

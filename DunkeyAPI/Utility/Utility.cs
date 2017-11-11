@@ -1,8 +1,11 @@
 ﻿using DAL;
+using DunkeyAPI.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity.Spatial;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -21,6 +24,12 @@ namespace DunkeyDelivery
         public static string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
         public static string GuestEmail = "Guest@gmail.com";
+
+        public static void ReloadStripeSettings(this StripeSettings Me)
+        {
+            Me.PublishableKey = ConfigurationManager.AppSettings["StripePublishableKey"];
+            Me.SecretKey = ConfigurationManager.AppSettings["StripeSecretKey"];
+        }
 
         public static IEnumerable<T> Page<T>(this IEnumerable<T> en, int pageSize, int page)
         {
@@ -86,17 +95,22 @@ namespace DunkeyDelivery
 
         public static HttpStatusCode LogError(Exception ex)
         {
+
             try
             {
-                using (DunkeyContext context = new DunkeyContext())
+                using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "/ErrorLog.txt"))
                 {
-                    //context.ErrorLogs.Add(new DAL.ErrorLog
-                    //{
-                    //    ErrorMessage = ex.Message,
-                    //    Source = ex.Source,
-                    //    StackTrace = ex.StackTrace
-                    //});
-                    //context.SaveChanges();
+                    if (ex.Message != null)
+                    {
+                        sw.WriteLine(Environment.NewLine + "Message" + ex.Message);
+                        sw.WriteLine(Environment.NewLine + "StackTrace" + ex.StackTrace);
+                    }
+                    if (ex.InnerException != null)
+                    {
+                        sw.WriteLine(Environment.NewLine + "Inner Exception : " + ex.InnerException.Message);
+                        sw.WriteLine(Environment.NewLine + "InnerExceptionStackTrace : " + ex.InnerException.StackTrace);
+                    }
+                    sw.WriteLine("------******------");
                 }
                 return HttpStatusCode.InternalServerError;
             }
@@ -167,6 +181,31 @@ namespace DunkeyDelivery
                 Utility.LogError(ex);
                 return null;
             }
+        }
+
+        public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken, int amount)
+        {
+            var customers = new StripeCustomerService();
+            var charges = new StripeChargeService();
+            var stripeSettings = new StripeSettings();
+            stripeSettings.ReloadStripeSettings();
+            StripeConfiguration.SetApiKey(stripeSettings.SecretKey);
+
+            var customer = customers.Create(new StripeCustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = charges.Create(new StripeChargeCreateOptions
+            {
+                Amount = amount * 100, //charge in cents
+                Description = "Dunkey Delivery",
+                Currency = "usd",
+                CustomerId = customer.Id,
+            });
+
+            return charge;
         }
 
     }

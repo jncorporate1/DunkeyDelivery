@@ -35,4 +35,18 @@ namespace DunkeyAPI.BindingModels
         }
         public List<ChangePharmacyStatusBindingModel> PharmacyRequests { get; set; }
     }
+
+    public class ChangeUserStatusBindingModel
+    {
+        public int UserId { get; set; }
+        public bool Status { get; set; }
+    }
+    public class ChangeUserStatusListBindingModel
+    {
+        public ChangeUserStatusListBindingModel()
+        {
+            Users = new List<ChangeUserStatusBindingModel>();
+        }
+        public List<ChangeUserStatusBindingModel> Users { get; set; }
+    }
 }

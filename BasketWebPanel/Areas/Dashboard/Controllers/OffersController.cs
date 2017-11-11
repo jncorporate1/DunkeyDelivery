@@ -17,6 +17,7 @@ using static BasketWebPanel.Utility;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class OffersController : Controller
     {
         public ActionResult GetStoreProducts(SearchOfferBindingModel model)
@@ -92,7 +93,9 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             int initialStoreId = model.StoreId;
             model.StoreOptions = Utility.GetStoresOptions(User);
-            initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
+
+            if (model.StoreOptions.Count() > 0)
+                initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
 
             //Edit Scenario
             if (OfferId.HasValue)

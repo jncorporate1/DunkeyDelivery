@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class DeliveryController : Controller
     {
         // GET: Dashboard/Delivery

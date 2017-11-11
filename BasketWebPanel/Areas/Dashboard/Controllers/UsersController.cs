@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         // GET: Dashboard/Users
@@ -24,7 +25,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             SearchUserViewModel model = new SearchUserViewModel();
 
-            if (response is Error)
+            if (response == null || response is Error)
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Internal Server Error");
             else
                 model = response.GetValue("Result").ToObject<SearchUserViewModel>();

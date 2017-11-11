@@ -663,3 +663,63 @@ MessageObject reference not set to an instance of an object.
 
 StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.OffersController.<Index>d__5.MoveNext() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\OffersController.cs:line 218
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 68
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 68
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 68
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 68
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 69
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 69
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 77
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 77
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 77
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 77
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at BasketWebPanel.Areas.Dashboard.Controllers.NotificationsController.MyNotificationsJson() in F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\Areas\Dashboard\Controllers\NotificationsController.cs:line 77
+------******------

@@ -3,17 +3,14 @@
     ViewBag.Title = "Delivery Details";
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
-
 <style>
     .stripe-button-el {
         background-color: red;
     }
 </style>
-
 <div class="main-section delivery-main-section greybg">
     <div class="container">
         <div class="row">
-
             <div class="col-md-8 delivery-left-section">
                 @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post, new { @id = "frmOrderSummary" }))
                 //new AjaxOptions { OnSuccess = "", OnFailure = "" })
@@ -22,43 +19,34 @@
 
 
                     <div class="row">
-
                         <div class="col-md-6">
-
                             <div class="input-contain">
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.FirstName, new { name = "FirstName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter First Name" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.FirstName, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
-
 
                                 @Html.TextBoxFor(x => x.DeliveryDetails.LastName, new { name = "LastName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Last Name" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.LastName, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Phone Number" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Phone, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
-
 
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })
-
                             </div>
                             <div class="input-contain">
                                 <div class="col-md-6" style="padding: 0 1px 0 0;">
                                     <div class="input-contain">
-
 
                                         @Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
                                         @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })
@@ -66,20 +54,16 @@
                                 </div>
                                 <div class="col-md-6" style="padding: 0 0 0 6px;">
                                     <div class="input-contain">
-
                                         @Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
                                         @Html.ValidationMessageFor(m => m.DeliveryDetails.ZipCode, "", new { @class = "text-danger error" })
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-md-6">
                             <div class="input-contain">
                                 <textarea rows="6" class="form-control with-no-margin" name="DeliveryDetails.AdditionalNote" placeholder="Delivery Instruction" id="form-inputs"></textarea>
                             </div>
-
                             <div class="radio-group input-contain">
                                 <input type="checkbox" id="r1" name="terms_accept" />
                                 <label for="r1">
@@ -91,7 +75,6 @@
                                 </label>
                             </div>
                         </div>
-
 
                     </div>
                     @*
@@ -160,20 +143,17 @@
 
                                 <input type="hidden" id="hdnTipAmount" name="TipAmount" value="" />
                             </div>
-
                             <div class="col-md-6">
                                 @*<div class="col-md-3 tip-credit-2">$6.21 <br />30%</div>*@
                                 <div class="col-md-9 no-pad-left no-pad-right">
                                     @Html.TextBoxFor(x => x.PaymentInformation.Tip, new { name = "Tip", @class = "form-control with-no-margin tip-field", id = "form-inputs", @placeholder = "Enter Tip Amount" })
                                     @Html.ValidationMessageFor(m => m.PaymentInformation.Tip, "", new { @class = "text-danger error" })
-
                                 </div>
                             </div>
                         </div>
                         <p id="tipMessage" class="terms-line"></p>
                         @*<a href="#" class="promo-code">Add Promo Codes</a>*@
                         @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
-
                         @if (Model.Id != null)
                         {
                             <input id="btnPlaceOrder" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
@@ -195,7 +175,6 @@
 
                             <p id="login_first" style="visibility:hidden;color:red;">Please Login To Process Your Order</p>
                         }
-
                     </div>
                     <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
                     <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
@@ -203,7 +182,6 @@
                     <input type="hidden" id="hdnPublishableKey" value="@Model.StripeSettings.PublishableKey">
                 }
             </div>
-
             <div class="col-md-4" id="Final">
                 @{
                     Html.RenderAction("CartWithData", "Order", new { area = "User" });
@@ -212,6 +190,18 @@
         </div>
     </div>
 </div>
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        window.onload = function () {
+            $("body").prepend($("#order-modal"))
+        }
+    </script>
+    <div id="order-modal" style="line-height: 40px;font-size: 20px;text-align: center;background:red;color:white;">
+        @TempData["ErrorMessage"]
+        <a href="javascript:void()" onclick="$('#order-modal').hide()" style="float: right;margin-right: 15px;font-weight: bold;color: white;">X</a>
+    </div>
+}
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
 <script src="https://checkout.stripe.com/checkout.js"></script>
@@ -271,11 +261,18 @@
     });
 
     document.getElementById('btnPlaceOrderStripe').addEventListener('click', function (e) {
-        var amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt($("#tipButtons span").text().substring(1).trim())) * 100);
+        var amountToCharge = (parseInt($('#hdnCartTotal').val()) * 100);
+        var tipText = $("#tipButtons span").text().substring(1).trim();
+        var description = "";
+        if (tipText != "") {
+            amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt(tipText)) * 100);
+            description = '(Total + Tip) = (' + $('#hdnCartTotal').val() + ' + ' + parseInt(tipText) + ')';
+        }
         // Open Checkout with further options:
         handler.open({
             name: 'Dunkey Delivery',
-            amount: amountToCharge  //amount in cents
+            amount: amountToCharge,  //amount in cents
+            description: description
         });
         e.preventDefault();
     });

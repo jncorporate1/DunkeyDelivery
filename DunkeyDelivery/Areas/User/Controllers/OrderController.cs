@@ -118,59 +118,74 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
         public async Task<ActionResult> OrderSummary(DeliveryDetailsViewModel model, string stripeEmail, string stripeToken)
         {
-            if (model.DeliveryDetails == null)
+            try
             {
-                return RedirectToAction("Index", "Home", new { area = "User" });
-            }
-
-            Cart cart = new Models.Cart();
-            cart = GetCartData();
-            model.Cart = cart;
-            OrderViewModel orderModel = new OrderViewModel();
-            orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
-            orderModel.DeliveryAddress = model.DeliveryDetails.Address;
-            orderModel.TipAmount = model.TipAmount;
-            orderModel.DeliveryDetails = model.DeliveryDetails;
-            model.SetSharedData(User);
-            //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
-            if (!string.IsNullOrEmpty(model.Id))
-            {
-                orderModel.UserId = Convert.ToInt32(model.Id);
-            }
-
-            foreach (var store in cart.Stores)
-            {
-                foreach (var cartItem in store.CartItems)
+                if (model.DeliveryDetails == null)
                 {
-                    orderModel.Cart.CartItems.Add(new CartItemViewModel { ItemId = cartItem.ItemId, StoreId = cartItem.StoreId, ItemType = 1, Qty = cartItem.Qty });
+                    return RedirectToAction("Index", "Home", new { area = "User" });
                 }
+
+                Cart cart = new Models.Cart();
+                cart = GetCartData();
+                model.Cart = cart;
+                OrderViewModel orderModel = new OrderViewModel();
+                orderModel.AdditionalNote = model.DeliveryDetails.AdditionalNote;
+                orderModel.DeliveryAddress = model.DeliveryDetails.Address;
+                orderModel.TipAmount = model.TipAmount;
+                orderModel.DeliveryDetails = model.DeliveryDetails;
+                model.SetSharedData(User);
+                //orderModel.PaymentMethodType = model.PaymentInformation.PaymentType;
+                if (!string.IsNullOrEmpty(model.Id))
+                {
+                    orderModel.UserId = Convert.ToInt32(model.Id);
+                }
+
+                foreach (var store in cart.Stores)
+                {
+                    foreach (var cartItem in store.CartItems)
+                    {
+                        orderModel.Cart.CartItems.Add(new CartItemViewModel { ItemId = cartItem.ItemId, StoreId = cartItem.StoreId, ItemType = cartItem.Type, Qty = cartItem.Qty });
+                    }
+                }
+
+                orderModel.StripeAccessToken = model.StripeId;
+                orderModel.StripeEmail = model.StripeEmail;
+
+                //Charge user
+                //StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
+
+                //if (stripeCharge.Status != "succeeded")
+                //{
+                //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Payment Failed");
+                //}
+
+                var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+                if (responseOrder == null || responseOrder is Error)
+                {
+                    TempData["ErrorMessage"] = (responseOrder as Error).ErrorMessage;
+                    return RedirectToAction("DeliveryDetails");
+                }
+
+                var orderServer = responseOrder.GetValue("Result").ToObject<OrderBindingModel>();
+
+                // Remove cart from Cookies
+                if (Request.Cookies["Cart"] != null)
+                {
+                    var c = new HttpCookie("Cart");
+                    c.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(c);
+                }
+                orderServer.SetSharedData(User);
+                ViewBag.BannerImage = "press-top-banner.jpg";
+                ViewBag.Title = "Order Summary";
+                ViewBag.BannerTitle = "Order Summary";
+                ViewBag.Path = "Home > Order Summary";
+                return View("OrderSummary", orderServer);
             }
-
-            //Charge user
-            StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
-
-            if (stripeCharge.Status != "succeeded")
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Payment Failed");
+                return new HttpStatusCodeResult(Utility.LogError(ex), "An error occured while processing your request.");
             }
-
-            var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
-
-            var orderServer = responseOrder.GetValue("Result").ToObject<OrderBindingModel>();
-
-            // Remove cart from Cookies
-            if (Request.Cookies["Cart"] != null)
-            {
-                var c = new HttpCookie("Cart");
-                c.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(c);
-            }
-            orderServer.SetSharedData(User);
-            ViewBag.BannerImage = "press-top-banner.jpg";
-            ViewBag.Title = "Order Summary";
-            ViewBag.BannerTitle = "Order Summary";
-            ViewBag.Path = "Home > Order Summary";
-            return View("OrderSummary", orderServer);
         }
 
         public JsonResult StoreToSession()

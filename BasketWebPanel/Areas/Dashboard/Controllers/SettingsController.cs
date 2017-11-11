@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
+    [Authorize]
     public class SettingsController : Controller
     {
         // GET: Dashboard/Settings
