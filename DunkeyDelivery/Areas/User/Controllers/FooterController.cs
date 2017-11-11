@@ -3,6 +3,7 @@ using DunkeyDelivery.Areas.User.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -34,22 +35,62 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.BannerTitle = "Blog";
             ViewBag.Path = "Home > Blog";
             BlogViewModel returnResponse = new BlogViewModel();
-            var response = await ApiCall<List<PostsViewModel>>.CallApi("api/Blog/GetBlogPosts", null, false);
-            var responseResult = response.GetValue("Result").ToObject<List<PostsViewModel>>();
-            returnResponse.postsViewModel = responseResult;
+            var response = await ApiCall<BlogViewModel>.CallApi("api/Blog/GetBlogPosts", null, false);
+            var responseResult = response.GetValue("Result").ToObject<BlogViewModel>();
+            returnResponse = responseResult;
             returnResponse.SetSharedData(User);
 
-            return View("Blog", returnResponse);
+            return View("~/Areas/User/Views/Footer/Blog.cshtml", returnResponse);
         }
-        public ActionResult GetRewards()
+
+        public async Task<ActionResult> RedeemReward(int RewardID)
         {
+            var claimIdentity = ((ClaimsIdentity)User.Identity);
+            var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+            var responseRedeem = await ApiCall<RewardsViewModel>.CallApi("api/Reward/RedeemPrize?RewardID=" + RewardID + "&UserID=" + userId, null, false);
+            string RewardMessage = string.Empty;
+
+            var Message = responseRedeem.GetValue("Message").ToString();
+            if (Message == "Success")
+            {
+                RewardMessage = "Congratulations! You have redeemed your reward, Which will be applied on your next shopping cart.";
+            }
+
+            var responseRewards = await ApiCall<RewardsViewModel>.CallApi("api/Reward/GetRewardPrizes?UserID=" + userId, null, false);
+            var objRewardsViewModel = responseRewards.GetValue("Result").ToObject<RewardsViewModel>();
+            var listRewards = objRewardsViewModel.Rewards;
+            var objUserPoints = objRewardsViewModel.UserPoints;
+
             ViewBag.BannerImage = "rewards-banner.jpg";
             ViewBag.Title = "Get Rewards";
             ViewBag.BannerTitle = "Get Rewards";
             ViewBag.Path = "Home > Get Rewards";
+            ViewBag.RewardMessage = RewardMessage;
+            ViewBag.RewardPoints = objUserPoints.RewardPoints;
+            ViewBag.listRewards = listRewards;
             Global.sharedDataModel.SetSharedData(User);
-            return View("GetRewards",Global.sharedDataModel);
-           
+            return View("GetRewards", Global.sharedDataModel);
+        }
+
+        public async Task<ActionResult> GetRewards()
+        {
+            var claimIdentity = ((ClaimsIdentity)User.Identity);
+            var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+            var responseRewards = await ApiCall<RewardsViewModel>.CallApi("api/Reward/GetRewardPrizes?UserID=" + userId, null, false);
+            var objRewardsViewModel = responseRewards.GetValue("Result").ToObject<RewardsViewModel>();
+            var listRewards = objRewardsViewModel.Rewards;
+            var objUserPoints = objRewardsViewModel.UserPoints;
+
+            ViewBag.RewardMessage = string.Empty;
+            ViewBag.BannerImage = "rewards-banner.jpg";
+            ViewBag.Title = "Get Rewards";
+            ViewBag.BannerTitle = "Get Rewards";
+            ViewBag.Path = "Home > Get Rewards";
+            ViewBag.RewardPoints = objUserPoints.RewardPoints;
+            ViewBag.listRewards = listRewards;
+            Global.sharedDataModel.SetSharedData(User);
+            return View("GetRewards", Global.sharedDataModel);
+
         }
         public ActionResult Career()
         {
@@ -117,10 +158,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.BannerTitle = "Frequently Asked Question";
             ViewBag.Path = "Home > FAQs";
             Global.sharedDataModel.SetSharedData(User);
-            return View("FAQ",Global.sharedDataModel);
+            return View("FAQ", Global.sharedDataModel);
         }
 
-        
+
 
 
 

@@ -116,7 +116,7 @@ namespace DunkeyAPI.Controllers
                     else
                     {
                         existingModel = ctx.BlogPosts.FirstOrDefault(x => x.Id == model.Id);
-                       
+
 
                     }
 
@@ -230,24 +230,25 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("InsertComments")]
-        public IHttpActionResult InsertComments(string Email, string Message, int Post_id, int UserId)
+        public IHttpActionResult InsertComments(string Message, int Post_id, int UserId)
         {
 
             try
             {
-
-                if (string.IsNullOrEmpty(Email))
-                {
-
-                }
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
+                    if (UserId==0)
+                    {
+                       UserId= ctx.Users.FirstOrDefault(x => x.Email == DunkeyDelivery.Utility.GuestEmail).Id;
+                    }
+
                     BlogComments Comment = new BlogComments
                     {
                         Message = Message,
                         PostedDate = DateTime.Now,
                         CreatedDate = DateTime.Now,
-                        User_Id = UserId
+                        User_Id = UserId,
+                        Post_Id=Post_id
                     };
                     var BlogData = ctx.BlogPosts.Where(x => x.Id == Post_id).FirstOrDefault();
                     BlogData.BlogComments.Add(Comment);
@@ -271,11 +272,11 @@ namespace DunkeyAPI.Controllers
             }
         }
 
-       
+
 
         [HttpGet]
         [Route("GetBlogPosts")]
-        public IHttpActionResult GetBlogPosts(int Page=0,int Items=6)
+        public IHttpActionResult GetBlogPosts(int Page = 0, int Items = 6)
         {
             try
             {
@@ -284,12 +285,12 @@ namespace DunkeyAPI.Controllers
                 {
 
                     BlogPostListViewModel model = new BlogPostListViewModel();
-                    model.BlogPosts = ctx.BlogPosts.Include(c => c.Admin).OrderBy(x=>x.Title).Skip(Page*Items).Take(Items).ToList();
+                    model.BlogPosts = ctx.BlogPosts.Include(c => c.Admin).OrderBy(x => x.Title).Skip(Page * Items).Take(Items).ToList();
 
                     foreach (var post in model.BlogPosts)
                     {
-                      
-                        post.TotalComments = ctx.BlogComments.Count(x=>x.Post_Id==post.Id);
+
+                        post.TotalComments = ctx.BlogComments.Count(x => x.Post_Id == post.Id);
                     }
 
 
@@ -345,7 +346,10 @@ namespace DunkeyAPI.Controllers
             {
                 DunkeyContext ctx = new DunkeyContext();
 
-                var res = ctx.BlogPosts.FirstOrDefault();
+                ctx.Configuration.LazyLoadingEnabled = true;
+
+                var res = ctx.BlogPosts.Include(x => x.Admin).Include(x => x.BlogComments.Select(x1 => x1.User)).Where(x=>x.Id==id).FirstOrDefault();
+
 
                 CustomResponse<BlogPosts> response = new CustomResponse<BlogPosts>
                 { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = res };
@@ -371,14 +375,14 @@ namespace DunkeyAPI.Controllers
                     string conditions = string.Empty;
 
                     if (!String.IsNullOrEmpty(BlogTitle))
-                        conditions += "AND BlogPosts.Title LIKE '%"+BlogTitle+"%'";
+                        conditions += "AND BlogPosts.Title LIKE '%" + BlogTitle + "%'";
 
                     if (!String.IsNullOrEmpty(CategoryType))
-                        conditions += "AND CategoryType='"+CategoryType+"'";
+                        conditions += "AND CategoryType='" + CategoryType + "'";
 
                     if (DateOfPosting != null)
                     {
-                        conditions += "OR DateOfPosting='" +Convert.ToDateTime(DateOfPosting) + "'";
+                        conditions += "OR DateOfPosting='" + Convert.ToDateTime(DateOfPosting) + "'";
                     }
 
 
@@ -399,7 +403,7 @@ Admins.Email
  from BlogPosts
  LEFT JOIN Admins
 ON Admins.Id=BlogPosts.Admin_ID
-Where BlogPosts.is_deleted=0 " + conditions+"";
+Where BlogPosts.is_deleted=0 " + conditions + "";
 
                     #endregion
 
@@ -417,13 +421,13 @@ Where BlogPosts.is_deleted=0 " + conditions+"";
 
         [HttpGet]
         [Route("GetEntityById")]
-        public async Task<IHttpActionResult> GetEntityById( int Id)
+        public async Task<IHttpActionResult> GetEntityById(int Id)
         {
             try
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var Blog= ctx.BlogPosts.FirstOrDefault(x => x.Id == Id && x.is_deleted == 0);
+                    var Blog = ctx.BlogPosts.FirstOrDefault(x => x.Id == Id && x.is_deleted == 0);
                     if (Blog == null)
                     {
                         return Ok(new CustomResponse<Error> { Message = ResponseMessages.NotFound, StatusCode = (int)HttpStatusCode.NotFound, Result = new Error { ErrorMessage = "Record not found" } });
@@ -453,7 +457,7 @@ Where BlogPosts.is_deleted=0 " + conditions+"";
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var Blog=ctx.BlogPosts.FirstOrDefault(x => x.Id == Id);
+                    var Blog = ctx.BlogPosts.FirstOrDefault(x => x.Id == Id);
                     if (Blog != null)
                     {
                         Blog.is_deleted = 1;

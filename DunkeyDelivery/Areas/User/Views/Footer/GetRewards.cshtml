@@ -4,37 +4,52 @@
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
 
+@functions {
+    double getPercentage(double total, double find)
+    {
+        return (find * 100) / total;
+    }
+}
+
+@{
+    var Points = ViewBag.RewardPoints;
+    var listRewards = ViewBag.listRewards;
+}
+
 <style>
+    .tooltip.tooltiptext {
+        visibility: hidden;
+        width: 180px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        /* Position the tooltip */
+        position: absolute;
+        z-index: 1;
+    }
 
+    .tooltip:hover.tooltiptext {
+        visibility: visible;
+    }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 180px;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            /* Position the tooltip */
-            position: absolute;
-            z-index: 1;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-        }
+    div.rewards-desc img {
+        height: 160px;
+    }
 </style>
+
 <div class="top-banner">
     <img src="~/Content/assets/images/rewards-banner.png" class="img img-responsive" />
-    <div class="banner-inner-text" />
+    <div class="banner-inner-text">
 
-    <p>Got Points? Get rewards!</p>
-    <span class="desc">Earn 20 points for every $1 spent</span>
+        <p>Got Points? Get rewards!</p>
+        <span class="desc">Earn 20 points for every $1 spent</span>
     </div>
 </div>
 <div class="current-menu-paths">
     <div class="container">
-        <p> Home  >  Rewards </p>
+        <p> Home  >  Rewards</p>
     </div>
 </div>
 
@@ -46,173 +61,79 @@
             </div>
             <div class="col-md-8">
                 <h4>
-                    0
-                    <span>Points Earned</span>
+                    @Points
+                    <span> Points Earned</span>
                 </h4>
                 <div class="progress-main clearfix">
                     <p><span class="left">$5.00</span><span class="center">IPod</span><span class="right">iPad mini 4</span></p>
                     <div class="progress">
 
-                        <div class="progress-bar" style="width:0%;"></div>
+                        <div class="progress-bar" style="width:@getPercentage(500000,@Points)%;">@getPercentage(500000, @Points)%</div>
                     </div>
                     <p><span class="left">5,000 </span><span class="center">100,000 </span><span class="right">500,000</span></p>
                 </div>
             </div>
-
-
-
         </div>
-
         <ul>
-            <li>
-                <div class="points-rewards">5,000 Point Rewards </div>
-                <div class="rewards-desc">
-
-                    <p class="rewards-points">
-                        <sup>$</sup>5
-                    </p>
-
-                    <h3>$5 Dunkey Delivery Credit</h3>
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Treat yourself to $5 in DunkeyDelivery.com credit! All credit will be applied directly to your account for use on non-cash orders. </p>
-                     
-                    </div>
-                        <div class="progress">
-                            <div class="progress-bar" style="width:0%;"></div>
+            @foreach (var Reward in listRewards)
+            {
+                <li>
+                    <div class="points-rewards">@Reward.PointsRequired Point Rewards</div>
+                    <div class="rewards-desc">
+                        @if (Reward.RewardPrize_Id == null)
+                        {
+                            <p class="rewards-points">
+                                <sup>$</sup>@Reward.AmountAward
+                            </p>
+                            <h3>$@Reward.AmountAward Dunkey Delivery Credit</h3>
+                        }
+                        else
+                        {
+                            <div class="img img-responsive text-center">
+                                <img src="@Reward.RewardPrize.ImageUrl" />
+                            </div>
+                            <h3>@Reward.RewardPrize.Name Dunkey Delivery Gift</h3>
+                        }
+                        <div class="tooltip">
+                            <a class="learn-more-btn " href="#">Learn More</a>
+                            <p class="tooltiptext">@Reward.Description</p>
                         </div>
-                        <span class="bar-status">>You are 5,000 points away</span>
-                        <a href="#" class="redeem_btn deactive_btn" @*active_btn*@>Redeem</a>
+                        <div class="progress">
+                            <div class="progress-bar" style="width:@if (Points < Reward.PointsRequired)
+                            { @getPercentage(Reward.PointsRequired, Points);
+                            }
+                            else
+                            { <text>100</text>;
+                            }%;"></div>
+                        </div>
+                        @if (Points < Reward.PointsRequired)
+                        {
+                            <span class="bar-status">>You are @(Reward.PointsRequired - Points) points away</span>
+                            <a href="javascript:void()" class="redeem_btn deactive_btn">Redeem</a>
+                        }
+                        else
+                        {
+                            <span class="bar-status">>Congratulations! You can redeem your reward.</span>
+                            <a href="@Url.Action("RedeemReward", "Footer", new { RewardID = Reward.Id })" class="redeem_btn active_btn">Redeem</a>
+                        }
                     </div>
-            </li>
-
-            <li>
-                <div class="points-rewards">9,500 Point Rewards </div>
-                <div class="rewards-desc">
-
-                    <p class="rewards-points">
-                        <sup>$</sup>10
-                    </p>
-
-                    <h3>$10 Dunkey Delivery Credit</h3>
-
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Treat yourself to $10 in DunkeyDelivery.com credit! All credit will be applied directly to your account for use on non-cash orders. </p>
-                     
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:0%;"></div>
-                    </div>
-                    <span class="bar-status">You are 9,500 points away</span>
-                    <a href="#" class="redeem_btn deactive_btn">Redeem</a>
-                </div>
-            </li>
-
-
-            <li>
-                <div class="points-rewards">18,000 Point Rewards </div>
-                <div class="rewards-desc">
-
-                    <p class="rewards-points">
-                        <sup>$</sup>20
-                    </p>
-
-                    <h3>$20 Dunkey Delivery Credit</h3>
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Treat yourself to $20 in DunkeyDelivery.com credit!All  credit will be applied directly to your account for use on non-cash orders. </p>
-                      
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:0%;"></div>
-                    </div>
-                    <span class="bar-status">You are 18,000 points away</span>
-                    <a href="#" class="redeem_btn deactive_btn">Redeem</a>
-                </div>
-            </li>
-
-
-            <li>
-                <div class="points-rewards">100,000 Point Rewards </div>
-                <div class="rewards-desc">
-
-                    <div class="img img-responsive text-center">
-                        <img src="~/Content/assets/images/ipod.jpg" />
-
-                    </div>
-                    
-
-                    <h3>$10 Dunkey Delivery Credit</h3>
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Cast your favorite entertainment from your phone or computer straight to your TV via the HDMI port. Available in Black. </p>
-                      
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:0%;"></div>
-                    </div>
-                    <span class="bar-status">You are 100,000 points away</span>
-                    <a href="#" class="redeem_btn deactive_btn">Redeem</a>
-                </div>
-            </li>
-
-
-            <li>
-                <div class="points-rewards">250,000 Point Rewards </div>
-                <div class="rewards-desc">
-
-                    <div class="img img-responsive text-center">
-                        <img src="~/Content/assets/images/roku4.png" />
-
-                    </div>
-
-                    <h3>$10 Dunkey Delivery Credit</h3>
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Cast your favorite entertainment from your phone or computer straight to your TV via the HDMI port. Available in Black. </p>
-                      
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:0%;"></div>
-                    </div>
-                    <span class="bar-status">You are 250,000 points away</span>
-                    <a href="#" class="redeem_btn deactive_btn">Redeem</a>
-                </div>
-            </li>
-
-
-            <li>
-                <div class="points-rewards">500,000 Point Rewards </div>
-                <div class="rewards-desc">
-
-
-                    <div class="img img-responsive text-center">
-                        <img src="~/Content/assets/images/ipadmini.png" />
-
-                    </div>
-
-                    <h3>$10 Dunkey Delivery Credit</h3>
-                    <div class="tooltip">
-                        <a class="learn-more-btn " href="#">Learn More</a>
-                        <p class="tooltiptext">Every Roku player provides access to 2,500+ channels on demand offering 300,000+ movies and TV episodes, and the ability to search across more than 20 top streaming channels to find the best price and option. </p>
-                    
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" style="width:0%;"></div>
-                    </div>
-                    <span class="bar-status">You are 500,000 points away</span>
-                    <a href="#" class="redeem_btn deactive_btn">Redeem</a>
-                </div>
-            </li>
-
-
-
+                </li>
+            }
 
 
         </ul>
 
     </div>
 </section>
-
-
+@if (ViewBag.RewardMessage != string.Empty)
+{
+    <script>
+        window.onload = function () {
+            $("body").prepend($("#rewards-modal"))
+        }
+    </script>
+    <div id="rewards-modal" style="line-height: 40px;font-size: 20px;text-align: center;background:#6ebe44;color:white;">
+        @ViewBag.RewardMessage
+        <a href="javascript:void()" onclick="$('#rewards-modal').hide()" style="float: right;margin-right: 15px;font-weight: bold;color: white;">X</a>
+    </div>
+}

@@ -9,100 +9,52 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 single-post-contain">
-                @foreach (var post in Model.postsViewModel)
+                @foreach (var post in Model.BlogPosts)
                 {
 
-                
-                <div class="single-post">
 
-                    <div class="featured-image">
-                        <img src="@post.ImageUrl" class="img img-responsive" />
-                    </div>
-                    <div class="post-data clearfix">
+                    <div class="single-post">
 
-                        <div class="col-md-2 post-date">
-                            <h1>
-                                <span class="fa fa-file-text"></span>
-                                18
-                            </h1>
-                            <h3>Sept</h3>
+                        <div class="featured-image">
+                            <img style="height:375px;width:750px;"  src="@Utility.BaseUrl@post.ImageUrl" class="img img-responsive" />
                         </div>
-                        <div class="col-md-10">
-                            <div class="post-data-side">
-                                <h1>@post.Title</h1>
-                                <ul class="post-action-list clearfix">
-                                    <li><a href="#" onclick="return false;"><span class="fa fa-user"></span></a></li>
-                                    <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> @post.CategoryType</a></li>
-                                    <li><a href="#" onclick="return false;"><span class="fa fa-comment"></span> 0 Comments</a></li>
-                                </ul>
-                                <p>
-                                   @post.Description
-                               </div>
-                        </div>
-                    </div>
+                        <div class="post-data clearfix">
 
-                </div>
+                            <div class="col-md-2 post-date">
+                                <h1>
+                                    <span class="fa fa-file-text"></span>
+                                   @post.DateOfPosting.Value.Day
+                                </h1>
+                                <h3>@post.DateOfPosting.Value.ToString("MMMM") </h3>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="post-data-side">
+                                    <h1> <a href="@Url.Action("BlogDetails","Blog",new {id=@post.Id })" >@post.Title</a></h1>
+                                    <ul class="post-action-list clearfix">
+                                        <li><a href="#" onclick="return false;"><span class="fa fa-user"></span>@post.Admin.FullName</a></li>
+                                        <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> @post.CategoryType</a></li>
+                                        <li><a href="#" onclick="return false;"><span class="fa fa-comment"></span> @post.TotalComments Comments</a></li>
+                                    </ul>
+
+
+                                    @if (!string.IsNullOrEmpty(post.Description) && post.Description.Length > 250)
+                                    {
+                                        <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="">@post.Description.Substring(0, 250) ...</p>
+                                    }
+                                    else
+                                    {
+                                        <p style="margin-bottom:0px;" class="rest-info" data-toggle="tooltip" title="">@post.Description</p>
+                                    }
+
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 }
-                @*<div class="single-post">
 
-                    <div class="featured-image">
-                        <img src="~/Content/assets/images/blog-image.jpg" class="img img-responsive" />
-                    </div>
-                    <div class="post-data clearfix">
-
-                        <div class="col-md-2 post-date">
-                            <h1>
-                                <span class="fa fa-file-text"></span>
-                                31
-                            </h1>
-                            <h3>Mar</h3>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="post-data-side">
-                                <h1>Standart Blog Post With Featured Image</h1>
-                                <ul class="post-action-list clearfix">
-                                    <li><a href="#"><span class="fa fa-user"></span>Mike</a></li>
-                                    <li><a href="#"><span class="fa fa-folder-open"></span> Web Design</a></li>
-                                    <li><a href="#"><span class="fa fa-comment"></span> 0 Comments</a></li>
-                                </ul>
-                                <p>
-                                    Donec quis vestibulum nisl, a bibendum velit. Proin cursus mauris non malesuada euismod. In vitae accumsan neque. Phasellus blandit arcu id ante feugiat
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>*@
-                @*<div class="single-post">
-
-                    <div class="featured-image">
-                        <img src="~/Content/assets/images/blog-image.jpg" class="img img-responsive" />
-                    </div>
-                    <div class="post-data clearfix">
-
-                        <div class="col-md-2 post-date">
-                            <h1>
-                                <span class="fa fa-file-text"></span>
-                                31
-                            </h1>
-                            <h3>Mar</h3>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="post-data-side">
-                                <h1>Standart Blog Post With Featured Image</h1>
-                                <ul class="post-action-list clearfix">
-                                    <li><a href="#"><span class="fa fa-user"></span>Mike</a></li>
-                                    <li><a href="#"><span class="fa fa-folder-open"></span> Web Design</a></li>
-                                    <li><a href="#"><span class="fa fa-comment"></span> 0 Comments</a></li>
-                                </ul>
-                                <p>
-                                    Donec quis vestibulum nisl, a bibendum velit. Proin cursus mauris non malesuada euismod. In vitae accumsan neque. Phasellus blandit arcu id ante feugiat
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>*@
             </div>
 
             <div class="col-md-4">
@@ -111,31 +63,31 @@
                     <br />
                     <ul class="category-list">
                         <li><a href="">Food</a></li>
-                      
-                       
+
+
                     </ul>
                 </div>
                 <div class="populer-post-section">
                     <h1 class="right-side-heading">Popular Post</h1>
                     <br />
-                    @foreach (var popular in Model.postsViewModel.Where(x=>x.is_popular==1).Take(2))
+                    @foreach (var popular in Model.BlogPosts.Where(x => x.is_popular == 1).Take(2))
                     {
 
-                    
-                    <div class="side-post-contain">
-                        <div class="side-popular-post">
-                            <h1>What to Cook in September</h1>
-                            <p>
-                                The mornings are starting to get a little bit chillier and the sun is starting to set earlier and earlier. There’s still a bunch of late summer produce at the store, but it’s also time to start thinking ...
-                            </p>
 
-                            <ul class="post-action-list post-action-list-2 clearfix">
-                                <li><a href="#" onclick="return false;"><span class="fa fa-user"></span>Admin</a></li>
-                                <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> Food</a></li>
-                                <li><a href="#" onclick="return false;"><span class="fa fa-comment"></span> 0 Comments</a></li>
-                            </ul>
+                        <div class="side-post-contain">
+                            <div class="side-popular-post">
+                                <h1>What to Cook in September</h1>
+                                <p>
+                                    The mornings are starting to get a little bit chillier and the sun is starting to set earlier and earlier. There’s still a bunch of late summer produce at the store, but it’s also time to start thinking ...
+                                </p>
+
+                                <ul class="post-action-list post-action-list-2 clearfix">
+                                    <li><a href="#" onclick="return false;"><span class="fa fa-user"></span>Admin</a></li>
+                                    <li><a href="#" onclick="return false;"><span class="fa fa-folder-open"></span> Food</a></li>
+                                    <li><a href="#" onclick="return false;"><span class="fa fa-comment"></span> 0 Comments</a></li>
+                                </ul>
+                            </div>
                         </div>
-                       </div>
                     }
 
                 </div>
@@ -143,7 +95,7 @@
                     <h1 class="right-side-heading">Popular Tags</h1>
                     <div class="tags">
                         <a href="">Food</a>
-                    
+
                     </div>
                     <br />
                 </div>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -37,33 +38,31 @@ namespace DunkeyDelivery.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SubmitPharmacyForm(PharmacyViewModel model, string returnUrl)
         {
-            //model.ConfirmPassword = model.Password;
-            //model.Role = 0;
-            //model.Phone = "03455249413";
+         
 
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(ModelState);
-            //}
+            if (!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
 
-            //var response = await ApiCall<RegisterMerchantViewModel>.CallApi("api/Merchant/Register", model);
+            var response = await ApiCall<PharmacyViewModel>.CallApi("api/Pharmacy/SubmitPharmacyRequest", model);
 
 
-            //if (response is Error)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+            if (response is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
 
-            //}
-            //if (response == null)
-            //{
+            }
+            if (response == null)
+            {
 
-            //}
+            }
 
 
 
 
-            //ViewBag.Title = "Merchant Sign Up";
-            //return View("MerchantSignup");
+            ViewBag.Title = "Merchant Sign Up";
+            return View("MerchantSignup");
             return Json("", JsonRequestBehavior.AllowGet);
         }
     }

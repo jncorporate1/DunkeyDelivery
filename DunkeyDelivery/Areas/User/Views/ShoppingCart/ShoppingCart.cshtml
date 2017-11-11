@@ -29,18 +29,19 @@
         $.post("@Url.Action("AddToCart","Order")", data,
             function (e) {
 
-                $("#cart_subtotal").val(function (i, val) {
-
-                    return val + price;
-                });
-
                 $(".item_" + id).val(function (i, val) {
                     val++;
-                    $(".total-price_" + id).text("$" + (val * price));
+                    $(".total-price_" + id).text("$" + (val*price));
 
                     return val;
                 });
 
+
+                var real_price = $("#cart_subtotal").attr("price");
+                
+                real_price = parseFloat(real_price) + parseFloat(price);
+                $("#cart_subtotal").html("$" + real_price);
+                $("#cart_subtotal").attr("price",real_price);
             });
 
     }
@@ -63,13 +64,9 @@
 
     function EmptyCart(id) {
         $("#list_" + id).remove();
+        var htm = '<li><div class="col-md-12 text-center"> <p><img src="../../Content/assets/images/empty-cart.png" style="height:100px;" /></p> <p style="color:black;"><b>Your cart is empty! </b></p>  <a href="@Url.Action("Search","Home",new { search="Food" })" class="btn btn-default">Add More Items</a></div> </li>';
         if ($('li[id*="list_"]').length == 0) {
-            $(".shopping-list").html(` <li><div class="col-md-12 text-center"> <p><img src="~/Content/assets/images/empty-cart.png" style="height:100px;" /></p>
-                                <p style="color:black;"><b>Your cart is empty! </b></p>
-
-
-                            </div>
-                        </li>`);
+            $(".shopping-list").html(htm);
         }
     }
 
@@ -97,7 +94,11 @@
 
                 return val;
             });
+            var real_price = $("#cart_subtotal").attr("price");
 
+            real_price = parseFloat(real_price) - parseFloat(price);
+            $("#cart_subtotal").html("$" + real_price);
+            $("#cart_subtotal").attr("price", real_price);
         });
 
     }

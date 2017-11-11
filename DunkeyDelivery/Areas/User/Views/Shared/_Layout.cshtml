@@ -263,7 +263,10 @@
 					</div>
 
 					<div class="col-md-7 fmenu" style="padding-left:0px;">
-						<a href="@Url.Action("GetRewards", "Footer",new { area="User"})">Get Rewards</a>
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
+                        }
 						<a href="@Url.Action("Partners", "Footer")">Become A Partner</a>
 						<a href="@Url.Action("Contact", "Home")">Contact </a>
 					</div>
@@ -420,6 +423,24 @@ function openCity(evt, cityName) {
 }
 // Get the element with id="defaultOpen" and click on it
         //document.getElementById("defaultOpen").click();
+        function login_first() {
+            //  $("#login_first").show().delay(2000).fadeOut();
+            $('#login_first')
+              .delay(1000)
+              .queue(function (next) {
+                  $(this).css('visibility', 'visible');
+                  next();
+              });
+        }
+        function invisibility_Animation(element_Id, Message) {
+            $('#' + element_Id).text(Message);
+            $('#'+element_Id)
+             .delay(1000)
+             .queue(function (next) {
+                 $(this).css('visibility', 'visible');
+                 next();
+             });
+        }
 
 	</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
