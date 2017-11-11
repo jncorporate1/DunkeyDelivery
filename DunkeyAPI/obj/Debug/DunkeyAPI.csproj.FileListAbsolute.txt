@@ -348,7 +348,6 @@ D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll
-F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\roslyn\csc.exe
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -401,6 +400,7 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Web.Infrastructure.dl
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Newtonsoft.Json.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Nexmo.Api.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Owin.dll
+F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Stripe.net.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\System.Net.Http.Formatting.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\System.Runtime.InteropServices.RuntimeInformation.dll
@@ -459,5 +459,6 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Google.
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Twitter.xml
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
+F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb

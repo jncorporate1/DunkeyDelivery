@@ -1,4 +1,6 @@
 ﻿using DAL;
+using DunkeyAPI.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -22,6 +24,12 @@ namespace DunkeyDelivery
         public static string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
         public static string GuestEmail = "Guest@gmail.com";
+
+        public static void ReloadStripeSettings(this StripeSettings Me)
+        {
+            Me.PublishableKey = ConfigurationManager.AppSettings["StripePublishableKey"];
+            Me.SecretKey = ConfigurationManager.AppSettings["StripeSecretKey"];
+        }
 
         public static IEnumerable<T> Page<T>(this IEnumerable<T> en, int pageSize, int page)
         {
@@ -173,6 +181,31 @@ namespace DunkeyDelivery
                 Utility.LogError(ex);
                 return null;
             }
+        }
+
+        public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken, int amount)
+        {
+            var customers = new StripeCustomerService();
+            var charges = new StripeChargeService();
+            var stripeSettings = new StripeSettings();
+            stripeSettings.ReloadStripeSettings();
+            StripeConfiguration.SetApiKey(stripeSettings.SecretKey);
+
+            var customer = customers.Create(new StripeCustomerCreateOptions
+            {
+                Email = stripeEmail,
+                SourceToken = stripeToken
+            });
+
+            var charge = charges.Create(new StripeChargeCreateOptions
+            {
+                Amount = amount * 100, //charge in cents
+                Description = "Dunkey Delivery",
+                Currency = "usd",
+                CustomerId = customer.Id,
+            });
+
+            return charge;
         }
 
     }

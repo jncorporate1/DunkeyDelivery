@@ -148,15 +148,23 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     }
                 }
 
-                //Charge user
-                StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
+                orderModel.StripeAccessToken = model.StripeId;
+                orderModel.StripeEmail = model.StripeEmail;
 
-                if (stripeCharge.Status != "succeeded")
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Payment Failed");
-                }
+                //Charge user
+                //StripeCharge stripeCharge = Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeId, Convert.ToInt32(model.Cart.Total + model.TipAmount));
+
+                //if (stripeCharge.Status != "succeeded")
+                //{
+                //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "Payment Failed");
+                //}
 
                 var responseOrder = await ApiCall<OrderViewModel>.CallApi("api/Order/InsertOrder", orderModel);
+                if (responseOrder == null || responseOrder is Error)
+                {
+                    TempData["ErrorMessage"] = (responseOrder as Error).ErrorMessage;
+                    return RedirectToAction("DeliveryDetails");
+                }
 
                 var orderServer = responseOrder.GetValue("Result").ToObject<OrderBindingModel>();
 
@@ -176,7 +184,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
             catch (Exception ex)
             {
-                return new HttpStatusCodeResult(Utility.LogError(ex), "An erro occured while processing your request.");
+                return new HttpStatusCodeResult(Utility.LogError(ex), "An error occured while processing your request.");
             }
         }
 

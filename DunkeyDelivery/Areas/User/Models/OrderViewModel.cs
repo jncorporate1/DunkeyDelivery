@@ -44,6 +44,8 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public PaymentInormation PaymentInformation { get; set; }
 
+        public string StripeAccessToken { get; set; }
+        public string StripeEmail { get; set; }
 
     }
 

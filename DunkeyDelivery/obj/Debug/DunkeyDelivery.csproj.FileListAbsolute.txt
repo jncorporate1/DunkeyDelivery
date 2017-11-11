@@ -323,6 +323,7 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\DunkeyDelivery.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\DunkeyDelivery.pdb
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Antlr3.Runtime.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\DAL.dll
+F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.SqlServer.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Core.dll
@@ -384,4 +385,3 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Mi
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
-F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll

@@ -53,5 +53,6 @@ F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.dll
 F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.xml
 F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.xml
 F:\VS\GitRepository\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
+F:\VS\GitRepository\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 F:\VS\GitRepository\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
