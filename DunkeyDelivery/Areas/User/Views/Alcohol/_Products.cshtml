@@ -29,8 +29,7 @@
                 {
                     foreach (var product in Model.productslist)
                     {
-                        <li id="addCart" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')" >@product.Name <span>$@product.Price</span></li>
-                        
+                        <li id="addCart" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')" >@product.Name <span>$@product.Price</span></li>
                     }
                 }
                 else
@@ -50,8 +49,9 @@
 </div>
 <script>
     function AddToCart(id, productName, price, size, StoreId) {
-        var StoreName= $("#addCart").attr("storeName");
-        console.log(JSON.stringify(StoreName));
+        var StoreName = $("#addCart").attr("storeName");
+        var BusinessType = $("#addCart").attr("storeBusinessType");
+        var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
         var data = {
             ItemId: id,
             name: productName,
@@ -59,7 +59,9 @@
             type: 0,
             size: size,
             StoreId: StoreId,
-            StoreName: StoreName
+            StoreName: StoreName,
+            BusinessType: BusinessType,
+            BusinessTypeTax: BusinessTypeTax
         }
         $.post("@Url.Action("AddToCart","Order")", data,
             function (e) {

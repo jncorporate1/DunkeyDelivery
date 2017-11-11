@@ -54,8 +54,6 @@ namespace DunkeyDelivery.Areas.User.Models
     }
     public class ShopViewModel 
     {
-
-       
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -67,6 +65,8 @@ namespace DunkeyDelivery.Areas.User.Models
         public string BusinessName { get; set; }
         
         public string BusinessType { get; set; }
+
+        public double BusinessTypeTax { get; set; }
 
         public string Email { get; set; }
 
@@ -92,15 +92,11 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public decimal MinDeliveryCharges { get; set; }
 
-
-       
         public double Distance { get; set; }
 
         public IEnumerable<StoreTags> StoreTags { get; set; }
+
         public DeliveryHours StoreDeliveryHours { get; set; }
-
-
-
     }
     public class StoreTags
     {
@@ -132,17 +128,12 @@ namespace DunkeyDelivery.Areas.User.Models
 
     public class StoreViewModel
     {
-
-
         public int Id { get; set; }
-
-
 
         public string BusinessType { get; set; }
 
         public string Description { get; set; }
-
-
+        
         public string BusinessName { get; set; }
 
         public double? Latitude { get; set; }
@@ -154,7 +145,6 @@ namespace DunkeyDelivery.Areas.User.Models
         public TimeSpan Open_To { get; set; }
 
         public double AverageRating { get; set; }
-
 
         public string ImageUrl { get; set; }
 
@@ -168,9 +158,6 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public float? MinOrderPrice { get; set; }
 
-
-
-
-
+        public double BusinessTypeTax { get; set; }
     }
 }

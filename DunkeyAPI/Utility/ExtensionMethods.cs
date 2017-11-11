@@ -6,6 +6,7 @@ using DAL;
 using DunkeyAPI.ViewModels;
 using static DunkeyAPI.Utility.Global;
 using DunkeyAPI.Utility;
+using System.Data.Entity;
 
 namespace DunkeyAPI.ExtensionMethods
 {
@@ -64,16 +65,16 @@ namespace DunkeyAPI.ExtensionMethods
                         break;
                     case (int)CartItemTypes.Offer_Product:
                         orderItem.Offer_Product_Id = model.ItemId;
-                        var offerProduct = ctx.Offer_Products.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                        orderItem.Name = offerProduct.Name;
-                        orderItem.Price = offerProduct.DiscountedPrice;
-                        orderItem.Description = offerProduct.descript;
+                        var offerProduct = ctx.Offer_Products.Include(x => x.Product).FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = offerProduct.Product.Name;
+                        orderItem.Price = offerProduct.DiscountedPrice * model.Qty;
+                        orderItem.Description = offerProduct.Description;
                         break;
                     case (int)CartItemTypes.Offer_Package:
                         orderItem.Offer_Package_Id = model.ItemId;
-                        var offerPackage = ctx.Offer_Packages.FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
-                        orderItem.Name = offerPackage.Name;
-                        orderItem.Price = offerPackage.DiscountedPrice;
+                        var offerPackage = ctx.Offer_Packages.Include(x => x.Package).FirstOrDefault(x => x.Id == model.ItemId && x.IsDeleted == false);
+                        orderItem.Name = offerPackage.Package.Name;
+                        orderItem.Price = offerPackage.DiscountedPrice * model.Qty;
                         orderItem.Description = offerPackage.Description;
                         break;
                     default:
@@ -136,8 +137,17 @@ namespace DunkeyAPI.ExtensionMethods
                 order.DeliveryTime_To = model.DeliveryDateTime_To;
                 order.PaymentMethod = model.PaymentMethodType;
                 order.User_ID = model.UserId;
-                order.DeliveryAddress = model.DeliveryAddress;
-                order.AdditionalNote = model.AdditionalNote;
+
+                //Set Delivery Details
+                order.DeliveryDetails_FirstName = model.DeliveryDetails.FirstName;
+                order.DeliveryDetails_LastName = model.DeliveryDetails.LastName;
+                order.DeliveryDetails_Phone = model.DeliveryDetails.Phone;
+                order.DeliveryDetails_ZipCode = model.DeliveryDetails.ZipCode;
+                order.DeliveryDetails_Email = model.DeliveryDetails.Email;
+                order.DeliveryDetails_City = model.DeliveryDetails.City;
+                order.DeliveryDetails_Address = model.DeliveryDetails.Address;
+                order.DeliveryDetails_AddtionalNote = model.DeliveryDetails.AdditionalNote;
+
                 order.TipAmount = model.TipAmount;
             }
             catch (Exception)
@@ -200,14 +210,11 @@ namespace DunkeyAPI.ExtensionMethods
         {
             try
             {
-
                 order.CalculateSubTotal();
                 order.ServiceFee = 0;
                 order.DeliveryFee = DunkeySettings.DeliveryFee;
                 order.TotalTaxDeducted = order.StoreOrders.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
                 order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal + order.TipAmount + order.TotalTaxDeducted;
-
-
             }
             catch (Exception)
             {

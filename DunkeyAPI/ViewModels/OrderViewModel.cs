@@ -28,7 +28,40 @@ namespace DunkeyAPI.ViewModels
         public OrderViewModel()
         {
             Cart = new CartViewModel();
+            DeliveryDetails = new DeliveryDetailsBindingModel();
         }
+
         public CartViewModel Cart { get; set; }
+        public DeliveryDetailsBindingModel DeliveryDetails { get; set; }
+    }
+
+    public class DeliveryDetailsBindingModel
+    {
+        [Required(ErrorMessage = "First Name is required")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Last Name is required")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Phone Number is required")]
+        public string Phone { get; set; }
+
+
+        [Required(ErrorMessage = "Email Address is required")]
+        [EmailAddress(ErrorMessage = "Email Address is invalid")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Address is required")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "City is required")]
+        public string City { get; set; }
+
+        [Required(ErrorMessage = "Zip Code is required")]
+        public string ZipCode { get; set; }
+
+
+        public string AdditionalNote { get; set; }
+
     }
 }

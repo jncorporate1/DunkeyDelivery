@@ -114,6 +114,12 @@ namespace DunkeyDelivery
     }
     public static class ExtensionMethods
     {
+        public static void ReloadStripeSettings(this StripeSettings Me)
+        {
+            Me.PublishableKey = ConfigurationManager.AppSettings["StripePublishableKey"];
+            Me.SecretKey = ConfigurationManager.AppSettings["StripeSecretKey"];
+        }
+
         public static string GetFormattedBreadCrumb(this CategoryBindingModel category, IEnumerable<CategoryBindingModel> categoryService, string separator = ">>")
         {
             string result = string.Empty;

@@ -13,7 +13,8 @@
 
     function AddToCart(id, productName, price, size, StoreId) {
         var StoreName= $("#addCart").attr("storeName");
-
+        var BusinessType = $("#addCart").attr("storeBusinessType");
+        var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
         var data = {
             ItemId: id,
             name: productName,
@@ -21,7 +22,9 @@
             type: 0,
             size: size,
             StoreId: StoreId,
-            StoreName: StoreName
+            StoreName: StoreName,
+            BusinessType: BusinessType,
+            BusinessTypeTax: BusinessTypeTax
         }
         $.post("@Url.Action("AddToCart","Order")", data,
             function (e) {

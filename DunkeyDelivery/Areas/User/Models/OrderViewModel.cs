@@ -29,12 +29,21 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public double TipAmount { get; set; }
 
+        public double TotalTaxDeducted { get; set; }
+
         public OrderViewModel()
         {
             Cart = new CartViewModel();
+            DeliveryDetails = new DeliveryDetails();
+            PaymentInformation = new PaymentInormation();
         }
 
         public CartViewModel Cart { get; set; }
+
+        public DeliveryDetails DeliveryDetails { get; set; }
+
+        public PaymentInormation PaymentInformation { get; set; }
+
 
     }
 

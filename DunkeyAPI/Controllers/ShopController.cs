@@ -211,7 +211,13 @@ namespace DunkeyAPI.Models
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var res = ctx.Stores.Include("StoreTags").Where(x => x.BusinessType == Type && x.IsDeleted==false).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
+                    var res = ctx.Stores.Include("StoreTags").Where(x => x.BusinessType == Type && x.IsDeleted == false).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
+
+                    //var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
+
+                    //if (businessTypeTax != null)
+                    //    res.BusinessTypeTax = businessTypeTax.Tax;
+
                     var TotalStores = ctx.Stores.Where(x => x.BusinessType == Type).Count();
 
                     CustomResponse<Shop> response = new CustomResponse<Shop>
@@ -239,6 +245,11 @@ namespace DunkeyAPI.Models
                 DunkeyContext ctx = new DunkeyContext();
                 var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").First();
 
+                var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
+
+                if (businessTypeTax != null)
+                    res.BusinessTypeTax = businessTypeTax.Tax;
+
                 CustomResponse<Store> response = new CustomResponse<Store>
                 {
                     Message = "Success",
@@ -246,9 +257,6 @@ namespace DunkeyAPI.Models
                     Result = res
                 };
                 return Ok(response);
-
-
-
             }
             catch (Exception ex)
             {
@@ -319,7 +327,7 @@ namespace DunkeyAPI.Models
 
         [HttpGet]
         [Route("GetFilteredStores")]
-        public IHttpActionResult GetFilteredStores(string FilterType, string CategoryType, int Items, int Page,DateTime CurrentTime)
+        public IHttpActionResult GetFilteredStores(string FilterType, string CategoryType, int Items, int Page, DateTime CurrentTime)
         {
             try
             {
@@ -332,7 +340,7 @@ namespace DunkeyAPI.Models
                 #region ConditionForRatingType
                 if (FilterType.Contains("Rating"))
                 {
-                    res.Store = ctx.Stores.Include(x=>x.StoreTags).Where(x => x.BusinessType == CategoryType).OrderByDescending(x => x.AverageRating).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
+                    res.Store = ctx.Stores.Include(x => x.StoreTags).Where(x => x.BusinessType == CategoryType).OrderByDescending(x => x.AverageRating).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
 
                 }
                 else if (FilterType.Contains("DeliveryCharges"))
@@ -345,7 +353,7 @@ namespace DunkeyAPI.Models
                 }
                 else if (FilterType.Contains("Free delivery"))
                 {
-                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0 || x.MinDeliveryCharges==null);
+                    TotalStores = ctx.Stores.Count(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0 || x.MinDeliveryCharges == null);
                     res.Store = ctx.Stores.Include(x => x.StoreTags).Where(x => x.BusinessType == CategoryType && x.MinDeliveryCharges == 0).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
 
                 }
@@ -359,8 +367,8 @@ namespace DunkeyAPI.Models
                 else if (FilterType.Contains("Open Restaurants"))
                 {
                     #region Condition for day and store timings
-                    
-                    if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Monday) )
+
+                    if (CurrentTime.DayOfWeek.Equals(DayOfWeek.Monday))
                     {
                         res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType && (x.StoreDeliveryHours.Monday_From <= CurrentTime.TimeOfDay && x.StoreDeliveryHours.Monday_To >= CurrentTime.TimeOfDay)).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
 
@@ -396,12 +404,13 @@ namespace DunkeyAPI.Models
 
                     }
                     #endregion
-                    
+
                 }
-                else if(FilterType.Contains("All"))
+                else if (FilterType.Contains("All"))
                 {
                     res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
-                }else if (FilterType.Contains("Online payment avaiable"))
+                }
+                else if (FilterType.Contains("Online payment avaiable"))
                 {
                     res.Store = ctx.Stores.Where(x => x.BusinessType == CategoryType).OrderBy(x => x.BusinessName).Skip(Items * Page).Take(Items).ToList();
                 }
@@ -441,7 +450,7 @@ namespace DunkeyAPI.Models
         {
             try
             {
-             
+
                 var locationService = new GoogleLocationService("AIzaSyD2qlAy2Quv00vXsc-Ix86WnIXvHmEJlg8");
                 var points = locationService.GetLatLongFromAddress(Address);
                 if (points == null)
@@ -583,7 +592,7 @@ namespace DunkeyAPI.Models
 
                 //select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags GROUP BY StoreTags.Tag ORDER BY TotalCount DESC
                 #region Get Store Counts
-                SidebarModel.StoreCounts.TotalFoodStores = ctx.Stores.Where(x => x.BusinessType == "Food" && x.IsDeleted==false).Count();
+                SidebarModel.StoreCounts.TotalFoodStores = ctx.Stores.Where(x => x.BusinessType == "Food" && x.IsDeleted == false).Count();
                 SidebarModel.StoreCounts.TotalGroceryStores = ctx.Stores.Where(x => x.BusinessType == "Grocery" && x.IsDeleted == false).Count();
                 SidebarModel.StoreCounts.TotalAlcoholtores = ctx.Stores.Where(x => x.BusinessType == "Alcohol" && x.IsDeleted == false).Count();
                 SidebarModel.StoreCounts.TotalPharmacyStores = ctx.Stores.Where(x => x.BusinessType == "Pharmacy" && x.IsDeleted == false).Count();

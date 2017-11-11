@@ -22,7 +22,6 @@ namespace DunkeyAPI.Controllers
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-                var res = ctx.Offer_Packages.Include("Offer_Product").ToList();
 
                 OfferViewModel model = new OfferViewModel { Offer_Packages = ctx.Offer_Packages.Include(x => x.Package).Include(x => x.Offer.Store).ToList(), Offer_Products = ctx.Offer_Products.Include(x => x.Product).Include(x => x.Product.Store).ToList() };
 
@@ -58,7 +57,7 @@ namespace DunkeyAPI.Controllers
   COALESCE(t2.Price, t1.Price) AS Price,
   COALESCE(t2.StoreName, t1.StoreName) AS StoreName,
   COALESCE(t2.CategoryName, t1.CategoryName) AS CategoryName,
-  COALESCE(t2.ImageUrl, t1.ImageUrl) AS ImageUrl,
+  COALESCE(t2.ImageUrl, t1.ImageUrl) AS Image,
   COALESCE(t2.OfferProductId, 0) AS OfferProductId,
   COALESCE(t2.Offer_Id, 0) AS Offer_Id,
   COALESCE(t2.IsChecked, CAST(0 AS bit)) AS IsChecked

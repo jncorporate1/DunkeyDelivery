@@ -14,10 +14,7 @@ namespace DunkeyAPI.ViewModels
             OrderDateTime = order.OrderDateTime;
             DeliveryDateTime_From = order.DeliveryTime_From;
             DeliveryDateTime_To = order.DeliveryTime_To;
-            AdditionalNote = order.AdditionalNote;
             PaymentMethodType = order.PaymentMethod;
-            DeliveryAddress = order.DeliveryAddress;
-            SubTotal = order.Subtotal;
             ServiceFee = order.ServiceFee;
             DeliveryFee = order.DeliveryFee;
             Total = order.Total;
@@ -48,7 +45,14 @@ namespace DunkeyAPI.ViewModels
 
         public double TotalTaxDeducted { get; set; }
 
-
+        public string DeliveryDetails_FirstName { get; set; }
+        public string DeliveryDetails_LastName { get; set; }
+        public string DeliveryDetails_Phone { get; set; }
+        public string DeliveryDetails_ZipCode { get; set; }
+        public string DeliveryDetails_Email { get; set; }
+        public string DeliveryDetails_City { get; set; }
+        public string DeliveryDetails_Address { get; set; }
+        public string DeliveryDetails_AddtionalNote { get; set; }
 
     }
 }

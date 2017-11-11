@@ -59,8 +59,6 @@ namespace DAL
         public virtual DbSet<AdminSubAdminNotifications> AdminSubAdminNotifications { get; set; }
         public virtual DbSet<BusinessTypeTax> BusinessTypeTax { get; set; }
 
-
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AdminNotifications>()
@@ -247,6 +245,12 @@ namespace DAL
                 .HasMany(e => e.Offer_Products)
                 .WithRequired(e => e.Product)
                 .HasForeignKey(e => e.Product_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Package>()
+                .HasMany(e => e.Offer_Packages)
+                .WithRequired(e => e.Package)
+                .HasForeignKey(e => e.Package_Id)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()

@@ -31,9 +31,7 @@ namespace DAL
 
         [JsonConverter(typeof(JsonCustomDateTimeConverter))]
         public DateTime? DeliveryTime_To { get; set; }
-
-        public string AdditionalNote { get; set; }
-
+        
         public int PaymentMethod { get; set; }
 
         public double Subtotal { get; set; }
@@ -44,6 +42,8 @@ namespace DAL
 
         public double Total { get; set; }
 
+        public double TotalTaxDeducted { get; set; }
+
         public double TipAmount { get; set; }
 
         public int User_ID { get; set; }
@@ -53,9 +53,7 @@ namespace DAL
         public int? OrderPayment_Id { get; set; }
 
         public short PaymentStatus { get; set; }
-
-        public string DeliveryAddress { get; set; }
-
+        
         public virtual OrderPayment OrderPayment { get; set; }
 
         public virtual User User { get; set; }
@@ -67,6 +65,13 @@ namespace DAL
 
         public int? DeliveryMan_Id { get; set; }
         public bool RemoveFromDelivererHistory { get; set; }
-        public double TotalTaxDeducted { get; set; }
+        public string DeliveryDetails_FirstName { get; set; }
+        public string DeliveryDetails_LastName { get; set; }
+        public string DeliveryDetails_Phone { get; set; }
+        public string DeliveryDetails_ZipCode { get; set; }
+        public string DeliveryDetails_Email { get; set; }
+        public string DeliveryDetails_City { get; set; }
+        public string DeliveryDetails_Address { get; set; }
+        public string DeliveryDetails_AddtionalNote { get; set; }
     }
 }

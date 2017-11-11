@@ -305,11 +305,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
             var response = await ApiCall<OfferViewModel>.CallApi("api/Deals/GetOfferPackage", null, false);
             var responseValue = response.GetValue("Result").ToObject<OfferViewModel>();
 
-            foreach (var offerPkg in responseValue.Offer_Packages.Where(x => !String.IsNullOrEmpty(x.ImageUrl)))
-                offerPkg.ImageUrl = /*Utility.BaseUrl +*/ offerPkg.ImageUrl;
+            //foreach (var offerPkg in responseValue.Offer_Packages.Where(x => !String.IsNullOrEmpty(x.ImageUrl)))
+            //    offerPkg.ImageUrl = /*Utility.BaseUrl +*/ offerPkg.ImageUrl;
 
-            foreach (var offerProduct in responseValue.Offer_Products.Where(x => !String.IsNullOrEmpty(x.ImageUrl)))
-                offerProduct.ImageUrl = /*Utility.BaseUrl +*/ offerProduct.ImageUrl;
+            //foreach (var offerProduct in responseValue.Offer_Products.Where(x => !String.IsNullOrEmpty(x.ImageUrl)))
+            //    offerProduct.ImageUrl = /*Utility.BaseUrl +*/ offerProduct.ImageUrl;
 
             ViewBag.BannerImage = "dealbanner.jpg";
             ViewBag.Title = " Deals";

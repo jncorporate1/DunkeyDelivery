@@ -94,7 +94,7 @@
 
 
                     </div>
-
+                    @*
                     <div class="paymentinformation">
                         <h1>Payment Information</h1>
                         <div class="row">
@@ -106,18 +106,7 @@
                                     <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
                                 </div>
                                 <input type="text" name="PaymentInformation.PaymentType" id="PaymentType" style="display:none;" />
-                                @* @Html.TextBoxFor(x => x.PaymentInformation.PaymentType, new { name = "PaymentType", @class = "form-control with-no-margin", id = "PaymentType" })*@
                             </div>
-
-
-
-
-
-
-
-
-
-
                             <div class="payment-inputs clearfix">
 
                                 <div class="col-md-4">
@@ -157,13 +146,8 @@
                             </div>
                         </div>
 
-
-
-
-
-
                     </div>
-
+                    *@
                     <div class="payment-tips">
                         <h1>Tip with credit card</h1>
                         <div class="row">
@@ -214,6 +198,7 @@
                     <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
                     <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
                     <input type="hidden" id="hdnCartTotal" value="@Model.Cart.Total" />
+                    <input type="hidden" id="hdnPublishableKey" value="@Model.StripeSettings.PublishableKey">
                 }
             </div>
 
@@ -255,8 +240,9 @@
     }
 
     var handler = StripeCheckout.configure({
-        key: 'pk_test_uI3smz0aIMtmAL4ybGvy3n1G',
-        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        key: $('#hdnPublishableKey').val(),
+        //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        image: '/Content/assets/images/logo2.png',
         locale: 'auto',
         token: function (token) {
             $('#hdnStripeId').val(token.id);
