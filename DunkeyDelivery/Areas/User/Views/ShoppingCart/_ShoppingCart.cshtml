@@ -42,7 +42,7 @@
 
 
 
-                                        <a id="addCart" storeName="@cart_item.StoreName"  onclick="AddToCart('@cart_item.ItemId','@cart_item.Name','@cart_item.Price','@cart_item.Size','@cart_item.StoreId')"  class="plus-icon inc-icon">+</a>
+                                        <a id="addCart" style="cursor:pointer" storeName="@cart_item.StoreName"  onclick="AddToCart('@cart_item.ItemId','@cart_item.Name','@cart_item.Price','@cart_item.Size','@cart_item.StoreId')"  class="plus-icon inc-icon">+</a>
 
                                       
 
@@ -61,7 +61,7 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <a onclick="RemoveCartItem('@cart_item.ItemId', '@cart_item.Name', '@cart_item.Price', '@cart_item.Size', '@cart_item.StoreId','@cart_item.Type')" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
+                                        <a onclick="RemoveCartItem('@cart_item.ItemId','@cart_item.StoreId','@cart_item.Type')" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
                                     </div>
                                 </li>
                             }
@@ -77,7 +77,7 @@
                                 </p>
                                 <p style="color:black;"><b>Your cart is empty! </b></p>
 
-                                <a id class="btn btn-default">Add More Items</a>
+                                <a href="@Url.Action("Search","Home",new { search="Food" })" class="btn btn-default">Add More Items</a>
                             </div>
                         </li>
                     }
@@ -102,9 +102,18 @@
                     CART TOTAL
                 </div>
                 <ul>
-                    <li><p>Cart Subtotal <span id="cart_subtotal" >$@Model.cart.Total</span></p></li>
-                    <li><p>Order Total <span id="order_total" >$@Model.cart.Total</span></p></li>
-                    <a href="#" class="proceed-btn">PROCEED TO CHECKOUT</a>
+                    <li><p>Cart Subtotal <span id="cart_subtotal" price="@Model.cart.Total">$@Model.cart.Total</span></p></li>
+                    @*<li><p>Order Total <span id="order_total">$@Model.cart.Total</span></p></li>*@
+                    @if (Model.Id != null)
+                    {
+                        <a href="@Url.Action("DeliveryDetails","Order",new {Area="User" })" class="proceed-btn">PROCEED TO CHECKOUT</a>
+
+                    }
+                    else
+                    {
+                        <a style="cursor:pointer;" onclick="login_first()" class="proceed-btn">PROCEED TO CHECKOUT</a>
+                        <p id="login_first" style="color: red;float: right;margin-top: 8px;visibility:hidden; ">Login To Process Your Order</p>
+                    }
                 </ul>
             </div>
 

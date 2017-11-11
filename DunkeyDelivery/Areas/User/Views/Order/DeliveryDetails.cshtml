@@ -207,7 +207,7 @@
                         {
                             <input type="button" onclick="login_first()" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
 
-                            <p id="login_first" style="display:none;color:red;">Please Login To Process Your Order</p>
+                            <p id="login_first" style="visibility:hidden;color:red;">Please Login To Process Your Order</p>
                         }
 
                     </div>
@@ -229,9 +229,7 @@
 @Scripts.Render("~/bundles/jqueryval")
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-    function login_first() {
-        $("#login_first").show().delay(3000).fadeOut();
-    }
+   
 
 
     document.getElementById("place-order-btn").style.width = "80%";

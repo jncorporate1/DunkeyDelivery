@@ -1,0 +1,369 @@
+﻿@model DunkeyDelivery.Areas.User.Models.BlogDetailsViewModel
+@{
+    ViewBag.Title = "BlogDetails";
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+<style>
+    .panel-shadow {
+        box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    }
+
+    .panel-white {
+        border: 1px solid #dddddd;
+    }
+
+        .panel-white .panel-heading {
+            color: #333;
+            background-color: #fff;
+            border-color: #ddd;
+        }
+
+        .panel-white .panel-footer {
+            background-color: #fff;
+            border-color: #ddd;
+        }
+
+    .post .post-heading {
+        height: 95px;
+        padding: 20px 15px;
+    }
+
+        .post .post-heading .avatar {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin-right: 15px;
+        }
+
+        .post .post-heading .meta .title {
+            margin-bottom: 0;
+        }
+
+            .post .post-heading .meta .title a {
+                color: black;
+            }
+
+                .post .post-heading .meta .title a:hover {
+                    color: #aaaaaa;
+                }
+
+        .post .post-heading .meta .time {
+            margin-top: 8px;
+            color: #999;
+        }
+
+    .post .post-image .image {
+        width: 100%;
+        height: auto;
+    }
+
+    .post .post-description {
+        padding: 15px;
+    }
+
+        .post .post-description p {
+            font-size: 14px;
+            margin-left: 16px;
+        }
+
+        .post .post-description .stats {
+            margin-top: 20px;
+        }
+
+            .post .post-description .stats .stat-item {
+                display: inline-block;
+                margin-right: 15px;
+            }
+
+                .post .post-description .stats .stat-item .icon {
+                    margin-right: 8px;
+                }
+
+    .post .post-footer {
+        border-top: 1px solid #ddd;
+        padding: 15px;
+    }
+
+        .post .post-footer .input-group-addon a {
+            color: #454545;
+        }
+
+        .post .post-footer .comments-list {
+            padding: 0;
+            margin-top: 20px;
+            list-style-type: none;
+        }
+
+            .post .post-footer .comments-list .comment {
+                display: block;
+                width: 100%;
+                margin: 20px 0;
+            }
+
+                .post .post-footer .comments-list .comment .avatar {
+                    width: 35px;
+                    height: 35px;
+                }
+
+                .post .post-footer .comments-list .comment .comment-heading {
+                    display: block;
+                    width: 100%;
+                }
+
+                    .post .post-footer .comments-list .comment .comment-heading .user {
+                        font-size: 14px;
+                        font-weight: bold;
+                        display: inline;
+                        margin-top: 0;
+                        margin-right: 10px;
+                    }
+
+                    .post .post-footer .comments-list .comment .comment-heading .time {
+                        font-size: 12px;
+                        color: #aaa;
+                        margin-top: 0;
+                        display: inline;
+                    }
+
+                .post .post-footer .comments-list .comment .comment-body {
+                    margin-left: 50px;
+                }
+
+                .post .post-footer .comments-list .comment > .comments-list {
+                    margin-left: 50px;
+                }
+
+    #comment {
+        font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+        background: rgba(0, 0, 0, 0);
+        overflow: hidden;
+        resize: none;
+        padding: 13px 17px;
+        position: relative;
+        z-index: 100;
+        font-weight: 500;
+        font-size: 15px;
+        margin-left: 60px;
+        display: block;
+        border-radius: 25px;
+        outline: none;
+        border: 1px solid #bec2c9;
+    }
+
+        #comment:focus {
+            outline: none;
+        }
+
+    #profpicture {
+        position: absolute;
+        overflow: hidden;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+    }
+
+    #send {
+        margin-top: 20px;
+        margin-left: 64px;
+    }
+
+        #send:hover {
+            background: #4267b2;
+            color: #fff;
+        }
+
+        #send.pro {
+            pointer-events: none;
+            background-color: #b5b5b5;
+            background-image: url("http://svgshare.com/i/3WU.svg");
+            background-repeat: no-repeat;
+            background-position: center center;
+            box-shadow: 0 0 0 2px #b5b5b5 !important;
+            color: #fff;
+            cursor: default;
+            transition: background-color 0.2s ease;
+        }
+
+        #send.finish {
+            pointer-events: none;
+            background: #4cd964;
+            box-shadow: 0 0 0 2px #4cd964 !important;
+            transition: background-color, border-color 0.2s ease;
+        }
+
+            #send.finish:after {
+                content: "";
+                pointer-events: none;
+                display: block;
+                position: absolute;
+                width: 14px;
+                height: 6px;
+                border-bottom: 4px #fff solid;
+                border-left: 4px #fff solid;
+                z-index: 9999;
+                transform: rotate(-45deg);
+                margin: -7px 0px 0px 26px;
+                animation: fade 0.8s ease forwards;
+            }
+
+        #send[disabled=disabled], #send:disabled {
+            pointer-events: none;
+            color: #bec2c9;
+            box-shadow: 0 0 0 2px #bec2c9;
+        }
+
+    .comment-box {
+        margin-left: 40px;
+        margin-top: 20px;
+    }
+    #comment_notify{
+        margin-left: 61px;
+        margin-top: 10px;
+    }
+</style>
+
+
+
+<div class="main-section blog-main-section greybg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 single-post-contain">
+                <div class="single-post">
+                    <div class="featured-image text-center " > <img src="@Utility.BaseUrl@Model.ImageUrl" style="height: 400px;width: 842px;" class="text-center" /> </div>
+                    <div class="post-data clearfix">
+                        <div class="col-md-2 post-date">
+                            <h1> <span class="fa fa-file-text"></span> @Model.DateOfPosting.Value.Day</h1>
+                            <h3>@Model.DateOfPosting.Value.ToString("MMMM") </h3>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="post-data-side">
+                                <h1>@Model.Title</h1>
+                                <ul class="post-action-list clearfix">
+                                    <li><a href="#"><span class="fa fa-user"></span>@Model.Admin.FullName</a></li>
+                                    <li><a href="#"><span class="fa fa-folder-open"></span>@Model.CategoryType</a></li>
+                                    <li><a href="#"><span class="fa fa-comment"></span> @Model.TotalComments Comments</a></li>
+                                </ul>
+                                <p> @Model.Description </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel panel-white post ">
+
+                        @foreach (var comment in Model.BlogComments)
+                        {
+
+
+                            <div class="row">
+                                <div class="post-heading">
+                                    <div class="pull-left image">
+                                        @if (string.IsNullOrEmpty(comment.User.ProfilePictureUrl))
+                                        {
+                                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+
+                                        }
+                                        else
+                                        {
+                                            <img src="@Utility.BaseUrl@comment.User.ProfilePictureUrl" class="img-circle avatar" alt="user profile image">
+
+                                        }
+
+                                    </div>
+                                    <div class="pull-left meta">
+                                        <div class="title h5">
+                                            <a href="#"><b>@comment.User.FullName</b></a>
+
+                                        </div>
+                                       
+                                        @*@if ((DateTime.Now.Subtract(comment.PostedDate).TotalMinutes)>60)
+                                        {
+                                            <p class="">@( DateTime.Now.Hour - comment.PostedDate.Hour) : ( DateTime.Now.Minute - comment.PostedDate.Minute)  minute ago</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="">@(Math.Round(DateTime.Now.Subtract(comment.PostedDate).TotalMinutes)) minute ago</p>
+                                        }*@
+                                        <p>@comment.PostedDate.ToString("ddd, MMM d, yyyy")</p>
+                                    </div>
+                                </div>
+                                <div class="post-description">
+                                    <p>@comment.Message</p>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row comment-box ">
+            <div id="profpicture">
+                @if (string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                {
+                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+
+                }
+                else
+                {
+                    <img src="@Model.ProfilePictureUrl" class="img-circle avatar" alt="user profile image">
+
+                }
+            </div>
+            <textarea minlenght="10" class="col-md-11 commentBox " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="comment" name="comment" rows="1" placeholder="Write a comment..." required></textarea>
+
+            <button id="send" onclick="Comment()" class="btn btn-primary"><i class="fa fa-commenting-o" style="font-size: 18px;"></i> POST</button>
+            <p id="comment_notify" style="visibility:hidden;"></p>
+        
+        </div>
+
+
+    </div>
+</div>
+
+
+<script>
+    function Comment() {
+
+        var post_id=@Model.Id;
+        var Message=$(".commentBox").val();
+        if(Message==""){
+            $(".commentBox").css("border","1px solid red");
+        }else{
+            $(".commentBox").css("border","1px solid grey");
+            $.ajax({
+
+                url: '@Url.Action("Comment", "Blog", new { Area = "User" })',
+                type: "POST",
+                data: { PostId: post_id,Message:Message },
+                success: function (data) {
+
+                    if(data=="Success"){
+                        $("#comment_notify").css("color","green");
+                        invisibility_Animation("comment_notify","Comment will be posted after approval.");
+                    
+                    }else{
+                        $("#comment_notify").css("color","red");
+                        invisibility_Animation("comment_notify","Interval server error.");
+                    }
+                }, error: function (xhr, status, error) {
+
+                }
+            });
+        }
+    }
+
+</script>

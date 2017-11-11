@@ -28,6 +28,7 @@ namespace DunkeyDelivery.Areas.User.Models
 
     public class Offer_Products
     {
+        public int Id { get; set; }
         public int Offer_Id { get; set; }
         public string Name { get; set; }
         public int Product_Id { get; set; }

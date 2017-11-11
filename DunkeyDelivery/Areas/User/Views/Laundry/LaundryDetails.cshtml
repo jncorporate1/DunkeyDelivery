@@ -76,7 +76,7 @@
 										Skip straight to checkout, then let the cleaner sort your stuff<br>
 										and update your bill.
 									</p>
-									<a href="#" class="get_btn">GET MY CLOTHES</a>
+									<a href="" onclick="return false;" class="get_btn">GET MY CLOTHES</a>
 								</div>
 
 								<p class="select-tag">or select your items below</p>
@@ -85,11 +85,11 @@
 								{
 									foreach (var category in Model.laundryproducts)
 									{
-										<div class="pharmacy-details clearfix Laundry-details">
+										<div class="pharmacy-details clearfix laundry-details">
 
 
 											<h4>@category.Name</h4>
-											<div class="Laundry-details-cont">
+											<div class="laundry-details-cont">
 												<ul>
 													@if (category.Products.Count != 0)
 													{

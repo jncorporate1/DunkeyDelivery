@@ -92,9 +92,10 @@ namespace DunkeyDelivery.Areas.User.Models
         [DataType(DataType.Text)]
         public string MonthYear { get; set; }
 
-        [StringLength(4, ErrorMessage = "Tip Should Be Of Max Length 4")]
+       
         [DataType(DataType.Text)]
         [Display(Name = "tip")]
+        [RegularExpression(@"^\$\d{0,8}(\.\d{1,4})?$", ErrorMessage = "Enter Valid Tip Amount")]
         public string Tip { get; set; }
 
 

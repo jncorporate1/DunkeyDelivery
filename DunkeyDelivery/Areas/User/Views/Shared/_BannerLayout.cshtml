@@ -266,7 +266,10 @@
 					</div>
 
 					<div class="col-md-7 fmenu" style="padding-left:0px;">
-						<a href="@Url.Action("GetRewards", "Footer",new { area="User"})">Get Rewards</a>
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
+                        }
 						<a href="@Url.Action("Partners", "Footer")">Become A Partner</a>
 						<a href="@Url.Action("Contact", "Home",new { area="User"})">Contact </a>
 					</div>
@@ -445,10 +448,36 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 
 
 	}
+
+	//document.getElementById("defaultOpen").click();
+	function login_first() {
+	    //  $("#login_first").show().delay(2000).fadeOut();
+	    $('#login_first').css("visibility", "visible");
+	    $('#login_first')
+          .delay(1000)
+          .queue(function (next) {
+              $(this).css('visibility', 'hidden');
+              next();
+          });
+	}
 	// Get the element with id="defaultOpen" and click on it
 	//document.getElementById("defaultOpen").click();
 	$("#defaultOpen").click();
+	function invisibility_Animation(element_Id, Message) {
+	    $('#' + element_Id).text(Message);
+	    $('#' + element_Id).css('visibility', 'visible');
+	    $(this).delay(5000).queue(function () {
 
+	        // your Code | Function here
+	        $('#' + element_Id).css('visibility', 'hidden');
+	        $(this).dequeue();
+
+	    });
+	   
+	       
+	   
+	    //$('#' + element_Id).css('visibility', 'hidden');
+	}
 	</script>
 
 </body>

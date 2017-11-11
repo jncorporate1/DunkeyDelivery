@@ -7,6 +7,35 @@ using System.Web;
 namespace DunkeyDelivery.Areas.User.Models
 {
 
+    public class RewardsViewModel
+    {
+        public UserPoints UserPoints;
+        public List<Rewards> Rewards;
+    }
+
+    public class RewardPrize
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ImageUrl { get; set; }
+    }
+
+    public class Rewards
+    {
+        public int Id { get; set; }
+        public int PointsRequired { get; set; }
+        public double AmountAward { get; set; }
+        public string Description { get; set; }
+        public int? RewardPrize_Id { get; set; }
+        public RewardPrize RewardPrize { get; set; }
+    }
+
+    public class UserPoints
+    {
+        public int RewardPoints { get; set; }
+    }
+
+
     public class Shop : BaseViewModel
     {
         public Shop()
@@ -54,6 +83,10 @@ namespace DunkeyDelivery.Areas.User.Models
         public decimal? Longitude { get; set; }
 
         public decimal? Latitude { get; set; }
+
+        public DateTime? Open_From { get; set; }
+
+        public DateTime? Open_To { get; set; }
 
         public string MinDeliveryTime { get; set; }
 

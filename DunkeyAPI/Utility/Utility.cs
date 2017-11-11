@@ -20,6 +20,8 @@ namespace DunkeyDelivery
 
         public static string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
 
+        public static string GuestEmail = "Guest@gmail.com";
+
         public static IEnumerable<T> Page<T>(this IEnumerable<T> en, int pageSize, int page)
         {
             return en.Skip(page * pageSize).Take(pageSize);

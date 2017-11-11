@@ -27,7 +27,7 @@ namespace DAL
         [JsonIgnore]
         public virtual BlogPosts Post { get; set; }
         
-        public virtual User User { get; set; }
+        public User User { get; set; }
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual User User { get; set; }
 
