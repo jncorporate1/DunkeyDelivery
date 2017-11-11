@@ -23,7 +23,7 @@ namespace DunkeyAPI.ExtensionMethods
             }
             catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -38,7 +38,7 @@ namespace DunkeyAPI.ExtensionMethods
             }
             catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -46,7 +46,6 @@ namespace DunkeyAPI.ExtensionMethods
         {
             try
             {
-                model.ItemType = 0;
                 switch (model.ItemType)
                 {
                     case (int)CartItemTypes.Product:
@@ -84,9 +83,9 @@ namespace DunkeyAPI.ExtensionMethods
 
                 orderItem.Qty = model.Qty;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -106,9 +105,9 @@ namespace DunkeyAPI.ExtensionMethods
                 }
                 order.StoreOrders.Add(storeOrder);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -120,9 +119,9 @@ namespace DunkeyAPI.ExtensionMethods
                 orderItem.SetOrderItem(model, ctx);
                 storeOrder.Order_Items.Add(orderItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -150,9 +149,9 @@ namespace DunkeyAPI.ExtensionMethods
 
                 order.TipAmount = model.TipAmount;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -186,9 +185,9 @@ namespace DunkeyAPI.ExtensionMethods
                 order.CalculateSubTotal();
                 order.CalculateTotal();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
@@ -216,9 +215,9 @@ namespace DunkeyAPI.ExtensionMethods
                 order.TotalTaxDeducted = order.StoreOrders.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
                 order.Total = order.ServiceFee + order.DeliveryFee + order.Subtotal + order.TipAmount + order.TotalTaxDeducted;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                DunkeyDelivery.Utility.LogError(ex);
             }
         }
 
