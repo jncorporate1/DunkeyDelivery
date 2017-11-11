@@ -52,7 +52,7 @@ namespace DunkeyAPI.Controllers
 
                     foreach (var productId in model.Product_Ids)
                     {
-                        pharmModel.PharmacyRequest_Products.Add(new PharmacyRequest_Products { Product_Id = productId });
+                        pharmModel.PharmacyRequest_Products.Add(new PharmacyRequest_Products { Product_Id = productId.Value });
                     }
 
                     ctx.PharmacyRequest.Add(pharmModel);

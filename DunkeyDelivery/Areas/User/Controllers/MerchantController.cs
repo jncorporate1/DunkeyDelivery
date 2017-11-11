@@ -33,8 +33,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public async Task<ActionResult> MerchantRegister(RegisterMerchantViewModel model, string returnUrl)
         {
             RegisterMerchantViewModel models = new RegisterMerchantViewModel();
-            //model.ConfirmPassword = model.Password;
-            model.Role = 1;
+             //model.ConfirmPassword = model.Password;
+            model.Role = Convert.ToInt16(Utility.RoleTypes.SubAdmin);
             model.Status = 0;
             //model.Phone = "03455249413";
 

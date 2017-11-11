@@ -72,7 +72,7 @@ namespace DunkeyDelivery.Areas.User.Models
     {
         public int Count { get; set; }
         public List<OrderVM> orders { get; set; }
-
+        public int TotalOrders { get; set; }
     }
 
     public class OrderVM

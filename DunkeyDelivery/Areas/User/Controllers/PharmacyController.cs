@@ -45,6 +45,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 return View(ModelState);
             }
 
+            model.Patient_DOB = model.dtpPatient_DOB.ToString("dd/MM/yyyy hh:mm:ss tt");
+
+            
             var response = await ApiCall<PharmacyViewModel>.CallApi("api/Pharmacy/SubmitPharmacyRequest", model);
 
 
@@ -53,17 +56,14 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
 
             }
-            if (response == null)
-            {
-
-            }
+           
 
 
 
 
             ViewBag.Title = "Merchant Sign Up";
             return View("MerchantSignup");
-            return Json("", JsonRequestBehavior.AllowGet);
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
     }
 }

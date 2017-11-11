@@ -10,10 +10,8 @@ namespace DunkeyAPI.BindingModels
     {
         public PharmacyRequestBindingModel()
         {
-            Product_Ids = new List<int>();
+            Product_Ids = new List<int?>();
         }
-
-        public int Id { get; set; }
 
         [Required]
         public string Doctor_FirstName { get; set; }
@@ -51,6 +49,6 @@ namespace DunkeyAPI.BindingModels
         [Required]
         public string Delivery_Phone { get; set; }
 
-        public List<int> Product_Ids { get; set; }
+        public List<int?> Product_Ids { get; set; }
     }
 }

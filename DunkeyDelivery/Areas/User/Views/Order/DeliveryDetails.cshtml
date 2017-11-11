@@ -135,10 +135,12 @@
                         <h1>Tip with credit card</h1>
                         <div class="row">
                             <div class="col-md-6 no-pad-right">
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"> <span id="tip-amount">$@(Model.Cart.Total * 0.15) </span> <br />15%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"> <span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.15))</span> <br />15%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.20))</span> <br />20%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.25))</span><br />25%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.30))</span><br />30%</div>
+                                <div onclick="clear_tip()"  class="col-md-2 tip-credit"><span id="">0%</span><br />0$</div>
+
                                 <input type="hidden" id="hdnTipAmount" name="TipAmount" value="" />
                             </div>
                             <div class="col-md-6">
@@ -149,8 +151,8 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="terms-line">Great Tip! $4.41 Will go straight to dunkey delivery driver</p>
-                        <a href="#" class="promo-code">Add Promo Codes</a>
+                        <p id="tipMessage" class="terms-line"></p>
+                        @*<a href="#" class="promo-code">Add Promo Codes</a>*@
                         @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
                         @if (Model.Id != null)
                         {
@@ -204,7 +206,20 @@
 @Scripts.Render("~/bundles/jqueryval")
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
+    function clear_tip() {
+        $("#tipMessage").css("display", "hidden");
+        $(".tip-field").val("");
+        $("#hdnTipAmount").val("");
+       
 
+    }
+
+    function animation_message() {
+
+        invisibility_Animation("tipMessage", "Great Tip! " + $(".tip-field").val() + " Will go straight to dunkey delivery driver");
+      
+        $("#tip_amount_cart").text($(".tip-field").val());
+    }
 
 
     document.getElementById("place-order-btn").style.width = "80%";
@@ -223,10 +238,12 @@
     }
 
     function TipColor(elementObj) {
+
         $(".tip-credit").removeAttr("id");
         $(elementObj).attr("id", "tipButtons");
         $(".tip-field").val($("#tipButtons span").text());
         $('#hdnTipAmount').val(parseInt($("#tipButtons span").text().substring(1).trim()))
+        animation_message();
     }
 
     var handler = StripeCheckout.configure({

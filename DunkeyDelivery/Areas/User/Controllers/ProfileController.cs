@@ -32,8 +32,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
             {
                 #region OrderHistory
                 // for Order History 
-                PageNo = 0;
-                PageSize = 6;
+                if (!PageNo.HasValue)
+                {
+                    PageNo = 0;
+                }
+                PageSize = 3;
                 var claimIdentity = ((ClaimsIdentity)User.Identity);
                 var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
                 var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId + "&SignInType=" + 0 + "&IsCurrentOrder=" + true + "&PageSize=" + PageSize + "&PageNo=" + PageNo, null, false);
@@ -59,8 +62,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
             {
                 #region RecurringOrders
                 // for recurring orders
-                PageNo = 0;
-                PageSize = 6;
+                if (!PageNo.HasValue)
+                {
+                    PageNo = 0;
+                }
+                PageSize = 3;
                 var claimIdentity = ((ClaimsIdentity)User.Identity);
                 var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
                 var response = await ApiCall<OrdersHistoryViewModel>.CallApi("api/Order/GetOrdersHistory?UserId=" + userId + "&SignInType=" + 0 + "&IsCurrentOrder=" + true + "&PageSize=" + PageSize + "&PageNo=" + PageNo, null, false);
