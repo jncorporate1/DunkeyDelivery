@@ -57,11 +57,14 @@ namespace DunkeyDelivery.Areas.User.Models
         [Required(ErrorMessage = "Gender is required")]
         [DataType(DataType.Text)]
         public int Gender { get; set; }
-
-
+        
         [Required(ErrorMessage = "Date Of Birth is required")]
-        [RegularExpression(@"([0-9]{2})\/([0-9]{2})\/([0-9]{4})", ErrorMessage = "invalid Date Of Birth")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy hh:mm tt}")]
+        public DateTime dtpPatient_DOB { get; set; }
+
         public string Patient_DOB { get; set; }
+
 
 
         [Required(ErrorMessage = "Address is required")]

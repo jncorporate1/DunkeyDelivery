@@ -137,44 +137,35 @@ namespace DunkeyAPI.Controllers
 
                     #region OrderItemsQuery
 
-                    var orderItemsQuery = @"SELECT   
+                    var orderItemsQuery = @"SELECT
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Id
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Id
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Id
+  END AS ItemId,
+  Order_Items.Name AS Name,
+  Order_Items.Price AS Price,
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Image
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.ImageUrl
+  END AS ImageUrl,
+  Order_Items.Id,
+  Order_Items.Qty,
 
-CASE   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id 
- WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Id 
-  WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Id  
-   WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Id   END AS ItemId,  
-   CASE
-   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Name
-   WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Name
-   WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Name
-   WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Name
-   END AS Name,
-	CASE
-	WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Price
-	WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Price
-	WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.DiscountedPrice
-	WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.DiscountedPrice
-	END AS Price,
-	CASE
-	WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Image
-	WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.ImageUrl
-	WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.ImageUrl
-	END AS ImageUrl,
-	 CASE 
-	 When ISNULL(Order_Items.Product_Id, 0) <> 0 Then Products.Id
-		 When ISNULL(Order_Items.Package_Id, 0) <> 0 Then Packages.Id
-		  When ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 Then Offer_Products.Id
-		  When ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 Then Offer_Packages.Id
-		   END as ItemId, Order_Items.Id,   
-		  Order_Items.Qty, Order_Items.StoreOrder_Id FROM Order_Items
-		  LEFT JOIN products
-		  ON products.Id = Order_Items.Product_Id
-			 LEFT JOIN Packages
-			   ON Packages.Id = Order_Items.Package_Id
-				LEFT JOIN Offer_Products
-				  ON Offer_Products.Id = Order_Items.Offer_Product_Id
-					  LEFT JOIN Offer_Packages
-						 ON Offer_Packages.Id = Order_Items.Offer_Package_Id WHERE StoreOrder_Id IN  (" + storeOrderIds + ")";
+  Order_Items.StoreOrder_Id
+FROM Order_Items
+LEFT JOIN products
+  ON products.Id = Order_Items.Product_Id
+LEFT JOIN Packages
+  ON Packages.Id = Order_Items.Package_Id
+LEFT JOIN Offer_Products
+  ON Offer_Products.Id = Order_Items.Offer_Product_Id
+LEFT JOIN Offer_Packages
+  ON Offer_Packages.Id = Order_Items.Offer_Package_Id
+WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     #endregion
 
                     var orderItems = ctx.Database.SqlQuery<OrderItemViewModel>(orderItemsQuery).ToList();
@@ -188,7 +179,7 @@ CASE   WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
                     {
                         orderHistory.orders.FirstOrDefault(x => x.Id == storeOrder.Order_Id).StoreOrders.Add(storeOrder);
                     }
-
+                    
                     return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
 
                 }

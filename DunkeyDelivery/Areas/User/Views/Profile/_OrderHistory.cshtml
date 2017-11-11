@@ -3,9 +3,9 @@
     <div class="search-bar clearfix padh4">
         <h4>Order History</h4>
         @*<form>
-            <input type="text" placeholder="Search" />
-            <input type="submit" />
-        </form>*@
+                <input type="text" placeholder="Search" />
+                <input type="submit" />
+            </form>*@
     </div>
     @if (Model.Count == 0)
     {
@@ -16,7 +16,7 @@
     }
     else
     {
-        foreach (var order in Model.orders)//First().StoreOrders.First().OrderItems.First().
+        foreach (var order in Model.orders.Take(6))//First().StoreOrders.First().OrderItems.First().
         {
 
             <div class="order-history-box clearfix">
@@ -36,10 +36,29 @@
 
 
                     }
-                    <li>Tax <span>$@(order.Total-order.Subtotal)</span></li>
+                    <li>Tax <span>$@(order.Total - order.Subtotal)</span></li>
                     <li class="total-amount">Total Amount <span>$@order.Total</span></li>
                 </ul>
             </div>
         }
-    }
+        <ul class="pagination" style="margin-left: 33px;" >
+            @if (Model.Count > 3)
+            {
+                var j = 0;
+                for (int i = 0; i <= Model.Count / 6; i++)
+                {
+                    <li>
+                        <a id="@i" onclick="Pagging(this.id,0)">
+                            @{ j = i + 1; }
+                            @j
+                        </a>
+                    </li>
+                                    }
+                                }
+
+
+        </ul>
+
+                                }
 </div>
+

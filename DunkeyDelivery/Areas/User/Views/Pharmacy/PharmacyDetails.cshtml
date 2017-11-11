@@ -107,7 +107,7 @@
                 </ul>
 
                 <!-- TAB CONTENT -->
-                @using (Ajax.BeginForm("SubmitPharmacyForm", "Pharmacy",FormMethod.Post, new AjaxOptions { OnSuccess = "test", OnFailure = "failtest" }))
+                @using (Ajax.BeginForm("SubmitPharmacyForm", "Pharmacy",FormMethod.Post, new AjaxOptions { OnSuccess = "test", OnFailure = "test" }))
                 {
                    @Html.AntiForgeryToken()
                     <div class="tab1 tabcontent" id="London">
@@ -168,12 +168,13 @@
                                                 @Html.ValidationMessageFor(m => m.Patient_FirstName, "", new { @class = "text-danger error" })
                                             </div>
                                             <div class="bottom-margin">
+                                                @Html.TextBoxFor(x => x.Patient_LastName, new { name = "Patient_LastName", @placeholder = "Enter Last Name" })
                                                 @Html.ValidationMessageFor(m => m.Patient_LastName, "", new { @class = "text-danger error" })
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-md-6" style="padding-left:0px;">
-                                                   <input type="text" name="Patient_DOB" placeholder="Birth Date" id="datepicker-13">
+                                                   <input type="text" name="dtpPatient_DOB" placeholder="Birth Date" id="datepicker-13">
 
                                                     @*@Html.TextBoxFor(x => x.DateOfBirth, new { name = "DateOfBirth", @placeholder = "Birth Date" })*@
                                                     @Html.ValidationMessageFor(m => m.Patient_DOB, "", new { @class = "text-danger error" })
@@ -308,11 +309,11 @@
 
                         <script>
                             function test() {
-
+                               
                                 $("#test").show();
                             }
                             function failtest() {
-
+                             
                                 $("#failtest").show();
                             }
 
@@ -362,7 +363,7 @@
   
     function add_fields(){
         
-        $("#more_fields").append('<input type="hidden" id="productId_'+fields+'" name="medication['+fields+'].Id" value="" /><input type="text" productId="" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication['+fields+'].medication" placeholder="Enter Medication" autocomplete="off"/>');
+        $("#more_fields").append('<input type="hidden" id="productId_'+fields+'" name="Product_Ids['+fields+']" value="" /><input type="text" productId="" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication['+fields+'].medication" placeholder="Enter Medication" autocomplete="off"/>');
         fields++;
         
     }
@@ -382,7 +383,7 @@
                     if(data.medications.length>0){
         
                         for(var i=0;i<data.medications.length;i++){
-                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
+                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" medicineName="'+data.medications[i].Name+'" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
                             $(".medication_dropdown").show();
                             $(".medication_dropdown").css("display","block");
                            
@@ -401,10 +402,11 @@
         }
     }
     function medicine_tofield(medicine_id){
-
+        var temp=fields-1;
+        
         var med_name=$("#"+medicine_id+" p").text();
-        $("#field_"+fields).val(med_name);
-        $("#productId_"+fields).val(medicine_id);
+        $("#field_"+temp).val(med_name);
+        $("#productId_"+temp).val(medicine_id);
         $(".medication_dropdown").css("display","none");
         $(".medication_dropdown").hide();
         
