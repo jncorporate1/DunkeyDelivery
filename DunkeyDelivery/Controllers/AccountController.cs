@@ -228,7 +228,7 @@ namespace DunkeyDelivery.Controllers
         {
             model.ConfirmPassword = model.Password;
             model.Role=0;
-            model.Phone = "03455249413";
+        
             
             if (ModelState.IsValid)
             {

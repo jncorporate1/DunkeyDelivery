@@ -99,18 +99,24 @@
 
     }
     function remove_address(address_id) {
-        $.ajax({
 
-            url: '@Url.Action("RemoveAddress", "Profile",new { Area = "User"})',
-            type: "GET",
-            data: { id: address_id },
-            success: function (data) {
+      
+        if (confirm("Are you sure you want to delete this address?")) {
+            $.ajax({
 
-                $("#profile_views").html(data);
-            }, error: function (xhr, status, error) {
-                console.log("Error: "+data);
-            }
-        });
+                url: '@Url.Action("RemoveAddress", "Profile",new { Area = "User"})',
+                type: "GET",
+                data: { id: address_id },
+                success: function (data) {
+
+                    $("#profile_views").html(data);
+                }, error: function (xhr, status, error) {
+                    console.log("Error: "+data);
+                }
+            });
+        } else {
+
+        }
     }
 
     function repeat_order(orderNo, orderId) {

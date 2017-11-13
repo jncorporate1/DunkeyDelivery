@@ -299,6 +299,7 @@ F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Tw
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.dll
 F:\VS\GitRepository\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.pdb
+D:\Git\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.pdb
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\roslyn\csc.exe
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -372,6 +373,4 @@ D:\Git\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.OAuth.xml
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Google.xml
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Git\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-D:\Git\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.dll
-D:\Git\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.pdb

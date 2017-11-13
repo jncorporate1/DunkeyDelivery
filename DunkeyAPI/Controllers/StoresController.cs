@@ -32,7 +32,7 @@ namespace DunkeyAPI.Controllers
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var stores = ctx.Stores.Include(x => x.StoreDeliveryHours).Include(x => x.StoreRatings).ToList();
+                    var stores = ctx.Stores.Where(x=>x.IsDeleted==false).Include(x => x.StoreDeliveryHours).Include(x => x.StoreRatings).ToList();
 
                     foreach (var store in stores)
                     {

@@ -86,7 +86,7 @@ namespace DunkeyAPI.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required]
+
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public string Phone { get; set; }

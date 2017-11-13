@@ -113,6 +113,8 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public string DeliveryAddress { get; set; }
 
+        public double TotalTaxDeducted { get; set; }
+
         public int? DeliveryMan_Id { get; set; }
 
         public string UserFullName { get; set; }

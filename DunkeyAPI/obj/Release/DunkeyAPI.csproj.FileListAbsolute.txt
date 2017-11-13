@@ -188,3 +188,6 @@ D:\Git\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Extensions.Logging.Console.xml
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Extensions.Primitives.xml
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.dll
 D:\Git\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.xml
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\Stripe.net.dll
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\Swashbuckle.Core.dll
+D:\Git\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll

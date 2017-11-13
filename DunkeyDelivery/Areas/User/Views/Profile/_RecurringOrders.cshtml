@@ -63,13 +63,13 @@
         }
     }
 
-
+@if (Model.Count > 3)
+{
     <ul class="pagination" style="margin-left: 33px;">
-        @if (Model.Count > 3)
-            {
-                var j = 0;
-                for (int i = 0; i <= Model.Count / 6; i++)
-                {
+       
+                @{var j = 0;}
+                    @for (int i = 0; i <= Model.Count / 6; i++)
+                    {
                 <li>
                     <a id="@i" onclick="Pagging(this.id,1)">
                         @{ j = i + 1; }
@@ -77,11 +77,11 @@
                     </a>
                 </li>
                                 }
-                            }
+                           
 
 
     </ul>
-
+              }
 
 
 </div>

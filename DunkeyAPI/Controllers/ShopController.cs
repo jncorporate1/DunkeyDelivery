@@ -272,7 +272,7 @@ namespace DunkeyAPI.Models
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-                var res = ctx.Categories.Where(x => x.Store_Id == Store_id && x.ParentCategoryId == 0).OrderBy(x => x.Name).ToList();
+                var res = ctx.Categories.Where(x => x.Store_Id == Store_id && x.ParentCategoryId == 0 && x.IsDeleted==false).OrderBy(x => x.Name).ToList();
 
                 CustomResponse<List<Category>> response = new CustomResponse<List<Category>>
                 { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = res };

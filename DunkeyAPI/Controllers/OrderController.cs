@@ -60,7 +60,7 @@ namespace DunkeyAPI.Controllers
                             CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
                         }
                         else
-                        {
+                         {
                             CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
                         }
                         ctx.SaveChanges();

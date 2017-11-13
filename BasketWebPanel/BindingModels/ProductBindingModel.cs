@@ -28,7 +28,7 @@ namespace BasketWebPanel.BindingModels
         public int WeightUnit { get; set; }
 
         [Required]
-        public string ImageUrl { get; set; }
+        public string Image { get; set; }
 
         public string VideoUrl { get; set; }
 

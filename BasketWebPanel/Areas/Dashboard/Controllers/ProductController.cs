@@ -145,7 +145,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                         fileData = binaryReader.ReadBytes(ImageFile.ContentLength);
                     }
                 }
-                else if (model.Product.ImageUrl == null || ImageDeletedOnEdit)
+                else if (model.Product.Image == null || ImageDeletedOnEdit)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Please Choose an image to upload.");
                 }

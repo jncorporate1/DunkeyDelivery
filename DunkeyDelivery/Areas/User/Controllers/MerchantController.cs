@@ -36,7 +36,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
              //model.ConfirmPassword = model.Password;
             model.Role = Convert.ToInt16(Utility.RoleTypes.SubAdmin);
             model.Status = 0;
-            //model.Phone = "03455249413";
+       
 
             if (!ModelState.IsValid)
             {

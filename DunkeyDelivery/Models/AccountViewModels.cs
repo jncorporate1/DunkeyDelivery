@@ -92,7 +92,7 @@ namespace DunkeyDelivery.Models
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Phone Number is required")]
+        //[Required(ErrorMessage = "Phone Number is required")]
         [RegularExpression(@"^[0-9*#+]+$", ErrorMessage = "Enter Digits Only")]
         [StringLength(15, ErrorMessage = "Phone Number Should Be Of Max Length 15")]
         [DataType(DataType.PhoneNumber)]

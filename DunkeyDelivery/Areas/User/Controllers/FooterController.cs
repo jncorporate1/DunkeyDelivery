@@ -75,7 +75,14 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public async Task<ActionResult> GetRewards()
         {
             var claimIdentity = ((ClaimsIdentity)User.Identity);
+            if (claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id") == null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "User" });
+            }
+
             var userId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Id").Value;
+            
+
             var responseRewards = await ApiCall<RewardsViewModel>.CallApi("api/Reward/GetRewardPrizes?UserID=" + userId, null, false);
             var objRewardsViewModel = responseRewards.GetValue("Result").ToObject<RewardsViewModel>();
             var listRewards = objRewardsViewModel.Rewards;

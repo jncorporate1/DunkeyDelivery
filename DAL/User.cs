@@ -43,7 +43,7 @@ namespace DAL
         [JsonIgnore]
         public string Password { get; set; }
 
-        [Required]
+
         public string Phone { get; set; }
 
         public string Address { get; set; }

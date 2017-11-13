@@ -96,64 +96,64 @@
                                 <div class="input-group" style="display:flex">
                                     @Html.TextBoxFor(x => x.Product.WeightInGrams, new { @class = "form-control", @id = "Weight", @placeholder = "Weight ", @type = "text" })
                                     @Html.DropDownList("Product.WeightUnit", new SelectList(Model.WeightOptions.Items,
-                                   "value","Text", Model.WeightOptions.SelectedValue), new {@class= "selectpicker form-control", @style= "width:100px !important" })
+                                   "value", "Text", Model.WeightOptions.SelectedValue), new { @class = "selectpicker form-control", @style = "width:100px !important" })
                                     @*<select id="Weight" name="Product.WeightUnit" class="selectpicker form-control" data-live-search="true" style="width:100px !important" title="Unit">
-                                        <option value="1">gm</option>
-                                        <option value="2">kg</option>
-                                    </select>*@
+                                            <option value="1">gm</option>
+                                            <option value="2">kg</option>
+                                        </select>*@
                                     @*<input type="number" data-val="true" class="form-control input-validation-error" name="Product.Weight" id="Weight" data-val-required="Weight is required" placeholder="Weight">*@
                                 </div>
 
-                                    @Html.ValidationMessageFor(m => m.Product.WeightInGrams, "", new { @class = "text-danger" })
-                                   
-                                </div>
+                                @Html.ValidationMessageFor(m => m.Product.WeightInGrams, "", new { @class = "text-danger" })
+
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-12 col-xs-12">
                                 <!-- image-preview-filename input [CUT FROM HERE]-->
                                 @*@if (Model.Product.Id == 0)
-                                    {*@
-                                <div id="UploadImage" hidden>
-                                    <label>Upload Product Image</label>
-                                    <div>
-                                        <div class="input-group image-preview" style="margin-bottom:0px">
-                                            <input type="text" name="Product.ImageUrl" id="txtImageUrl" data-val="true" data-val-required="Please select an image" class="form-control image-preview-filename input-validation-error" readonly> <!-- don't give a name === doesn't send on POST/GET -->
-                                            <span class="input-group-btn">
-                                                <!-- image-preview-clear button -->
-                                                <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
-                                                    <span class="glyphicon glyphicon-remove"></span> Clear
-                                                </button>
-                                                <!-- image-preview-input -->
-                                                <div class="btn btn-default image-preview-input">
-                                                    <span class="glyphicon glyphicon-folder-open"></span>
-                                                    <span class="image-preview-input-title">Browse</span>
-                                                    <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
-                                                </div>
-                                            </span>
+                                {*@
+                                    <div id="UploadImage" hidden>
+                                        <label>Upload Product Image</label>
+                                        <div>
+                                            <div class="input-group image-preview" style="margin-bottom:0px">
+                                                <input type="text" name="Product.Image" id="txtImageUrl" data-val="true" data-val-required="Please select an image" class="form-control image-preview-filename input-validation-error" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                                <span class="input-group-btn">
+                                                    <!-- image-preview-clear button -->
+                                                    <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                                        <span class="glyphicon glyphicon-remove"></span> Clear
+                                                    </button>
+                                                    <!-- image-preview-input -->
+                                                    <div class="btn btn-default image-preview-input">
+                                                        <span class="glyphicon glyphicon-folder-open"></span>
+                                                        <span class="image-preview-input-title">Browse</span>
+                                                        <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                                    </div>
+                                                </span>
+                                            </div>
+                                            @Html.ValidationMessageFor(m => m.Product.Image, "", new { @class = "text-danger", @Id = "errImageUrl" })
+
                                         </div>
-                                        @Html.ValidationMessageFor(m => m.Product.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
 
+                                        <!-- /input-group image-preview [TO HERE]-->
                                     </div>
-
-                                    <!-- /input-group image-preview [TO HERE]-->
-                                </div>
                                 @*}
-                                    else
-                                    {*@
-                                <div id="EditImage" hidden>
-                                    <label>Product Image</label>
-                                    <div class="row">
-                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                            <img src="@ApiCall.BaseUrl@Model.Product.ImageUrl" alt="" width="48" height="48">
+                                else
+                                {*@
+                                    <div id="EditImage" hidden>
+                                        <label>Product Image</label>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                                <img src="@ApiCall.BaseUrl@Model.Product.Image" alt="" width="48" height="48">
+                                            </div>
                                         </div>
+                                        @* <button id="btnEditImg" onclick="EditDivDeletePic()" title="Edit" class="btn btn-primary btn-xs editButtons" data-title="Edit" data-productid="8" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>*@
+                                        <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+
+
+                                        <div hidden id="HasImage1">@Model.Product.Image</div>
                                     </div>
-                                    @* <button id="btnEditImg" onclick="EditDivDeletePic()" title="Edit" class="btn btn-primary btn-xs editButtons" data-title="Edit" data-productid="8" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>*@
-                                    <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
-
-
-                                    <div hidden id="HasImage1">@Model.Product.ImageUrl</div>
-                                </div>
-                                @*}*@
+                                
 
 
                             </div>
@@ -186,6 +186,7 @@
 <script>
 
     $(document).ready(function () {
+  
         var prodId = $("#prodId").val();
         var editImageVal = $('#HasImage1').text();
         if (prodId == "" || editImageVal == "") {
@@ -283,6 +284,7 @@
     }
 
     function DeleteImageOnEdit() {
+   
         var xhr = new XMLHttpRequest();
         var url = '@Url.Action("DeleteImage", "Product")'
         xhr.open('POST', url);
@@ -293,6 +295,7 @@
 
 
     function EditDivDeletePic() {
+   
         $('#EditImage').hide();
         $('#UploadImage').show();
         DeleteImageOnEdit();
@@ -311,5 +314,3 @@
     }
 
 </script>
-
-

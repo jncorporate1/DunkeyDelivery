@@ -271,7 +271,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.Products
-                        .Where(x => x.Category_Id == Category_Id).Include(x => x.Store)
+                        .Where(x => x.Category_Id == Category_Id && x.IsDeleted==false).Include(x => x.Store)
                         .ToList();
                     CustomResponse<IEnumerable<Product>> response = new CustomResponse<IEnumerable<Product>>
                     {
@@ -304,7 +304,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.Products
-                        .Where(x => x.Category_Id == Category_Id).ToList();
+                        .Where(x => x.Category_Id == Category_Id && x.IsDeleted==false).ToList();
                    
                     CustomResponse<IEnumerable<Product>> response = new CustomResponse<IEnumerable<Product>>
                     {
@@ -401,7 +401,7 @@ namespace DunkeyAPI.Controllers
             {
                 using (DunkeyContext ctx=new DunkeyContext())
                 {
-                    var response = ctx.Products.Where(x => x.Name.Contains(search_string) && x.Store_Id==Store_Id).ToList();
+                    var response = ctx.Products.Where(x => x.Name.Contains(search_string) && x.Store_Id==Store_Id && x.IsDeleted==false).ToList();
                     var f = Mapper.Map<List<MedicationNames>>(response);
                     Medications responseModel = new Medications { medications = f };
 
@@ -434,7 +434,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.Products
-                        .Where(x => x.Category_Id == Category_Id).OrderBy(x=>x.Image).Skip(Page*Items).Take(Items).ToList();
+                        .Where(x => x.Category_Id == Category_Id && x.IsDeleted==false).OrderBy(x=>x.Image).Skip(Page*Items).Take(Items).ToList();
                     var f = Mapper.Map<List<productslist>>(res);
                     responsee.productslist = f;
 
@@ -468,11 +468,11 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.Products
-                        .Where(x => x.Store_Id == Store_id).OrderBy(x => x.Name).Skip(Page * Items).Take(Items).ToList();
+                        .Where(x => x.Store_Id == Store_id && x.IsDeleted == false).OrderBy(x => x.Name).Skip(Page * Items).Take(Items).ToList();
                     var f = Mapper.Map<List<productslist>>(res);
                     responsee.productslist = f;
 
-                    responsee.TotalRecords = ctx.Products.Where(x => x.Store_Id == Store_id).Count();
+                    responsee.TotalRecords = ctx.Products.Where(x => x.Store_Id == Store_id && x.IsDeleted == false).Count();
                     CustomResponse<CategoryProductViewModel> response = new CustomResponse<CategoryProductViewModel>
                     {
                         Message = "Success",
@@ -613,13 +613,13 @@ namespace DunkeyAPI.Controllers
               
                 if (string.IsNullOrEmpty(search_string))
                 {
-                    var productList = ctx.Products.Where(x=>x.Store_Id==Store_Id).ToList();
+                    var productList = ctx.Products.Where(x=>x.Store_Id== Store_Id && x.IsDeleted == false).ToList();
                     res.productslist = Mapper.Map<List<productslist>>(productList);
                     //res.TotalRecords = ctx.Products.Where(x => x.Store.BusinessType == CategoryType).Count();
                 }
                 else
                 {
-                    var productList = ctx.Products.Where(x => x.Name.Contains(search_string) && x.Store_Id== Store_Id).ToList();
+                    var productList = ctx.Products.Where(x => x.Name.Contains(search_string) && x.Store_Id== Store_Id && x.IsDeleted == false).ToList();
 
                     res.productslist = Mapper.Map<List<productslist>>(productList);
                 }
@@ -659,7 +659,7 @@ namespace DunkeyAPI.Controllers
 
                     if (IsAll)
                     {
-                        var CatIds = ctx.Categories.Where(x => x.Id == CatId || x.ParentCategoryId == CatId).Select(x => x.Id).ToList();
+                        var CatIds = ctx.Categories.Where(x => x.Id == CatId || x.ParentCategoryId == CatId && x.IsDeleted == false).Select(x => x.Id).ToList();
                         TotalCount = ctx.Products.Count(x => CatIds.Contains(x.Category_Id.Value) && x.IsDeleted == false);
                         products = ctx.Products.Where(x => CatIds.Contains(x.Category_Id.Value) && x.IsDeleted == false).OrderByDescending(x => x.Id).Page(PageSize, PageNo).ToList();
                     }

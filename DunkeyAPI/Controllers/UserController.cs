@@ -20,6 +20,7 @@ using System.Net.Mail;
 using System.Data.Entity;
 using AutoMapper;
 using static DunkeyAPI.Utility.Global;
+using DunkeyDelivery.CustomAuthorization;
 
 namespace DunkeyAPI.Controllers
 {
@@ -489,7 +490,7 @@ namespace DunkeyAPI.Controllers
 
                 var nexmoVerifyResponse = SMS.Send(new SMS.SMSRequest
                 {
-                    from = "03455249413",
+                    from = "+97144968217 ",
                     to = model.Phone,
                     text = "INGIC : Donwload Phone Application From Google Store"
 
@@ -519,20 +520,39 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     //UserForgetToken userToken = new UserForgetToken();
+
+
                     var user = ctx.Users
                         .Where(x=>x.Email==email)
                         .Include(x=>x.ForgetPasswordToken).FirstOrDefault();
 
                     if (user != null)
                     {
-                        var nexmoVerifyResponse = NumberVerify.Verify(new NumberVerify.VerifyRequest { brand = "INGIC", number = user.Phone });
-                        if (nexmoVerifyResponse.status == "0")
-                            return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
-                        else
+                        ForgetPasswordTokens addCode = new ForgetPasswordTokens
                         {
-                            nexmoVerifyResponse.error_text = "Mobile number you provided for this email is invalid.";
-                            return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
-                        }
+                            Code = "123DFEDG",
+                            CreatedAt = DateTime.Now,
+                            IsDeleted = false,
+                            User_Id = user.Id
+
+
+                        };
+
+
+                        ctx.ForgotPasswordTokens.Add(addCode);
+                        ctx.SaveChanges();
+
+
+
+                        //var nexmoVerifyResponse = NumberVerify.Verify(new NumberVerify.VerifyRequest { brand = "INGIC", number = user.Phone });
+                        //if (nexmoVerifyResponse.status == "0")
+                        //    return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
+                        //else
+                        //{
+                        //    nexmoVerifyResponse.error_text = "Mobile number you provided for this email is invalid.";
+                        //    return Content(HttpStatusCode.OK, new CustomResponse<NumberVerify.VerifyResponse> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = nexmoVerifyResponse });
+
+                        //}
 
                         return Ok(new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = user });
                     }
@@ -952,5 +972,38 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+
+
+        [HttpGet]
+        [Route("GetUser")]
+        public async Task<IHttpActionResult> GetUser(int UserId, int? SignInType)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    Utility.DunkeySettings.LoadSettings();
+
+
+                    var user = ctx.Users.Include(x => x.UserAddresses).FirstOrDefault(x => x.Id == UserId && x.IsDeleted == false);
+                     return Ok(new CustomResponse<User> { Message ="Success", StatusCode = (int)HttpStatusCode.OK, Result = user });
+                    //}
+                    //else
+                    //{
+                    //    var Deliverer = ctx.DeliveryMen.Include(x => x.DelivererAddresses).FirstOrDefault(x => x.Id == UserId && x.IsDeleted == false);
+                    //    Deliverer.SignInType = (int)RoleTypes.Deliverer;
+                    //    Deliverer.BasketSettings = new Settings { Id = BasketSettings.Id, Currency = BasketSettings.Currency, DeliveryFee = BasketSettings.DeliveryFee, MinimumOrderPrice = BasketSettings.MinimumOrderPrice };
+                    //    return Ok(new CustomResponse<DeliveryMan> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = Deliverer });
+                    //}
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
     }
 }

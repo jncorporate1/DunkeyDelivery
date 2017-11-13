@@ -25,15 +25,16 @@
 
 <section class="order-summary-main">
     <div class="container">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="order-summary clearfix">
                 <h4>Order Summary</h4>
                 <ul>
+               
                     @foreach (var stores in Model.StoreOrders)
                     {
                         foreach (var item in stores.Order_Items)
                         {
-                            <li>@item.Name (@item.Qty) <span>$@item.Price</span></li>
+                            <li>@item.Name (@item.Qty) <span>$@(item.Price*item.Qty )</span></li>
                         }
                     }
 
@@ -43,7 +44,7 @@
                     }
 
                     <li>Tax <span>$@Model.TotalTaxDeducted</span></li>
-                    <li class="total-amount">Total <span>$@(Model.Total)</span></li>
+                    <li class="total-amount">Total <span>$@Model.Total </span></li>
                 </ul>
             </div>
             <div class="order-summary clearfix customer-summary">
@@ -105,7 +106,7 @@
 
         </div>
 
-        <div class="col-md-3">
+        @*<div class="col-md-3">
             <div class="del-time-left">
                 <h4>DELIVERY TIME LEFT</h4>
 
@@ -122,7 +123,7 @@
 
 
             </div>
-        </div>
+        </div>*@
     </div>
 </section>
 @Scripts.Render("~/bundles/jquery")

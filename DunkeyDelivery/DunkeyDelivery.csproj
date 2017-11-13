@@ -428,6 +428,7 @@
     <Content Include="Content\assets\images\buyonegetone.jpg" />
     <Content Include="Content\assets\images\bx_loader.gif" />
     <Content Include="Content\assets\images\clients.png" />
+    <Content Include="Content\assets\images\close-btn.png" />
     <Content Include="Content\assets\images\complete-bar.png" />
     <Content Include="Content\assets\images\Croatia.jpg" />
     <Content Include="Content\assets\images\cup.png" />
@@ -451,6 +452,7 @@
     <Content Include="Content\assets\images\driver-icon3.png" />
     <Content Include="Content\assets\images\driver-top-banner.jpg" />
     <Content Include="Content\assets\images\Egypt.jpg" />
+    <Content Include="Content\assets\images\empty-cart.png" />
     <Content Include="Content\assets\images\facebook.png" />
     <Content Include="Content\assets\images\fav.png" />
     <Content Include="Content\assets\images\favicon.ico" />

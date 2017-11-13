@@ -19,3 +19,68 @@ StackTrace   at System.Data.Entity.Internal.LazyInternalContext.InitializeContex
    at System.Data.Entity.DbSet`1.Add(TEntity entity)
    at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext()
 ------******------
+
+MessageValidation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+StackTrace   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at DunkeyAPI.Controllers.UserController.<SubmitContactUs>d__13.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 621
+------******------
+
+MessageValidation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+
+StackTrace   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at DunkeyAPI.Controllers.UserController.<SubmitContactUs>d__13.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 621
+------******------
+
+MessageCould not find a part of the path 'D:\Git\DunkeyDelivery\DunkeyAPI\PackageImages\3.jpg'.
+
+StackTrace   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode)
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at DunkeyAPI.Controllers.AdminController.<AddPackage>d__13.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\AdminController.cs:line 1574
+------******------
+
+MessageCould not find a part of the path 'D:\Git\DunkeyDelivery\DunkeyAPI\PackageImages\4.jpg'.
+
+StackTrace   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode)
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at DunkeyAPI.Controllers.AdminController.<AddPackage>d__13.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\AdminController.cs:line 1574
+------******------
+
+MessageThe operation cannot be completed because the DbContext has been disposed.
+
+StackTrace   at System.Data.Entity.Internal.LazyInternalContext.InitializeContext()
+   at System.Data.Entity.Internal.LazyInternalContext.get_ObjectContext()
+   at System.Data.Entity.Internal.InternalContext.DetectChanges(Boolean force)
+   at System.Data.Entity.Internal.InternalContext.GetStateEntries(Func`2 predicate)
+   at System.Data.Entity.Internal.InternalContext.GetStateEntries()
+   at System.Data.Entity.Infrastructure.DbChangeTracker.Entries()
+   at System.Data.Entity.DbContext.GetValidationErrors()
+   at System.Data.Entity.Internal.InternalContext.SaveChanges()
+   at System.Data.Entity.Internal.LazyInternalContext.SaveChanges()
+   at System.Data.Entity.DbContext.SaveChanges()
+   at DunkeyAPI.Controllers.AdminController.<AddPackage>d__13.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\AdminController.cs:line 1576
+------******------
+
+MessageYou cannot use a Stripe token more than once: tok_1BNePzB7a1R0DysjrdTeZz8H.
+
+StackTrace   at Stripe.Infrastructure.Requestor.ExecuteRequest(HttpRequestMessage requestMessage)
+   at Stripe.Infrastructure.Requestor.PostString(String url, StripeRequestOptions requestOptions)
+   at Stripe.StripeCustomerService.Create(StripeCustomerCreateOptions createOptions, StripeRequestOptions requestOptions)
+   at DunkeyDelivery.Utility.GetStripeChargeInfo(String stripeEmail, String stripeToken, Int32 amount)
+   at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.CategoriesController.GetStoreCategories(Int16 Store_id)
+------******------
