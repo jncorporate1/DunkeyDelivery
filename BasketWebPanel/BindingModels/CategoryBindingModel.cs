@@ -22,7 +22,7 @@ namespace BasketWebPanel.BindingModels
 
         public int? ParentCategoryId { get; set; }
 
-        [Required]
+  
         public string ImageUrl { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             RegisterMerchantViewModel models = new RegisterMerchantViewModel();
              //model.ConfirmPassword = model.Password;
             model.Role = Convert.ToInt16(Utility.RoleTypes.SubAdmin);
-            model.Status = 0;
+            model.Status = 1;
        
 
             if (!ModelState.IsValid)

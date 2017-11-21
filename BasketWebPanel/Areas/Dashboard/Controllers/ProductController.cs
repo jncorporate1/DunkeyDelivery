@@ -97,12 +97,12 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //Providing CategoryList
             model.CategoryOptions = Utility.GetCategoryOptions(User, initialStoreId, "None");
 
-            model.WeightOptions = Utility.GetWeightOptions();
+            //model.WeightOptions = Utility.GetWeightOptions();
 
-            if (model.Product.WeightUnit == (int)WeightUnits.kg)
-            {
-                model.Product.WeightInGrams = model.Product.WeightInKiloGrams;
-            }
+            //if (model.Product.WeightUnit == (int)WeightUnits.kg)
+            //{
+            //    model.Product.WeightInGrams = model.Product.WeightInKiloGrams;
+            //}
 
             //return PartialView("_AddProduct", model);
             return View(model);
@@ -120,11 +120,11 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     return View(model);
                 }
 
-                if (model.Product.WeightUnit == (int)WeightUnits.kg)
-                {
-                    model.Product.WeightInKiloGrams = model.Product.WeightInGrams;
-                    model.Product.WeightInGrams = null;
-                }
+                //if (model.Product.WeightUnit == (int)WeightUnits.kg)
+                //{
+                //    model.Product.WeightInKiloGrams = model.Product.WeightInGrams;
+                //    model.Product.WeightInGrams = null;
+                //}
 
                 MultipartFormDataContent content;
 
@@ -147,7 +147,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 }
                 else if (model.Product.Image == null || ImageDeletedOnEdit)
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Please Choose an image to upload.");
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotFound, "Please Choose an image to upload.");
                 }
 
                 ByteArrayContent fileContent;
@@ -173,16 +173,16 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 content.Add(new StringContent(model.Product.Category_Id.ToString()), "Category_Id");
                 content.Add(new StringContent(model.Product.Store_Id.ToString()), "Store_Id");
                 content.Add(new StringContent(model.Product.Description), "Description");
-                content.Add(new StringContent(model.Product.WeightUnit.ToString()), "WeightUnit");
+                //content.Add(new StringContent(model.Product.WeightUnit.ToString()), "WeightUnit");
 
-                if (model.Product.WeightInGrams.HasValue)
-                {
-                    content.Add(new StringContent(Convert.ToString(model.Product.WeightInGrams)), "WeightInGrams");
-                }
-                else
-                {
-                    content.Add(new StringContent(Convert.ToString(model.Product.WeightInKiloGrams)), "WeightInKiloGrams");
-                }
+                //if (model.Product.WeightInGrams.HasValue)
+                //{
+                //    content.Add(new StringContent(Convert.ToString(model.Product.WeightInGrams)), "WeightInGrams");
+                //}
+                //else
+                //{
+                //    content.Add(new StringContent(Convert.ToString(model.Product.WeightInKiloGrams)), "WeightInKiloGrams");
+                //}
 
                 content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "ImageDeletedOnEdit");
                 response = await ApiCall.CallApi("api/Admin/AddProduct", User, isMultipart: true, multipartContent: content);

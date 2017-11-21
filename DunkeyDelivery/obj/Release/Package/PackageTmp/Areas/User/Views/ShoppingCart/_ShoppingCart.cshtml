@@ -1,0 +1,122 @@
+﻿@model DunkeyDelivery.Areas.User.Models.ShoppingCartViewModel
+
+
+<section class="cart-main-page">
+    <div class="container">
+        <div class="col-md-8 nopad-left">
+            <div class="cart-list clearfix">
+                <div class="cart-heading clearfix">
+                    <div class="col-md-4">
+                        Product
+                    </div>
+                    <div class="col-md-2">
+                        Quantity
+                    </div>
+                    <div class="col-md-2">
+                        Price
+                    </div>
+                    <div class="col-md-2">
+                        Total
+                    </div>
+                    <div class="col-md-2">
+                        Remove
+                    </div>
+                </div>
+
+                <ul class="shopping-list">
+                    @if (Model.cart.TotalCartItems != 0)
+                    {
+                        foreach (var item in Model.cart.Stores)
+                        {
+                            foreach (var cart_item in item.CartItems)
+                            {
+
+
+
+                                <li id="list_@(cart_item.ItemId)" > 
+                                    <div class="col-md-4">
+                                        <p>@cart_item.Name</p>
+                                    </div>
+
+                                    <div class="col-md-2 rel-col">                                  
+
+
+
+                                        <a id="addCart" style="cursor:pointer" storeBusinessTypeTax="@cart_item.BusinessTypeTax" storeBusinessType="@cart_item.BusinessType" storeName="@cart_item.StoreName"  onclick="AddToCart('@cart_item.ItemId','@cart_item.Name','@cart_item.Price','@cart_item.Size','@cart_item.StoreId')"  class="plus-icon inc-icon">+</a>
+
+                                      
+
+                                        <input type="number"  class="item_@(cart_item.ItemId)"  value="@cart_item.Qty" readonly/>
+
+                                        
+                                        <a style="cursor:pointer" onclick="DeleteCartItem('@cart_item.ItemId','@cart_item.Type','@cart_item.StoreId','@cart_item.Price')" id="@cart_item.ItemId" class="minus-icon inc-icon">-</a>
+                                 
+                                    </div>
+                                    <div class="col-md-2">
+                                        <p class="price">$@cart_item.Price</p>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <p class="total-price_@(cart_item.ItemId)">$@cart_item.Total</p>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <a onclick="RemoveCartItem('@cart_item.ItemId','@cart_item.StoreId','@cart_item.Type')" class="close-btn"><img src="~/Content/assets/images/close-btn.png" /></a>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <li>
+                            <div class="col-md-12 text-center">
+                                <p>
+                                    <img src="~/Content/assets/images/empty-cart.png" style="height:100px;" />
+
+                                </p>
+                                <p style="color:black;"><b>Your cart is empty! </b></p>
+
+                                <a href="@Url.Action("Search","Home",new { search="Food" })" class="btn btn-default">Add More Items</a>
+                            </div>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+
+
+            @*<div class="enter-coupon left">
+                <input type="text" placeholder="Enter Coupon Code" />
+                <input type="submit" value="APPLY" />
+            </div>*@
+
+            @*<a href="#" class="btn btn-default right">UPDATE CART</a>*@
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="cart-total clearfix">
+                <div class="cart-heading">
+                    CART TOTAL
+                </div>
+                <ul>
+                    <li><p>Cart Subtotal <span id="cart_subtotal" price="@Model.cart.Total">$@Model.cart.Total</span></p></li>
+                    @*<li><p>Order Total <span id="order_total">$@Model.cart.Total</span></p></li>*@
+                    @if (Model.Id != null)
+                    {
+                        <a href="@Url.Action("DeliveryDetails","Order",new {Area="User" })" class="proceed-btn">PROCEED TO CHECKOUT</a>
+
+                    }
+                    else
+                    {
+                        <a style="cursor:pointer;" onclick="login_first()" class="proceed-btn">PROCEED TO CHECKOUT</a>
+                        <p id="login_first" style="color: red;float: right;margin-top: 8px;visibility:hidden; ">Login To Process Your Order</p>
+                    }
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>

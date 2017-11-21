@@ -36,7 +36,8 @@
         }
 
 
-        <h3 style="border-top: none;padding-bottom:16px;margin-bottom: 13px;margin-top:5px;" class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$3</span></h3>
+        <h3 style="border-top: none;padding-bottom:16px;margin-bottom: 13px;margin-top:5px;" class="show-tax"><img src="~/Content/assets/images/tax-icon.png" align="middle" /> Tax <span>$@Model.Tax</span></h3>
+
 
         <a href="@Url.Action("DeliveryDetails", "Order", new { area = "User" })" id="place-order-btn" class="place-order-btn" style="position: absolute;margin-top: 10px;width: 74%;"><b id="order-btn-text">Place Order</b><span> $@Model.Total</span></a>
 

@@ -28,14 +28,14 @@
                 <ul class="profile">
 
                     <li>
-                        @Html.TextBoxFor(x => x.FName, new { name = "FName", @placeholder = "First Name", value = Model.FName })
+                        @Html.TextBoxFor(x => x.FName, new { name = "FName", @class = "check-change", @placeholder = "First Name", value = Model.FName })
                         @Html.ValidationMessageFor(m => m.FName, "", new { @class = "text-danger error" })
                    @*<input type="text" placeholder="First Name" name="FName" value="@Model.FName" />*@
                  
                     </li>
 
                     <li>
-                        @Html.TextBoxFor(x => x.LName, new { name = "LName", @placeholder = "Last Name", value = Model.LName })
+                        @Html.TextBoxFor(x => x.LName, new { name = "LName", @class = "check-change",@placeholder = "Last Name", value = Model.LName })
                         @Html.ValidationMessageFor(m => m.LName, "", new { @class = "text-danger error" })
                     </li>
 
@@ -48,11 +48,11 @@
                     
 
                     <li>
-                        @Html.TextBoxFor(x => x.Password, new { name = "Password", @placeholder = "Password",@type="Password",@style="width:100%;" })
+                        @Html.TextBoxFor(x => x.Password, new { name = "Password", @class = "check-change", @placeholder = "Password",@type="Password",@style="width:100%;" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger error" })
                     </li>
                     <li>
-                        @Html.TextBoxFor(x => x.ConfirmPassword, new { name = "ConfirmPassword", @placeholder = "Confirm Password", @type = "Password", @style = "width:100%;" })
+                        @Html.TextBoxFor(x => x.ConfirmPassword, new { name = "ConfirmPassword", @placeholder = "Confirm Password",@class="check-change", @type = "Password", @style = "width:100%;" })
                         @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger error" })
                     </li>
                     @*<li style="width:96%;" ><input type="text" placeholder="Confirm new password" /></li>*@
@@ -79,7 +79,7 @@
                 
                 <input type="Email" name="EmailAddress" value="@Model.EmailAddress" style="display:none;" />
 
-                <input type="submit" value="Save" class="save" />
+                <input type="submit"  value="Save" class="save" disabled />
                 <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
                     <p id="ModalNotification" style="color:green;display:none;">Changes Saved Successfully</p>
 
@@ -100,3 +100,13 @@
 
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    $(".check-change").change(function () {
+        $(".save").prop("disabled", false);
+    });
+    if ($('#ModalNotification').is(':visible')) {
+        $(".save").prop("disabled", true);
+    }
+</script>

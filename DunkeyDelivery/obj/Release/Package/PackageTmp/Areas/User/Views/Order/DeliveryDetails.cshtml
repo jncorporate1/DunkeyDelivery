@@ -3,56 +3,50 @@
     ViewBag.Title = "Delivery Details";
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
-
+<style>
+    .stripe-button-el {
+        background-color: red;
+    }
+</style>
 <div class="main-section delivery-main-section greybg">
     <div class="container">
         <div class="row">
-
             <div class="col-md-8 delivery-left-section">
-                @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post))
+                @using (Html.BeginForm("OrderSummary", "Order", FormMethod.Post, new { @id = "frmOrderSummary" }))
                 //new AjaxOptions { OnSuccess = "", OnFailure = "" })
                 {
                     <h1> Add Delivery Details</h1>
 
 
                     <div class="row">
-
                         <div class="col-md-6">
-
                             <div class="input-contain">
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.FirstName, new { name = "FirstName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter First Name" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.FirstName, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
-
 
                                 @Html.TextBoxFor(x => x.DeliveryDetails.LastName, new { name = "LastName", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Last Name" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.LastName, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Phone Number" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Phone, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
-
 
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })
                             </div>
                             <div class="input-contain">
 
-
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })
-
                             </div>
                             <div class="input-contain">
                                 <div class="col-md-6" style="padding: 0 1px 0 0;">
                                     <div class="input-contain">
-
 
                                         @Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
                                         @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })
@@ -60,20 +54,16 @@
                                 </div>
                                 <div class="col-md-6" style="padding: 0 0 0 6px;">
                                     <div class="input-contain">
-
                                         @Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
                                         @Html.ValidationMessageFor(m => m.DeliveryDetails.ZipCode, "", new { @class = "text-danger error" })
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                         <div class="col-md-6">
                             <div class="input-contain">
                                 <textarea rows="6" class="form-control with-no-margin" name="DeliveryDetails.AdditionalNote" placeholder="Delivery Instruction" id="form-inputs"></textarea>
                             </div>
-
                             <div class="radio-group input-contain">
                                 <input type="checkbox" id="r1" name="terms_accept" />
                                 <label for="r1">
@@ -86,117 +76,112 @@
                             </div>
                         </div>
 
-
                     </div>
-
-                    <div class="paymentinformation">
-                        <h1>Payment Information</h1>
-                        <div class="row">
-                            <div class="payment-tabs">
-                                <div class="col-md-6 no-pad-right">
-                                    <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">New Credit Card</button></a>
+                    @*
+                        <div class="paymentinformation">
+                            <h1>Payment Information</h1>
+                            <div class="row">
+                                <div class="payment-tabs">
+                                    <div class="col-md-6 no-pad-right">
+                                        <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">New Credit Card</button></a>
+                                    </div>
+                                    <div class="col-md-6 no-pad-left">
+                                        <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
+                                    </div>
+                                    <input type="text" name="PaymentInformation.PaymentType" id="PaymentType" style="display:none;" />
                                 </div>
-                                <div class="col-md-6 no-pad-left">
-                                    <a><button type="button" id="creditcard" onclick="PaymentCartColor(this)" class="form-control">Paypal</button></a>
-                                </div>
-                                <input type="text" name="PaymentInformation.PaymentType" id="PaymentType" style="display:none;" />
-                                @* @Html.TextBoxFor(x => x.PaymentInformation.PaymentType, new { name = "PaymentType", @class = "form-control with-no-margin", id = "PaymentType" })*@
-                            </div>
+                                <div class="payment-inputs clearfix">
+
+                                    <div class="col-md-4">
+
+
+                                        @Html.TextBoxFor(x => x.PaymentInformation.CreditCard, new { name = "CreditCard", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Card Number" })
+                                        @Html.ValidationMessageFor(m => m.PaymentInformation.CreditCard, "", new { @class = "text-danger error" })
+                                    </div>
+                                    <div class="col-md-2 no-pad-left">
+
+
+                                        <div class="input-append date form_datetime">
+                                            @Html.TextBoxFor(x => x.PaymentInformation.MonthYear, new { name = "MonthYear", @class = "form-control with-no-margin form_datetime", id = "form-inputs", @placeholder = "mm/yyyy" })
+                                            @Html.ValidationMessageFor(m => m.PaymentInformation.MonthYear, "", new { @class = "text-danger error" })
+                                        </div>
 
 
 
+                                    </div>
+                                    <div class="col-md-3 no-pad-left">
 
+                                        @Html.TextBoxFor(x => x.PaymentInformation.CVV, new { name = "CVV", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "CVV" })
+                                        @Html.ValidationMessageFor(m => m.PaymentInformation.CVV, "", new { @class = "text-danger error" })
 
+                                    </div>
+                                    <div class="col-md-3">
 
+                                        @Html.TextBoxFor(x => x.PaymentInformation.BillingPostalCode, new { name = "BillingPostalCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Billing Postal Code" })
+                                        @Html.ValidationMessageFor(m => m.PaymentInformation.BillingPostalCode, "", new { @class = "text-danger error" })
 
-
-
-
-                            <div class="payment-inputs clearfix">
-
-                                <div class="col-md-4">
-
-
-                                    @Html.TextBoxFor(x => x.PaymentInformation.CreditCard, new { name = "CreditCard", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Card Number" })
-                                    @Html.ValidationMessageFor(m => m.PaymentInformation.CreditCard, "", new { @class = "text-danger error" })
-                                </div>
-                                <div class="col-md-2 no-pad-left">
-
-
-                                    <div class="input-append date form_datetime">
-                                        @Html.TextBoxFor(x => x.PaymentInformation.MonthYear, new { name = "MonthYear", @class = "form-control with-no-margin form_datetime", id = "form-inputs", @placeholder = "mm/yyyy" })
-                                        @Html.ValidationMessageFor(m => m.PaymentInformation.MonthYear, "", new { @class = "text-danger error" })
+                                    </div>
+                                    <div class="col-md-12 radio-group input-contain">
+                                        <input type="checkbox" id="r2" name="save_card" />
+                                        <label for="r2"><span id="check-box"></span>Save Card for Later Use </label>
                                     </div>
 
-
-
                                 </div>
-                                <div class="col-md-3 no-pad-left">
-
-                                    @Html.TextBoxFor(x => x.PaymentInformation.CVV, new { name = "CVV", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "CVV" })
-                                    @Html.ValidationMessageFor(m => m.PaymentInformation.CVV, "", new { @class = "text-danger error" })
-
-                                </div>
-                                <div class="col-md-3">
-
-                                    @Html.TextBoxFor(x => x.PaymentInformation.BillingPostalCode, new { name = "BillingPostalCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Billing Postal Code" })
-                                    @Html.ValidationMessageFor(m => m.PaymentInformation.BillingPostalCode, "", new { @class = "text-danger error" })
-
-                                </div>
-                                <div class="col-md-12 radio-group input-contain">
-                                    <input type="checkbox" id="r2" name="save_card" />
-                                    <label for="r2"><span id="check-box"></span>Save Card for Later Use </label>
-                                </div>
-
                             </div>
+
                         </div>
-
-
-
-
-
-
-                    </div>
-
+                    *@
                     <div class="payment-tips">
                         <h1>Tip with credit card</h1>
                         <div class="row">
                             <div class="col-md-6 no-pad-right">
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"> <span id="tip-amount">$@(Model.Cart.Total * 0.15) </span> <br />15%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.20) </span> <br />20%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.25) </span><br />25%</div>
-                                <div class="col-md-3 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Model.Cart.Total * 0.30) </span><br />30%</div>
-                            </div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"> <span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.15))</span> <br />15%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.20))</span> <br />20%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.25))</span><br />25%</div>
+                                <div class="col-md-2 tip-credit" onclick="TipColor(this)"><span id="tip-amount">$@(Convert.ToInt32(Model.Cart.Total * 0.30))</span><br />30%</div>
+                                <div onclick="clear_tip()"  class="col-md-2 tip-credit"><span id="">0%</span><br />0$</div>
 
+                                <input type="hidden" id="hdnTipAmount" name="TipAmount" value="" />
+                            </div>
                             <div class="col-md-6">
                                 @*<div class="col-md-3 tip-credit-2">$6.21 <br />30%</div>*@
                                 <div class="col-md-9 no-pad-left no-pad-right">
                                     @Html.TextBoxFor(x => x.PaymentInformation.Tip, new { name = "Tip", @class = "form-control with-no-margin tip-field", id = "form-inputs", @placeholder = "Enter Tip Amount" })
                                     @Html.ValidationMessageFor(m => m.PaymentInformation.Tip, "", new { @class = "text-danger error" })
-
                                 </div>
                             </div>
                         </div>
-                        <p class="terms-line">Great Tip! $4.41 Will go straight to dunkey delivery driver</p>
-                        <a href="#" class="promo-code">Add Promo Codes</a>
+                        <p id="tipMessage" class="terms-line"></p>
+                        @*<a href="#" class="promo-code">Add Promo Codes</a>*@
                         @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
-
                         @if (Model.Id != null)
                         {
-                            <input type="submit" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
+                            <input id="btnPlaceOrder" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
+                            <input hidden id="btnPlaceOrderStripe" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
+
+                            @*<script src = "//checkout.stripe.com/v2/checkout.js"
+                                        class="stripe-button"
+                                        data-key="@ViewBag.StripePublishKey"
+                                        data-locale="auto"
+                                        data-description="Sample Charge"
+                                        data-amount="500">
+                                </script>*@
+                            @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
 
                         }
                         else
                         {
                             <input type="button" onclick="login_first()" class="col-md-12 btn-submit text-center" value="Place Order" /> @*<a  href="" class="col-md-12 btn-submit text-center">Place Order</a>*@
 
-                            <p id="login_first" style="display:none;color:red;">Please Login To Process Your Order</p>
+                            <p id="login_first" style="visibility:hidden;color:red;">Please Login To Process Your Order</p>
                         }
-
                     </div>
+                    <input type="hidden" id="hdnStripeEmail" name="StripeEmail" value="" />
+                    <input type="hidden" id="hdnStripeId" name="StripeId" value="" />
+                    <input type="hidden" id="hdnCartTotal" value="@Model.Cart.Total" />
+                    <input type="hidden" id="hdnPublishableKey" value="@Model.StripeSettings.PublishableKey">
                 }
             </div>
-
             <div class="col-md-4" id="Final">
                 @{
                     Html.RenderAction("CartWithData", "Order", new { area = "User" });
@@ -205,9 +190,35 @@
         </div>
     </div>
 </div>
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        window.onload = function () {
+            $("body").prepend($("#order-modal"))
+        }
+    </script>
+    <div id="order-modal" style="line-height: 40px;font-size: 20px;text-align: center;background:red;color:white;">
+        @TempData["ErrorMessage"]
+        <a href="javascript:void()" onclick="$('#order-modal').hide()" style="float: right;margin-right: 15px;font-weight: bold;color: white;">X</a>
+    </div>
+}
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="https://checkout.stripe.com/checkout.js"></script>
 <script>
-    function login_first() {
-        $("#login_first").show().delay(3000).fadeOut();
+    function clear_tip() {
+        $("#tipMessage").css("display", "hidden");
+        $(".tip-field").val("");
+        $("#hdnTipAmount").val("");
+       
+
+    }
+
+    function animation_message() {
+
+        invisibility_Animation("tipMessage", "Great Tip! " + $(".tip-field").val() + " Will go straight to dunkey delivery driver");
+      
+        $("#tip_amount_cart").text($(".tip-field").val());
     }
 
 
@@ -227,11 +238,59 @@
     }
 
     function TipColor(elementObj) {
-        console.log(elementObj);
+
         $(".tip-credit").removeAttr("id");
         $(elementObj).attr("id", "tipButtons");
         $(".tip-field").val($("#tipButtons span").text());
+        $('#hdnTipAmount').val(parseInt($("#tipButtons span").text().substring(1).trim()))
+        animation_message();
     }
 
+    var handler = StripeCheckout.configure({
+        key: $('#hdnPublishableKey').val(),
+        //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        image: '/Content/assets/images/logo2.png',
+        locale: 'auto',
+        token: function (token) {
+            $('#hdnStripeId').val(token.id);
+            $('#hdnStripeEmail').val(token.email);
+            $('#frmOrderSummary').submit();
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+        }
+    });
 
+    document.getElementById('btnPlaceOrderStripe').addEventListener('click', function (e) {
+        var amountToCharge = (parseInt($('#hdnCartTotal').val()) * 100);
+        var tipText = $("#tipButtons span").text().substring(1).trim();
+        var description = "";
+        if (tipText != "") {
+            amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt(tipText)) * 100);
+            description = '(Total + Tip) = (' + $('#hdnCartTotal').val() + ' + ' + parseInt(tipText) + ')';
+        }
+        // Open Checkout with further options:
+        handler.open({
+            name: 'Dunkey Delivery',
+            amount: amountToCharge,  //amount in cents
+            description: description
+        });
+        e.preventDefault();
+    });
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function () {
+        handler.close();
+    });
+
+    // Handle form submission event
+    $('#frmOrderSummary').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+        if ($(this).valid()) {
+            $('#btnPlaceOrderStripe').trigger('click');
+        }
+        else {
+            return false;
+        }
+    });
 </script>

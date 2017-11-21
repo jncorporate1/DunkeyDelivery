@@ -22,7 +22,7 @@
                 <li onclick="profile_view(this.id)" id="1" class=""  ><a  > Recurring Orders</a></li>
                 <li class="active-link" onclick="profile_view(this.id)" id="2"><a  > Profile</a></li>
                 <li onclick="profile_view(this.id)" id="3" class=""><a  > Addresses</a></li>
-                <li  onclick="profile_view(this.id)" id="4" class=""><a > Credit Cards</a></li>
+                @*<li  onclick="profile_view(this.id)" id="4" class=""><a > Credit Cards</a></li>*@
             </ul>
 
         </div>
@@ -40,12 +40,12 @@
 <script>
 
     function profile_view(id) {
-       
+
         $("#" + $(".active-link").attr("id")).removeClass("active-link");
         $("#" + id).addClass("active-link");
         //$("#" + id).addClass("active-link");
         $.ajax({
-            
+
             url: '@Url.Action("PageView", "Profile", new { Area = "User" })',
             type: "POST",
             data: { id:id },
@@ -68,8 +68,8 @@
             type: "GET",
             data: { id: 5 },
             success: function (data) {
-            
-           
+
+
                 $("#view_address").hide();
                 $("#profile_views").html(data);
                 $("#add_address").show();
@@ -99,18 +99,24 @@
 
     }
     function remove_address(address_id) {
-        $.ajax({
 
-            url: '@Url.Action("RemoveAddress", "Profile",new { Area = "User"})',
-            type: "GET",
-            data: { id: address_id },
-            success: function (data) {
-                
-                $("#profile_views").html(data);
-            }, error: function (xhr, status, error) {
-                console.log("Error: "+data);
-            }
-        });
+      
+        if (confirm("Are you sure you want to delete this address?")) {
+            $.ajax({
+
+                url: '@Url.Action("RemoveAddress", "Profile",new { Area = "User"})',
+                type: "GET",
+                data: { id: address_id },
+                success: function (data) {
+
+                    $("#profile_views").html(data);
+                }, error: function (xhr, status, error) {
+                    console.log("Error: "+data);
+                }
+            });
+        } else {
+
+        }
     }
 
     function repeat_order(orderNo, orderId) {
@@ -126,5 +132,25 @@
             }
         });
     }
+
+
+ 
+
+    function Pagging(PageNo,Page_id) {
+
+        $.ajax({
+
+            url: '@Url.Action("PageView", "Profile", new { Area = "User" })',
+            type: "POST",
+            data: { id: Page_id, PageNo: PageNo },
+            success: function (data) {
+
+                $('#profile_views').html(data);
+            }, error: function (xhr, status, error) {
+
+            }
+        });
+    }
+
 
 </script>

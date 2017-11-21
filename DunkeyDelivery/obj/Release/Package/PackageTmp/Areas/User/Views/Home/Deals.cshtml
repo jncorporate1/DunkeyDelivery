@@ -19,13 +19,13 @@
                 </div>
                 <div class="rest-item-1">
                     <ul class="restitem1">
-                        <li><a href="@Url.Action("Search","Home",new { search="Food" })"><img src="~/Content/assets/images/rest1.png" /> Food<span> (2)</span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> (0)</span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/rest3.png" /> Grocery<span> (0)</span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/rest4.png" /> Laundry<span> (0)</span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/rest5.png" /> Pharmacy<span> (1)</span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/rest6.png" /> Retail<span> (0)</span> </a></li>
-                        <li><a href="#"><img src="~/Content/assets/images/res3.png" /> Ride<span> (0)</span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Food" })"><img src="~/Content/assets/images/rest1.png" /> Food<span></span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> </span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/rest3.png" /> Grocery<span> </span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/rest4.png" /> Laundry<span> </span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/rest5.png" /> Pharmacy<span></span> </a></li>
+                        <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/rest6.png" /> Retail<span> </span> </a></li>
+                        <li><a href="#"><img src="~/Content/assets/images/res3.png" /> Ride<span></span> </a></li>
                     </ul>
                 </div>
 
@@ -39,7 +39,7 @@
                 <div class="rest-right-section">
                     <div class="row deals">
 
-                        @if (@Model.Offer_Packages.Count() == 0 && Model.Offer_Products.Count() == 0)
+                        @if (@Model.Offer_Packages.Count == 0 && Model.Offer_Products.Count == 0)
                         {
                             <p class="text-center">No Deals & Promotions Found</p>
                         }
@@ -49,7 +49,7 @@
                             {
 
                                 <div class="col-md-4">
-                                    <img src="@deal.ImageUrl" onclick="AddToCart('@deal.Offer_Id','@deal.Package.Name','@deal.DiscountedPrice','Standard', 2, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName')" id="@deal.Offer_Id" alt="deal" />
+                                    <img src="@Utility.BaseUrl@deal.Package.ImageUrl" onclick="AddToCart('@deal.Id','@deal.Package.Name','@deal.Price','Standard', 3, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id" alt="deal" />
                                 </div>
 
                             }
@@ -57,7 +57,7 @@
                             {
 
                                 <div class="col-md-4">
-                                    <img src="@deal.ImageUrl" onclick="AddToCart('@deal.Offer_Id', '@deal.Name', '@deal.DiscountedPrice', '@deal.Product.Size', 1, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName')" id="@deal.Offer_Id" alt="deal" />
+                                    <img style="height:150px;width:150px;" src="@Utility.BaseUrl@deal.Product.Image" onclick="AddToCart('@deal.Id', '@deal.Product.Name', '@deal.Price', '@deal.Product.Size', 2, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id" alt="deal" />
                                 </div>
                             }
                         }
@@ -114,8 +114,9 @@
     </div>
 </div>
 <script>
-    function AddToCart(ItemId, ItemName, price, size, type, StoreId, StoreName) {
+    function AddToCart(ItemId, ItemName, price, size, type, StoreId, StoreName, BusinessType, BusinessTypeTax) {
         //alert(id);
+        debugger;
         var data = {
             ItemId: ItemId,
             name: ItemName,
@@ -123,7 +124,9 @@
             type: type,
             size: size,
             StoreId: StoreId,
-            StoreName: StoreName
+            StoreName: StoreName,
+            BusinessType: BusinessType,
+            BusinessTypeTax: BusinessTypeTax
         }
         $.post("@Url.Action("AddToCart","Order")", data,
         function (e) {
@@ -131,5 +134,4 @@
             //e.preventDefault();
         })
     }
- 
 </script>

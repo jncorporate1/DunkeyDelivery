@@ -1,5 +1,6 @@
 ﻿@model DunkeyDelivery.Areas.User.Models.PharmacyViewModel
 @{
+    
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
@@ -41,7 +42,7 @@
     }
 </style>
 <script>
-    var fields=0;
+    var fields=1;
     var Field_id;
 
 
@@ -55,7 +56,7 @@
 <div class="top-banner product-detail-banner">
     <img src="~/Content/assets/images/pharmacy-banner.png" class="img img-responsive" />
     <div class="banner-inner-text" />
-    <img src="@Model.storeViewModel.ImageUrl" class="logo-img common-logo-height" />
+    <img src="@Utility.BaseUrl@Model.storeViewModel.ImageUrl" class="logo-img common-logo-height" />
     <div class="row">
         @for (var i = 1; i <= 5; i++)
         {
@@ -106,7 +107,7 @@
                 </ul>
 
                 <!-- TAB CONTENT -->
-                @using (Ajax.BeginForm("SubmitPharmacyForm", "Pharmacy",FormMethod.Post, new AjaxOptions { OnSuccess = "test", OnFailure = "failtest" }))
+                @using (Ajax.BeginForm("SubmitPharmacyForm", "Pharmacy",FormMethod.Post, new AjaxOptions { OnSuccess = "test", OnFailure = "test" }))
                 {
                    @Html.AntiForgeryToken()
                     <div class="tab1 tabcontent" id="London">
@@ -119,9 +120,10 @@
                                         <div class="pharmacy-details-cont">
                                             <p>You may add multiple medications below</p>
                                             <div id="more_fields" >
-                                                <input type="text" id="field_0" onkeyup="medications(this.id,this.value)" name="medication" placeholder="Enter Medication" autocomplete="off"/>
-                                                @Html.ValidationMessageFor(m => m.medication, "", new { @class = "text-danger error" })
-
+                                                <input type="hidden" id="productId_0" name="Product_Ids[0]" value="" />
+                                                <input type="text" id="field_0" onkeyup="medications(this.id,this.value)" name="medication[0].medication" placeholder="Enter Medication" autocomplete="off"/>
+                                              @*  @Html.ValidationMessageFor(m => m.medication[0].medication, "", new { @class = "text-danger error" })*@
+                                               
                                             </div>
                                             <div class="medication_dropdown">
                                                 <p class="medicine_name" >Medicine Name</p>
@@ -141,16 +143,16 @@
                                         <div class="pharmacy-details-cont">
                                             <p>The pharmacy will confirm your Rx with this doctor</p>
                                             <div class="bottom-margin">
-                                                @Html.TextBoxFor(x => x.DoctorFirstName, new { name = "DoctorFirstName", @placeholder = "Doctor First Name" })
-                                                @Html.ValidationMessageFor(m => m.DoctorFirstName, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Doctor_FirstName, new { name = "Doctor_FirstName", @placeholder = "Doctor First Name" })
+                                                @Html.ValidationMessageFor(m => m.Doctor_FirstName, "", new { @class = "text-danger error" })
                                             </div>
                                             <div class="bottom-margin">
-                                                @Html.TextBoxFor(x => x.DoctorLastName, new { name = "DoctorLastName", @placeholder = "Doctor Last Name" })
-                                                @Html.ValidationMessageFor(m => m.DoctorLastName, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Doctor_LastName, new { name = "Doctor_LastName", @placeholder = "Doctor Last Name" })
+                                                @Html.ValidationMessageFor(m => m.Doctor_LastName, "", new { @class = "text-danger error" })
                                             </div>
                                             <div class="bottom-margin">
-                                                @Html.TextBoxFor(x => x.DoctorPhone, new { name = "DoctorPhone", @placeholder = "Doctor Phone" })
-                                                @Html.ValidationMessageFor(m => m.DoctorPhone, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Doctor_Phone, new { name = "Doctor_Phone", @placeholder = "Doctor Phone" })
+                                                @Html.ValidationMessageFor(m => m.Doctor_Phone, "", new { @class = "text-danger error" })
                                             </div>
 
                                         </div>
@@ -162,26 +164,26 @@
                                         <div class="pharmacy-details-cont">
                                             <p> We use encryption to keep your information safe.</p>
                                             <div class="bottom-margin">
-                                                @Html.TextBoxFor(x => x.PatientFirstName, new { name = "PatientFirstName", @placeholder = "Enter First Name" })
-                                                @Html.ValidationMessageFor(m => m.PatientFirstName, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Patient_FirstName, new { name = "Patient_FirstName", @placeholder = "Enter First Name" })
+                                                @Html.ValidationMessageFor(m => m.Patient_FirstName, "", new { @class = "text-danger error" })
                                             </div>
                                             <div class="bottom-margin">
-                                                @Html.TextBoxFor(x => x.DoctorLastName, new { name = "DoctorLastName", @placeholder = "Enter Last Name" })
-                                                @Html.ValidationMessageFor(m => m.DoctorLastName, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Patient_LastName, new { name = "Patient_LastName", @placeholder = "Enter Last Name" })
+                                                @Html.ValidationMessageFor(m => m.Patient_LastName, "", new { @class = "text-danger error" })
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-md-6" style="padding-left:0px;">
-                                                   <input type="text" name="DateOfBirth" placeholder="Birth Date" id="datepicker-13">
+                                                   <input type="text" name="dtpPatient_DOB" placeholder="Birth Date" id="datepicker-13">
 
                                                     @*@Html.TextBoxFor(x => x.DateOfBirth, new { name = "DateOfBirth", @placeholder = "Birth Date" })*@
-                                                    @Html.ValidationMessageFor(m => m.DateOfBirth, "", new { @class = "text-danger error" })
+                                                    @Html.ValidationMessageFor(m => m.Patient_DOB, "", new { @class = "text-danger error" })
                                                 </div>
                                                 <div class="col-md-6" style="padding-right:0px;">
                                                     <select style="height: 56px;padding-bottom: 0px;padding-top: 0px;" required>
                                                         <option>Gender</option>
-                                                        <option>Male</option>
-                                                        <option>Female</option>
+                                                        <option value="1" >Male</option>
+                                                        <option value="2" >Female</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -194,22 +196,22 @@
                                         <div class="pharmacy-details-cont">
                                             <p> Your address will be sent securely to the pharmacy</p>
                                                 <div class="row" style="margin-bottom:15px;">
-                                                    @Html.TextBoxFor(x => x.Address, new { name = "Address", @placeholder = "Address" })
-                                                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger error" })
+                                                    @Html.TextBoxFor(x => x.Delivery_Address, new { name = "Delivery_Address", @placeholder = "Address" })
+                                                    @Html.ValidationMessageFor(m => m.Delivery_Address, "", new { @class = "text-danger error" })
                                                 </div>
                                                 <div class="row" style="margin-bottom:15px;">
                                                     <div class="col-md-6" style="padding-left:0px;">
-                                                        @Html.TextBoxFor(x => x.City, new { name = "City", @placeholder = "City" })
-                                                        @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger error" })
+                                                        @Html.TextBoxFor(x => x.Delivery_City, new { name = "Delivery_City", @placeholder = "City" })
+                                                        @Html.ValidationMessageFor(m => m.Delivery_City, "", new { @class = "text-danger error" })
                                                     </div>
 
                                                     <div class="col-md-3">
-                                                        @Html.TextBoxFor(x => x.State, new { name = "State", @placeholder = "State" })
-                                                        @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger error" })
+                                                        @Html.TextBoxFor(x => x.Delivery_State, new { name = "Delivery_State", @placeholder = "State" })
+                                                        @Html.ValidationMessageFor(m => m.Delivery_State, "", new { @class = "text-danger error" })
                                                     </div>
                                                     <div class="col-md-3" style="padding-right:0px;">
-                                                        @Html.TextBoxFor(x => x.ZipCode, new { name = "ZipCode", @placeholder = "Zip Code" })
-                                                        @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger error" })
+                                                        @Html.TextBoxFor(x => x.Delivery_Zip, new { name = "Delivery_Zip", @placeholder = "Zip Code" })
+                                                        @Html.ValidationMessageFor(m => m.Delivery_Zip, "", new { @class = "text-danger error" })
                                                     </div>
 
 
@@ -217,8 +219,8 @@
 
 
                                             <div class="row" style="margin-bottom:15px;">
-                                                @Html.TextBoxFor(x => x.DeliveryPhone, new { name = "DeliveryPhone", @placeholder = "Phone Number" })
-                                                @Html.ValidationMessageFor(m => m.DeliveryPhone, "", new { @class = "text-danger error" })
+                                                @Html.TextBoxFor(x => x.Delivery_Phone, new { name = "Delivery_Phone", @placeholder = "Phone Number" })
+                                                @Html.ValidationMessageFor(m => m.Delivery_Phone, "", new { @class = "text-danger error" })
 
                                             </div>
                                                 <p id="test" style="color:green;display:none;">Your request is submitted. We will contact you shortly.</p>
@@ -240,9 +242,27 @@
                             </div>
                         </div>
                         }
-                        <div class="tab1 tabcontent" id="paris">
-                            <h1>No content</h1>
-                        </div>
+                <div class="tab1 tabcontent" id="paris">
+                    <div class="reviews-main clearfix reviews-tab">
+                        <h4>Reviews</h4>
+                        <p class="based-on">
+                            <img class="no-review" src="~/Content/assets/images/no-rating.png" />
+                            There are no reviews yet
+                        </p>
+                        <ul>
+                            @*<li>
+                        <img src="~/Content/assets/images/rating.png" />
+                        <p>
+                            By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                            The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                            tasty it literally blew me away.
+                        </p>
+                    </li>*@
+
+
+                        </ul>
+                    </div>
+                </div>
                         <div class="tab1 tabcontent" id="newyork">
 
                             <div class="location-info clearfix">
@@ -289,11 +309,11 @@
 
                         <script>
                             function test() {
-
+                               
                                 $("#test").show();
                             }
                             function failtest() {
-
+                             
                                 $("#failtest").show();
                             }
 
@@ -340,8 +360,10 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback">
 </script>
 <script>
+  
     function add_fields(){
-        $("#more_fields").append('<input type="text" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication" placeholder="Enter Medication" autocomplete="off"/>');
+        
+        $("#more_fields").append('<input type="hidden" id="productId_'+fields+'" name="Product_Ids['+fields+']" value="" /><input type="text" productId="" onkeyup="medications(this.id,this.value)" id="field_'+fields+'" name="medication['+fields+'].medication" placeholder="Enter Medication" autocomplete="off"/>');
         fields++;
         
     }
@@ -356,11 +378,12 @@
                 type: "GET",
                 data: { Store_Id: @Model.storeViewModel.Id,Name:name },
                 success: function (data) {
+             
                     $(".medication_dropdown").html("");
                     if(data.medications.length>0){
         
                         for(var i=0;i<data.medications.length;i++){
-                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
+                            $(".medication_dropdown").append('<a onclick="medicine_tofield(this.id)" medicineName="'+data.medications[i].Name+'" id="'+data.medications[i].Id+'" ><p class="medicine_name" >'+data.medications[i].Name+'</p></a>');
                             $(".medication_dropdown").show();
                             $(".medication_dropdown").css("display","block");
                            
@@ -379,8 +402,11 @@
         }
     }
     function medicine_tofield(medicine_id){
+        var temp=fields-1;
+        
         var med_name=$("#"+medicine_id+" p").text();
-        $("#"+Field_id).val(med_name);
+        $("#field_"+temp).val(med_name);
+        $("#productId_"+temp).val(medicine_id);
         $(".medication_dropdown").css("display","none");
         $(".medication_dropdown").hide();
         

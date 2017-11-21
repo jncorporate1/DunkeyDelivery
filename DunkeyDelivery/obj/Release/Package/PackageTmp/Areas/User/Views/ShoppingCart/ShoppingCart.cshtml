@@ -1,0 +1,111 @@
+﻿@model DunkeyDelivery.Areas.User.Models.ShoppingCartViewModel
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+}
+
+<div id="ShopingCartDiv">
+    @{
+        Html.RenderAction("GetShoppingCart", "Profile");
+    }
+</div>
+<script>
+
+    function AddToCart(id, productName, price, size, StoreId) {
+        var StoreName= $("#addCart").attr("storeName");
+        var BusinessType = $("#addCart").attr("storeBusinessType");
+        var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
+        var data = {
+            ItemId: id,
+            name: productName,
+            price: price,
+            type: 0,
+            size: size,
+            StoreId: StoreId,
+            StoreName: StoreName,
+            BusinessType: BusinessType,
+            BusinessTypeTax: BusinessTypeTax
+        }
+        $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+
+                $(".item_" + id).val(function (i, val) {
+                    val++;
+                    $(".total-price_" + id).text("$" + (val*price));
+
+                    return val;
+                });
+
+
+                var real_price = $("#cart_subtotal").attr("price");
+                
+                real_price = parseFloat(real_price) + parseFloat(price);
+                $("#cart_subtotal").html("$" + real_price);
+                $("#cart_subtotal").attr("price",real_price);
+            });
+
+    }
+
+    function RemoveCartItem(id, StoreId,type) {
+        var data = {
+            ItemId: id,
+            type: type,
+            StoreId: StoreId
+
+        }
+        $.post("@Url.Action("RemoveCartItem", "Order")", data,
+        function (e) {
+
+            EmptyCart(id);
+
+        })
+
+    }
+
+    function EmptyCart(id) {
+        $("#list_" + id).remove();
+        var htm = '<li><div class="col-md-12 text-center"> <p><img src="../../Content/assets/images/empty-cart.png" style="height:100px;" /></p> <p style="color:black;"><b>Your cart is empty! </b></p>  <a href="@Url.Action("Search","Home",new { search="Food" })" class="btn btn-default">Add More Items</a></div> </li>';
+        if ($('li[id*="list_"]').length == 0) {
+            $(".shopping-list").html(htm);
+        }
+    }
+
+    function DeleteCartItem(itemId, type, StoreId,price) {
+        var data = {
+            ItemId: itemId,
+            type: type,
+            StoreId: StoreId
+        }
+
+        $.post("@Url.Action("DeleteCartItem", "Order")", data,
+        function (e) {
+            $(".item_" + itemId).val(function (i, val) {
+                if (val <= 1) {
+
+                    EmptyCart(itemId);
+                }
+                val--;
+                $(".total-price_" + itemId).text("$" + (val * price));
+
+                $("#cart_subtotal").val(function (i, val) {
+                    return val-price;
+                });
+
+
+                return val;
+            });
+            var real_price = $("#cart_subtotal").attr("price");
+
+            real_price = parseFloat(real_price) - parseFloat(price);
+            $("#cart_subtotal").html("$" + real_price);
+            $("#cart_subtotal").attr("price", real_price);
+        });
+
+    }
+
+    $("#more-items").click(function () {
+        window.location = '@Url.Action("Search","Home",new { search="Food" })';
+    });
+
+
+</script>

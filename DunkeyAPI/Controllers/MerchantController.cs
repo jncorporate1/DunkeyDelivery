@@ -20,7 +20,7 @@ namespace DunkeyAPI.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Register(MerchantBindingModel model)
         {
-            model.Role = 1;
+     
             try
             {
                 if (!ModelState.IsValid)

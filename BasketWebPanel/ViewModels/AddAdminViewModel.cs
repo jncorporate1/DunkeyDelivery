@@ -71,8 +71,7 @@ namespace BasketWebPanel.ViewModels
         public short? Status { get; set; }
 
         public bool IsDeleted { get; set; }
-
-        [Required]
+        
         public string ImageUrl { get; set; }
 
         public Token Token { get; set; }

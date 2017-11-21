@@ -59,16 +59,16 @@
 					<div class="col-md-10 nopad loginbuttons">
 						<ul>
 							@if (string.IsNullOrEmpty(Model.UserName))
-							{
-
-								<li><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
+                            {
+                                <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                <li><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
 								<li><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
 
-							}
-							else
-							{
-							  
-								<li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                <li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
 								<li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
 							  
 								}
@@ -164,7 +164,7 @@
 						<h5>Asia</h5>
 						<ul>
 							<li><img src="~/Content/assets/images/India.jpg" alt="">India</li>
-							<li><img src="~/Content/assets/images/Thailand.jpg" alt="">Thailand</li>
+							<li><img src="~/Content/assets/images/Thailand.jpg" alt="">S. Korea</li>
 							<li><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
 							<li><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
 							<li><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
@@ -266,7 +266,10 @@
 					</div>
 
 					<div class="col-md-7 fmenu" style="padding-left:0px;">
-						<a href="@Url.Action("GetRewards", "Footer",new { area="User"})">Get Rewards</a>
+                        @if (!string.IsNullOrEmpty(Model.Email))
+                        {
+                            <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
+                        }
 						<a href="@Url.Action("Partners", "Footer")">Become A Partner</a>
 						<a href="@Url.Action("Contact", "Home",new { area="User"})">Contact </a>
 					</div>
@@ -394,9 +397,26 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 		$(".form-control").val("");
 	}
 
+       
 
+	function Increase(itemid) {
+	    var qty=$("#value_" + itemid).val();
+	    qty++;
+	    $("#value_" + itemid).val(qty);
+	}
+	    
+	function Decrease(itemid) {
+	    var qty = $("#value_" + itemid).val();
+	    qty--;
+	    $("#value_" + itemid).val(qty);
+	}
+	function enableBtn() {
 
+	}
 
+	//function enableUpdate() {
+	//    $("#updateBtn").removeAttr("disabled");
+	//}
 
 	
 	    //$("input").keyup(function () {
@@ -428,10 +448,36 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 
 
 	}
+
+	//document.getElementById("defaultOpen").click();
+	function login_first() {
+	    //  $("#login_first").show().delay(2000).fadeOut();
+	    $('#login_first').css("visibility", "visible");
+	    $('#login_first')
+          .delay(1000)
+          .queue(function (next) {
+              $(this).css('visibility', 'hidden');
+              next();
+          });
+	}
 	// Get the element with id="defaultOpen" and click on it
 	//document.getElementById("defaultOpen").click();
 	$("#defaultOpen").click();
+	function invisibility_Animation(element_Id, Message) {
+	    $('#' + element_Id).text(Message);
+	    $('#' + element_Id).css('visibility', 'visible');
+	    $(this).delay(5000).queue(function () {
 
+	        // your Code | Function here
+	        $('#' + element_Id).css('visibility', 'hidden');
+	        $(this).dequeue();
+
+	    });
+	   
+	       
+	   
+	    //$('#' + element_Id).css('visibility', 'hidden');
+	}
 	</script>
 
 </body>

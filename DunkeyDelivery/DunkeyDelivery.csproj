@@ -1224,7 +1224,6 @@
     <Content Include="Content\bootstrap-datepicker\tests\README.md" />
     <Content Include="Areas\User\Views\ShoppingCart\ShoppingCart.cshtml" />
     <Content Include="Areas\User\Views\ShoppingCart\_ShoppingCart.cshtml" />
-    <Content Include="Areas\User\Views\Stripe\Index.cshtml" />
     <Content Include="Areas\User\Views\Blog\BlogDetails.cshtml" />
     <None Include="Properties\PublishProfiles\DunkeyDeliveryWeb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

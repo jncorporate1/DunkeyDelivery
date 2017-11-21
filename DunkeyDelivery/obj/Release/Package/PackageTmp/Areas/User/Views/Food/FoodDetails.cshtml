@@ -1,10 +1,8 @@
 ﻿@model DunkeyDelivery.Areas.User.Models.CategoryProductViewModel
-
 @{
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
-
 <script>
     $(window).ready(function(){
         initMap();
@@ -14,7 +12,6 @@
 
 
 </script>
-
 <div class="top-banner product-detail-banner">
     <img src="~/Content/assets/images/grocery-details-banner.png" class="img img-responsive" />
     <div class="banner-inner-text" />
@@ -44,9 +41,7 @@
             }
         }
     </div>
-
     <h1 class="product-heading-banner">@Model.shopViewModel.BusinessName</h1>
-
     <p class="banner-inner-data">@Model.shopViewModel.Address</p>
     <p class="banner-inner-data">Min $<span id="min_order">@Model.shopViewModel.MinOrderPrice</span>   |     Estimated time @Model.shopViewModel.MinDeliveryTime min</p>
 </div>
@@ -56,15 +51,13 @@
         <p> Home > Restaurants   > @Model.shopViewModel.BusinessName </p>
     </div>
 </div>
-
 <div class="main-section product-detail-main alcohol-details-main">
-
     <div class="container">
         <div class="row">
             <div class="col-md-9">
                 <ul class="tabs-list clearfix">
                     <li>
-                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
+                        <button class="tab-btn tablinks active" onclick="openCity(event, 'London')" id="defaultOpen">Menu</button>
                     </li>
                     <li>
                         <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
@@ -73,9 +66,7 @@
                         <button class="tab-btn tablinks" id="info-tab" onclick="openCity(event, 'newyork')">Info</button>
                     </li>
                 </ul>
-
                 <!-- TAB CONTENT -->
-
                 <div class="tab1 tabcontent" id="London">
                     <div class="row">
                         <div class="col-md-4 tab1-left">
@@ -90,7 +81,7 @@
                                     if (Model.Categories.First() == category)
                                     {
                                         <li class="active" id="item_@category.Id">
-                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Store_id = Model.shopViewModel.Id, Category_Id = @category.Id }, new AjaxOptions()
                                        {
 
                                            HttpMethod = "GET",
@@ -107,7 +98,7 @@
                                         @*<li><a href="@Url.Action("GetCategoryProducts","UserStore",new {Category_Id=@category.Id })">@category.Name </a></li>*@
                                         @*<li><a href="" id="@category.Id" onclick="getCategoryProducts(this.id)">@category.Name </a></li>*@
                                         <li id="item_@category.Id">
-                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", Category_Id = @category.Id }, new AjaxOptions()
+                                            @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Store_id = Model.shopViewModel.Id, Category_Id = @category.Id }, new AjaxOptions()
                                        {
 
                                            HttpMethod = "GET",
@@ -121,55 +112,59 @@
                                     }
 
                                 }
-
                             </ul>
                         </div>
-
                         <div id="posts-wrapper">
-
                         </div>
-            
 
                     </div>
                 </div>
                 <div class="tab1 tabcontent" id="paris">
-                    <h1> No content</h1>
+                    <div class="reviews-main clearfix reviews-tab">
+                        <h4>Reviews</h4>
+                        <p class="based-on">
+                            <img class="no-review" src="~/Content/assets/images/no-rating.png" />
+                            There are no reviews yet
+                        </p>
+                        <ul>
+                            @*<li>
+                                    <img src="~/Content/assets/images/rating.png" />
+                                    <p>
+                                        By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                                        The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                                        tasty it literally blew me away.
+                                    </p>
+                                </li>*@
+
+                        </ul>
+                    </div>
                 </div>
                 <div class="tab1 tabcontent" id="newyork">
-
                     @{
                         Html.RenderAction("StoreInfo", "UserStore", new { area = "User", Model });
                     }
 
-
                 </div>
-              
 
 
             </div>
             <div class="col-md-3" id="OrderItems">
-
                 @{
                     Html.RenderAction("OrderItems", "Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice });
                 }
             </div>
-
             <div class="col-md-3" id="Cart" style="display:none">
                 @{
                     Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
                 }
-
                 @{
                     Html.RenderAction("Cart", "Order", new { area = "User" });
                 }
             </div>
-          
-
 
 
 
         </div>
-
     </div>
     <script>
 
@@ -178,9 +173,8 @@
         //    $("ul#categoriesList li:first a").trigger("click");
         //});
 
-    
-    </script>
 
+    </script>
     <script>
 
         var BusinessName="@Model.shopViewModel.BusinessName";
@@ -209,11 +203,8 @@
 
     </script>
 
-
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
     </script>
-
-
 
     <!-- Tabs JS -->

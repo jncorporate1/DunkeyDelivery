@@ -75,3 +75,5 @@ D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftAccoun
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.pdb
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.csprojResolveAssemblyReference.cache
+D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll
+D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Stripe.net.dll

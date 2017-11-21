@@ -240,10 +240,13 @@ namespace DunkeyAPI.Controllers
                     {
                         ctx.Admins.Add(model);
                         ctx.SaveChanges();
-                        newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["AdminImageFolderPath"] + model.Id + fileExtension);
-                        postedFile.SaveAs(newFullPath);
-                        model.ImageUrl = ConfigurationManager.AppSettings["AdminImageFolderPath"] + model.Id + fileExtension;
-                        ctx.SaveChanges();
+                        if (model.Id == 0)
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["AdminImageFolderPath"] + model.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            model.ImageUrl = ConfigurationManager.AppSettings["AdminImageFolderPath"] + model.Id + fileExtension;
+                        }
+                            ctx.SaveChanges();
 
                     }
                     else
@@ -443,9 +446,12 @@ namespace DunkeyAPI.Controllers
                     {
                         ctx.Categories.Add(model);
                         ctx.SaveChanges();
-                        newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["CategoryImageFolderPath"] + model.Id + fileExtension);
-                        postedFile.SaveAs(newFullPath);
-                        model.ImageUrl = ConfigurationManager.AppSettings["CategoryImageFolderPath"] + model.Id + fileExtension;
+                        if (httpRequest.Files.Count > 0)
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["CategoryImageFolderPath"] + model.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            model.ImageUrl = ConfigurationManager.AppSettings["CategoryImageFolderPath"] + model.Id + fileExtension;
+                        }
                         ctx.SaveChanges();
                     }
                     else
@@ -642,10 +648,13 @@ namespace DunkeyAPI.Controllers
                     {
                         ctx.Products.Add(model);
                         ctx.SaveChanges();
-                        newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension);
-                        postedFile.SaveAs(newFullPath);
-                        model.Image = ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension;
-                        ctx.SaveChanges();
+                        if (httpRequest.Files.Count > 0)
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            model.Image = ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension;
+                        }
+                            ctx.SaveChanges();
                     }
                     else
                     {
@@ -881,10 +890,13 @@ namespace DunkeyAPI.Controllers
                     {
                         ctx.Stores.Add(storeModel);
                         ctx.SaveChanges();
-                        newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["StoreImageFolderPath"] + storeModel.Id + fileExtension);
-                        postedFile.SaveAs(newFullPath);
-                        storeModel.ImageUrl = ConfigurationManager.AppSettings["StoreImageFolderPath"] + storeModel.Id + fileExtension;
-                        ctx.SaveChanges();
+                        if (httpRequest.Files.Count > 0)
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["StoreImageFolderPath"] + storeModel.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            storeModel.ImageUrl = ConfigurationManager.AppSettings["StoreImageFolderPath"] + storeModel.Id + fileExtension;
+                        }
+                            ctx.SaveChanges();
                     }
                     else
                     {
@@ -909,7 +921,7 @@ namespace DunkeyAPI.Controllers
                             ctx.StoreDeliveryHours.Add(storeModel.StoreDeliveryHours);
                         else
                             ctx.Entry(existingStore.StoreDeliveryHours).CurrentValues.SetValues(storeModel.StoreDeliveryHours);
-                        ctx.SaveChanges();
+                            ctx.SaveChanges();
                     }
 
 
@@ -1826,9 +1838,13 @@ and
                     {
                         ctx.Offers.Add(model);
                         ctx.SaveChanges();
-                        newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["OfferImageFolderPath"] + model.Id + fileExtension);
-                        postedFile.SaveAs(newFullPath);
-                        model.ImageUrl = ConfigurationManager.AppSettings["OfferImageFolderPath"] + model.Id + fileExtension;
+                        if (httpRequest.Files.Count > 0)
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["OfferImageFolderPath"] + model.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            model.ImageUrl = ConfigurationManager.AppSettings["OfferImageFolderPath"] + model.Id + fileExtension;
+                        }
+
                         ctx.SaveChanges();
                     }
                     else

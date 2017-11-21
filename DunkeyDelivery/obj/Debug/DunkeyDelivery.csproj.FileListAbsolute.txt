@@ -308,6 +308,7 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Mi
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
+D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\csc.exe
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -326,7 +327,6 @@ D:\Git\DunkeyDelivery\DunkeyDelivery\bin\DunkeyDelivery.pdb
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Antlr3.Runtime.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\DAL.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll
-D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.SqlServer.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.EntityFramework.dll

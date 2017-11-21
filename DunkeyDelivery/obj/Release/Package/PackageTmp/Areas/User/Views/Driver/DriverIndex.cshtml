@@ -102,8 +102,9 @@
 
                             <div class="input-contain">
                                 <select  id="form-inputs" name="VehicleType"  data-val="true" class="form-control input-validation-error" data-val-required="City is required" value="@Model.City">
-                                    <option selected> City  </option>
-                                    <option value="PK"> Pakistan </option>
+                                    <option selected> Country  </option>
+                                    <option value="UK"> United Kingdom </option>
+                                    <option value="USA"> United States </option>
 
                                 </select>
                                 @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger error" })
@@ -112,7 +113,8 @@
                             <div class="input-contain">
                                 <select class="form-control with-no-margin" id="form-inputs" name="City" data-val-required="City is required" value="@Model.VehicleType">
                                     <option selected> Vehicle Type  </option>
-                                    <option value="Mehran"> Mehran  </option>
+                                    <option value="Corolla">Corolla  </option>
+                                    <option value="Honda">Honda  </option>
 
                                 </select>
                                 @Html.ValidationMessageFor(m => m.VehicleType, "", new { @class = "text-danger error" })

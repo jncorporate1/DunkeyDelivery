@@ -84,3 +84,28 @@ MessageObject reference not set to an instance of an object.
 
 StackTrace   at DunkeyAPI.Controllers.CategoriesController.GetStoreCategories(Int16 Store_id)
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddProductWithImage>d__2.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\AdminController.cs:line 646
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddProductWithImage>d__2.MoveNext() in D:\Git\DunkeyDelivery\DunkeyAPI\Controllers\AdminController.cs:line 646
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddProductWithImage>d__2.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddCategoryWithImage>d__1.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddCategoryWithImage>d__1.MoveNext()
+------******------

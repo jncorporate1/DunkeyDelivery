@@ -85,12 +85,12 @@
                                         {
                                             if (Tag.Tag == shopData.StoreTags.Last().Tag)
                                             {
-                                                <a href="#">@Tag.Tag</a>
+                                                <a href="" onclick="return false;" >@Tag.Tag</a>
 
                                             }
                                             else
                                             {
-                                                <a href="#">@Tag.Tag ,</a>
+                                                <a href="" onclick="return false;">@Tag.Tag ,</a>
                                             }
 
                                         }
@@ -103,12 +103,12 @@
                                 {
                                     if (shopData.MinDeliveryCharges == 0)
                                     {
-                                        <span>$@shopData.MinOrderPrice Minimum | <span>Free Delivery</span> | Today at 10:30am</span>
+                                        <span>$@shopData.MinOrderPrice Minimum | <span>Free Delivery</span> | Today at @shopData.Open_From.Value.ToString("t")</span>
 
                                     }
                                     else
                                     {
-                                        <span>$@shopData.MinOrderPrice Minimum | <span>$ @shopData.MinDeliveryCharges</span> | Today at 10:30am</span>
+                                        <span>$@shopData.MinOrderPrice Minimum | <span>$ @shopData.MinDeliveryCharges</span> | Today at @shopData.Open_From.Value.ToString("t")</span>
 
                                     }
 
@@ -164,7 +164,7 @@
                             }
                             @if (Model.Store.First().BusinessType != "Laundry")
                             {
-                                <span class="order-time">Today at 10:30am</span>
+                                <span class="order-time">Today at @shopData.Open_From.Value.ToString("t")</span>
                             }
                         </div>
 

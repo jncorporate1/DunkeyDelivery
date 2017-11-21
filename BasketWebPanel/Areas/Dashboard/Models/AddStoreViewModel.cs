@@ -39,7 +39,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         [Required(ErrorMessage = "Please select location from map")]
         public double Longitude { get; set; }
 
-        [Required]
+
         public string ImageUrl { get; set; }
 
         public string BannerUrl { get; set; }

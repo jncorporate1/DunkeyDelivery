@@ -23,7 +23,7 @@ namespace BasketWebPanel.ViewModels
 
         public int Store_Id { get; set; }
 
-        [Required]
+
         public string ImageUrl { get; set; }
 
         public double Price { get; set; }

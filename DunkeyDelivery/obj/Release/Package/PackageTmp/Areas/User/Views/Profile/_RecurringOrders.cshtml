@@ -34,7 +34,7 @@
     }
     else
     {
-        foreach (var order in Model.orders)//First().StoreOrders.First().OrderItems.First().
+        foreach (var order in Model.orders.Take(6))//First().StoreOrders.First().OrderItems.First().
         {
 
             <div class="order-history-box clearfix">
@@ -62,5 +62,26 @@
             </div>
         }
     }
+
+@if (Model.Count > 3)
+{
+    <ul class="pagination" style="margin-left: 33px;">
+       
+                @{var j = 0;}
+                    @for (int i = 0; i <= Model.Count / 6; i++)
+                    {
+                <li>
+                    <a id="@i" onclick="Pagging(this.id,1)">
+                        @{ j = i + 1; }
+                        @j
+                    </a>
+                </li>
+                                }
+                           
+
+
+    </ul>
+              }
+
 
 </div>

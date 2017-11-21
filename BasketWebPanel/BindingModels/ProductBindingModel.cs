@@ -19,15 +19,12 @@ namespace BasketWebPanel.BindingModels
 
         public string Weight { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
-        [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid weight")]
         public double? WeightInGrams { get; set; }
 
         public double? WeightInKiloGrams { get; set; }
 
         public int WeightUnit { get; set; }
 
-        [Required]
         public string Image { get; set; }
 
         public string VideoUrl { get; set; }

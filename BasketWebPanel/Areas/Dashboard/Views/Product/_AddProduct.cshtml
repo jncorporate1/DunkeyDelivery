@@ -107,19 +107,19 @@
                         <label>Product Image</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
-                                <input id="editImage" type="image" src="@Model.Product.ImageUrl" alt="" width="48" height="48">
+                                <input id="editImage" type="image" src="@Model.Product.Image" alt="" width="48" height="48">
                             </div>
                         </div>
                         <button id="btnEditImg" title="Edit" class="btn btn-primary btn-xs editButtons" data-title="Edit" data-productid="8" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>
                         <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
 
-                    <div hidden id="HasImage1">@Model.Product.ImageUrl</div>
+                    <div hidden id="HasImage1">@Model.Product.Image</div>
                     @*}*@
 
 
                 </div>
-                <label style="padding-left:10px" id="ImageError" class="text-danger"></label>
+                @*<label style="padding-left:10px" id="ImageError" class="text-danger"></label>*@
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-12 col-xs-12">

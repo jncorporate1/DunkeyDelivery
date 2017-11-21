@@ -1,4 +1,5 @@
-﻿@model DunkeyDelivery.Areas.User.Models.DeliveryDetailsViewModel
+﻿
+@model DunkeyDelivery.Areas.User.Models.OrderBindingModel
 @{
     ViewBag.Title = "Order Summary";
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
@@ -24,37 +25,42 @@
 
 <section class="order-summary-main">
     <div class="container">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="order-summary clearfix">
                 <h4>Order Summary</h4>
                 <ul>
-                    @foreach (var cartItems in Model.Cart.Stores)
+               
+                    @foreach (var stores in Model.StoreOrders)
                     {
-                        foreach (var item in cartItems.CartItems)
+                        foreach (var item in stores.Order_Items)
                         {
-                            <li>@item.Name (@item.Qty) <span>$@item.Price</span></li>
+                            <li>@item.Name (@item.Qty) <span>$@(item.Price*item.Qty )</span></li>
                         }
                     }
 
-             
-                    <li>Tax <span>$0</span></li>
-                    <li class="total-amount">Total <span>$@Model.Cart.Total</span></li>
+                    @if (Model.TipAmount > 0)
+                    {
+                        <li>Tip <span>$@Model.TipAmount</span></li>
+                    }
+
+                    <li>Tax <span>$@Model.TotalTaxDeducted</span></li>
+                    <li class="total-amount">Total <span>$@Model.Total </span></li>
                 </ul>
             </div>
             <div class="order-summary clearfix customer-summary">
                 <h4>Shipping Details</h4>
                 <ul>
-                    <li>First Name <span>@Model.DeliveryDetails.FirstName</span></li>
-                    <li>Last Name <span>@Model.DeliveryDetails.LastName</span></li>
-                    <li>Telephone <span>@Model.DeliveryDetails.Phone</span></li>
-                    <li>Email <span>@Model.DeliveryDetails.Email</span></li>
-                    <li>Full Address <span>@Model.DeliveryDetails.Address</span></li>
+                    <li>First Name <span>@Model.DeliveryDetails_FirstName</span></li>
+                    <li>Last Name <span>@Model.DeliveryDetails_LastName</span></li>
+                    <li>Telephone <span>@Model.DeliveryDetails_Phone</span></li>
+                    <li>Email <span>@Model.DeliveryDetails_Email</span></li>
+                    <li>Full Address <span>@Model.DeliveryDetails_Address</span></li>
                     <li>
                         City <span>
-                                 @Model.DeliveryDetails.City
+                                 @Model.DeliveryDetails_City
                         </span>
                     </li>
-                    <li>Postal Code <span>@Model.DeliveryDetails.ZipCode</span></li>
+                    <li>Postal Code <span>@Model.DeliveryDetails_ZipCode</span></li>
                 </ul>
 
 
@@ -65,9 +71,9 @@
 
             </div>
 
-            <div class="order-summary clearfix customer-summary">
+            @*<div class="order-summary clearfix customer-summary">
                 <h4>Payment Details</h4>
-                <ul>
+                @*<ul>
                     <li>Card Number <span>@Model.PaymentInformation.CreditCard</span></li>
                     <li>Expiry <span>@Model.PaymentInformation.MonthYear</span></li>
                     <li>CVV <span>@Model.PaymentInformation.CVV</span></li>
@@ -88,7 +94,7 @@
 
 
 
-            </div>
+            </div>*@
 
 
 
@@ -100,7 +106,7 @@
 
         </div>
 
-        <div class="col-md-3">
+        @*<div class="col-md-3">
             <div class="del-time-left">
                 <h4>DELIVERY TIME LEFT</h4>
 
@@ -117,7 +123,16 @@
 
 
             </div>
-        </div>
+        </div>*@
     </div>
 </section>
-
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        window.history.pushState(null, "", window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, "", window.location.href);
+        };
+    });
+</script>
