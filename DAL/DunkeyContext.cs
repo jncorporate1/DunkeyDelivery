@@ -58,6 +58,8 @@ namespace DAL
         public virtual DbSet<AdminNotifications> AdminNotifications { get; set; }
         public virtual DbSet<AdminSubAdminNotifications> AdminSubAdminNotifications { get; set; }
         public virtual DbSet<BusinessTypeTax> BusinessTypeTax { get; set; }
+        public virtual DbSet<Content> Content { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

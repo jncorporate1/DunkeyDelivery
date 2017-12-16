@@ -201,6 +201,7 @@
     <Compile Include="Areas\User\Controllers\BlogController.cs" />
     <Compile Include="Areas\User\Controllers\ProfileController.cs" />
     <Compile Include="Areas\User\Controllers\StripeController.cs" />
+    <Compile Include="Areas\User\Models\AboutUsViewModel.cs" />
     <Compile Include="Areas\User\Models\AccountViewModel.cs" />
     <Compile Include="Areas\User\Models\AlcoholViewModel.cs" />
     <Compile Include="Areas\User\Models\BlogViewModel.cs" />
@@ -368,6 +369,7 @@
     <Content Include="Content\admin-custom\images\forward_enabled.png" />
     <Content Include="Content\admin-custom\images\forward_enabled_hover.png" />
     <Content Include="Content\admin-custom\images\loading.gif" />
+    <Content Include="Content\assets\css\flags.css" />
     <Content Include="Content\assets\css\library.css" />
     <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
@@ -591,6 +593,8 @@
     <Content Include="Content\assets\images\UAE.jpg" />
     <Content Include="Content\assets\images\value-meal-banner.jpg" />
     <Content Include="Content\assets\images\wordpress.png" />
+    <Content Include="Content\assets\js\jquery.flagstrap.js" />
+    <Content Include="Content\assets\js\jquery.flagstrap.min.js" />
     <Content Include="Content\assets\js\jquery.min.js" />
     <Content Include="Content\assets\js\library.js" />
     <Content Include="Content\assets\js\main.js" />
@@ -736,7 +740,6 @@
     <Content Include="Content\bootstrap-datetimepicker\docs\theme\nav.html" />
     <Content Include="Content\bootstrap-datetimepicker\docs\theme\toc.html" />
     <Content Include="Content\bootstrap-datetimepicker\src\js\bootstrap-datetimepicker.js" />
-    <Content Include="Content\bootstrap-datetimepicker\src\nuget\NuGet.exe" />
     <Content Include="Content\bootstrap-datetimepicker\tasks\bump_version.js" />
     <Content Include="Content\bootstrap-datetimepicker\test\publicApiSpec.js" />
     <Content Include="Content\bootstrap-datetimepicker\test\screen-capture\base.html" />
@@ -1163,7 +1166,6 @@
     <Content Include="Content\assets\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\assets\fonts\FontAwesome.otf" />
-    <Content Include="Content\assets\images\Thumbs.db" />
     <Content Include="Areas\User\Views\Shared\_BannerLayout.cshtml" />
     <Content Include="Areas\User\Views\Home\Deals.cshtml" />
     <Content Include="Areas\User\Views\Home\ForgetPassword.cshtml" />

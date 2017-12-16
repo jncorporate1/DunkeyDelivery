@@ -284,6 +284,38 @@ namespace DunkeyDelivery
         
     }
 
+    public class Content
+    {
+
+        public string GetContentTypeText(int Type)
+        {
+            var TypeStr = "";
+            switch (Type)
+            {
+                case 0:
+                    TypeStr = "About Us";
+                    break;
+                case 1:
+                    TypeStr = "Contact Us";
+                    break;
+             
+                default:
+                    break;
+
+            }
+            return TypeStr;
+
+
+        }
+
+        public enum Types
+        {
+           AboutUs=0,
+           ContactUs=1
+        }
+
+    }
+
     //public class EmailUtil
     //{
     //    public static string FromEmail = ConfigurationManager.AppSettings["FromMailAddress"];

@@ -7,9 +7,9 @@
 
 <div class="main-section contact-main-section greybg" style="background: rgba(128, 128, 128, 0.26);">
     <div class="container">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla congue, dolor in porttitor efficitur, ante lacus bibendum velit, eu placerat est nibh quis velit. Sed pulvinar eros nec lectus pretium, sed auctor ligula ultricies. Quisque </p>
-        <h1>Fill Out the following form and we will contact you as soon as possible</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus <br /> et magnis dis parturient montes, nascetur ridiculus mus. Nulla congue, dolor in porttitor efficitur, ante lacus bibendum velit, </p>
+        <h1>@Model.Heading</h1>
+        <p>@Model.Description </p>
+        
         <div class="row">
             <div class="col-md-6">
               @using (Ajax.BeginForm("SubmitContactUs", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "customSuccessMessage", OnFailure = "OnFailedInsertion" }))

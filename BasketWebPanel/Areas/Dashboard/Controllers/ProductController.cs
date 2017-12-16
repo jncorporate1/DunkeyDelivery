@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using static BasketWebPanel.Utility;
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
@@ -293,6 +294,236 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 throw;
             }
         }
+
+        public ActionResult DemoFile()
+        {
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("Name");
+            dt.Columns.Add("Price");
+            dt.Columns.Add("Description");
+            dt.Columns.Add("Status");
+            dt.Columns.Add("Category_Id");
+            dt.Columns.Add("Store_Id");
+            dt.Columns.Add("Size");
+
+
+            //Column addition ends here
+
+            dt.Rows.Add("", "", "");
+
+            System.Web.UI.WebControls.GridView grdView = new System.Web.UI.WebControls.GridView();
+            grdView.DataSource = dt;
+
+            grdView.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter objStringWriter = new StringWriter();
+            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+            grdView.RenderControl(objHtmlTextWriter);
+            Response.Output.Write(objStringWriter.ToString());
+            Response.Flush();
+            Response.End();
+            Global.sharedDataModel.SetSharedData(User);
+            return View("ManageProducts", Global.sharedDataModel);
+        }
+
+
+        public ActionResult ExportProduct()
+        {
+            try
+            {
+                
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ExportProducts", User, null,false, false, null, "EntityType=" + (int)BasketEntityTypes.Product));
+                var resp = response.GetValue("Result").ToObject<string>();
+                if (response is Error)
+                    return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
+                else
+                    //var resp = response.GetValue("Result").ToObject<string>();
+                    return Json(resp, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        // for file import export excel
+
+        public async Task<ActionResult> ImportFile()
+        {
+            try
+            {
+                MultipartFormDataContent content;
+
+                bool FileAttached = (Request.RequestContext.HttpContext.Session["AddProductFile"] != null);
+                bool ImageDeletedOnEdit = false;
+                var imgDeleteSessionValue = Request.RequestContext.HttpContext.Session["FileDeletedOnEdit"];
+                if (imgDeleteSessionValue != null)
+                {
+                    ImageDeletedOnEdit = Convert.ToBoolean(imgDeleteSessionValue);
+                }
+                byte[] fileData = null;
+                var ImageFile = (HttpPostedFileWrapper)Request.RequestContext.HttpContext.Session["AddProductFile"];
+                if (FileAttached)
+                {
+                    using (var binaryReader = new BinaryReader(ImageFile.InputStream))
+                    {
+
+                        fileData = binaryReader.ReadBytes(ImageFile.ContentLength);
+                    }
+                }
+                
+
+                ByteArrayContent fileContent;
+                JObject response;
+
+                //if (FileAttached)
+                //{
+                bool firstCall = true;
+                callAgain: content = new MultipartFormDataContent();
+                if (FileAttached)
+                {
+                    fileContent = new ByteArrayContent(fileData);
+                    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = ImageFile.FileName };
+                    content.Add(fileContent);
+                }
+                
+
+                content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "FileDeletedOnEdit");
+                response = await ApiCall.CallApi("api/Admin/AddProduct", User, isMultipart: true, multipartContent: content);
+                if (firstCall && response.ToString().Contains("UnAuthorized"))
+                {
+                    firstCall = false;
+                    goto callAgain;
+                }
+                else if (response.ToString().Contains("UnAuthorized"))
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "UnAuthorized Error");
+                }
+                
+                if (response is Error)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+                }
+                else
+                {
+                        TempData["SuccessMessage"] = "Products saved successfully.";
+
+                        return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
+
+        [HttpPost]
+        public JsonResult DeleteFileOnEdit()
+        {
+            return Json("Success");
+        }
+
+        [HttpPost]
+        public JsonResult UploadFile(HttpPostedFileBase file)
+        {
+            if (Request.Files.Count == 1)
+            {
+                Request.RequestContext.HttpContext.Session.Remove("AddProductFile");
+                Request.RequestContext.HttpContext.Session.Add("AddProductFile", Request.Files[0]);
+
+                Request.RequestContext.HttpContext.Session.Remove("FileDeletedOnEdit");
+                Request.RequestContext.HttpContext.Session.Add("FileDeletedOnEdit", false);
+
+
+
+                try
+                {
+                    MultipartFormDataContent content;
+
+                    bool FileAttached = (Request.RequestContext.HttpContext.Session["AddProductFile"] != null);
+                    bool ImageDeletedOnEdit = false;
+                    var imgDeleteSessionValue = Request.RequestContext.HttpContext.Session["FileDeletedOnEdit"];
+                    if (imgDeleteSessionValue != null)
+                    {
+                        ImageDeletedOnEdit = Convert.ToBoolean(imgDeleteSessionValue);
+                    }
+                    byte[] fileData = null;
+                    var ImageFile = (HttpPostedFileWrapper)Request.RequestContext.HttpContext.Session["AddProductFile"];
+                    if (FileAttached)
+                    {
+                        using (var binaryReader = new BinaryReader(ImageFile.InputStream))
+                        {
+
+                            fileData = binaryReader.ReadBytes(ImageFile.ContentLength);
+                        }
+                    }
+
+
+                    ByteArrayContent fileContent;
+                    JObject response;
+
+                    //if (FileAttached)
+                    //{
+                    bool firstCall = true;
+                    callAgain: content = new MultipartFormDataContent();
+                    if (FileAttached)
+                    {
+                        fileContent = new ByteArrayContent(fileData);
+                        fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = ImageFile.FileName };
+                        content.Add(fileContent);
+                    }
+
+
+
+                    content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "FileDeletedOnEdit");
+                    response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ImportProducts", User,GetRequest:false, isMultipart: true, multipartContent: content));
+                    
+                    if (response is Error || response==null)
+                    {
+                        //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+                        return Json(new { success = false, response = response, }, JsonRequestBehavior.DenyGet);
+                       // return Json(response);
+
+                    }
+                    else
+                    {
+                        if (firstCall && response.ToString().Contains("UnAuthorized"))
+                        {
+                            firstCall = false;
+                            goto callAgain;
+                        }
+                        else if (response.ToString().Contains("UnAuthorized"))
+                        {
+                            return Json(new { success = false, responseText = "UnAuthorizeds" }, JsonRequestBehavior.DenyGet);
+                        }
+                        return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+            }
+          
+            return Json("Success");
+        }
+
+        [HttpPost]
+        public JsonResult DeleteFile()
+        {
+            Request.RequestContext.HttpContext.Session.Remove("AddProductFile");
+            Request.RequestContext.HttpContext.Session.Add("FileDeletedOnEdit", true);
+            return Json("Session Cleared");
+        }
+
 
     }
 }

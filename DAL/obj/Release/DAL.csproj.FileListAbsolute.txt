@@ -20,3 +20,14 @@ D:\Git\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.dll
 D:\Git\DunkeyDelivery\DAL\obj\Release\DAL.pdb
+F:\Projects\DunkeyDelivery\DAL\bin\Release\DAL.dll.config
+F:\Projects\DunkeyDelivery\DAL\bin\Release\DAL.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\DAL.pdb
+F:\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.xml
+F:\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.xml
+F:\Projects\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
+F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.dll
+F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.pdb

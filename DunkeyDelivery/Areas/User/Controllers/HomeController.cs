@@ -75,18 +75,46 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
 
 
-        public ActionResult About()
+        public async Task<ActionResult> About()
         {
+            AboutUsViewModel returnModel = new AboutUsViewModel();
+            var response = await ApiCall<AboutUsViewModel>.CallApi("api/Content/GetContentByType?Type=" + (int)DunkeyDelivery.Content.Types.AboutUs, null, false);
+
+            if (response == null || response is Error)
+            {
+
+            }
+            else
+            {
+                var responseResult = response.GetValue("Result").ToObject<AboutUsViewModel>();
+                returnModel.VideoUrl=responseResult.VideoUrl;
+                returnModel.Description= responseResult.Description;
+            }
+
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.BannerTitle = "About Us";
             ViewBag.Path = "Home > About";
-            Global.sharedDataModel.SetSharedData(User);
-            return View(Global.sharedDataModel);
+            returnModel.SetSharedData(User);
+            return View(returnModel);
         }
 
-        public ActionResult Contact()
+        public async Task<ActionResult> Contact()
         {
             ContactUsViewModel model = new ContactUsViewModel();
+            
+            var response = await ApiCall<ContactUsViewModel>.CallApi("api/Content/GetContentByType?Type=" + (int)DunkeyDelivery.Content.Types.ContactUs, null, false);
+
+            if (response == null || response is Error)
+            {
+
+            }
+            else
+            {
+                var responseResult = response.GetValue("Result").ToObject<ContactUsViewModel>();
+                model.Heading = responseResult.Heading;
+                model.Description = responseResult.Description;
+            }
+            
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "Contact Us";
             ViewBag.BannerTitle = "Contact Us";

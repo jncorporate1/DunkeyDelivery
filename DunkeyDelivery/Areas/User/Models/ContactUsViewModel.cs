@@ -34,5 +34,9 @@ namespace DunkeyDelivery.Areas.User.Models
         [Display(Name = "Message")]
         public string Message { get; set; }
 
+        public string Heading { get; set; }
+
+        public string Description { get; set; }
+
     }
 }

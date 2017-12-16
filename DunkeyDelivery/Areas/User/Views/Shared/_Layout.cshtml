@@ -43,7 +43,10 @@
 
 
 
-
+        #selected_country{
+            margin-top: 3px;
+            margin-left: 0px;
+        }
 
 	</style>
 
@@ -65,7 +68,7 @@
 					</ul>
 				</div>
 				<div class="col-md-6 toplogin nopad">
-                    <div class="col-md-10 nopad loginbuttons">
+                    <div class="col-md-7 nopad loginbuttons">
                         <ul>
                             @if (string.IsNullOrEmpty(Model.UserName))
                             {
@@ -91,13 +94,16 @@
 							<option>FRCH</option>
 						</select>
 					</div>
+                    <div class="col-md-3 lang nopad" id="selected_country">
+                        <li><img src="~/Content/assets/images/UAE.jpg" alt=""><span >  UAE </span></li>
+                    </div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- -----------------------Push Responsive Menu   ---------------------- -->
-
+  
 	<main>
 		<header>
 			<div class="container nopad">
@@ -159,38 +165,38 @@
                     <h4>Hungry? Order in your country</h4>
                     <div class="col-md-4">
                         <h5>Asia</h5>
-                        <ul>
-                            <li><img src="~/Content/assets/images/India.jpg" alt="">India</li>
-                            <li><img src="~/Content/assets/images/Thailand.jpg" alt="">S. Korea</li>
-                            <li><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
-                            <li><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
-                            <li><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
-                            <li><img src="~/Content/assets/images/Taiwan.jpg" alt="">Taiwan</li>
-                            <li><img src="~/Content/assets/images/Bangladesh.jpg" alt="">Bangladesh</li>
-                            <li><img src="~/Content/assets/images/Kazakhstan.jpg" alt="">Kazakhstan</li>
-                            <li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Hong Kong</li>
-                            <li><img src="~/Content/assets/images/Philippines.jpg" alt="">Philippines</li>
-                            <li><img src="~/Content/assets/images/Brunei.jpg" alt="">Brunei</li>
+                        <ul class="" >
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/India.jpg" alt="">India</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Thailand.jpg" alt="">S. Korea</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Taiwan.jpg" alt="">Taiwan</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Bangladesh.jpg" alt="">Bangladesh</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Kazakhstan.jpg" alt="">Kazakhstan</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Hong Kong</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Philippines.jpg" alt="">Philippines</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Brunei.jpg" alt="">Brunei</li>
                         </ul>
                     </div>
                     <div class="col-md-4">
                         <h5>Europe</h5>
                         <ul>
-                            <li><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
-                            <li><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
-                            <li><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
-                            <li><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
-                            <li><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
-                            <li><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
-                            <li><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
                         </ul>
                     </div>
                     <div class="col-md-4">
                         <h5>Middle East</h5>
                         <ul>
-                            <li><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Saudi Arabia</li>
-                            <li><img src="~/Content/assets/images/UAE.jpg" alt="">UAE</li>
-                            <li><img src="~/Content/assets/images/Egypt.jpg" alt="">Egypt</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Saudi Arabia</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/UAE.jpg" alt="">UAE</li>
+                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Egypt.jpg" alt="">Egypt</li>
                         </ul>
                     </div>
                 </div>
@@ -268,7 +274,9 @@
                             <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
                         }
 						<a href="@Url.Action("Partners", "Footer")">Become A Partner</a>
-						<a href="@Url.Action("Contact", "Home")">Contact </a>
+						<a href="@Url.Action("Contact", "Home",new { Area="User" })">Contact </a>
+                        <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
+
 					</div>
 
 
@@ -315,6 +323,10 @@
 	<script src="~/Scripts/jquery.validate.js"></script>
 	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script>
+        function changeCountry(obj) {
+            $("#selected_country").html($(obj).clone());
+        }
+
 $(document).ready(function(){
     $("ul#categoriesList li:first a").trigger("click");
 

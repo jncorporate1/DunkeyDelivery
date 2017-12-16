@@ -1,0 +1,143 @@
+﻿@model  BasketWebPanel.ViewModels.ContentManagementViewModel
+@{
+    ViewBag.Title = "AboutUs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+     
+            <div class="alert alert-success" id="success-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success! </strong>
+            </div>
+
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong> <span> </span>
+            </div>
+            @using (Ajax.BeginForm("AboutUs", "Content", new AjaxOptions {  OnSuccess = "OnTaxSuccessInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="x_panel">
+                    <div class="x_title">
+                      
+                            <h2>Manage Content</h2>
+                      
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                            @Html.HiddenFor(x => Model.Id)
+
+                            <div class="form-group">
+                                <label>Video Url</label>
+                               @* <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="@Model.VideoUrl" data-val-required="This field is required" placeholder="Video Url" value="@Model.VideoUrl">*@
+                                @Html.TextBoxFor(x => x.VideoUrl, new { @class = "form-control", @id = "VideoUrl", @placeholder = "About us video url", @type = "text" ,@value=Model.VideoUrl })
+
+                                @Html.ValidationMessageFor(m => m.VideoUrl, "", new { @class = "text-danger" })
+                            </div>
+
+                        <div class="form-group">
+                            <label>About Dunkey</label>
+                           @* <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="@Model.Description" data-val-required="This field is required" placeholder="Video Url" value="@Model.Description">*@
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @id = "Description", @placeholder = "About us description", @type = "text", @value = Model.Description })
+
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        </div>
+
+                        
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                            <button class="btn btn-primary" onclick="ClearValidationErrorMessages()" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        var catId = $("#CatId").val();
+        var editImageVal = $('#HasImage1').text();
+        if (catId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+    });
+
+    function UploadImage() {
+        var AllowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileInput');
+
+        var file = fileInput.files[0];
+
+        formdata.append(file.name, file);
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#ImageError").text("Only .Jpeg & .Png files are allowed.");
+            $("#clearImage").trigger("click");
+            return false;
+        }
+        else {
+            $("#ImageError").text("");
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Categories/UploadImage');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("errImageUrl").innerHTML = '';
+                }
+            }
+            return false;
+        }
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Categories/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage","Categories")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function OnTaxSuccessInsertion() {
+        //window.location.href = "@Url.Action("ManageCategories", "Categories")";
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+        //OnStoreChange();
+        //$("#CategoryName").val('');
+        //$("#Description").val('');
+        //$("#clearImage").trigger("click");
+        //$("#EditImage").hide();
+        //$("#UploadImage").show();
+    }
+</script>
+
+

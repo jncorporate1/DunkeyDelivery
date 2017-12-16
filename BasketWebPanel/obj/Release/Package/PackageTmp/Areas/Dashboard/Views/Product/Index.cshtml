@@ -169,14 +169,34 @@
                         </div>
                     </div>
                     @*<div class="ln_solid"></div>*@
-                    <div class="form-group">
+                   
+                    <div class="col-md-6">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                             <button id="btnReset" onclick="OnResetClick()" class="btn btn-primary" type="reset">Reset</button>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </div>
+
                 </div>
             }
+
+
+            <div class="col-md-6">
+                <input type="file" class="btn btn-primary" onchange="UploadImportedFile()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="importBtnHdn" value="Import File" style="display:none;" />
+
+                <button id="importBtn" class="btn btn-success btn-sm text-right"> <i style="font-size: 15px;" class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data </button>
+                @using (Html.BeginForm("DemoFile", "Product", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-default">Sample File</button>
+                }
+
+                <div class="row">
+                    <span style="padding-left:10px" id="FileError" class="text-danger"></span>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
@@ -185,6 +205,51 @@
 
 <script>
 
+    $("#importBtn").click(function (e) {
+        e.preventDefault();
+        $("#importBtnHdn").click();
+    });
+
+    function UploadImportedFile() {
+        var AllowedFileTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('importBtnHdn');
+
+        var file = fileInput.files[0];
+     
+        formdata.append(file.name, fileInput.files[0]);
+
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#FileError").text("Only .xlsx file is allowed.");
+            return false;
+        }
+        else {
+            $("#FileError").text("");
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Product/UploadFile');
+    
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                response = this.responseText;
+                response = this.DONE;
+                response = this.status;
+                response = this.statusText;
+
+                //if (xhr.readyState == 2 && xhr.status == 200) {
+                //    $("#success-alert").show().delay(2000).fadeOut();
+                //} else {
+                //    $("#error-alert").show().delay(2000).fadeOut();
+                //}
+            }
+            return false;
+        }
+    }
+
+
+
+
+    /// above is  for excel file 
     $(document).ready(function () {
   
         var prodId = $("#prodId").val();

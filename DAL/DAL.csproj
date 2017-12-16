@@ -65,6 +65,7 @@
     <Compile Include="BusinessTypeTax.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="ContactUs.cs" />
+    <Compile Include="Content.cs" />
     <Compile Include="Contributors.cs" />
     <Compile Include="CreditCard.cs" />
     <Compile Include="Driver.cs" />
