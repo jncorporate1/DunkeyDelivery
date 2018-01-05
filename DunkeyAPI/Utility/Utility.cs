@@ -315,13 +315,11 @@ namespace DunkeyDelivery
         }
 
     }
-
-    //public class EmailUtil
-    //{
-    //    public static string FromEmail = ConfigurationManager.AppSettings["FromMailAddress"];
-    //    public static string FromName = ConfigurationManager.AppSettings["OffCampusParking"];
-    //    public static string FromPassword = ConfigurationManager.AppSettings["FromPassword"];
-    //    public static MailAddress FromMailAddress = new MailAddress(FromEmail, FromName);
-    //}
-
+    public class EmailUtil
+    {
+        public static string FromEmail = ConfigurationManager.AppSettings["FromMailAddress"];
+        public static string FromName = ConfigurationManager.AppSettings["FromMailName"];
+        public static string FromPassword = ConfigurationManager.AppSettings["FromPassword"];
+        public static MailAddress FromMailAddress = new MailAddress(FromEmail, FromName);
+    }
 }

@@ -14,6 +14,7 @@
             <ul class="text-fields">
 
 
+               
                 <li class="full-field">
                     @Html.TextBoxFor(x => x.FullAddress, new { name = "FullAddress", @placeholder = "Full Address" })
                     @Html.ValidationMessageFor(m => m.FullAddress, "", new { @class = "text-danger error" })
@@ -36,7 +37,13 @@
                     @Html.TextBoxFor(x => x.PostalCode, new { name = "PostalCode", @placeholder = "Postal Code" })
                     @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger error" })
                 </li>
-
+                @*<li style="width:100%;margin-left: 0px;" >
+                <span class="">
+                    <input type="checkbox" id="is_primary" name="payment_method" class="margin-from-left" />
+         
+                    <label for="is_primary"><span></span>Primary Address</label>
+                </span>
+                </li>*@
                 <li>
                     <input type="submit" value="ADD ADDRESS" />
                     <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
@@ -49,7 +56,7 @@
 
                     </div>
                 </li>
-               
+                
 
             </ul>
         </form>

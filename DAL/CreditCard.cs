@@ -20,6 +20,12 @@ namespace DAL
         [Required]
         public string CCV { get; set; }
 
+        public int? Is_Primary { get; set; }
+
+        public string Label { get; set; }
+
+        public Boolean is_delete { get; set; }
+
         [Required]
         public string BillingCode { get; set; }
 

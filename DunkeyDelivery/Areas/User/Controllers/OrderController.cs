@@ -59,7 +59,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
             return PartialView("_OrderItemsDeals", cart);
         }
-        public ActionResult DeliveryDetails()
+        public async Task<ActionResult> DeliveryDetails()
         {
             var stripePublishKey = ConfigurationManager.AppSettings["StripePublishableKey"];
             ViewBag.StripePublishKey = stripePublishKey;
@@ -74,6 +74,19 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.BannerTitle = "Delivery Details";
             ViewBag.Path = "Home > Delivery Details";
             deliveryModel.SetSharedData(User);
+            if(deliveryModel.Id != null)
+            {
+                var addresses = await ApiCall<Addresses>.CallApi("/api/User/GetUserAddresses?User_id=" + deliveryModel.Id, null,false);
+                if (addresses == null || addresses is Error)
+                {
+                    TempData["ErrorMessage"] = (addresses as Error).ErrorMessage;
+                    return RedirectToAction("DeliveryDetails");
+                }
+
+                deliveryModel.addressesModel = addresses.GetValue("Result").ToObject<GenericAddresses>();
+
+            }
+
             return View("DeliveryDetails", deliveryModel);
         }
 

@@ -87,16 +87,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/26/2017 20:07:14</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>12/15/2017 21:34:46</publishTime>
+      <publishTime>01/05/2018 20:42:55</publishTime>
     </File>
     <File Include="bin/DunkeyAPI.dll">
-      <publishTime>12/15/2017 21:37:25</publishTime>
+      <publishTime>01/05/2018 20:43:00</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
       <publishTime>03/02/2015 09:32:26</publishTime>
+    </File>
+    <File Include="bin/GemBox.Spreadsheet.dll">
+      <publishTime>12/08/2017 11:09:44</publishTime>
     </File>
     <File Include="bin/GoogleMaps.LocationServices.dll">
       <publishTime>04/30/2017 09:26:32</publishTime>
@@ -182,6 +185,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
       <publishTime>02/13/2015 13:16:42</publishTime>
     </File>
+    <File Include="bin/Microsoft.SqlServer.Types.dll">
+      <publishTime>12/10/2016 15:26:34</publishTime>
+    </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
@@ -229,6 +235,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>06/18/2015 20:19:46</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x64/msvcr120.dll">
+      <publishTime>01/01/2018 11:33:15</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x64/SqlServerSpatial140.dll">
+      <publishTime>01/01/2018 11:33:15</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x86/msvcr120.dll">
+      <publishTime>01/01/2018 11:33:15</publishTime>
+    </File>
+    <File Include="bin/SqlServerTypes/x86/SqlServerSpatial140.dll">
+      <publishTime>01/01/2018 11:33:15</publishTime>
     </File>
     <File Include="bin/Stripe.net.dll">
       <publishTime>10/31/2017 12:00:04</publishTime>
@@ -312,7 +330,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2017 18:56:09</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>12/15/2017 16:08:13</publishTime>
+      <publishTime>01/01/2018 11:12:29</publishTime>
     </File>
     <File Include="ProductImages/EntityDesignerDiagram%281%29.jpg">
       <publishTime>12/14/2017 18:56:09</publishTime>
@@ -361,6 +379,21 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>12/14/2017 18:56:09</publishTime>
+    </File>
+    <File Include="SqlServerTypes/readme.htm">
+      <publishTime>01/01/2018 11:12:29</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x64/msvcr120.dll">
+      <publishTime>01/01/2018 11:12:44</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x64/SqlServerSpatial140.dll">
+      <publishTime>01/01/2018 11:12:44</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x86/msvcr120.dll">
+      <publishTime>01/01/2018 11:12:43</publishTime>
+    </File>
+    <File Include="SqlServerTypes/x86/SqlServerSpatial140.dll">
+      <publishTime>01/01/2018 11:12:44</publishTime>
     </File>
     <File Include="StoreImages/EntityDesignerDiagram%281%29.jpg">
       <publishTime>12/14/2017 18:56:09</publishTime>
@@ -435,7 +468,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/14/2017 18:56:09</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/15/2017 22:28:05</publishTime>
+      <publishTime>01/05/2018 15:39:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

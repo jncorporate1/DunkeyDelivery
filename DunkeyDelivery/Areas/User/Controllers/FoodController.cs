@@ -44,10 +44,14 @@ namespace DunkeyDelivery.Areas.User.Controllers
             var responseValue = response.GetValue("Result").ToObject<IEnumerable<CategoryViewModel>>();
             #endregion
 
+            #region GetStoreReviews
+            var responseReviews = await ApiCall<ReviewViewModel>.CallApi("api/Shop/GetStoreReviews?Store_Id=" + model.Store_id + "", null, false);
+            var responseReviewValue = responseReviews.GetValue("Result").ToObject<ReviewViewModel>();
+            #endregion
 
 
             modelResponse.Categories = responseValue;
-
+            modelResponse.ReviewForView = responseReviewValue;
 
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = " Store Details";

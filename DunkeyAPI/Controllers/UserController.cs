@@ -21,6 +21,7 @@ using System.Data.Entity;
 using AutoMapper;
 using static DunkeyAPI.Utility.Global;
 using DunkeyDelivery.CustomAuthorization;
+using RaviAlKutb.Components.Helpers;
 
 namespace DunkeyAPI.Controllers
 {
@@ -49,15 +50,16 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password && x.IsDeleted == false);
+                    var HashedPassword = CryptoHelper.Hash(model.Password);
+                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Password == HashedPassword && x.IsDeleted == false);
 
-                   
+
                     if (userModel != null)
                     {
-                        using (UserViewModel userViewModel = new UserViewModel(userModel))
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(userModel))
                         {
                             await userModel.GenerateToken(Request);
-                            
+
                             CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = userModel };
                             return Ok(response);
                         }
@@ -77,6 +79,7 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+
         // POST api/Account/ForgetPassword
         [Route("ForgetPassword")]
         public async Task<IHttpActionResult> ForgetPassword(ForgetPasswordBindingModel model)
@@ -151,7 +154,7 @@ namespace DunkeyAPI.Controllers
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             Email = model.Email,
-                            Password = model.Password,
+                            Password = CryptoHelper.Hash(model.Password),
                             FullName = model.FirstName + " " + model.LastName,
                             Status = (int)Global.StatusCode.NotVerified,
                             Phone = model.Phone,
@@ -161,7 +164,7 @@ namespace DunkeyAPI.Controllers
 
                         ctx.Users.Add(userModel);
                         ctx.SaveChanges();
-                        using (UserViewModel userViewModel = new UserViewModel(userModel))
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(userModel))
                         {
                             await userModel.GenerateToken(Request);
                             CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = userModel };
@@ -298,7 +301,7 @@ namespace DunkeyAPI.Controllers
                         User userModel = new User
                         {
                             Email = model.Email,
-                            Password = model.Password,
+                            Password = CryptoHelper.Hash(model.Password),
                             FirstName = model.FirstName,
                             LastName = model.LastName,
                             Status = (int)Global.StatusCode.NotVerified,
@@ -309,12 +312,12 @@ namespace DunkeyAPI.Controllers
 
                         ctx.Users.Add(userModel);
                         ctx.SaveChanges();
-                        using (UserViewModel userViewModel = new UserViewModel(userModel))
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(userModel))
                         {
                             await userModel.GenerateToken(Request);
                             CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = userModel };
                             return Ok(response);
-                            
+
                         }
                     }
                 }
@@ -369,22 +372,24 @@ namespace DunkeyAPI.Controllers
         [Route("ResetPassword")]
         public IHttpActionResult ResetPassword(ResetPassword model)
         {
-            
+
             try
             {
 
-                if (!ModelState.IsValid) { 
+                if (!ModelState.IsValid)
+                {
                     return BadRequest(ModelState);
                 }
-                
 
-                using (DunkeyContext ctx=new DunkeyContext())
+
+                using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var userModel = ctx.ForgotPasswordTokens.Include(x=>x.User).FirstOrDefault(x => x.Code == model.Code);
+                    var userModel = ctx.ForgotPasswordTokens.Include(x => x.User).FirstOrDefault(x => x.Code == model.Code);
 
                     if (userModel != null)
                     {
-                        if (DateTime.Now.Subtract(userModel.CreatedAt).Hours >Global.VerificationCodeTimeOut){
+                        if (DateTime.Now.Subtract(userModel.CreatedAt).Hours > Global.VerificationCodeTimeOut)
+                        {
                             return Content(HttpStatusCode.OK, new CustomResponse<Error>
                             {
                                 Message = "Conflict",
@@ -393,7 +398,7 @@ namespace DunkeyAPI.Controllers
                             });
                         }
 
-                        userModel.User.Password = model.Password;
+                        userModel.User.Password = CryptoHelper.Hash(model.Password);
                         ctx.SaveChanges();
                         CustomResponse<ForgetPasswordTokens> response = new CustomResponse<ForgetPasswordTokens> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = userModel };
                         return Ok(response);
@@ -409,9 +414,9 @@ namespace DunkeyAPI.Controllers
                     }
 
                 }
-              
 
-                
+
+
             }
             catch (Exception ex)
             {
@@ -523,14 +528,14 @@ namespace DunkeyAPI.Controllers
 
 
                     var user = ctx.Users
-                        .Where(x=>x.Email==email)
-                        .Include(x=>x.ForgetPasswordToken).FirstOrDefault();
+                        .Where(x => x.Email == email)
+                        .Include(x => x.ForgetPasswordToken).FirstOrDefault();
 
                     if (user != null)
                     {
                         ForgetPasswordTokens addCode = new ForgetPasswordTokens
                         {
-                            Code = "123DFEDG",
+                            Code =CryptoHelper.Hash(email),
                             CreatedAt = DateTime.Now,
                             IsDeleted = false,
                             User_Id = user.Id
@@ -578,6 +583,74 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+        // for mobile end
+        [HttpGet]
+        [Route("PasswordResetThroughEmail")]
+        public async Task<IHttpActionResult> PasswordResetThroughEmail(string email)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    //UserForgetToken userToken = new UserForgetToken();
+                    var user = ctx.Users
+                        .Where(x => x.Email == email).FirstOrDefault();
+
+
+                    if (user != null)
+                    {
+                        string code = Guid.NewGuid().ToString("N").ToUpper();
+                        code = CryptoHelper.Hash(code.Substring(0, 6));
+                        user.Password = code;
+                        ctx.SaveChanges();
+                        const string subject = "Your Password Has Been Changed";
+                        const string body = "Your password is changed .Use following password to login.";
+
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(EmailUtil.FromMailAddress.Address, EmailUtil.FromPassword)
+                        };
+
+                        var message = new MailMessage(EmailUtil.FromMailAddress, new MailAddress(email))
+                        {
+                            Subject = subject,
+                            Body = body + " : " + code
+                        };
+
+                        smtp.Send(message);
+
+
+
+
+
+                        return Ok(new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = user });
+                    }
+
+                    //var r = from User user1 in ctx.Users
+                    //        from token in user1.ForgetPasswordToken
+                    //        where user1.Email == email
+                    //        select new { name = user1.FirstName, token = token.Code}
+                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    {
+                        Message = "Conflict",
+                        StatusCode = (int)HttpStatusCode.Conflict,
+                        Result = new Error { ErrorMessage = "User with entered email doesn’t exist" }
+                    });
+
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
 
         [HttpGet]
         [Route("GetUserByEmail")]
@@ -592,8 +665,8 @@ namespace DunkeyAPI.Controllers
                         .Where(x => x.Email == Email)
                         .FirstOrDefault();
 
-                    UserViewModel userModel =new UserViewModel(res);
-                    CustomResponse<UserViewModel> response = new CustomResponse<UserViewModel>
+                    ViewModels.UserViewModel userModel = new ViewModels.UserViewModel(res);
+                    CustomResponse<ViewModels.UserViewModel> response = new CustomResponse<ViewModels.UserViewModel>
                     {
                         Message = "Success",
                         StatusCode = (int)HttpStatusCode.OK,
@@ -630,17 +703,17 @@ namespace DunkeyAPI.Controllers
                     ContactUs contactModel = new ContactUs
                     {
                         Name = model.Name,
-                        Email=model.Email,
-                        Phone=model.Phone,
-                        Message=model.Message
+                        Email = model.Email,
+                        Phone = model.Phone,
+                        Message = model.Message
 
 
                     };
 
                     ctx.ContactUs.Add(contactModel);
                     ctx.SaveChanges();
-                    
-                    CustomResponse<string> response = new CustomResponse<string> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result ="Query Submitted Successfully"  };
+
+                    CustomResponse<string> response = new CustomResponse<string> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = "Query Submitted Successfully" };
                     return Ok(response);
 
 
@@ -659,8 +732,8 @@ namespace DunkeyAPI.Controllers
         [Route("EditProfile")]
         [HttpPost]
         public async Task<IHttpActionResult> EditProfile(ProfileViewModel model)
-         {
-          
+        {
+
             try
             {
                 if (!ModelState.IsValid)
@@ -679,7 +752,8 @@ namespace DunkeyAPI.Controllers
                         User.FirstName = model.FName;
                         User.LastName = model.LName;
                         User.FullName = model.FName + " " + model.LName;
-                    }else
+                    }
+                    else
                     {
                         User.FirstName = model.FName;
                         User.LastName = model.LName;
@@ -689,13 +763,13 @@ namespace DunkeyAPI.Controllers
                     CustomResponse<User> response = new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = User };
                     return Ok(response);
                 }
-                
+
             }
             catch (Exception ex)
             {
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
-          
+
         }
 
 
@@ -714,9 +788,10 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                var addressCount=ctx.UserAddresses.Where(x => x.FullAddress == model.FullAddress && x.IsDeleted==false).Count();
+                    var addressCount = ctx.UserAddresses.Where(x => x.FullAddress == model.FullAddress && x.IsDeleted == false).Count();
 
-                    if (addressCount > 0) {
+                    if (addressCount > 0)
+                    {
                         return Content(HttpStatusCode.OK, new CustomResponse<Error>
                         {
                             Message = "Conflict",
@@ -736,22 +811,24 @@ namespace DunkeyAPI.Controllers
                             Telephone = model.Telephone,
                             IsPrimary = false,
                             IsDeleted = false,
+                            Frequency=model.Frequency,
+                            Address2=model.Address2
                         };
 
-                            ctx.UserAddresses.Add(addressModel);
-                            ctx.SaveChanges();
+                        ctx.UserAddresses.Add(addressModel);
+                        ctx.SaveChanges();
                         CustomResponse<UserAddress> response = new CustomResponse<UserAddress> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = addressModel };
                         return Ok(response);
                     }
 
-                 
 
 
-                     
-                        
 
-                        
-                    
+
+
+
+
+
                 }
             }
             catch (Exception ex)
@@ -771,8 +848,8 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.UserAddresses
-                        .Where(x => x.User_ID == User_id && x.IsDeleted==false).ToList();
-                  
+                        .Where(x => x.User_ID == User_id && x.IsDeleted == false).ToList();
+
 
                     Addresses addressModel = new Addresses();
                     var f = Mapper.Map<List<AddressViewModel>>(res);
@@ -798,20 +875,61 @@ namespace DunkeyAPI.Controllers
         [AllowAnonymous]
         [Route("RemoveAddress")]
         [HttpGet]
-        public async Task<IHttpActionResult> RemoveAddress(int address_id,int User_Id)
+        public async Task<IHttpActionResult> RemoveAddress(int address_id, int User_Id)
         {
 
             try
             {
-               
+
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID ==User_Id && x.Id==address_id);
+                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == User_Id && x.Id == address_id);
 
                     if (UserAddress != null)
                     {
                         UserAddress.IsDeleted = true;
-                       
+
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Conflict",
+                            StatusCode = (int)HttpStatusCode.Conflict,
+                            Result = new Error { ErrorMessage = "User with this address deleted." }
+                        });
+                    }
+
+                    ctx.SaveChanges();
+                    CustomResponse<string> response = new CustomResponse<string> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = "Address removed successfully" };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [AllowAnonymous]
+        [Route("RemoveCreditCard")]
+        [HttpGet]
+        public async Task<IHttpActionResult> RemoveCreditCard(int Card_Id, int User_Id)
+        {
+
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var UserAddress = ctx.CreditCards.FirstOrDefault(x => x.User_ID == User_Id && x.Id == Card_Id && x.is_delete == false);
+
+                    if (UserAddress != null)
+                    {
+                        UserAddress.is_delete = true;
+
                     }
                     else
                     {
@@ -853,17 +971,20 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo).FirstOrDefault();
-                    if (creditCard==null)
+                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete==false).FirstOrDefault();
+                    if (creditCard == null)
                     {
                         CreditCard creditcardModel = new CreditCard
                         {
                             User_ID = model.User_ID,
-                            BillingCode=model.BillingCode,
-                            CCNo=model.CCNo,
-                            CCV=model.CCV,
-                            ExpiryDate=model.ExpiryDate
-                        
+                            BillingCode = model.BillingCode,
+                            CCNo = model.CCNo,
+                            CCV = model.CCV,
+                            ExpiryDate = model.ExpiryDate,
+                            Label = model.Label,
+                            Is_Primary = model.Is_Primary.Value,
+                            is_delete = false
+
 
 
                         };
@@ -874,7 +995,8 @@ namespace DunkeyAPI.Controllers
 
                         CustomResponse<CreditCard> response = new CustomResponse<CreditCard> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = creditcardModel };
                         return Ok(response);
-                    }else
+                    }
+                    else
                     {
                         return Content(HttpStatusCode.OK, new CustomResponse<Error>
                         {
@@ -904,7 +1026,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var res = ctx.CreditCards
-                        .Where(x => x.User_ID == User_id).ToList();
+                        .Where(x => x.User_ID == User_id && x.is_delete == false).ToList();
 
 
                     UserCreditCard creditcardModel = new UserCreditCard();
@@ -927,6 +1049,98 @@ namespace DunkeyAPI.Controllers
 
         }
 
+        [HttpPost]
+        [Route("EditUserCreditCards")]
+        public IHttpActionResult EditUserCreditCards(CreditCards model)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var res = ctx.CreditCards.FirstOrDefault(x => x.Id == model.Id);
+
+                    if (res != null)
+                    {
+                        UserCreditCardMobileViewModel returnModel = new UserCreditCardMobileViewModel();
+                        res.CCNo = model.CCNo;
+                        res.CCV = model.CCV;
+                        res.BillingCode = model.BillingCode;
+                        res.ExpiryDate = model.ExpiryDate;
+                        res.Label = model.Label;
+                        res.Is_Primary = model.Is_Primary;
+                        ctx.SaveChanges();
+
+                        CustomResponse<UserCreditCardMobileViewModel> response = new CustomResponse<UserCreditCardMobileViewModel>
+                        {
+                            Message = "Success",
+                            StatusCode = (int)HttpStatusCode.OK,
+                            Result = new UserCreditCardMobileViewModel { CreditCards = res }
+                        };
+                        return Ok(response);
+
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Not Found",
+                            StatusCode = (int)HttpStatusCode.NotFound,
+                            Result = new Error { ErrorMessage = "User with entered credit card number doesn’t exist" }
+                        });
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [HttpPost]
+        [Route("EditUserAddress")]
+        public IHttpActionResult EditUserAddress(UserAddress model)
+        {
+            using (DunkeyContext ctx = new DunkeyContext())
+            {
+                var res = ctx.UserAddresses.FirstOrDefault(x => x.Id == model.Id);
+
+                if (res != null)
+                {
+                    UserAddress returnModel = new UserAddress();
+                    res.City = model.City;
+                    res.FullAddress = model.FullAddress;
+                    res.IsPrimary = model.IsPrimary;
+                    res.PostalCode = model.PostalCode;
+                    res.State = model.State;
+                    res.Telephone = model.Telephone;
+                    res.Frequency = model.Frequency;
+                    res.Address2 = model.Address2;
+                    ctx.SaveChanges();
+
+                    CustomResponse<UserAddress> response = new CustomResponse<UserAddress>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = res
+                    };
+                    return Ok(response);
+
+                }
+                else
+                {
+                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    {
+                        Message = "Not Found",
+                        StatusCode = (int)HttpStatusCode.NotFound,
+                        Result = new Error { ErrorMessage = "User with entered address doesn’t exist" }
+                    });
+                }
+            }
+
+        }
 
         // admin panel services 
         /// <summary>
@@ -949,8 +1163,8 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     DAL.Admin adminModel;
-
-                    adminModel = ctx.Admins.Include(x=>x.Notifications).FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                    var HasedPassword = CryptoHelper.Hash(model.Password);
+                    adminModel = ctx.Admins.Include(x => x.Notifications).FirstOrDefault(x => x.Email == model.Email && x.Password == HasedPassword);
 
                     if (adminModel != null)
                     {
@@ -986,7 +1200,7 @@ namespace DunkeyAPI.Controllers
 
 
                     var user = ctx.Users.Include(x => x.UserAddresses).FirstOrDefault(x => x.Id == UserId && x.IsDeleted == false);
-                     return Ok(new CustomResponse<User> { Message ="Success", StatusCode = (int)HttpStatusCode.OK, Result = user });
+                    return Ok(new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = user });
                     //}
                     //else
                     //{
@@ -1004,6 +1218,110 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+        //  mobile end services 
+        [HttpPost]
+        [Route("ChangePasswordMobile")]
+        public IHttpActionResult ResetPasswordMobile(MobileViewModels model)
+        {
+
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var userModel = ctx.Users.FirstOrDefault(x => x.Id == model.User_Id);
+
+                    if (userModel != null)
+                    {
+
+                        userModel.Password = CryptoHelper.Hash(model.Password);
+                        ctx.SaveChanges();
+                        CustomResponse<User> response = new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = userModel };
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "NotFound",
+                            StatusCode = (int)HttpStatusCode.NotFound,
+                            Result = new Error { ErrorMessage = "Invalid Server Error" }
+                        });
+                    }
+
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+        
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ExternalLogin")]
+        public async Task<IHttpActionResult> ExternalLogin(string userId, string accessToken, int? socialLoginType)
+        {
+            try
+            {
+                if (socialLoginType.HasValue && !string.IsNullOrEmpty(accessToken))
+                {
+                    DunkeyAPI.Social.SocialLogins socialLogin = new DunkeyAPI.Social.SocialLogins();
+
+                    var socialUser = await socialLogin.GetSocialUserData(accessToken, (DunkeyAPI.Social.SocialLogins.SocialLoginType)socialLoginType.Value);
+
+                    if (socialUser != null)
+                    {
+                        using (DunkeyContext ctx = new DunkeyContext())
+                        {
+                            if (string.IsNullOrEmpty(socialUser.email))
+                            {
+                                socialUser.email = socialUser.id + "@gmail.com";
+
+                            }
+                            var existingUser = ctx.Users.FirstOrDefault(x => x.Email == socialUser.email);
+
+                            if (existingUser != null)
+                            {
+
+                                existingUser.ProfilePictureUrl = socialUser.picture;
+                                existingUser.FullName = socialUser.name;
+                                ctx.SaveChanges();
+                                await existingUser.GenerateToken(Request);
+                                CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = existingUser };
+                                return Ok(response);
+                            }
+                            else
+                            {
+                                var newUser = new User { FullName = socialUser.name, Email = socialUser.email, ProfilePictureUrl = socialUser.picture, Role = 1 };
+                                ctx.Users.Add(newUser);
+                                ctx.SaveChanges();
+                                //newUser.UserCategoriesConvertion();
+                                await newUser.GenerateToken(Request);
+                                return Ok(new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = newUser });
+                            }
+                        }
+                    }
+                    else
+                        return BadRequest("Unable to get user info");
+                }
+                else
+                    return BadRequest("Please provide access token along with social login type");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
 
     }
 }

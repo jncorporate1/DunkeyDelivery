@@ -75,14 +75,14 @@ namespace DunkeyDelivery.Models
     {
         [Required(ErrorMessage = "First Name is required")]
         [DataType(DataType.Text)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [Display(Name = "First Name")]
 
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Last Name is required")]
         [DataType(DataType.Text)]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 

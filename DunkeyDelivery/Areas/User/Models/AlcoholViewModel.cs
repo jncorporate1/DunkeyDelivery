@@ -12,8 +12,11 @@ namespace DunkeyDelivery.Areas.User.Models
         {
             storeViewModel = new ShopViewModel();
             categoryViewModel = new CategorySubCategoryVM();
-            //categoryViewModel = new CategorySubCategoryVM();
+            UserReview = new ReviewBindingModel();
+            ReviewForView = new ReviewViewModel();
         }
+        public ReviewBindingModel UserReview { get; set; }
+        public ReviewViewModel ReviewForView { get; set; }
         public ShopViewModel storeViewModel { get; set; }
         //public CategoriesViewModel categoryViewModel { get; set; }
         // public CategorySubCategoryVM categoryViewModel { get; set; }

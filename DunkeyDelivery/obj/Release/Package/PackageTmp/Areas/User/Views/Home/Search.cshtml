@@ -13,7 +13,7 @@
         }
         else
         {
-            <p>@Request.QueryString["search"] stores</p>
+            <p>@Request.QueryString["search"]</p>
         }
         <h6>Enter your address to get started</h6>
         @*<form action="">
@@ -59,48 +59,50 @@
 <div class="main-section main-restaurant-section greybg">
     <div class="container">
         <div class="row">
-            @if (Request.QueryString["Address"] != null)
-            {
-                if (Model.Store.Count() == 0)
-                {
-                    <p class="center">There are no results for your filter(s) or search criteria </p>
-
-                }
-                else if (Model.Store.Count() == 1)
-                {
-                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
-
-                }
-                else
-                {
-                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
-
-                }
-            }
-            else
-            {
-                if (Model.Store.Count() == 0)
-                {
-                    <p class="center">There are no results for your filter(s) or search criteria </p>
-                }
-                else if (Model.Store.Count() == 1)
-                {
-                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] store</p>
-                }
-                else
-                {
-                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] stores</p>
-
-                }
-            }
-
+           
             @{
                 Html.RenderAction("SideBarData", "Food", new { area = "User", CategoryType = Request.QueryString["search"] });
             }
             <div class="col-md-9"  Page="0" FilterType="All" id="Book">
                 <div class="rest-right-section">
-
+                    
                     <div class="row">
+                        <div class="col-md-9  online-status">
+                            @if (Request.QueryString["Address"] != null)
+            {
+                if (Model.Store.Count() == 0)
+                {
+                                    <p class="center">There are no results for your filter(s) or search criteria </p>
+
+                                }
+                                else if (Model.Store.Count() == 1)
+                                {
+                                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
+
+                                }
+                                else
+                                {
+                                    <p class="center">Order online from <span id="store_count">@Model.Store.Count()</span> @Request.QueryString["search"] stores delivering in @Request.QueryString["Address"] </p>
+
+                                }
+                            }
+                            else
+                            {
+                                if (Model.Store.Count() == 0)
+                                {
+                                    <p class="center">There are no results for your filter(s) or search criteria </p>
+                                }
+                                else if (Model.Store.Count() == 1)
+                                {
+                                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] store</p>
+                                }
+                                else
+                                {
+                                    <p class="center">Order online from <span id="store_count">Model.Store.Count()</span> @Request.QueryString["search"] stores</p>
+
+                                }
+                            } 
+                        </div>
                         <div class="col-md-3 col-sm-12 col-xs-12 pull-right" style="padding-right: 13px;padding-left: 19px;">
                             <select onchange="SetPageAndType(0,this.value)" class="form-control sortlist FilterStores" id="form-inputs">
                                 <option selected>Sort Stores  </option>

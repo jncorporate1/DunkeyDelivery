@@ -305,3 +305,10 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.pdb
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.xml
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x86\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.SqlServer.Types.dll

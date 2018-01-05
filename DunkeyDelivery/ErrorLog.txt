@@ -43,3 +43,23 @@ MessageObject reference not set to an instance of an object.
 
 StackTrace   at DunkeyDelivery.Areas.User.Controllers.OrderController.<OrderSummary>d__8.MoveNext() in D:\Git\DunkeyDelivery\DunkeyDelivery\Areas\User\Controllers\OrderController.cs:line 165
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyDelivery.Areas.User.Controllers.OrderController.<OrderSummary>d__8.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyDelivery.Areas.User.Controllers.OrderController.<OrderSummary>d__8.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyDelivery.Areas.User.Controllers.OrderController.<OrderSummary>d__8.MoveNext()
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyDelivery.Areas.User.Controllers.OrderController.<OrderSummary>d__8.MoveNext()
+------******------

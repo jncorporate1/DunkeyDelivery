@@ -120,6 +120,38 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public bool IsPrimary { get; set; }
     }
+    public class GenericAddresses
+    {
+        public GenericAddresses()
+        {
+            addresses = new List<AddressesViewModel>();
+        }
+
+        public List<AddressesViewModel> addresses { get; set; }
+    }
+    public class AddressesViewModel
+    {
+        public int Id { get; set; }
+
+        public int User_ID { get; set; }
+
+        
+        public string City { get; set; }
+
+
+        public string State { get; set; }
+
+        public string Telephone { get; set; }
+
+
+        public string FullAddress { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public bool IsPrimary { get; set; }
+    }
 
 
 

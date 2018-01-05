@@ -3,41 +3,28 @@
 @{
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
+<style>
+ 
+ 
+.dealspage h4{font-weight:600; color:#0e1a1f; font-size:16px;}
+.dealspage .price { font-weight:bold; color:#76bc53; font-size:24px;}
+.dealspage img { width:100%; border:1px solid #d2d2d2; }
+.dealspage .price span{ font-weight:400; color:#0e1a1f; font-size:14px;}
+.dealspage .dealsimage{ height:160px; overflow:hidden;}
+.dealspage .col-md-4 { margin-bottom:25px;}
+
+
+</style>
 <div class="main-section main-restaurant-section greybg">
     <div class="container">
         <div class="row">
 
 
 
-            <div class="col-md-3">
-                <div class="rest-left-section">
-                    <div class="row">
-                        <div class="col-md-12 pull-right">
-                            <input type="text" class="form-control searchlist" onkeyup="" id="form-inputs" placeholder="Search" style="background: url('../../../../Content/assets/images/searchic.png') no-repeat 5% center #FFF;" />
-                        </div>
-                    </div>
-                </div>
-                <div class="rest-item-1">
-                    <ul class="restitem1">
-                        <li><a href="@Url.Action("Search","Home",new { search="Food" })"><img src="~/Content/assets/images/rest1.png" /> Food<span></span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/rest2.png" /> Alcohol<span> </span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/rest3.png" /> Grocery<span> </span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/rest4.png" /> Laundry<span> </span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/rest5.png" /> Pharmacy<span></span> </a></li>
-                        <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/rest6.png" /> Retail<span> </span> </a></li>
-                        <li><a href="#"><img src="~/Content/assets/images/res3.png" /> Ride<span></span> </a></li>
-                    </ul>
-                </div>
-
-
-
-
-
-
-            </div>
-            <div class="col-md-6">
+           <div class="col-md-12 " >
+            <div class="col-md-9">
                 <div class="rest-right-section">
-                    <div class="row deals">
+                    <div class="row deals dealspage">
 
                         @if (@Model.Offer_Packages.Count == 0 && Model.Offer_Products.Count == 0)
                         {
@@ -48,16 +35,26 @@
                             foreach (var deal in @Model.Offer_Packages)
                             {
 
-                                <div class="col-md-4">
+                                @*<div class="col-md-4">
                                     <img src="@Utility.BaseUrl@deal.Package.ImageUrl" onclick="AddToCart('@deal.Id','@deal.Package.Name','@deal.Price','Standard', 3, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id" alt="deal" />
+                                </div>*@
+                                <div class="col-md-4">
+                                    <a href="javascript::"><div class="dealsimage"><img src="@Utility.BaseUrl@deal.Package.ImageUrl" onclick="AddToCart('@deal.Id', '@deal.Package.Name', '@deal.Price', 'Standard', 3, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id"></div></a>
+                                    <h4 class="text-center">@deal.Package.Name</h4>
+                                    <div class="price text-right">@deal.Price </div>
                                 </div>
 
                             }
                             foreach (var deal in @Model.Offer_Products)
                             {
 
-                                <div class="col-md-4">
+                                @*<div class="col-md-4">
                                     <img style="height:150px;width:150px;" src="@Utility.BaseUrl@deal.Product.Image" onclick="AddToCart('@deal.Id', '@deal.Product.Name', '@deal.Price', '@deal.Product.Size', 2, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id" alt="deal" />
+                                </div>*@
+                                <div class="col-md-4">
+                                    <a href="javascript::"><div class="dealsimage"><img src="@Utility.BaseUrl@deal.Product.Image" onclick="AddToCart('@deal.Id', '@deal.Product.Name', '@deal.Price', '@deal.Product.Size', 2, '@deal.Offer.Store.Id','@deal.Offer.Store.BusinessName', '@deal.Offer.Store.BusinessType', '@deal.Offer.Store.BusinessTypeTax')" id="@deal.Offer_Id"></div></a>
+                                    <h4 class="text-center" >@deal.Product.Name</h4>
+                                    <div class="price text-right">@deal.Price </div>
                                 </div>
                             }
                         }
@@ -95,8 +92,17 @@
                     </div> <!-- ROW -->
                 </div> <!-- RIGHT SECTION -->
             </div>
+      
+            
             <div class="col-md-3" id="OrderItems">
-                @{
+                <div class="rest-left-section">
+                    <div class="row">
+                        <div class="col-md-12 pull-right">
+                            <input type="text" class="form-control searchlist" onkeyup="" id="form-inputs" placeholder="Search" style="background: url('../../../../Content/assets/images/searchic.png') no-repeat 5% center #FFF;" />
+                        </div>
+                    </div>
+                </div>
+                    @{
 
                     Html.RenderAction("OrderItemsDeals", "Order", new { area = "User", MinOrder = 0});
                 }
@@ -109,14 +115,14 @@
                     Html.RenderAction("Cart", "Order", new { area = "User" });
                 }
             </div>
-
+            </div>
         </div>
     </div>
 </div>
 <script>
     function AddToCart(ItemId, ItemName, price, size, type, StoreId, StoreName, BusinessType, BusinessTypeTax) {
         //alert(id);
-        debugger;
+   
         var data = {
             ItemId: ItemId,
             name: ItemName,

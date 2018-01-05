@@ -5,14 +5,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>F:\Deployment</_PublishTargetUrl>
+    <_PublishTargetUrl>F:\Deployment\DunkeyAdmin</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Readme/Elmah.txt">
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Admin/Index.cshtml">
-      <publishTime>11/27/2017 13:08:20</publishTime>
+      <publishTime>12/16/2017 19:19:53</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Admin/Manage.cshtml">
       <publishTime>11/27/2017 13:08:20</publishTime>
@@ -162,10 +162,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/Index.cshtml">
-      <publishTime>11/30/2017 12:54:29</publishTime>
+      <publishTime>12/18/2017 15:37:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/ManageProducts.cshtml">
-      <publishTime>11/30/2017 19:04:31</publishTime>
+      <publishTime>12/16/2017 19:13:38</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/_AddProduct.cshtml">
       <publishTime>11/28/2017 14:41:42</publishTime>
@@ -174,13 +174,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/30/2017 17:16:08</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/_SearchProductResults.cshtml">
-      <publishTime>12/02/2017 11:14:21</publishTime>
+      <publishTime>12/16/2017 19:16:01</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Shared/Error.cshtml">
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Shared/_Layout.cshtml">
-      <publishTime>11/27/2017 13:08:20</publishTime>
+      <publishTime>12/16/2017 19:08:47</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Stores/Index.cshtml">
       <publishTime>11/27/2017 13:08:20</publishTime>
@@ -213,7 +213,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/BasketWebPanel.dll">
-      <publishTime>12/15/2017 21:36:56</publishTime>
+      <publishTime>12/18/2017 15:38:04</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>04/12/2012 19:19:36</publishTime>
@@ -2513,6 +2513,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="packages.config">
       <publishTime>11/27/2017 13:08:21</publishTime>
     </File>
+    <File Include="SampleFile/Sample File.xlsx">
+      <publishTime>12/18/2017 15:35:42</publishTime>
+    </File>
     <File Include="Scripts/admin-custom/js/AdminCustom.js">
       <publishTime>11/27/2017 13:08:21</publishTime>
     </File>
@@ -2937,7 +2940,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/15/2017 19:25:12</publishTime>
+      <publishTime>12/16/2017 19:19:06</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>11/27/2017 13:08:21</publishTime>

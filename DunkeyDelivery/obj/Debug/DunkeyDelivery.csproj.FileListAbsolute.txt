@@ -387,6 +387,10 @@ D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftAccoun
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x64\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x86\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\csc.exe
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll

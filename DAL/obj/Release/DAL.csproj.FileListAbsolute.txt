@@ -31,3 +31,9 @@ F:\Projects\DunkeyDelivery\DAL\bin\Release\EntityFramework.SqlServer.xml
 F:\Projects\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
 F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.dll
 F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.pdb
+F:\Projects\DunkeyDelivery\DAL\bin\Release\SqlServerTypes\x64\msvcr120.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\SqlServerTypes\x64\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\SqlServerTypes\x86\msvcr120.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\SqlServerTypes\x86\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Release\Microsoft.SqlServer.Types.dll
+F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache

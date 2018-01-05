@@ -14,7 +14,7 @@
             </div>
             <div class="alert alert-error" id="error-alert" hidden>
                 <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong>Error! </strong> <span> </span>
+                <strong>Error! </strong> <span id="error-message"> </span>
             </div>
             <style>
                 input[type=number]::-webkit-inner-spin-button,
@@ -187,13 +187,13 @@
                 <input type="file" class="btn btn-primary" onchange="UploadImportedFile()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="importBtnHdn" value="Import File" style="display:none;" />
 
                 <button id="importBtn" class="btn btn-success btn-sm text-right"> <i style="font-size: 15px;" class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data </button>
-                @using (Html.BeginForm("DemoFile", "Product", FormMethod.Post, new { @style = "display:inline;" }))
+                @*@using (Html.BeginForm("DemoFile", "Product", FormMethod.Post, new { @style = "display:inline;" }))
                 {
                     @Html.AntiForgeryToken()
 
                     <button type="submit" class="btn btn-default">Sample File</button>
-                }
-
+                }*@
+               <a href="~/SampleFile/Sample File.xlsx" class="btn btn-default" >Sample File</a>
                 <div class="row">
                     <span style="padding-left:10px" id="FileError" class="text-danger"></span>
                 </div>
@@ -207,13 +207,18 @@
 
 <script>
 
+    function DownloadFile() {
+
+    }
+
     $("#importBtn").click(function (e) {
         e.preventDefault();
         $("#importBtnHdn").click();
     });
 
     function UploadImportedFile() {
-        var AllowedFileTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+        
+        var AllowedFileTypes = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlsx", "xls", "application/vnd.ms-excel"];
         var formdata = new FormData(); //FormData object
         var fileInput = document.getElementById('importBtnHdn');
 
@@ -233,22 +238,24 @@
             //xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
             xhr.send(formdata);
             xhr.onreadystatechange = function (resp) {
-
-                if (xhr.readyState == 2 && xhr.status == 200) {
-                    $("#success-alert").show().delay(2000).fadeOut();
-                } else {
-                    $("#error-alert").show().delay(2000).fadeOut();
-                }
+                
                 //response = this.responseText;
                 //response = this.DONE;
                 //response = this.status;
                 //response = this.statusText;
 
-                if (xhr.readyState == 2 && xhr.status == 200) {
-                    $("#success-alert").show().delay(2000).fadeOut();
-                } else {
-                    $("#error-alert").show().delay(2000).fadeOut();
-                }
+                if (xhr.readyState == 2 && xhr.status == 200)
+                    setTimeout(function(){
+                        response = JSON.parse(xhr.responseText);
+                        console.log(response);
+                        if (response.success)
+                            $("#success-alert").show().delay(2000).fadeOut();
+                        else {
+                            $("#error-message").text(response.responseText);
+                            $("#error-alert").show().delay(2000).fadeOut();
+                        }
+                    },500)
+
             }
             return false;
         }

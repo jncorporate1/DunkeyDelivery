@@ -13,7 +13,7 @@ namespace DAL
         public int Id { get; set; }
 
         public int User_ID { get; set; }
-
+        
         [Required]
         public string City { get; set; }
 
@@ -26,8 +26,12 @@ namespace DAL
         [Required]
         public string FullAddress { get; set; }
 
+        public string Address2 { get; set; }
+
         [Required]
         public string PostalCode { get; set; }
+
+        public string Frequency { get; set; }
 
         public bool IsDeleted { get; set; }
 

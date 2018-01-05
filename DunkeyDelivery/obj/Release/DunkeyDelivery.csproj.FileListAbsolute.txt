@@ -156,3 +156,7 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftA
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.pdb
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x64\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x86\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\SqlServerTypes\x86\SqlServerSpatial140.dll

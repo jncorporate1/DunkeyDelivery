@@ -337,6 +337,12 @@ namespace DAL
                 .HasForeignKey(e => e.Store_Id)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.StoreRatings)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.User_Id)
+                .WillCascadeOnDelete(false);
+
             //modelBuilder.Entity<Store>()
             //    .HasMany(e => e.StoreDeliveryHours)
             //    .WithRequired(e => e.Store)

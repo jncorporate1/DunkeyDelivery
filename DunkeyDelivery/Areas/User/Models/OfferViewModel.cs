@@ -19,6 +19,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public int Offer_Id { get; set; }
         public int Package_Id { get; set; }
         public string Name { get; set; }
+        public double DiscountedPrice { get; set; }
         public DateTime ValidUpto { get; set; }
         public string Title { set; get; }
         public string ImageUrl { get; set; }
@@ -33,6 +34,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public int Offer_Id { get; set; }
         public string Name { get; set; }
         public int Product_Id { get; set; }
+        public double DiscountedPrice { get; set; }
         public string ImageUrl { get; set; }
         public string Title { set; get; }
         public double Price { get; set; }

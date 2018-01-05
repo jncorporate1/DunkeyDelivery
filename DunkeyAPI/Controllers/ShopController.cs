@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DAL;
 using DunkeyAPI.ClientViewModel;
+using DunkeyAPI.ExtensionMethods;
 using DunkeyAPI.ViewModels;
 using DunkeyDelivery;
 using GoogleMaps.LocationServices;
@@ -617,6 +618,75 @@ namespace DunkeyAPI.Models
             }
         }
 
+        [HttpPost]
+        [Route("SubmitStoreReview")]
+        public IHttpActionResult SubmitStoreReview(ReviewBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    if (ctx.StoreRatings.Any(x => x.User_Id== model.User_Id && x.Store_Id==model.Store_Id))
+                    {
+                        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        {
+                            Message = "Forbidden",
+                            StatusCode = (int)HttpStatusCode.Forbidden,
+                            Result = new Error { ErrorMessage = "User already reviews this store." }
+                        });
+                    }
+                    else
+                    {
+                        var storeRating = new StoreRatings { User_Id=model.User_Id,Rating=model.Rating,Store_Id=model.Store_Id,Feedback=model.Feedback };
+                        ctx.StoreRatings.Add(storeRating);
+                        ctx.SaveChanges();
+                        var latestStoreRating = ctx.StoreRatings.Include(z=>z.User).FirstOrDefault(x=>x.Id==storeRating.Id);
+                        CustomResponse<StoreRatings> response = new CustomResponse<StoreRatings>
+                        {
+                            Message = Global.SuccessMessage,
+                            StatusCode = (int)HttpStatusCode.OK,
+                            Result = storeRating
+                        };
+
+                        return Ok(response);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        [HttpGet]
+        [Route("GetStoreReviews")]
+        public async Task<IHttpActionResult> GetStoreReviews(int Store_Id)
+        {
+            try
+            {
+                DunkeyContext ctx = new DunkeyContext();
+                ReviewList returnModel = new ReviewList();
+                returnModel.Reviews = ctx.StoreRatings.Include(y=>y.User).Where(x => x.Store_Id == Store_Id).ToList(); 
+                CustomResponse<ReviewList> response = new CustomResponse<ReviewList>
+                {
+                    Message = "Success",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Result = returnModel
+                };
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
         // Services For Mobile End Interface 
 
@@ -828,8 +898,64 @@ namespace DunkeyAPI.Models
 
         }
 
+        [HttpGet]
+        [Route("GetStoreByIdMobile")]
+        public IHttpActionResult GetStoreByIdMobile(short Id)
+        {
+            try
+            {
+                DunkeyContext ctx = new DunkeyContext();
+                var res = ctx.Stores.Include(z=>z.StoreRatings.Select(y=>y.User)).Include(z=>z.StoreTags).Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").First();
 
+                var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
 
+                if (businessTypeTax != null)
+                    res.BusinessTypeTax = businessTypeTax.Tax;
+
+                res.CalculateAllTypesAverageRating();
+                CustomResponse<Store> response = new CustomResponse<Store>
+                {
+                    Message = "Success",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Result = res
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+        //[HttpGet]
+        //[Route("GetStoreByIdMobile")]
+        //public IHttpActionResult GetStoreByIdMobile(short Id)
+        //{
+        //    try
+        //    {
+        //        DunkeyContext ctx = new DunkeyContext();
+        //        var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").Include(y=>y.).First();
+
+        //        var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
+
+        //        if (businessTypeTax != null)
+        //            res.BusinessTypeTax = businessTypeTax.Tax;
+
+        //        CustomResponse<Store> response = new CustomResponse<Store>
+        //        {
+        //            Message = "Success",
+        //            StatusCode = (int)HttpStatusCode.OK,
+        //            Result = res
+        //        };
+        //        return Ok(response);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+        //    }
+
+        //}
 
 
 

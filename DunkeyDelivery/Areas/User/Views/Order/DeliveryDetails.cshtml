@@ -16,8 +16,7 @@
                 //new AjaxOptions { OnSuccess = "", OnFailure = "" })
                 {
                     <h1> Add Delivery Details</h1>
-
-
+                    
                     <div class="row">
                         <div class="col-md-6">
                             <div class="input-contain">
@@ -34,31 +33,80 @@
                                 @Html.TextBoxFor(x => x.DeliveryDetails.Phone, new { name = "Phone", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Phone Number" })
                                 @Html.ValidationMessageFor(m => m.DeliveryDetails.Phone, "", new { @class = "text-danger error" })
                             </div>
-                            <div class="input-contain">
+                            @if (string.IsNullOrEmpty(Model.Email))
+                            {
+                                <div class="input-contain">
 
-                                @Html.TextBoxFor(x => x.DeliveryDetails.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address" })
-                                @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })
-                            </div>
-                            <div class="input-contain">
+                                    @Html.TextBoxFor(x => x.DeliveryDetails.Email, new { name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address" })
+                                    @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="input-contain">
+                                <input type="email" class="form-control with-no-margin" name = "DeliveryDetails.Email" value="@Model.Email" id = "form-inputs" readonly />
+                                    @*@Html.TextBoxFor(x => x.DeliveryDetails.Email, new { @value = Model.Email , name = "Email", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Email Address"})
+                                    @Html.ValidationMessageFor(m => m.DeliveryDetails.Email, "", new { @class = "text-danger error" })*@
+                                </div>
+                            }
+                            @if (Model.addressesModel.addresses.Any(x => x.IsPrimary == true))
+                            {
+                                foreach (var addr in Model.addressesModel.addresses.Where(x => x.IsPrimary == true))
+                                {
 
-                                @Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
-                                @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })
-                            </div>
-                            <div class="input-contain">
-                                <div class="col-md-6" style="padding: 0 1px 0 0;">
+
                                     <div class="input-contain">
+                                        <input type="text" class="form-control with-no-margin" name="DeliveryDetails.Address" value="@addr.FullAddress" id="form-inputs" placeholder="Full Address" readonly />
 
-                                        @Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
-                                        @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })
+                                        @*@Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
+                                            @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })*@
+
+                                    </div>
+                                    <div class="input-contain">
+                                        <div class="col-md-6" style="padding: 0 1px 0 0;">
+                                            <div class="input-contain">
+                                                <input type="text" class="form-control with-no-margin" name="DeliveryDetails.City" value="@addr.City" id="form-inputs" placeholder="City" readonly />
+
+                                                @*@Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
+                                                    @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding: 0 0 0 6px;">
+                                            <div class="input-contain">
+                                                <input type="text" class="form-control with-no-margin" name="DeliveryDetails.ZipCode" value="@addr.PostalCode" id="form-inputs" placeholder="City" readonly />
+
+                                                @*@Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
+                                                    @Html.ValidationMessageFor(m => m.DeliveryDetails.ZipCode, "", new { @class = "text-danger error" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="input-contain">
+
+                                    @Html.TextBoxFor(x => x.DeliveryDetails.Address, new { name = "Address", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Full Address" })
+                                    @Html.ValidationMessageFor(m => m.DeliveryDetails.Address, "", new { @class = "text-danger error" })
+                                </div>
+                                <div class="input-contain">
+                                    <div class="col-md-6" style="padding: 0 1px 0 0;">
+                                        <div class="input-contain">
+
+                                            @Html.TextBoxFor(x => x.DeliveryDetails.City, new { name = "City", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "City" })
+                                            @Html.ValidationMessageFor(m => m.DeliveryDetails.City, "", new { @class = "text-danger error" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="padding: 0 0 0 6px;">
+                                        <div class="input-contain">
+                                            @Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
+                                            @Html.ValidationMessageFor(m => m.DeliveryDetails.ZipCode, "", new { @class = "text-danger error" })
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6" style="padding: 0 0 0 6px;">
-                                    <div class="input-contain">
-                                        @Html.TextBoxFor(x => x.DeliveryDetails.ZipCode, new { name = "ZipCode", @class = "form-control with-no-margin", id = "form-inputs", @placeholder = "Enter Postal Code" })
-                                        @Html.ValidationMessageFor(m => m.DeliveryDetails.ZipCode, "", new { @class = "text-danger error" })
-                                    </div>
-                                </div>
-                            </div>
+                                
+                            }
+                            
                         </div>
                         <div class="col-md-6">
                             <div class="input-contain">
@@ -77,6 +125,7 @@
                         </div>
 
                     </div>
+                  
                     @*
                         <div class="paymentinformation">
                             <h1>Payment Information</h1>
@@ -156,7 +205,7 @@
                         @*<button type="submit" class="col-md-12 btn-submit">Place Order</button>*@
                         @if (Model.Id != null)
                         {
-                            <input id="btnPlaceOrder" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
+                            <input id="btnPlaceOrder" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" style="margin-bottom: 40px;" />
                             <input hidden id="btnPlaceOrderStripe" type="submit" class="col-md-12 btn-submit text-center" value="Place Order" />
 
                             @*<script src = "//checkout.stripe.com/v2/checkout.js"
@@ -249,7 +298,7 @@
     var handler = StripeCheckout.configure({
         key: $('#hdnPublishableKey').val(),
         //image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-        image: '/Content/assets/images/logo2.png',
+        image: 'http://dunkeydelivery.bestpricewebsitedesign.com/DunkeyDeliveryWeb/Content/assets/images/logo2.png',
         locale: 'auto',
         token: function (token) {
             $('#hdnStripeId').val(token.id);
@@ -261,8 +310,9 @@
     });
 
     document.getElementById('btnPlaceOrderStripe').addEventListener('click', function (e) {
+        $("#hdnTipAmount").val($(".tip-field").val().substring(1).trim())
         var amountToCharge = (parseInt($('#hdnCartTotal').val()) * 100);
-        var tipText = $("#tipButtons span").text().substring(1).trim();
+        var tipText = $("#hdnTipAmount").val(); //$("#tipButtons span").text().substring(1).trim();
         var description = "";
         if (tipText != "") {
             amountToCharge = ((parseInt($('#hdnCartTotal').val()) + parseInt(tipText)) * 100);

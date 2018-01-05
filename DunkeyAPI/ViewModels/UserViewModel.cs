@@ -211,8 +211,12 @@ namespace DunkeyAPI.ViewModels
         [Required]
         public string FullAddress { get; set; }
 
+        public string Address2 { get; set; }
+
         [Required]
         public string PostalCode { get; set; }
+
+        public string Frequency { get; set; }
 
         public bool IsDeleted { get; set; }
 
@@ -225,6 +229,13 @@ namespace DunkeyAPI.ViewModels
 
         public List<CreditCards> CreditCards { get; set; }
     }
+
+    public class UserCreditCardMobileViewModel
+    {
+
+        public CreditCard CreditCards { get; set; }
+    }
+
     public class CreditCards
     {
         public int Id { get; set; }
@@ -241,7 +252,11 @@ namespace DunkeyAPI.ViewModels
         [Required]
         public string BillingCode { get; set; }
 
+        public int? Is_Primary { get; set; }
+
         public int User_ID { get; set; }
+
+        public string Label { get; set; }
 
         public virtual User User { get; set; }
     }

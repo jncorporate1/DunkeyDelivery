@@ -19,6 +19,37 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+.review-feedback{
+    margin-bottom: 15px !important;
+    margin-top:5px !important;
+}
+.custom-size{
+    font-size:16px !important;
+}
+.review-row{
+    padding-left: 29px;margin-top: 27px !important;border-bottom: 1px solid grey;padding-top: 12px;
+}
+.fa-shopping-cart{
+    position: absolute;
+    top: 2px;
+}
+html{
+     overflow-x: hidden;
+}
+.slogan {
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 70px;
+    left: 289px;
+    width: 400px;
+    color: white;
+}
+
+.fa-shopping-cart{
+    font-size:26px !important;
+}
 
 .laundry-details-cont ul li {
     width: 50%;
@@ -281,6 +312,7 @@ nav.fixed {
 	display: inline-block;
 	font-size: 14px;
 	color: #5ca03c;
+    line-height:25px;
 }
 .toplogin ul li+li {
 	background: none;
@@ -347,6 +379,7 @@ nav.fixed {
 	color: #707676;
 	font-size: 12px;
 	text-align: center;
+    margin-top: 28px;
 }
 .copyright span {
 	color: #69b642;
@@ -403,7 +436,7 @@ nav.fixed {
 }
 .footer {
 	background: #0e1a1f;
-	padding: 50px 0px;
+	padding: 23px 0px;
 }
 #back-top > a {
 	bottom: 1%;
@@ -592,7 +625,7 @@ nav.fixed {
 }
 .newsletter {
 	background: #0e1a1f;
-	border-left: 5px solid #FFF;
+	border-left: 1px solid #FFF;
 	padding: 60px 150px 60px 40px !important;
 }
 .newsletter p, .newsletter h5 {
@@ -629,10 +662,11 @@ nav.fixed {
 	vertical-align: bottom;
 }
 .delievryapp {
-	position: absolute;
-	left: 0px;
-	top: -35px;
-	z-index: 9999;
+        position: absolute;
+    left: -45px;
+    top: -277px;
+    z-index: 9999;
+    width: 53%;
 }
 .getapp {
 	background: url(../images/jbg.jpg) no-repeat 0 / cover;
@@ -662,7 +696,8 @@ nav.fixed {
 .countries {
 	font-size: 16px;
 	font-weight: bold;
-	padding: 3% 0 2% 0;
+	/*padding: 3% 0 2% 0;*/
+    padding: 3% 0 2% 0;
 	border-bottom: 1px solid #e7e7e7;
 }
 [dir='rtl'] .slick-slide {
@@ -748,6 +783,7 @@ nav.fixed {
 	width: 80px;
 	height: 80px;
 	margin: 0 1%;
+    cursor:pointer;
 }
 .btn:hover, .btn2:hover, .readmore:hover {
 	transition: all .2s ease;
@@ -780,6 +816,9 @@ nav.fixed {
 }
 .flags {
 	margin-top: -10px;
+}
+.flags > img{
+    padding-top: 3px;
 }
 .bulltes li:hover {
 	background: #6ebe44;
@@ -1609,7 +1648,7 @@ nav.fixed {
 	top: 17px;
 	height: 0;
 }
- @media (min-width: 100px) and (max-width: 767px) {
+ @media (min-width: 100px) and (max-width: 769px) {
 .menu-header {
 	width: 100%;
 }
@@ -2068,7 +2107,7 @@ ul li.has-subnav .accordion-btn {
 }
  @media (min-width: 100px) and (max-width: 767px) {
 main {
-	padding: 0 15px;
+	/*padding: 0 15px;*/
 }
 .logo {
 	text-align: center;
@@ -2086,6 +2125,7 @@ main {
 header .searchform {
 	display: none;
 }
+
 .slider .inner-item {
 	height: 200px;
 }
@@ -2148,7 +2188,13 @@ header .searchform {
 }
 .main-section {
 	/*background: rgba(128, 128, 128, 0.26);*/
-	padding: 40px 0px;
+	/*padding: 40px 0px;*/
+    
+    padding-top:25px;
+    padding-bottom:25px;
+    overflow:hidden;
+    background-color:#ededed;
+
 }
 .press-main {
 	padding-top: 30px;
@@ -2185,6 +2231,9 @@ header .searchform {
 	color: #666666;
 }
 /* FORM INPUT COde*/
+.online-status p{
+    margin-top:10px;
+}
 
 #form-inputs {
 	border-radius: 0px;
@@ -3755,7 +3804,7 @@ ul.product-list li .product-cont .rating > input:checked + label:hover, ul.produ
 }
 .slider {
 	position: absolute;
-	cursor: pointer;
+	cursor: grab;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -3811,6 +3860,17 @@ input:checked + .slider:before {
 .show-order.order-details {
 	border: 1px solid #6bb842;
 	padding: 15px;
+    margin-top:110px;
+}
+.zama-label{
+    font-size:14px;
+    display:block;
+}
+div#Final {
+    margin-top: -24px;
+}
+.btn-more-countries{
+    white-space: nowrap;
 }
 .show-order.order-details .single-order {
 	border-bottom: 1px solid #cccccc;
@@ -5539,7 +5599,7 @@ a.minus-icon.inc-icon {
  
  .cart-total .cart-heading{padding:15px;}
  
- .cart-total li{width:100%; display:inline-block; padding:20px;
+ .cart-total li{width:100%; display:inline-block; padding:20px;margin-top: 5px;
 border:3px solid #e8e8e8; background:#FFF;}
  .cart-total li p{font-size:13px;color:#c0c0c0;padding:0;margin:0;font-weight:400;}
 
@@ -5665,11 +5725,103 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 	margin:24px 0 0 !important;		
 	}
 
-
-
 	.content-main li{width:47%;}		
 .content-main li.full-field{width:97%;}		   
 @media only screen and (max-width:1010px) {		
 	.content-main ul.profile {		
     margin: 15px 0 0;		
 }
+
+
+
+@media (min-width: 100px) and (max-width: 769px) 
+{
+	 
+	
+	
+	#selected_country li
+	{
+		list-style:none;
+		
+	}
+	
+	
+	
+	#selected_country 
+	{
+	margin-top: 3px;
+    margin-left: 0px;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+	margin: 10px 0px 25px 0px;
+	}
+	
+	.slick-slide .caption p {
+    font-size: 26px;
+    color: #6ebe44;
+}
+
+.btn2
+{
+	display:block;
+	text-align:center;
+}
+
+.flags {
+    margin:10px 0 ;
+}
+
+.countries
+{
+	text-align:center;
+	}
+	 
+	 
+ }
+ 
+ 
+ 
+ 
+ @media (min-width: 800px) and (max-width: 1030px) 
+{
+	
+	 .container
+	{
+		width:100% !important;
+	}
+	
+		#selected_country  li
+	{
+		list-style:none;
+	}
+	
+	
+	#selected_country 
+	{
+ 
+    width: 100%;
+    text-align: center;
+	margin: 15px 0px;
+}
+
+.btn2
+{
+	display:block;
+	text-align:center;
+}
+
+.flags {
+    margin:10px 0 ;
+}
+
+.countries
+{
+	text-align:center;
+	}
+	
+	
+}
+
+
+ 

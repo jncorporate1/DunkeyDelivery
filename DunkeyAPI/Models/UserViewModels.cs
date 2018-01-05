@@ -53,6 +53,25 @@ namespace WebApplication1.Models
 
     }
 
+    public class MobileViewModels
+    {
+
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(255, ErrorMessage = "Password must be at least 6 characters long", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required(ErrorMessage = "Confirm Password is required")]
+        [StringLength(255, ErrorMessage = "Password must be at least 6 characters long", MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Password & Confirm Password donot match")]
+        public string ConfirmPassword { get; set; }
+
+        public int User_Id { get; set; }
+
+
+    }
+
 
     public class PhoneVerificationModel
     {

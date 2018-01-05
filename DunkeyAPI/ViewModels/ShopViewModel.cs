@@ -1,12 +1,13 @@
 ﻿using DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
 namespace DunkeyAPI.ViewModels
 {
-    public class ShopViewModel:IDisposable
+    public class ShopViewModel : IDisposable
     {
         public ShopViewModel(Store model)
         {
@@ -25,7 +26,7 @@ namespace DunkeyAPI.ViewModels
 
         public string BusinessName { get; set; }
 
-        public string  BusinessType { get; set; }
+        public string BusinessType { get; set; }
 
         public string Image { get; set; }
 
@@ -36,7 +37,7 @@ namespace DunkeyAPI.ViewModels
         public StoreTags StoreTags { get; set; }
         //public virtual ICollection<StoreTags> StoreTags { get; set; }
 
-      //  public virtual ICollection<Category> Category { get; set; }
+        //  public virtual ICollection<Category> Category { get; set; }
 
 
         public void Dispose()
@@ -72,6 +73,24 @@ namespace DunkeyAPI.ViewModels
         public int TotalLaundryStores { get; set; }
         public int TotalPharmacyStores { get; set; }
         public int TotalRetailStores { get; set; }
+    }
+
+    public class ReviewBindingModel{
+        [Required]
+        public int User_Id { get; set; }
+        [Required]
+        public int Store_Id { get; set; }
+        [Required]
+        public int Rating { get; set; }
+        public string Feedback { get; set; }
+
+        
+    }
+
+  
+    public class ReviewList
+    {
+        public List<StoreRatings> Reviews { get; set; }
     }
 
 }

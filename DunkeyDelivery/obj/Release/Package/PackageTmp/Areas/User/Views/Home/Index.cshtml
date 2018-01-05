@@ -46,7 +46,7 @@
 <slider>
     <div class="slider">
         <div class="main-slider">
-            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner-5.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
                     <h2 class="wow fadeInLeft">
                         Get Your Food Retail and Groceries at your doorstep
@@ -127,7 +127,7 @@
                         </script>*@
                 </div>
             </div>
-            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner-2.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
                     <h2 class="wow fadeInLeft">
                         Get Your Food Retail and Groceries at your doorstep
@@ -165,7 +165,7 @@
                     </div>
                 </div>
             </div>
-            <div class="inner-item" style="background:url( ~/Content/assets/images/banner.jpg ) no-repeat center top / cover  ">
+            <div class="inner-item" style="background:url( ~/Content/assets/images/banner-3.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
                     <h2 class="wow fadeInLeft">
                         Get Your Food Retail and Groceries at your doorstep
@@ -256,9 +256,9 @@
 <!-------------------------------------------Countries-------------------------------------------------->
 <div class="countries">
     <div class="container">
-        <div class="col-md-3 nopad">ORDER FOOD IN YOUR COUNTRY:</div>
-        <div class="col-md-7 flags"><img src="~/Content/assets/images/flags.jpg" alt="" /></div>
-        <div class="col-md-2"><a href="javascript::" class="btn2">MOre Countries</a></div>
+        <div class="col-md-2 nopad">Order In Your Country:</div>
+        <div class="col-md-8 flags"><img src="~/Content/assets/images/flags.jpg" alt=""  /></div>
+        <div class="col-md-2"><a href="javascript::" class="btn2 btn-more-countries">More Countries</a></div>
     </div>
 </div>
 <!-------------------------------------------Countries End-------------------------------------------------->
@@ -282,7 +282,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <h3 class="wow fadeIn">HOW IT WORKS</h3>
-            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, </p>
+   @*         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, </p>*@
         </div>
         <div class="col-md-1"></div>
         <div class="clearfix"></div>
@@ -290,44 +290,44 @@
         <br />
         <div class="wow zoomIn">
             <div class="col-md-3">
-                <div class="worksicon">
+                <div class="">
                     <img width="75" height="75" src="~/Content/assets/images/g11.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>
                     1.
-                    Search
+                    Place Your Order
                 </h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Enter your address, find the delivery amenity you’re looking for.</p>
             </div>
             <div class="col-md-3">
-                <div class="worksicon">
+                <div class="">@*worksicon*@
                     <img width="75" height="75" src="~/Content/assets/images/g22.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>
                     2.
-                    Choose
+                    Select Delivery Amenity
                 </h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Easily order from the best restaurants, retails, groceries, pharmacy, and alcohol in the neighborhood.</p>
             </div>
             <div class="col-md-3">
-                <div class="worksicon">
+                <div class="">
                     <img width="65" height="65" src="~/Content/assets/images/g3.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>
                     3.
-                    Pay
+                    We Handle The Rest
                 </h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Order is received. Confirmation is sent to you.  </p>
             </div>
             <div class="col-md-3">
-                <div class="worksicon">
+                <div class="">
                     <img width="65" height="65" src="~/Content/assets/images/g4.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>
                     4.
-                    Enjoy
+                    Your Delivery Is Here…
                 </h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Order is delivered at your door steps.. You’ll get 20 Delivery Points for every $1 spent, which you can cash in for awesome rewards.</p>
             </div>
         </div>
     </div>
@@ -359,16 +359,16 @@
     <div class="delievryapp wow fadeInDown"><img src="~/Content/assets/images/deliveryapp.png" alt="" /></div>
     <div class="container overflow">
         <div class="col-md-5"></div>
-        <div class="col-md-7 newsletter  wow fadeInRight">
+        <div class="col-md-7 newsletter  wow fadeInRight" style="border-left: 0px;">
             @using (Ajax.BeginForm("Subscribe", "Home", new AjaxOptions { HttpMethod = "POST", OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
             {
-                <h5>GET THE APP LINK DIRECTLY TO YOUR PHONE</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec id odio libero. Nam lectus magna, aliquam at sem id, porta sollicitudin felis. Maecenas lacinia libero ac </p>
+                <h5>Download Dunkey Delivery App to get additional discounts.</h5>
+                @*<p>Type in your email address and receive the link to download Dunkey Delivery App.</p>
 
                 @Html.TextBoxFor(x => x.Phone, new { name = "Phone", id = "PhoneNumber", @placeholder = "Enter Your Number", onkeyup = "clearMessages()" })
 
                 <input type="submit" name="Submit" value="Submit" />
-                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger error" })*@
             }
             <div class="clearfix"></div>
             <br />
@@ -395,7 +395,7 @@
 
         <div class="rewards  wow fadeIn">
             <h3>Rewards</h3>
-            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>
+       @*     <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit</p>*@
         </div>
 
         <br /><br />
@@ -408,21 +408,21 @@
                     <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Find Favorites and  Discover New Ones</h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Thousands of restaurants and stores to choose from with a single click.</p>
             </div>
             <div class="col-md-4">
                 <div class="worksicon">
                     <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Earn Points &#038;  Get Rewards</h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>Score Delivery Points with every purchase and cash them in for free credit and other rewards. </p>
             </div>
             <div class="col-md-4">
                 <div class="worksicon">
                     <img width="75" height="75" src="~/Content/assets/images/h2.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Free, Easy, and  Essential</h3>
-                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugiratione..</p>
+                <p>It's free to order, quick and easy while saving time ordering your favorites. </p>
             </div>
         </div>
 

@@ -349,6 +349,10 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x86\msvcr120.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x86\SqlServerSpatial140.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\csc.exe
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -369,6 +373,7 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DAL.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\EntityFramework.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\EntityFramework.SqlServer.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GoogleMaps.LocationServices.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\jose-jwt.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.AspNet.Identity.Core.dll
@@ -397,6 +402,7 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Google.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.OAuth.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.SqlServer.Types.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Web.Infrastructure.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Newtonsoft.Json.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Nexmo.Api.dll
@@ -419,6 +425,7 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\WebGrease.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DAL.pdb
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.xml
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Extensions.Configuration.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Extensions.Configuration.Abstractions.xml
@@ -463,5 +470,3 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
-F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.dll
-F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.xml

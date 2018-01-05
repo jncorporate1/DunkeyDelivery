@@ -48,7 +48,7 @@ namespace DunkeyAPI.Controllers
                     {
                         //int MaxContentLength = 1024 * 1024 * 10; //Size = 1 MB  
 
-                        IList<string> AllowedFileExtensions = new List<string> { ".xlsx" };
+                        IList<string> AllowedFileExtensions = new List<string> { ".xlsx",".xls" };
                    
                         var ext = Path.GetExtension(postedFile.FileName);
                         var extension = ext.ToLower();
@@ -58,7 +58,7 @@ namespace DunkeyAPI.Controllers
                             {
                                 Message = "UnsupportedMediaType",
                                 StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
-                                Result = new Error { ErrorMessage = "Please Upload file of type .xlsx ." }
+                                Result = new Error { ErrorMessage = "Please Upload file of type .xlsx or .xls" }
                             });
                         }
                         else if (postedFile.ContentLength > Global.MaximumImageSize)
@@ -87,10 +87,10 @@ namespace DunkeyAPI.Controllers
                             Product SingleProduct = new Product();
                             Error ReturnError = new Error();
                             var ErrorCount = 0;
-
-
+                            
                             SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
-                            var workbook = ExcelFile.Load(postedFile.InputStream, LoadOptions.XlsxDefault);
+                            
+                            var workbook = ExcelFile.Load(postedFile.InputStream, extension == ".xls" ? (LoadOptions)LoadOptions.XlsDefault : (LoadOptions)LoadOptions.XlsxDefault);
 
                             var worksheet = workbook.Worksheets.ActiveWorksheet;
 
@@ -182,14 +182,24 @@ namespace DunkeyAPI.Controllers
 
                             foreach (var product in ProductToImport)
                             {
+                                if (!ctx.Categories.Any(x=>x.Id==product.Category_Id && x.Store_Id == product.Store_Id))
+                                {
+                                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                                    {
+                                        Message = "Conflict",
+                                        StatusCode = (int)HttpStatusCode.Conflict,
+                                        Result = new Error { ErrorMessage = "Invalid Store_Id "+product.Store_Id+" or Category_Id " + product.Category_Id}
+                                    });
+                                }
+
                                 if (ctx.Products.Any(x => x.Name.Contains(product.Name)))
                                 {
-                                    ReturnError.ErrorMessage = product.Name + " already exists.";
+                                    ReturnError.ErrorMessage ="Product by name '"+product.Name + "' already exists.";
                                     ErrorCount++;
                                 }
                             }
 
-                            if (ErrorCount == 0)
+                            if (ErrorCount == 0 && ProductToImport.Count>0)
                             {
                                 ctx.Products.AddRange(ProductToImport);
                                 ctx.SaveChanges();
@@ -220,7 +230,15 @@ namespace DunkeyAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+                StatusCode(DunkeyDelivery.Utility.LogError(ex));
+               
+                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                {
+                    Message = "Conflict",
+                    StatusCode = (int)HttpStatusCode.Conflict,
+                    Result =new Error { ErrorMessage="Invalid Store_Id or Category_Id" }
+                });
+
             }
         }
     }

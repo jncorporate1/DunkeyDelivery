@@ -372,6 +372,6 @@ F:\Projects\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.OAuth.xml
 F:\Projects\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Google.xml
 F:\Projects\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.Twitter.xml
 F:\Projects\DunkeyDelivery\BasketWebPanel\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Projects\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.dll
 F:\Projects\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.pdb
-F:\Projects\DunkeyDelivery\BasketWebPanel\obj\Debug\BasketWebPanel.csprojResolveAssemblyReference.cache

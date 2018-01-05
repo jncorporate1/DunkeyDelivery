@@ -179,7 +179,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             else if (Type == "Retail")
             {
                 ViewBag.Title = "Retail Stores";
-                ViewBag.BannerImage = "retails-banner.jpg";
+                ViewBag.BannerImage = "retails-banner.png";
             }
             else
             {
@@ -395,7 +395,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             try
             {
-                var response = await ApiCall<ForgetPasswordEmail>.CallApi("api/User/ResetPasswordThroughEmail?email=" + model.Email + "", null, false);
+                
+                   var response = await ApiCall<ForgetPasswordEmail>.CallApi("api/User/ResetPasswordThroughEmail?email=" + model.Email + "", null, false);
+                   //var response = await ApiCall<ForgetPasswordEmail>.CallApi("api/User/PasswordResetThroughEmail?email=" + model.Email + "", null, false);
 
                 if (response is Error)
                 {
@@ -405,9 +407,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 var responseValue = response.GetValue("Result").ToObject<ForgetPasswordEmail>();
                 //var callbackUrl = Url.Link("Default", new { Controller = "ResetPassword", Action = "ResetPassword", code = responseValue.Code });
-                var callbackUrl = Url.Action("ResetPassword", "Home", new { area = "User", code = responseValue.forgetPasswordToken.Last().Code });
-                const string subject = "Reset your password - Dunkey Delivery";
-                const string body = "Use this link to reset your password";
+                //var callbackUrl = Url.Action("ResetPassword", "Home", new { area = "User", code = responseValue.forgetPasswordToken.Last().Code });
+                var callbackUrl = Utility.WebBaseUrl + "User/Home/ResetPassword?code=" + responseValue.forgetPasswordToken.Last().Code;
+                const string subject = "Your Password Has Been Changed";
+                string body = "You recently requested to change password of "+model.Email+" "+ Environment.NewLine + " To Complete your request, please click link below: "+Environment.NewLine+" " +callbackUrl;
 
                 var smtp = new SmtpClient
                 {
@@ -419,13 +422,14 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     Credentials = new NetworkCredential(EmailUtil.FromMailAddress.Address, EmailUtil.FromPassword)
                 };
 
-                var message = new MailMessage(EmailUtil.FromMailAddress, new MailAddress(responseValue.Email))
+                var message = new MailMessage(EmailUtil.FromMailAddress, new MailAddress(model.Email))
                 {
                     Subject = subject,
-                    Body = body + " " + ConfigurationManager.AppSettings["WebBaseUrl"] + callbackUrl
+                    Body = body
                 };
 
                 smtp.Send(message);
+
 
 
                 ViewBag.BannerImage = "press-top-banner.jpg";
@@ -505,7 +509,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             #region Conditional Banners|Texts|Links
             if (model.Search == "Food")
             {
-                ViewBag.Title = "Food Stores";
+                ViewBag.Title = "Food";
                 ViewBag.BannerImage = "banner.jpg";
                 responseValue.SetSharedData(User);
                 return View("~/Areas/User/Views/Food/SearchFood.cshtml", responseValue);
@@ -513,34 +517,34 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
             else if (model.Search == "Pharmacy")
             {
-                ViewBag.Title = "Pharmacy Stores";
+                ViewBag.Title = "Pharmacy";
                 ViewBag.BannerImage = "pharmacy-banner.png";
 
             }
             else if (model.Search == "Laundry")
             {
-                ViewBag.Title = "Laundry Stores";
-                ViewBag.BannerImage = "alcohol-banner.jpg";
+                ViewBag.Title = "Laundry";
+                ViewBag.BannerImage = "laundry.png";
             }
             else if (model.Search == "Alcohol")
             {
-                ViewBag.Title = "Alcohol Stores";
-                ViewBag.BannerImage = "alcohol-banner.jpg";
+                ViewBag.Title = "Alcohol";
+                ViewBag.BannerImage = "alcohol-banner.png";
             }
             else if (model.Search == "Ride")
             {
-                ViewBag.Title = "Ride Stores";
+                ViewBag.Title = "Ride";
                 ViewBag.BannerTitle = model.Search;
-                ViewBag.BannerImage = "ridebanner.jpg";
+                ViewBag.BannerImage = "ridebanner.png";
             }
             else if (model.Search == "Retail")
             {
-                ViewBag.Title = "Retail Stores";
-                ViewBag.BannerImage = "retails-banner.jpg";
+                ViewBag.Title = "Retail";
+                ViewBag.BannerImage = "retails-banner.png";
             }
             else
             {
-                ViewBag.Title = "Grocery Stores";
+                ViewBag.Title = "Grocery";
                 ViewBag.BannerImage = "grocery-banner.png";
             }
             ViewBag.Path = "Home > " + model.Search + "";
@@ -553,6 +557,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             return View("~/Areas/User/Views/Home/Search.cshtml", responseValue);
 
         }
+
         public async Task<JsonResult> Subscribe(HomeViewModel model)
         {
             var response = await ApiCall<HomeViewModel>.CallApi("api/User/SendAppLink", model);

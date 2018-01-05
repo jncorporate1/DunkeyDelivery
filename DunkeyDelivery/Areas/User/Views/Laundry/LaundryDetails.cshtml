@@ -51,7 +51,7 @@
 		<div class="row">
 
 
-			<div class="col-md-9">
+			<div class="col-md-9" style="margin-top: 30px;padding-bottom: 30px;">
 				<ul class="tabs-list clearfix">
 					<li>
 						<button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Services</button>
@@ -140,27 +140,83 @@
 
 					</div>
 				</div>
-				<div class="tab1 tabcontent" id="paris">
-					<div class="reviews-main clearfix reviews-tab">
-						<h4>Reviews</h4>
-						<p class="based-on">
-							<img class="no-review" src="~/Content/assets/images/no-rating.png" />
-                            There are no reviews yet
-						</p>
-						<ul>
-							@*<li>
-								<img src="~/Content/assets/images/rating.png" />
-								<p>
-									By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
-									The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
-									tasty it literally blew me away.
-								</p>
-							</li>*@
+                <div class="tab1 tabcontent" id="paris">
+                    <div class="reviews-main clearfix reviews-tab">
+                        <h4>Reviews</h4>
 
-							
-						</ul>
-					</div>
-				</div>
+                        @if (Model.ReviewForView.Reviews.Count == 0)
+                        {
+                            <p class="based-on">
+                                There are no reviews yet
+                            </p>
+                        }
+                        else
+                        {
+                            foreach (var review in Model.ReviewForView.Reviews)
+                            {
+                                <div class="row review-row">
+                                    <p><i>@review.User.FullName</i></p>
+                                    @for (int i = 0; i < 5; i++)
+                                    {
+                                        if (i <= review.Rating)
+                                        {
+                                            <span><i class="icon fa fa-star custom-size"></i></span>
+
+                                        }
+                                        else
+                                        {
+                                            <span><i class="icon fa fa-star-o custom-size"></i></span>
+                                        }
+                                    }
+                                    <p class="review-feedback">@review.Feedback</p>
+                                </div>
+                            }
+
+                        }
+
+                        <div class="row" style="padding-left: 29px;margin-top: 27px !important;">
+                            <h3 style="padding: 10px 0px;">Write a review</h3>
+                            <label class="zama-label">Rating</label>
+                            <span><i class="icon fa fa-star-o custom-size" id="0" onclick="fillStar(this.id)"></i></span>
+                            <span><i class="icon fa fa-star-o custom-size" id="1" onclick="fillStar(this.id)"></i></span>
+                            <span><i class="icon fa fa-star-o custom-size" id="2" onclick="fillStar(this.id)"></i></span>
+                            <span><i class="icon fa fa-star-o custom-size" id="3" onclick="fillStar(this.id)"></i></span>
+                            <span><i class="icon fa fa-star-o custom-size" id="4" onclick="fillStar(this.id)"></i></span>
+                            <br /><br />
+                            @using (Ajax.BeginForm("SubmitReview", "UserStore", new AjaxOptions { OnSuccess = "ReviewSuccess", OnFailure = "ReviewFailed" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <input type="text" name="UserReview.User_Id" value="@Model.Id" hidden />
+                                <input type="text" name="UserReview.Store_Id" value="@Model.StoreViewModel.Id" hidden />
+                                <input type="text" name="UserReview.Rating" id="Rating" value="" hidden />
+                                <label class="zama-label" style="margin-bottom:5px;">Your Review</label>
+                                <textarea class="form-control" name="UserReview.Feedback" id="reviewArea"></textarea>
+                                if (Model.Id != null)
+                                {
+                                    <input type="submit" class="btn btn-primary" value="Submit" style="float: right;margin-top: 10px;" />
+                                }
+                                else
+                                {
+                                    <input type="button" class="btn btn-primary" onclick="login_error()" value="Submit" style="float: right;margin-top: 10px;" />
+
+                                }
+
+                            }
+                            <p style="display:none;" id="review_message"></p>
+                        </div>
+                        <ul>
+                            @*<li>
+                        <img src="~/Content/assets/images/rating.png" />
+                        <p>
+                            By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                            The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                            tasty it literally blew me away.
+                        </p>
+                    </li>*@
+
+                        </ul>
+                    </div>
+                </div>
 				<div class="tab1 tabcontent" id="newyork">
 
 					<div class="location-info clearfix">
@@ -232,7 +288,53 @@
 
 </div>
 
+<script>
+    function ReviewSuccess(data){
+           
+        $("#review_message").show();
+        if(data==0){
+            $("#review_message").css("color","green");
+            $("#review_message").text("Review Submitted Successfully.");
+        }else{
+            $("#review_message").css("color","red");
+            $("#review_message").text("You already review this store.");
+        }
+    }
+    function login_error(){
+        $("#review_message").css("color","red");
+        $("#review_message").text("Please login to submit review.");
+        $("#review_message").show();
+        $('#review_message').delay(3000).fadeOut();
+    }
 
+    function fillStar(id){
+
+        var index=parseInt(id);
+        var valueOfRating=index+1;
+        $("#Rating").val(valueOfRating);
+        for(var i=0;i<5;i++){
+            if(i<=index){
+                if($("#"+i).hasClass("fa-star") && index==0){
+                    $("#"+i).removeClass("fa-star");
+                    $("#"+i).addClass("fa-star-o");
+                    $("#Rating").val("0");
+                }else{
+                    $("#"+i).removeClass("fa-star-o");
+                    $("#"+i).addClass("fa-star");
+                }
+            }else{
+         
+                if($("#"+i).hasClass("fa-star")){
+                    $("#"+i).removeClass("fa-star");
+                    $("#"+i).addClass("fa-star-o");
+                }
+                
+            }
+        }
+
+    }
+
+</script>
 <script>
 
 		var BusinessName="@Model.StoreViewModel.BusinessName";

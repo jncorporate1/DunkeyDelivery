@@ -42,6 +42,28 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
+        public static void CalculateAllTypesAverageRating(this Store store)
+        {
+            try
+            {
+                foreach (var rate in store.StoreRatings)
+                {
+                    if (rate.Rating==5)
+                    {
+                        store.RatingType.FiveStar++;
+                    }else if (rate.Rating == 4)
+                    {
+                        store.RatingType.FiveStar++;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
+
         public static void SetOrderItem(this Order_Items orderItem, CartItemViewModel model, DunkeyContext ctx)
         {
             try

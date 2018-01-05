@@ -15,6 +15,9 @@ namespace DunkeyDelivery.Areas.User.Models
             Product_Ids = new List<int>();
         }
 
+        public ReviewBindingModel UserReview { get; set; }
+        public ReviewViewModel ReviewForView { get; set; }
+
         public List<int> Product_Ids { get; set; }
 
         [Required(ErrorMessage = "Doctor First Name is required")]

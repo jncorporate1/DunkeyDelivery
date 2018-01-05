@@ -25,6 +25,7 @@ namespace DAL
             StoreTags = new HashSet<StoreTags>();
             Admins = new HashSet<Admin>();
             Packages = new HashSet<Package>();
+            RatingType = new RatingTypes();
         }
 
         public int Id { get; set; }
@@ -67,6 +68,9 @@ namespace DAL
         public DbGeography Location { get; set; }
 
         [NotMapped]
+        public RatingTypes RatingType { get; set; }
+
+        [NotMapped]
         public bool ImageDeletedOnEdit { get; set; }
 
         [JsonIgnore]
@@ -89,7 +93,7 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 
-        [JsonIgnore]
+ 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreRatings> StoreRatings { get; set; }
 
@@ -119,5 +123,23 @@ namespace DAL
 
         [NotMapped]
         public double BusinessTypeTax { get; set; }
+
+
+        public class RatingTypes
+        {
+            public int FiveStar { get; set; }
+
+            public int FourStar { get; set; }
+
+            public int ThreeStar { get; set; }
+
+            public int TwoStar { get; set; }
+
+            public int OneStar { get; set; }
+
+            public int AverageRating { get; set; }
+
+            public int TotalRatings { get; set; }
+        }
     }
 }

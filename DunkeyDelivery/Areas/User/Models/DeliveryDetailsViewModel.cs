@@ -14,12 +14,14 @@ namespace DunkeyDelivery.Areas.User.Models
         public DeliveryDetailsViewModel()
         {
             StripeSettings = new StripeSettings();
+            addressesModel = new GenericAddresses();
         }
 
         public Cart Cart { get; set; }
         public DeliveryDetails DeliveryDetails { get; set; }
         public PaymentInormation PaymentInformation { get; set; }
         public StripeSettings StripeSettings { get; set; }
+        public GenericAddresses addressesModel { get; set; }
         public string StripeEmail { get; set; }
         public string StripeId { get; set; }
         public double TipAmount { get; set; }

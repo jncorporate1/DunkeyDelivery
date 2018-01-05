@@ -487,8 +487,10 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     
                     if (response is Error || response==null)
                     {
+                        var err=(response as Error).ErrorMessage;
+                        //var Stores = response.GetValue("ErrorMessage").ToObject<string>();
                         //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
-                        return Json(new { success = false, response = response, }, JsonRequestBehavior.DenyGet);
+                        return Json(new { success = false, responseText = err }, JsonRequestBehavior.DenyGet);
                        // return Json(response);
 
                     }

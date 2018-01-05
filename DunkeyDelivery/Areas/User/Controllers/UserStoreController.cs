@@ -77,7 +77,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
 
             var Shop = await ApiCall<ShopViewModel>.CallApi("api/Shop/GetStoreById?Id=" + model.Store_id + "", null, false);
-
+            #region GetStoreReviews
+            var responseReviews = await ApiCall<ReviewViewModel>.CallApi("api/Shop/GetStoreReviews?Store_Id=" + model.Store_id + "", null, false);
+            var responseReviewValue = responseReviews.GetValue("Result").ToObject<ReviewViewModel>();
+            #endregion
             if (model.SearchType == "Laundry")
             {
                 #region Laundry Store 
@@ -103,6 +106,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
 
                 viewmodel.StoreViewModel = responseShop;
+                viewmodel.ReviewForView = responseReviewValue;
                 viewmodel.SetSharedData(User);
                 return View("~/Areas/User/Views/Laundry/LaundryDetails.cshtml", viewmodel);
                 #endregion
@@ -124,6 +128,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
 
                 #endregion
+                viewModel.ReviewForView = responseReviewValue;
                 viewModel.SetSharedData(User);
                 return View("~/Areas/User/Views/Alcohol/StoreCategories.cshtml", viewModel);
                 #endregion
@@ -144,6 +149,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 #endregion
                 response.SetSharedData(User);
+                response.ReviewForView = responseReviewValue;
                 return View("~/Areas/User/Views/Pharmacy/PharmacyDetails.cshtml", response);
             }
             else if (model.SearchType == "Retail")
@@ -163,6 +169,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
 
                 #endregion
+                viewModel.ReviewForView = responseReviewValue;
                 viewModel.SetSharedData(User);
                 return View("~/Areas/User/Views/Retail/RetailDetails.cshtml", viewModel);
                 #endregion
@@ -171,6 +178,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             {
 
                 CategoryProductViewModel modelResponse = new CategoryProductViewModel();
+                modelResponse.ReviewForView = responseReviewValue;
                 #region GetProduct
 
 
@@ -252,6 +260,30 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             return PartialView("~/Areas/User/Views/Store/_StoreInfo.cshtml", Model);
         }
+        public JsonResult SubmitReview(CategoryProductViewModel model)
+        {
+            {
+                var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall<ReviewBindingModel>.CallApi("api/Shop/SubmitStoreReview", model.UserReview,true));
+                if(responseProduct is Error)
+                {
+                    return Json(JsonRequestBehavior.DenyGet);
+                }
+                var responseValueReview = responseProduct.GetValue("Result").ToObject<ReviewViewModel>();
+                if(responseValueReview is Error)
+                {
+                    return Json(JsonRequestBehavior.DenyGet);
+                }
+
+                //modelResponse.Products = responseValueProduct;
+                return Json(JsonRequestBehavior.AllowGet);
+                //return PartialView("~/Areas/User/Views/Grocery/_ProductsDetails.cshtml", modelResponse);
+
+                //return View("~/Areas/User/Views/Grocery/GroceryDetails.cshtml", modelResponse);
+
+            }
+        }
+
+
 
 
 

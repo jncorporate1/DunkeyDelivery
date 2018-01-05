@@ -21,7 +21,7 @@ namespace DAL
             Payment_Details = new HashSet<Payment_Details>();
             UserAddresses = new HashSet<UserAddress>();
             BlogComments = new HashSet<BlogComments>();
-        
+            StoreRatings = new HashSet<StoreRatings>();
 
 
         }
@@ -108,6 +108,9 @@ namespace DAL
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserRewards> UserRewards { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StoreRatings> StoreRatings { get; set; }
 
         [NotMapped]
         public Token Token { get; set; }

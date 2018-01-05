@@ -42,7 +42,6 @@
 		}
 
 
-
         #selected_country{
             margin-top: 3px;
             margin-left: 0px;
@@ -63,19 +62,19 @@
 			<div class="col-md-9 nopad wow fadeInRight">
 				<div class="col-md-6 header_detail">
 					<ul>
-						<li><i class="fa fa-mobile" aria-hidden="true"></i> 1234 - 5678 - 9012</li>
+						@*<li><i class="fa fa-mobile" aria-hidden="true"></i> 1234 - 5678 - 9012</li>*@
 						<li><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:support@dunkeydelivery.com">support@dunkeydelivery.com</a></li>
 					</ul>
 				</div>
-				<div class="col-md-6 toplogin nopad">
-                    <div class="col-md-7 nopad loginbuttons">
+				<div class="col-md-6 col-sm-12 col-xs-12  toplogin nopad">
+                    <div class="col-md-7 col-sm-7 col-xs-7 nopad loginbuttons">
                         <ul>
                             @if (string.IsNullOrEmpty(Model.UserName))
                             {
 
                                 <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-                                <li><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
-                                <li><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
+                                <li style="position: relative;left: 6px;top: 4px;" ><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
+                                <li style="position: relative;left: -6px;top: 4px;" ><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
 
                             }
                             else
@@ -88,14 +87,14 @@
                         </ul>
                     </div>
 
-					<div class="col-md-2 lang nopad">
-						<select>
+					<div class="col-md-2 col-sm-2 col-xs-2 lang nopad">
+						<select style="position: relative;left: -6px;top: 4px;" >
 							<option>ENG</option>
 							<option>FRCH</option>
 						</select>
 					</div>
-                    <div class="col-md-3 lang nopad" id="selected_country">
-                        <li><img src="~/Content/assets/images/UAE.jpg" alt=""><span >  UAE </span></li>
+                    <div class="col-md-3 col-sm-3 col-xs-3 lang nopad" style="position: relative;left: -6px;top: 4px;"  id="selected_country">
+                        <li><img src="~/Content/assets/images/United-States-of-American.png" alt=""><span >  USA </span></li>
                     </div>
 				</div>
 			</div>
@@ -111,7 +110,10 @@
 
 					<!-- -----------------------Logo  ---------------------- -->
 					<logo>
-						<div class="mlogo wow fadeInDown"> <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img width="300" height="225" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a> </div>
+						<div class="mlogo wow fadeInDown"> <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a>
+                            @*1234 - 5678 - 9012*@
+                        
+                        </div>
 					</logo>
 					<div class="col-md-6"></div>
 					<div class="col-md-6 nav5 wow fadeIn">
@@ -162,41 +164,47 @@
 	   <footer class="footer overflow">
 			<div class="container">
                 <div class="col-md-5 cflags wow fadeInLeft">
-                    <h4>Hungry? Order in your country</h4>
-                    <div class="col-md-4">
-                        <h5>Asia</h5>
-                        <ul class="" >
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/India.jpg" alt="">India</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Thailand.jpg" alt="">S. Korea</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Pakistan.jpg" alt="">Pakistan</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Singapore.jpg" alt="">Singapore</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Malaysia.jpg" alt="">Malaysia</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Taiwan.jpg" alt="">Taiwan</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Bangladesh.jpg" alt="">Bangladesh</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Kazakhstan.jpg" alt="">Kazakhstan</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Hong Kong</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Philippines.jpg" alt="">Philippines</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Brunei.jpg" alt="">Brunei</li>
-                        </ul>
-                    </div>
+                    <h4>Delivery? In Your Country</h4>
                     <div class="col-md-4">
                         <h5>Europe</h5>
                         <ul>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
                         </ul>
                     </div>
                     <div class="col-md-4">
-                        <h5>Middle East</h5>
+                        <h5>North America</h5>
                         <ul>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Saudi Arabia</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/UAE.jpg" alt="">UAE</li>
-                            <li onclick="changeCountry(this)" ><img src="~/Content/assets/images/Egypt.jpg" alt="">Egypt</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/United-States-of-American.png" alt="">USA</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/mexico.png" alt="">Mexico</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/dominica-flag.png" alt="">Dominica</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/canada.png" alt="">Canada</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/costarica_flag.png" alt="">Costa Rica</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/cuba.png" alt="">Cuba</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/svlarge.png" alt="">El Salvador</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Nicaragua.png" alt="">Nicarague</li>
+
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>South America</h5>
+                        <ul>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Brazil</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/UAE.jpg" alt="">Argentina</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Peru.png" alt="">Peru</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Colombia.png" alt="">Colombia</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Chile.png" alt="">Chile</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Ecuador.png" alt="">Ecuador</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Uruguay.png" alt="">Uruguay</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Paraguay.png" alt="">Paraguay</li>
+                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/aruba.png" alt="">Aruba</li>
+
+
                         </ul>
                     </div>
                 </div>
@@ -204,8 +212,8 @@
 				<div class="col-md-3 nopad footercontact wow zoomIn">
 					<h5>Contact info</h5>
                     <ul>
-                        <li><a href="javascript::">info@yoursite.com</a></li>
-                        <li>350 Fourth Avenue, 34th floor New York, USA</li>
+                        <li><a href="javascript::">info@dunkeydelivery.com</a></li>
+                        <li>3338 Peachtree Rd NE Atlanta GA 30326</li>
                         <li>+1 234 567 890</li>
                         <li>+1 234 567 890</li>
                     </ul>
@@ -273,7 +281,7 @@
                         {
                             <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
                         }
-						<a href="@Url.Action("Partners", "Footer")">Become A Partner</a>
+						<a href="@Url.Action("Partners", "Footer")">Partners</a>
 						<a href="@Url.Action("Contact", "Home",new { Area="User" })">Contact </a>
                         <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
 
@@ -287,7 +295,7 @@
 
 				<hr />
 
-				<div class="copyright wow fadeInUp"> © 2017 All rights reserved. <span>Dunkey Delivery</span></div>
+				<div class="copyright wow fadeInUp"> © 2018 All rights reserved. <span>Dunkey Delivery</span></div>
 
 
 

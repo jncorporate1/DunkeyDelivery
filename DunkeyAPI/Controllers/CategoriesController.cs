@@ -72,23 +72,30 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var catQuery = @"
-select * from categories where isdeleted = 0 and Store_Id = " + Store_id;
+                    var catQuery = @"select * from categories where isdeleted = 0 and Store_Id = " + Store_id;
 
                     var categories = ctx.Database.SqlQuery<categoryViewModel>(catQuery).ToList();
 
                     var catIds = string.Join(",", categories.Select(x => x.Id.ToString()));
-
-                    var productQuery = @"
-select * from products where isdeleted = 0 and category_id in (" + catIds + ")";
-
-                    var products = ctx.Database.SqlQuery<Product>(productQuery).ToList();
-                    
-                    foreach (var product in products)
+                    var productQuery = "";
+                    if (string.IsNullOrEmpty(catIds))
                     {
-                        categories.FirstOrDefault(x => x.Id == product.Category_Id).Products.Add(product);
+                        productQuery = @"select * from products where isdeleted = 0";
+                    }
+                    else
+                    {
+                        productQuery = @"select * from products where isdeleted = 0 and category_id in (" + catIds + ")";
+
                     }
 
+                    var products = ctx.Database.SqlQuery<Product>(productQuery).ToList();
+                    if (categories.Count != 0)
+                    {
+                        foreach (var product in products)
+                        {
+                            categories.FirstOrDefault(x => x.Id == product.Category_Id).Products.Add(product);
+                        }
+                    }
                     CustomResponse<List<categoryViewModel>> response = new CustomResponse<List<categoryViewModel>>
                     {
                         Message = "Success",
