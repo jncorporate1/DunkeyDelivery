@@ -4,6 +4,8 @@ using Owin;
 using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
 using AutoMapper;
+using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Facebook;
 
 [assembly: OwinStartup(typeof(DunkeyDelivery.Startup))]
 
@@ -50,11 +52,29 @@ namespace DunkeyDelivery
                 Provider = new MyAuthorizationServerProvider(),
                 //RefreshTokenProvider = new SimpleRefreshTokenProvider()
             };
+            //var facebookAuthenticationOptions = new FacebookAuthenticationOptions()
+            //{
+            //    AppId = "1535577566495675",
+            //    AppSecret = "fa855ddd9813fb417b4c44e74e24911f",
+            //    UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name,location",
+            //    Scope = { "email" }
+            //};
 
+            //app.UseFacebookAuthentication(facebookAuthenticationOptions);
             // Token Generation
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
             app.UseOAuthAuthorizationServer(OAuthServerOptions);
             app.UseOAuthBearerAuthentication(OAuthBearerOptions);
+
+            
+
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "286033043421-13bp1i0ivrlq84i9agh3uk2nma90fs7k.apps.googleusercontent.com",
+            //    ClientSecret = "HFS7L1d65Oc4arIvn9JcHf3P",
+            //    CallbackPath = new PathString("/Home")
+            //});
+
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
             //    ClientId = "279270651973-o98bchtvhdvacm66ukf137usfjkogr43.apps.googleusercontent.com",

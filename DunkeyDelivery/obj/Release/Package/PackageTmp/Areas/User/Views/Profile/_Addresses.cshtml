@@ -1,21 +1,22 @@
 ﻿@model DunkeyDelivery.Areas.User.Models.Addresses
-    <div class="content-div clearfix" id="view_address">
+<div class="content-div clearfix" id="view_address">
 
 
-        <div class="search-bar clearfix padh4">
-            <h4>Addresses</h4>
-            <!--<form>
-            <input type="text"  placeholder="search" />
-            <input type="submit" />
-              </form>-->
-        </div>
+    <div class="search-bar clearfix padh4">
+        <h4>Addresses</h4>
+        <!--<form>
+        <input type="text"  placeholder="search" />
+        <input type="submit" />
+          </form>-->
+    </div>
 
-        <div id="content" class="content-main clearfix">
-            <ul class="credit-details">
-                @if (Model.addresses.Count != 0)
+    <div id="content" class="content-main clearfix">
+       
+            @if (Model.addresses.Count != 0)
+            {
+                foreach (var address in Model.addresses)
                 {
-                    foreach (var address in Model.addresses)
-                    {
+                    <ul class="credit-details">
                         <div id="address_@address.Id">
                             <li>First Name<span>@Model.FirstName</span></li>
                             <li>Last Name<span>@Model.LastName</span></li>
@@ -24,26 +25,29 @@
                             <li>City<span>@address.City</span></li>
                             <li>State<span>@address.State</span></li>
                             <li>Postal Code<span>@address.PostalCode</span></li>
+                            <li>Primary Address<span>@address.IsPrimary</span></li>
                             <li style="margin-bottom: 7px !important;"><input style="float:right" type="submit" onclick="remove_address(this.id)" id="@address.Id" value="Remove Address" /></li>
-                            <hr style="width:100%;opacity 0.5;margin-top:7px;">
+                            @*<hr style="width:100%;opacity 0.5;margin-top:7px;">*@
                         </div>
+                    </ul>
 
-
-                    }
                 }
-                else
-                {
+            }
+            else
+            {
+                <ul class="credit-details">
                     <li>First Name<span> - </span></li>
                     <li>Last Name<span> - </span></li>
                     <li>Email<span> - </span></li>
                     <li>Full Address<span> - </span></li>
                     <li>City<span> - </span></li>
                     <li @*style="border-bottom:1px solid black"*@>Postal Code<span> - </span></li>
-                }
+                </ul>
 
-                <li><input type="submit" onclick="add_address_btn()" id="add_address_btn" value="add new address" /></li>
-            </ul>
+            }
+
+                    <li style="list-style: none;"><input type="submit" onclick="add_address_btn()" id="add_address_btn" value="add new address" /></li>
 
 
-        </div>
     </div>
+</div>

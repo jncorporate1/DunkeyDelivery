@@ -440,6 +440,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
             catch (Exception ex)
             {
+                Utility.LogError(ex);
                 throw;
             }
         }

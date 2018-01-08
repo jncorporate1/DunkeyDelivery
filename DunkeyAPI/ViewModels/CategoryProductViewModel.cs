@@ -32,10 +32,39 @@ namespace DunkeyAPI.ViewModels
 
         public string Size { get; set; }
 
+
+        public string BusinessType { get; set; }
+
+        public string BusinessName { get; set; }
+
+        public int MinDeliveryTime { get; set; }
+
+        public decimal? MinDeliveryCharges { get; set; }
+
+        public float? MinOrderPrice { get; set; }
+
         public void Dispose()
         {
 
         }
+    }
+
+    public class StoreCommon
+    {
+        public int Id { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public string Address { get; set; }
+        
+        public int MinDeliveryTime { get; set; }
+
+        public decimal? MinDeliveryCharges { get; set; }
+
+        public float? MinOrderPrice { get; set; }
+
+        public bool IsDeleted { get; set; }
+
     }
 
 

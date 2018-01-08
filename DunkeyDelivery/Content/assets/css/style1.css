@@ -19,6 +19,48 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+
+.gift-form-side{
+    padding:20px;
+}
+
+@media only screen and (max-width:991px){
+    .getapp > .delievryapp > img {
+        display:none;
+    }
+    #back-top{
+        display:none !important;
+    }
+    #back-top a{
+        display:none !important;
+    }
+}
+@media only screen and (max-width:1199px) and (min-width:992px){
+    .getapp > .delievryapp > img {
+        width:90%;
+        margin-top: 50px;
+    }
+}
+ @media only screen and (max-width:1200px) and (min-width:1010px) {
+        #selected_country li{
+            position: relative;
+            top: -32px;
+            left: 161px;
+        }
+        .col-md-2.lang {
+            margin-left: -46px !important;
+        }
+    }
+.review-feedback{
+    margin-bottom: 15px !important;
+    margin-top:5px !important;
+}
+.custom-size{
+    font-size:16px !important;
+}
+.review-row{
+    padding-left: 29px;margin-top: 27px !important;border-bottom: 1px solid grey;padding-top: 12px;
+}
 .fa-shopping-cart{
     position: absolute;
     top: 2px;
@@ -302,6 +344,7 @@ nav.fixed {
 	display: inline-block;
 	font-size: 14px;
 	color: #5ca03c;
+    line-height:25px;
 }
 .toplogin ul li+li {
 	background: none;
@@ -651,10 +694,11 @@ nav.fixed {
 	vertical-align: bottom;
 }
 .delievryapp {
-position: absolute;
-left: -38px;
-top: -149px;
-z-index: 9999;
+        position: absolute;
+    left: -45px;
+    top: -277px;
+    z-index: 9999;
+    width: 53%;
 }
 .getapp {
 	background: url(../images/jbg.jpg) no-repeat 0 / cover;
@@ -1636,7 +1680,7 @@ z-index: 9999;
 	top: 17px;
 	height: 0;
 }
- @media (min-width: 100px) and (max-width: 767px) {
+ @media (min-width: 100px) and (max-width: 769px) {
 .menu-header {
 	width: 100%;
 }
@@ -2095,7 +2139,7 @@ ul li.has-subnav .accordion-btn {
 }
  @media (min-width: 100px) and (max-width: 767px) {
 main {
-	padding: 0 15px;
+	/*padding: 0 15px;*/
 }
 .logo {
 	text-align: center;
@@ -2177,6 +2221,12 @@ header .searchform {
 .main-section {
 	/*background: rgba(128, 128, 128, 0.26);*/
 	/*padding: 40px 0px;*/
+    
+    padding-top:25px;
+    padding-bottom:25px;
+    overflow:hidden;
+    background-color:#ededed;
+
 }
 .press-main {
 	padding-top: 30px;
@@ -2213,6 +2263,9 @@ header .searchform {
 	color: #666666;
 }
 /* FORM INPUT COde*/
+.online-status p{
+    margin-top:10px;
+}
 
 #form-inputs {
 	border-radius: 0px;
@@ -3839,6 +3892,17 @@ input:checked + .slider:before {
 .show-order.order-details {
 	border: 1px solid #6bb842;
 	padding: 15px;
+    margin-top:110px;
+}
+.zama-label{
+    font-size:14px;
+    display:block;
+}
+div#Final {
+    margin-top: -24px;
+}
+.btn-more-countries{
+    white-space: nowrap;
 }
 .show-order.order-details .single-order {
 	border-bottom: 1px solid #cccccc;
@@ -4558,7 +4622,7 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 .topheader .col-md-4,
 .topheader .col-md-8,
 .topheader .col-md-2{width:100% !important; float:none; text-align:center;}	
-.container { width:96%; padding-left:2%; padding-right:2%; margin:0 !important; }
+.container { width:100%; padding-left:2%; padding-right:2%; margin:0 !important; }
 .header_detail {
    padding:2% 0 0;
     float: none;
@@ -5698,4 +5762,103 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 @media only screen and (max-width:1010px) {		
 	.content-main ul.profile {		
     margin: 15px 0 0;		
+}
+
+   
+
+@media (min-width: 100px) and (max-width: 800px) 
+{
+	 
+	
+	
+	#selected_country li
+	{
+		list-style:none;
+		
+	}
+	
+	
+	
+	#selected_country 
+	{
+	margin-top: 3px;
+    margin-left: 0px;
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+	margin: 10px 0px 25px 0px;
+	}
+	
+	.slick-slide .caption p {
+    font-size: 26px;
+    color: #6ebe44;
+}
+
+.btn2
+{
+	display:block;
+	text-align:center;
+}
+
+.flags {
+    margin:10px 0 ;
+}
+
+.countries
+{
+	text-align:center;
+	}
+	 
+	 
+ }
+ 
+ 
+ 
+ 
+ @media (min-width: 800px) and (max-width: 1030px) 
+{
+	
+	 .container
+	{
+		width:100% !important;
+	}
+	
+		#selected_country  li
+	{
+		list-style:none;
+	}
+	
+	
+	#selected_country 
+	{
+ 
+    width: 100%;
+    text-align: center;
+	margin: 15px 0px;
+}
+
+.btn2
+{
+	display:block;
+	text-align:center;
+}
+
+.flags {
+    margin:10px 0 ;
+}
+
+.countries
+{
+	text-align:center;
+	}
+	
+	
+}
+
+.nopadleft .links li{
+    cursor:pointer !important;
+}
+ 
+.nopadleft .links li a{
+    cursor:pointer;
 }

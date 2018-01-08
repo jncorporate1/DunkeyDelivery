@@ -65,9 +65,27 @@ namespace DunkeyAPI.Models
         public string Password { get; set; }
      }
 
+    public class SocialLoginBindingModel
+    {
+
+        public int Id { get; set; } = 0;
+
+        public string FirstName { get; set; } = "";
+
+        public string LastName { get; set; } = "";
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Email is invalid")]
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        public short Role { get; set; }
+
+        public string ProfilePictureUrl { get; set; }
 
 
-
+    }
     public class RegisterBindingModel
     {
 

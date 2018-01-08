@@ -257,7 +257,7 @@
 <div class="countries">
     <div class="container">
         <div class="col-md-2 nopad">Order In Your Country:</div>
-        <div class="col-md-8 flags"><img src="~/Content/assets/images/flags.jpg" alt=""  /></div>
+        <div class="col-md-8 flags text-center"><img src="~/Content/assets/images/flags.jpg" alt=""  /></div>
         <div class="col-md-2"><a href="javascript::" class="btn2 btn-more-countries">More Countries</a></div>
     </div>
 </div>
@@ -434,7 +434,11 @@
 
     <script src="~/Scripts/GoogleMap.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2qlAy2Quv00vXsc-Ix86WnIXvHmEJlg8&libraries=places&sensor=false"></script>
-
+    <script>
+        $(function () {
+            $(".slick-slide").css("box-shadow", "inset 0 0 0 1800px rgba(0, 0, 0, 0.3)");
+        });
+    </script>
 </div>
 
 <!-------------------------------------------Rewards Ends------------------------------------>
@@ -445,3 +449,14 @@
     <img src="~/Content/assets/images/brands.jpg" alt="" />
 </section>
 <!-------------------------------------------Top Brands Ends------------------------------------>
+<script>
+    $(function () {
+        $(window).resize(function () {
+            $('.main-slider .slick-slide, .main-slider').height($(window).height() - 91);
+            $('.banner-wrapper .banner, .banner-wrapper').height($(window).height() - 91);
+        });
+
+        $(window).trigger('resize');
+
+    });
+</script>

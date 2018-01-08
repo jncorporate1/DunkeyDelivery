@@ -438,6 +438,16 @@ namespace DunkeyAPI.Controllers
                     var f = Mapper.Map<List<productslist>>(res);
                     responsee.productslist = f;
 
+                    foreach (var item in responsee.productslist)
+                    {
+                        var store = ctx.Stores.FirstOrDefault(x => x.Id == item.Store_id);
+                        item.BusinessName = store.BusinessName;
+                        item.BusinessType = store.BusinessType;
+                        item.MinDeliveryCharges = store.MinDeliveryCharges;
+                        item.MinDeliveryTime = store.MinDeliveryTime;
+                        item.MinOrderPrice = store.MinOrderPrice;
+                    }
+
                     responsee.TotalRecords = ctx.Products.Where(x => x.Category_Id == Category_Id).Count();
                     CustomResponse<CategoryProductViewModel> response = new CustomResponse<CategoryProductViewModel>
                     {

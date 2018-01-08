@@ -96,8 +96,7 @@ namespace DAL
  
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreRatings> StoreRatings { get; set; }
-
-
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual StoreDeliveryHours StoreDeliveryHours { get; set; }
 
@@ -136,9 +135,7 @@ namespace DAL
             public int TwoStar { get; set; }
 
             public int OneStar { get; set; }
-
-            public int AverageRating { get; set; }
-
+            
             public int TotalRatings { get; set; }
         }
     }

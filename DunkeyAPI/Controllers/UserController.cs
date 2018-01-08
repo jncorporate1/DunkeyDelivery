@@ -80,6 +80,72 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [Route("SocialLogin")]
+        [HttpPost]
+        public async Task<IHttpActionResult> SocialLogin(SocialLoginBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+
+                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Role == 5 && x.IsDeleted == false);
+
+
+                    if (userModel != null)
+                    {
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(userModel))
+                        {
+                            await userModel.GenerateToken(Request);
+
+                            CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = userModel };
+                            return Ok(response);
+                        }
+                    }
+                    else
+                    {
+                        User newUser = new DAL.User
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Role = 5,
+                            Email = model.Email,
+                            ProfilePictureUrl = model.ProfilePictureUrl,
+                            FullName = model.FirstName + " " + model.LastName
+                        };
+                        ctx.Users.Add(newUser);
+                        ctx.SaveChanges();
+
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(newUser))
+                        {
+                            await newUser.GenerateToken(Request);
+
+                            CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = newUser };
+                            return Ok(response);
+                        }
+                    }
+                    //else
+                    //    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    //    {
+                    //        Message = "Forbidden",
+                    //        StatusCode = (int)HttpStatusCode.Forbidden,
+                    //        Result = new Error { ErrorMessage = "Invalid Email or Password" }
+                    //    });
+                    //return CustomResponse("Invalid UserName or Password");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
         // POST api/Account/ForgetPassword
         [Route("ForgetPassword")]
         public async Task<IHttpActionResult> ForgetPassword(ForgetPasswordBindingModel model)
@@ -535,7 +601,7 @@ namespace DunkeyAPI.Controllers
                     {
                         ForgetPasswordTokens addCode = new ForgetPasswordTokens
                         {
-                            Code =CryptoHelper.Hash(email),
+                            Code = CryptoHelper.Hash(email),
                             CreatedAt = DateTime.Now,
                             IsDeleted = false,
                             User_Id = user.Id
@@ -801,6 +867,18 @@ namespace DunkeyAPI.Controllers
                     }
                     else
                     {
+                        if (model.IsPrimary == true)
+                        {
+                            if (ctx.UserAddresses.Any(x => x.IsPrimary == true && x.IsDeleted == false))
+                            {
+                                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                                {
+                                    Message = "Conflict",
+                                    StatusCode = (int)HttpStatusCode.Conflict,
+                                    Result = new Error { ErrorMessage = "You have already marked one address as primary." }
+                                });
+                            }
+                        }
                         UserAddress addressModel = new UserAddress
                         {
                             User_ID = model.User_ID,
@@ -809,10 +887,10 @@ namespace DunkeyAPI.Controllers
                             PostalCode = model.PostalCode,
                             State = model.State,
                             Telephone = model.Telephone,
-                            IsPrimary = false,
+                            IsPrimary = model.IsPrimary,
                             IsDeleted = false,
-                            Frequency=model.Frequency,
-                            Address2=model.Address2
+                            Frequency = model.Frequency,
+                            Address2 = model.Address2
                         };
 
                         ctx.UserAddresses.Add(addressModel);
@@ -971,7 +1049,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete==false).FirstOrDefault();
+                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete == false).FirstOrDefault();
                     if (creditCard == null)
                     {
                         CreditCard creditcardModel = new CreditCard
@@ -1265,7 +1343,7 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         [Route("ExternalLogin")]
@@ -1295,6 +1373,7 @@ namespace DunkeyAPI.Controllers
 
                                 existingUser.ProfilePictureUrl = socialUser.picture;
                                 existingUser.FullName = socialUser.name;
+                               
                                 ctx.SaveChanges();
                                 await existingUser.GenerateToken(Request);
                                 CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = existingUser };
@@ -1302,7 +1381,7 @@ namespace DunkeyAPI.Controllers
                             }
                             else
                             {
-                                var newUser = new User { FullName = socialUser.name, Email = socialUser.email, ProfilePictureUrl = socialUser.picture, Role = 1 };
+                                var newUser = new User { FullName = socialUser.name, Email = socialUser.email, ProfilePictureUrl = socialUser.picture, Role = 5 };
                                 ctx.Users.Add(newUser);
                                 ctx.SaveChanges();
                                 //newUser.UserCategoriesConvertion();

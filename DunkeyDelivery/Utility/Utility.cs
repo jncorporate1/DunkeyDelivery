@@ -214,7 +214,8 @@ namespace DunkeyDelivery
             Deliverer = 1,
             SubAdmin = 2,
             SuperAdmin = 3,
-            ApplicationAdmin = 4
+            ApplicationAdmin = 4,
+            Facebook=5
         }
 
         public static HttpStatusCode LogError(Exception ex)

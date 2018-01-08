@@ -33,7 +33,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
@@ -388,9 +388,11 @@
     <Compile Include="ViewModels\ClientProductViewModel.cs" />
     <Compile Include="ViewModels\ContentListViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
+    <Compile Include="ViewModels\MobileOrderViewModel.cs" />
     <Compile Include="ViewModels\NotificationBindingModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\OrdersHistoryViewModel.cs" />
+    <Compile Include="ViewModels\OrderSummaryMobileViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryViewModel.cs" />
     <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\RatingTypes.cs" />
@@ -401,6 +403,7 @@
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />
     <Compile Include="ViewModels\TaxViewModel.cs" />
+    <Compile Include="ViewModels\UserRatingCount.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WebDashboardStatsViewModel.cs" />
   </ItemGroup>

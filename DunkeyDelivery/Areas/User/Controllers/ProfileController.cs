@@ -218,8 +218,11 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             if (response is Error)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
-
+                //return new HttpStatusCodeResult((response as Error).ErrorMessage);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "**basra*"+(response as Error).ErrorMessage+ "*basra**");
+                //return Json((response as Error).ErrorMessage, JsonRequestBehavior.AllowGet);
+                //return Content("{\"ErrorMessage\":\"" + (response as Error).ErrorMessage + "\"}");
+                //return new HttpStatusCodeResult(404, "Can't find that");
             }
             if (response == null)
             {
@@ -227,7 +230,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
 
 
-            return Json(response, JsonRequestBehavior.AllowGet);
+            return Json(response,JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

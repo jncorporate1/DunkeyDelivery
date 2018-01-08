@@ -398,6 +398,7 @@ function SuccessSubmission() {
 }
 
 function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
+    debugger;
 	$("#ModalNotification").css("color", "red");
 	$("#ModalNotification").html(errorThrown);
 	$("#Notifications").show();

@@ -226,5 +226,34 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
 
 
         }
+
+
+        [HttpPost]
+        [Route("GetCartMobile")]
+        public async Task<IHttpActionResult> GetCartMobile(MobileOrderViewModel model)
+        {
+            try
+            {
+                using (DunkeyContext ctx=new DunkeyContext())
+                {
+                    foreach (var store in model.Store)
+                    {
+                        store.StoreTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType == store.businessType).Tax;
+                        foreach (var product in store.products)
+                        {
+                            store.StoreSubTotal = store.StoreSubTotal + ctx.Products.FirstOrDefault(x => x.Id == product.Id).Price;
+                        }
+                        //model.OrderSummary.
+                    }
+
+                    
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
     }
 }

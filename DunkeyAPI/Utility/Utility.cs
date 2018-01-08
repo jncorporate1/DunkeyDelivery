@@ -48,6 +48,7 @@ namespace DunkeyDelivery
                 var parameters = new Dictionary<string, string>{
                             { "username", user.Email },
                             { "password", user.Password },
+                            { "role", Convert.ToString(user.Role)},
                             { "grant_type", "password" }
                         };
 
@@ -119,7 +120,7 @@ namespace DunkeyDelivery
                 return HttpStatusCode.InternalServerError;
             }
         }
-        public static HttpStatusCode SendEmail(string From,string To, string Subject, string Body)
+        public static HttpStatusCode SendEmail(string From, string To, string Subject, string Body)
         {
 
             using (var client = new SmtpClient("smtp.gmail.com", 587)
@@ -128,7 +129,7 @@ namespace DunkeyDelivery
                 EnableSsl = true
             })
             {
-                client.Send(From,To,Subject,Body);
+                client.Send(From, To, Subject, Body);
             }
 
             return HttpStatusCode.OK;
@@ -266,7 +267,7 @@ namespace DunkeyDelivery
 
             }
             return Type;
-            
+
 
         }
 
@@ -278,10 +279,10 @@ namespace DunkeyDelivery
             Laundry = 3,
             Pharmacy = 4,
             Retail = 5,
-            All=10
+            All = 10
 
         }
-        
+
     }
 
     public class Content
@@ -298,7 +299,7 @@ namespace DunkeyDelivery
                 case 1:
                     TypeStr = "Contact Us";
                     break;
-             
+
                 default:
                     break;
 
@@ -310,8 +311,8 @@ namespace DunkeyDelivery
 
         public enum Types
         {
-           AboutUs=0,
-           ContactUs=1
+            AboutUs = 0,
+            ContactUs = 1
         }
 
     }

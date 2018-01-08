@@ -9,9 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DunkeyDelivery.Models;
-using DAL;
 using System.Net;
 using System.Configuration;
+using System.Collections.Generic;
+using Facebook;
+using System.Web.Security;
 
 namespace DunkeyDelivery.Controllers
 {
@@ -25,7 +27,7 @@ namespace DunkeyDelivery.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -37,9 +39,9 @@ namespace DunkeyDelivery.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -54,13 +56,13 @@ namespace DunkeyDelivery.Controllers
                 _userManager = value;
             }
         }
-       
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string code = "")
         {
-           // ViewBag.ReturnUrl = returnUrl;
+            // ViewBag.ReturnUrl = returnUrl;
             ViewBag.Title = "Login";
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Path = "Home > Log In";
@@ -70,7 +72,7 @@ namespace DunkeyDelivery.Controllers
         [AllowAnonymous]
         public ActionResult SignUp()
         {
-           
+
             ViewBag.Title = "Sign Up";
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Path = "Home > Create Account";
@@ -94,7 +96,7 @@ namespace DunkeyDelivery.Controllers
             #endregion
             if (!ModelState.IsValid)
             {
-       
+
                 return View(model);
             }
 
@@ -103,7 +105,8 @@ namespace DunkeyDelivery.Controllers
             {
                 ModelState.AddModelError("", (response as Error).ErrorMessage);
                 return View("Login", model);
-            }else
+            }
+            else
             {
 
                 var userModel = response.GetValue("Result").ToObject<UserViewModel>();
@@ -117,20 +120,20 @@ namespace DunkeyDelivery.Controllers
                 identity.AddClaim(new Claim("FullName", userModel.FullName));
                 if (string.IsNullOrEmpty(userModel.ProfilePictureUrl))
                 {
-                    userModel.ProfilePictureUrl = ConfigurationManager.AppSettings["WebBaseUrl"]+ "/DefaultImages/DefaultUserImage.png";
+                    userModel.ProfilePictureUrl = ConfigurationManager.AppSettings["WebBaseUrl"] + "/DefaultImages/DefaultUserImage.png";
                 }
                 identity.AddClaim(new Claim("ProfilePictureUrl", userModel.ProfilePictureUrl));
                 identity.AddClaim(new Claim(ClaimTypes.Name, model.Email));
                 identity.AddClaim(new Claim("access_token", userModel.Token.access_token));
                 identity.AddClaim(new Claim("token_type", userModel.Token.token_type));
                 identity.AddClaim(new Claim("expires_in", userModel.Token.expires_in));
-               // identity.AddClaim(new Claim("refresh_token", userModel.Token.refresh_token));
+                // identity.AddClaim(new Claim("refresh_token", userModel.Token.refresh_token));
 
                 switch (userModel.Role)
                 {
                     case 0:
                         identity.AddClaim(new Claim("Email", model.Email));
-                        identity.AddClaim(new Claim("Id",Convert.ToString(model.Id)));
+                        identity.AddClaim(new Claim("Id", Convert.ToString(model.Id)));
                         identity.AddClaim(new Claim("FirstName", model.FirstName));
                         identity.AddClaim(new Claim("LastName", model.LastName));
                         identity.AddClaim(new Claim(ClaimTypes.Role, "User"));
@@ -144,7 +147,7 @@ namespace DunkeyDelivery.Controllers
                         AuthenticationManager.SignIn(identity);
                         break;
                     case 2:
-                     
+
                         identity.AddClaim(new Claim(ClaimTypes.Role, "SuperAdmin"));
                         AuthenticationManager.SignOut();
                         AuthenticationManager.SignIn(identity);
@@ -153,14 +156,14 @@ namespace DunkeyDelivery.Controllers
                     default:
                         break;
                 }
-                
+
                 AuthenticationManager.SignOut();
                 AuthenticationManager.SignIn(identity);
-                return RedirectToAction("Index", "Home", new {area="User" }); 
+                return RedirectToAction("Index", "Home", new { area = "User" });
             }
-            
 
-           
+
+
 
             return View();
 
@@ -197,7 +200,7 @@ namespace DunkeyDelivery.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -227,22 +230,23 @@ namespace DunkeyDelivery.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             model.ConfirmPassword = model.Password;
-            model.Role=0;
-        
-            
+            model.Role = 0;
+
+
             if (ModelState.IsValid)
             {
-               return View(ModelState);
+                return View(ModelState);
             }
-            
+
             var response = await ApiCall<RegisterViewModel>.CallApi("api/User/Register", model);
 
 
             if (response is Error)
             {
-                ViewBag.Failed= new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage).StatusDescription;
+                ViewBag.Failed = new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage).StatusDescription;
 
-            }else if (response==null)
+            }
+            else if (response == null)
             {
                 ViewBag.Failed = "Internal Server Error";
             }
@@ -259,8 +263,8 @@ namespace DunkeyDelivery.Controllers
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Path = "Home > Sign Up";
             ViewBag.BannerTitle = " Sign Up";
-          //  return RedirectToAction();
-            return View("SignUp",model);
+            //  return RedirectToAction();
+            return View("SignUp", model);
         }
 
         //
@@ -373,8 +377,6 @@ namespace DunkeyDelivery.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -407,6 +409,7 @@ namespace DunkeyDelivery.Controllers
             }
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
+
 
         //
         // GET: /Account/ExternalLoginCallback
@@ -570,5 +573,71 @@ namespace DunkeyDelivery.Controllers
             }
         }
         #endregion
+
+
+
+
+
+
+
+
+
+        private Uri RediredtUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url);
+                uriBuilder.Query = null;
+                uriBuilder.Fragment = null;
+                uriBuilder.Path = Url.Action("FacebookCallback");
+                return uriBuilder.Uri;
+            }
+        }
+
+        [AllowAnonymous]
+        public ActionResult Facebook()
+        {
+            var fb = new FacebookClient();
+            var loginUrl = fb.GetLoginUrl(new
+            {
+                client_id = "1535577566495675",
+                client_secret = "fa855ddd9813fb417b4c44e74e24911f",
+                redirect_uri = RediredtUri.AbsoluteUri,
+                response_type = "code",
+                scope = "email"
+            });
+
+            return Redirect(loginUrl.AbsoluteUri);
+        }
+
+        [HttpGet]
+        [Route("Account/FacebookCallback")]
+        public ActionResult FacebookCallback(string code)
+        {
+            var fb = new FacebookClient();
+            dynamic result = fb.Post("oauth/access_token", new
+            {
+                client_id = "1535577566495675",
+                client_secret = "fa855ddd9813fb417b4c44e74e24911f",
+                redirect_uri = RediredtUri.AbsoluteUri,
+                code = code
+            });
+
+            var accessToken = result.access_token;
+            Session["AccessToken"] = accessToken;
+            fb.AccessToken = accessToken;
+            dynamic me = fb.Get("me?fields=link,first_name,currency,last_name,email,gender,locale,timezone,verified,picture,age_range");
+
+            string email = me.email;
+            TempData["email"] = me.email;
+            TempData["first_name"] = me.first_name;
+            TempData["lastname"] = me.last_name;
+            TempData["picture"] = me.picture.data.url;
+
+            FormsAuthentication.SetAuthCookie(email, false);
+
+            return RedirectToAction("Index", "Home");
+
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace DunkeyDelivery.CustomAuthorization
         public const string SubAdmin = "SubAdmin";
         public const string SuperAdmin = "SuperAdmin";
         public const string ApplicationAdmin = "ApplicationAdmin";
+        public const string Facebook = "Facebook";
+
     }
 
     public enum RolesCode
@@ -20,6 +22,7 @@ namespace DunkeyDelivery.CustomAuthorization
         Deliverer = 1,
         SubAdmin = 2,
         SuperAdmin = 3,
-        ApplicationAdmin = 4
+        ApplicationAdmin = 4,
+        Facebook=5
     }
 }

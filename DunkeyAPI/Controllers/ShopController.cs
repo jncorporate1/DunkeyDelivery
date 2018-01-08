@@ -911,8 +911,21 @@ namespace DunkeyAPI.Models
 
                 if (businessTypeTax != null)
                     res.BusinessTypeTax = businessTypeTax.Tax;
+                if(res != null)
+                {
+                    res.SetAverageRating();
+                    res.CalculateAllTypesAverageRating();
 
-                res.CalculateAllTypesAverageRating();
+                    foreach (var item in res.StoreRatings)
+                    {
+                        var query = "select User_Id, Count(Store_Id) as Count from storeratings group by User_Id";
+                        var resp = ctx.Database.SqlQuery<UserRatingCount>(query).ToList();
+
+                        item.User.TotalReviews = resp.FirstOrDefault(x => x.User_Id == item.User.Id).Count;
+                        item.User.TotalOrders = ctx.Orders.Count(x => x.User_ID == item.User.Id);
+                    }
+
+                }
                 CustomResponse<Store> response = new CustomResponse<Store>
                 {
                     Message = "Success",

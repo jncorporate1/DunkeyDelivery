@@ -20,6 +20,8 @@ namespace DAL
 
         public string Feedback { get; set; }
 
+        public DateTime? DateOfRating { get; set; }
+
         public User User { get; set; }
         public Store Store { get; set; }
 

@@ -23,11 +23,7 @@ namespace DunkeyAPI.Social
                     urlProfile = "https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + access_token;
                 else if (socialLoginType == SocialLoginType.Facebook)
                     urlProfile = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name&access_token=" + access_token;
-
-                else if (socialLoginType == SocialLoginType.Twitter)
-                {
-
-                }
+                
                 client.CancelPendingRequests();
                 HttpResponseMessage output = await client.GetAsync(urlProfile);
 
@@ -51,10 +47,9 @@ namespace DunkeyAPI.Social
 
         public enum SocialLoginType
         {
-            Google,
-            Facebook,
-            Instagram,
-            Twitter
+            Google=6,
+            Facebook=5,
+            
         }
     }
 }

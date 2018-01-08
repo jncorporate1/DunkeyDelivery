@@ -29,8 +29,22 @@ namespace DunkeyDelivery
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
                 var form = await context.Request.ReadFormAsync();
+                var SignInType = 0;
+                //var SignInType = Convert.ToInt32(form["signintype"]);
 
-                var SignInType =Convert.ToInt32(form["signintype"]);
+                var Role1 = Convert.ToInt32(form["role"]);
+                var Role2= Convert.ToInt32(form["SignInType"]);
+
+                if(Role1 == 0 && Role2 != 0)
+                {
+                    SignInType = Role2;
+                }else if(Role1 != 0 && Role2 == 0)
+                {
+                    SignInType = Role1;
+                }else
+                {
+                    SignInType = Role1;
+                }
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
@@ -56,7 +70,12 @@ namespace DunkeyDelivery
                     }
                     else if (SignInType == 0 || SignInType == 5)
                     {
-                        userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
+                        if (SignInType == 5)
+                        {
+                            userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Role == 5 && x.IsDeleted == false);
+                        }
+                        else
+                            userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);
 
                         if (userModel != null)
                         {
@@ -79,9 +98,9 @@ namespace DunkeyDelivery
                                 case 4:
                                     identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.ApplicationAdmin.ToString()));
                                     break;
-                                //case 5:
-                                //    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Guest.ToString()));
-                                //    break;
+                                case 5:
+                                    identity.AddClaim(new Claim(ClaimTypes.Role, RoleTypes.Facebook.ToString()));
+                                    break;
                                 default:
                                     break;
                             }

@@ -47,7 +47,7 @@
                         <script>
                             alert('@ViewBag.Success');
                             window.location = "@Url.Action("Login", "Account")";
-                        @*<p style="color:green;" id="successmsg">@ViewBag.Success</p>*@
+                            @*<p style="color:green;" id="successmsg">@ViewBag.Success</p>*@
                         </script>
                     }
                     else
@@ -70,9 +70,8 @@
 
                     <span><img src="~/Content/assets/images/or.png" alt=""></span>
 
-                    <a href="javascript::"><img src="~/Content/assets/images/facebook.png" alt=""></a>
+                    <a href="@Url.Action("Facebook","Facebook")"><img src="~/Content/assets/images/facebook.png" alt=""></a>
                 </div>
-
 
             </div>
             <div class="col-md-6">
@@ -85,3 +84,4 @@
         </div>
     </div>
 </div>
+

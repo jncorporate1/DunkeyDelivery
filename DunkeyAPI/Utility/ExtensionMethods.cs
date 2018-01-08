@@ -51,11 +51,27 @@ namespace DunkeyAPI.ExtensionMethods
                     if (rate.Rating==5)
                     {
                         store.RatingType.FiveStar++;
-                    }else if (rate.Rating == 4)
+
+                    } else if (rate.Rating == 4)
                     {
                         store.RatingType.FiveStar++;
                     }
+                    else if (rate.Rating == 3)
+                    {
+                        store.RatingType.ThreeStar++;
+                    }
+                    else if (rate.Rating == 2)
+                    {
+                        store.RatingType.TwoStar++;
+                    }
+                    else if (rate.Rating == 1)
+                    {
+                        store.RatingType.OneStar++;
+                    }
                 }
+
+                store.RatingType.TotalRatings = store.RatingType.OneStar + store.RatingType.TwoStar + store.RatingType.ThreeStar + store.RatingType.FourStar + store.RatingType.FiveStar;
+
 
             }
             catch (Exception ex)

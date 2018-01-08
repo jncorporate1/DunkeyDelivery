@@ -117,7 +117,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public string PostalCode { get; set; }
 
         public bool IsDeleted { get; set; }
-
+        [Display(Name ="Primary Address")]
         public bool IsPrimary { get; set; }
     }
     public class GenericAddresses

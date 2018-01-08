@@ -7,7 +7,7 @@
 
 
     <div class="content-main clearfix">
-        @using (Ajax.BeginForm("AddAddress", "Profile", new AjaxOptions { OnSuccess = "customSuccessMessage", OnFailure = "customErrorMessage" }))
+        @using (Ajax.BeginForm("AddAddress", "Profile", new AjaxOptions { OnSuccess = "addressCustomMessageSuccess", OnFailure = "addressCustomMessage" }))
         {
             @Html.AntiForgeryToken()
         <form>
@@ -37,22 +37,25 @@
                     @Html.TextBoxFor(x => x.PostalCode, new { name = "PostalCode", @placeholder = "Postal Code" })
                     @Html.ValidationMessageFor(m => m.PostalCode, "", new { @class = "text-danger error" })
                 </li>
-                @*<li style="width:100%;margin-left: 0px;" >
+                <li style="width:100%;margin-left: 0px;" >
                 <span class="">
-                    <input type="checkbox" id="is_primary" name="payment_method" class="margin-from-left" />
-         
-                    <label for="is_primary"><span></span>Primary Address</label>
+                    @*<input type="checkbox" id="is_primary" name="IsPrimary" class="margin-from-left" />*@
+                    <div class="checkbox" style="display:flex;">
+                        @Html.CheckBoxFor(m => m.IsPrimary,new { @style="display:block !important;margin-left:0px !important;margin-right:10px;margin-top:3px;" , @class= "margin-from-left" })
+                        <label for="IsPrimary" style="font-size: 15px;font-weight:500;" ><span></span>Primary Address</label>
+                    </div>
+                 
                 </span>
-                </li>*@
+                </li>
                 <li>
                     <input type="submit" value="ADD ADDRESS" />
                     <div id="SuccessNotifications" style="display: none;margin-top: 11px;">
-                        <p id="ModalNotification" style="color:green;display:none;">New address saved successfully.</p>
+                        <p id="successMessage" style="color:green;display:none;">New address saved successfully.</p>
 
                     </div>
                     <span id="SuccessNotifications"></span>
                     <div id="ErrorNotifications" style="display: none;margin-top: 11px;">
-                        <p id="ModalNotification" style="color:red;">Address with submitted details already exist.</p>
+                        <p id="ErrorMessage" style="color:red;"></p>
 
                     </div>
                 </li>
@@ -63,7 +66,21 @@
         }
     </div>
 </div>
+<script>
+    function addressCustomMessage() {
+        var message = arguments[0].responseText.substr(arguments[0].responseText.indexOf("**basra*") + 8, (arguments[0].responseText.indexOf("*basra**") - 8) - arguments[0].responseText.indexOf("**basra*"))
+        $("#ErrorMessage").text(message);
+        $("#ErrorNotifications").show();
+        $("#ErrorMessage").show().delay(3000).fadeOut();
+    }
+    function addressCustomMessageSuccess() {
+     
+        $("#SuccessNotifications").show();
+        $("#successMessage").show().delay(3000).fadeOut();
+    }
 
+
+</script>
 
 
 @Scripts.Render("~/bundles/jquery")
