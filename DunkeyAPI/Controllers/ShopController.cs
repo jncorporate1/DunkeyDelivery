@@ -212,8 +212,11 @@ namespace DunkeyAPI.Models
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var res = ctx.Stores.Include("StoreTags").Where(x => x.BusinessType == Type && x.IsDeleted == false).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
-
+                    var res = ctx.Stores.Include("StoreTags").Include(x=>x.StoreRatings).Where(x => x.BusinessType == Type && x.IsDeleted == false).OrderBy(x => x.BusinessName).Skip(items * Page).Take(items).ToList();
+                    foreach (var storeRating in res)
+                    {
+                        storeRating.CalculateAverageRating();
+                    }
                     //var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
 
                     //if (businessTypeTax != null)
@@ -244,8 +247,11 @@ namespace DunkeyAPI.Models
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-                var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").First();
-
+                var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").Include(x=>x.StoreRatings).First();
+                if(res != null)
+                {
+                    res.CalculateAverageRating();
+                }
                 var businessTypeTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType.Equals(res.BusinessType));
 
                 if (businessTypeTax != null)

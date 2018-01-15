@@ -315,6 +315,7 @@
     <Compile Include="ClientViewModel\StoreTagViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AlcoholController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -380,6 +381,7 @@
     <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Global.cs" />
     <Compile Include="Utility\Utility.cs" />
+    <Compile Include="ViewModels\AlcoholViewModel.cs" />
     <Compile Include="ViewModels\BlogViewModel.cs" />
     <Compile Include="ViewModels\CartItemViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />

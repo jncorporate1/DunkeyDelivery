@@ -206,7 +206,7 @@ namespace DunkeyDelivery
         }
         public static string BaseUrl = ConfigurationManager.AppSettings["ApiBaseUrl"];      //"http://10.100.28.44/";
         public static string WebBaseUrl = ConfigurationManager.AppSettings["WebBaseUrl"];
-
+        public static string EmailBaseUrl = ConfigurationManager.AppSettings["EmailBaseUrl"];
 
         public enum RoleTypes
         {

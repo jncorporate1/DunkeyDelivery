@@ -67,4 +67,11 @@ namespace DunkeyAPI.ViewModels
         public string AdditionalNote { get; set; }
 
     }
+
+    public class RequestClothBindingModel
+    {
+        public int Store_Id { get; set;}
+
+        public int User_Id { get; set; }
+    }
 }

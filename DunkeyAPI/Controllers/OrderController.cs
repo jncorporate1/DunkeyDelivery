@@ -40,7 +40,7 @@ namespace DunkeyAPI.Controllers
                     using (DunkeyContext ctx = new DunkeyContext())
                     {
                         order.MakeOrder(model, ctx);
-                        
+
                         order.DeliveryTime_From = DateTime.Now;
                         order.DeliveryTime_To = DateTime.Now;
 
@@ -60,11 +60,11 @@ namespace DunkeyAPI.Controllers
                             CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
                         }
                         else
-                         {
+                        {
                             CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
                         }
                         ctx.SaveChanges();
-                        
+
                         return Ok(new CustomResponse<Order> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
                     }
                 }
@@ -188,7 +188,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     {
                         orderHistory.orders.FirstOrDefault(x => x.Id == storeOrder.Order_Id).StoreOrders.Add(storeOrder);
                     }
-                    
+
                     return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
 
                 }
@@ -227,6 +227,46 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
 
         }
 
+        [HttpPost]
+        [Route("RequestGetCloth")]
+        public async Task<IHttpActionResult> RequestGetCloth(RequestClothBindingModel model)
+        {
+            try
+            {
+                var Response = new LaundryRequest();
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var TodayDate = DateTime.Today.Day;
+                    var checkRequest = ctx.LaundryRequest.FirstOrDefault(x => x.User_Id == model.User_Id && x.Store_Id == model.Store_Id && x.RequestDate.Day == TodayDate);
+                    if (checkRequest == null)
+                    {
+                        LaundryRequest Request = new LaundryRequest
+                        {
+                            User_Id = model.User_Id,
+                            Store_Id = model.Store_Id,
+                            Name = "Get Cloth Request",
+                            RequestDate = DateTime.Now,
+                            isDeleted = false,
+                            Status = Convert.ToInt16(Global.ClothRequestTypes.Pending)
+
+                        };
+                        ctx.LaundryRequest.Add(Request);
+                        ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        return Ok(new CustomResponse<Error> { Message = "Conflict", StatusCode = (int)HttpStatusCode.Conflict, Result = new Error { ErrorMessage = "You already requested to Get Cloths for today." } });
+                    }
+                }
+                return Ok(new CustomResponse<LaundryRequest> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = Response });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
 
         [HttpPost]
         [Route("GetCartMobile")]
@@ -234,21 +274,78 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
         {
             try
             {
-                using (DunkeyContext ctx=new DunkeyContext())
+                using (DunkeyContext ctx = new DunkeyContext())
                 {
+                    if (System.Web.HttpContext.Current.Request.Params["Store"] != null)
+                        model.Store = JsonConvert.DeserializeObject<List<MobileCart>>(System.Web.HttpContext.Current.Request.Params["Store"]);
+                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id && x.IsPrimary == true);
+                    if (UserAddress == null)
+                    {
+                        UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id);
+
+                    }
+                    model.Address = UserAddress;
+
+                    var storeIds = model.Store.Select(x => x.storeId).Distinct();
+
+                    var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
+
+                    //ctx.BusinessTypeTax.Where(x=>x.)
+
+                    //ctx.BusinessTypeTax.Where(x=>x.BusinessType == businessType)
+
+
+                    var StoreTaxes = model.Store.GroupBy(x => x.StoreTax);
+
+                    var DistinctStoreIds = model.Store.GroupBy(x => x.businessType);
+
+
+
                     foreach (var store in model.Store)
                     {
-                        store.StoreTax = ctx.BusinessTypeTax.FirstOrDefault(x => x.BusinessType == store.businessType).Tax;
+                        var Store = ctx.Stores.FirstOrDefault(x => x.Id == store.storeId);
+
+                        store.minDeliveryCharges = Store.MinDeliveryCharges;
+                        store.minDeliveryTime = Store.MinDeliveryTime;
+                        store.minOrderPrice = Store.MinOrderPrice;
+
                         foreach (var product in store.products)
                         {
-                            store.StoreSubTotal = store.StoreSubTotal + ctx.Products.FirstOrDefault(x => x.Id == product.Id).Price;
+                            store.StoreSubTotal = store.StoreSubTotal + (ctx.Products.FirstOrDefault(x => x.Id == product.Id).Price* product.quantity);
                         }
-                        //model.OrderSummary.
+
+                        model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + store.StoreSubTotal.Value;
+
+                        if (store.minDeliveryCharges != null)
+                        {
+                            store.products.Add(new productslist { Name = "Delivery Fee", Price = Convert.ToString(store.minDeliveryCharges.Value),Store_id=store.storeId });
+                            model.OrderSummary.SubTotal =model.OrderSummary.SubTotal + Convert.ToDouble(store.minDeliveryCharges.Value);
+                        }
                     }
 
-                    
+
+
                 }
-                return Ok();
+                return Ok(new CustomResponse<MobileOrderViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [HttpPost]
+        [Route("GetCartMobileDemo")]
+        public async Task<IHttpActionResult> GetCartMobileDemo(MobileOrderViewModel model)
+        {
+            try
+            {
+                if (System.Web.HttpContext.Current.Request.Params["Store"] != null)
+                    model.Store = JsonConvert.DeserializeObject<List<MobileCart>>(System.Web.HttpContext.Current.Request.Params["Store"]);
+
+                return Ok(new CustomResponse<MobileOrderViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
+
             }
             catch (Exception ex)
             {

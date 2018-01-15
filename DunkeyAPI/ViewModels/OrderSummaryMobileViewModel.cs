@@ -13,5 +13,7 @@ namespace DunkeyAPI.ViewModels
 
         public double Tip { get; set; } = 0;
 
+        public double Total { get; set; } = 0;
+
     }
 }

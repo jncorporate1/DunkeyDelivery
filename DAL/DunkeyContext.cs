@@ -59,10 +59,19 @@ namespace DAL
         public virtual DbSet<AdminSubAdminNotifications> AdminSubAdminNotifications { get; set; }
         public virtual DbSet<BusinessTypeTax> BusinessTypeTax { get; set; }
         public virtual DbSet<Content> Content { get; set; }
+        public virtual DbSet<LaundryRequest> LaundryRequest { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<LaundryRequest>()
+          .HasOptional(x => x.Store);
+
+            modelBuilder.Entity<LaundryRequest>()
+          .HasOptional(x => x.User);
+
             modelBuilder.Entity<AdminNotifications>()
                 .HasMany(e => e.AdminSubAdminNotifications)
                 .WithRequired(e => e.AdminNotification)

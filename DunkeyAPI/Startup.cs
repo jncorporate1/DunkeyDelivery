@@ -35,6 +35,7 @@ namespace DunkeyDelivery
                 cfg.CreateMap<DAL.UserAddress, DunkeyAPI.ViewModels.AddressViewModel>();
                 cfg.CreateMap<DAL.CreditCard, DunkeyAPI.ViewModels.CreditCards>();
                 cfg.CreateMap<DAL.BlogPosts, DunkeyAPI.ViewModels.BlogViewModel>();
+                cfg.CreateMap<DAL.Store, DunkeyAPI.ViewModels.AlcoholViewModel>();
             });
         }
 

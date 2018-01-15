@@ -278,7 +278,31 @@ function () {
         else {
             window.location.href = "@Url.Action("ManageAdmins", "Admin")";
         }
-   
+        @*$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500, function () {
+                if ($("#adminIds").val() > 0) {
+                    if ($('#hdnRole').val() == "SuperAdmin") {
+                        window.location.href = "@Url.Action("ManageAdmins", "Admin")";
+                    }
+                }
+            });
+        });
+
+        if ($('#hdnRole').val() == "SubAdmin") {
+            window.location.href = "@Url.Action("Index", "Admin")";
+        }
+
+        $("#FirstName").val('');
+        $("#LastName").val('');
+        $("#Email").val('');
+        $("#PhoneNumber").val('');
+        $("#Password").val('');
+        $("#ConfirmPassword").val('');
+        $("#SignInType").val('2');
+        $("#clearImage").trigger("click");
+        $("#EditImage").hide();
+        $("#UploadImage").show();*@
+
     }
 
     jQuery('.numbersOnly').keypress(function () {

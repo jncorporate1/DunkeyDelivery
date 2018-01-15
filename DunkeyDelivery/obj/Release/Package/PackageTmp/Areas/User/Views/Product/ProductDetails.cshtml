@@ -273,6 +273,55 @@
     </div>
 
 </div>
+
+<script>
+
+    function ReviewSuccess(data){
+
+        $("#review_message").show();
+        if(data==0){
+            $("#review_message").css("color","green");
+            $("#review_message").text("Review Submitted Successfully.");
+        }else{
+            $("#review_message").css("color","red");
+            $("#review_message").text("You already review this store.");
+        }
+    }
+    function login_error(){
+        $("#review_message").css("color","red");
+        $("#review_message").text("Please login to submit review.");
+        $("#review_message").show();
+        $('#review_message').delay(3000).fadeOut();
+    }
+
+    function fillStar(id){
+
+        var index=parseInt(id);
+        var valueOfRating=index+1;
+        $("#Rating").val(valueOfRating);
+        for(var i=0;i<5;i++){
+            if(i<=index){
+                if($("#"+i).hasClass("fa-star") && index==0){
+                    $("#"+i).removeClass("fa-star");
+                    $("#"+i).addClass("fa-star-o");
+                    $("#Rating").val("0");
+                }else{
+                    $("#"+i).removeClass("fa-star-o");
+                    $("#"+i).addClass("fa-star");
+                }
+            }else{
+
+                if($("#"+i).hasClass("fa-star")){
+                    $("#"+i).removeClass("fa-star");
+                    $("#"+i).addClass("fa-star-o");
+                }
+
+            }
+        }
+
+    }
+
+</script>
 <script>
 
         var BusinessName="@Model.shopViewModel.BusinessName";

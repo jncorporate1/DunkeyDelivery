@@ -160,6 +160,40 @@ namespace DunkeyAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetPrizes")]
+        public IHttpActionResult GetPrizes(int? Page=0,int? Items=0)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    double TotalPrize = 0;
+                    Rewards resp = new Rewards();
+                    var Rewards = ctx.RewardMilestones.Include(x=>x.RewardPrize).ToList(); // bug asi 
+                    if (Rewards == null)                    {
+                        return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.NotFound, StatusCode = (int)HttpStatusCode.NotFound, Result = new Error { ErrorMessage = "Reward list not found." } });
+
+                    }
+                    resp.RewardsList = Rewards;
+                    CustomResponse<Rewards> response = new CustomResponse<Rewards>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = resp
+                    };
+                    return Ok(response);
+                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
 
 
     }

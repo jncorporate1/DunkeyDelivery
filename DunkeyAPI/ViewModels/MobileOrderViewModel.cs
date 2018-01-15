@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,13 @@ namespace DunkeyAPI.ViewModels
 {
     public class MobileOrderViewModel
     {
+        public MobileOrderViewModel()
+        {
+            OrderSummary = new OrderSummaryMobileViewModel();
+            Address = new UserAddress();
+        }
+        public int User_Id { get; set; }
+        public UserAddress Address { get; set; }
         public List<MobileCart> Store { get; set; }
         public OrderSummaryMobileViewModel OrderSummary { get; set; }
     }

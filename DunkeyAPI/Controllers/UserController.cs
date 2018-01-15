@@ -412,7 +412,7 @@ namespace DunkeyAPI.Controllers
                 }
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    ctx.Users.FirstOrDefault(x => x.Email == userEmail).Password = model.NewPassword;
+                    ctx.Users.FirstOrDefault(x => x.Email == userEmail).Password = CryptoHelper.Hash(model.NewPassword);
                     ctx.SaveChanges();
                 }
                 return Content(HttpStatusCode.OK, new MessageViewModel { StatusCode = "200 OK", Details = "Password Updated Successfully." });
@@ -450,7 +450,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var userModel = ctx.ForgotPasswordTokens.Include(x => x.User).FirstOrDefault(x => x.Code == model.Code);
+                    var userModel = ctx.ForgotPasswordTokens.Include(x => x.User).Where(x => x.Code == model.Code).OrderByDescending(x=>x.CreatedAt).FirstOrDefault();
 
                     if (userModel != null)
                     {
@@ -771,7 +771,8 @@ namespace DunkeyAPI.Controllers
                         Name = model.Name,
                         Email = model.Email,
                         Phone = model.Phone,
-                        Message = model.Message
+                        Message = model.Message,
+                        ContactReason=model.ContactReason
 
 
                     };
@@ -823,7 +824,7 @@ namespace DunkeyAPI.Controllers
                     {
                         User.FirstName = model.FName;
                         User.LastName = model.LName;
-                        User.Password = model.Password;
+                        User.Password =CryptoHelper.Hash(model.Password);
                     }
                     ctx.SaveChanges();
                     CustomResponse<User> response = new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = User };
@@ -854,7 +855,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var addressCount = ctx.UserAddresses.Where(x => x.FullAddress == model.FullAddress && x.IsDeleted == false).Count();
+                    var addressCount = ctx.UserAddresses.Where(x =>x.User_ID==model.User_ID && x.FullAddress == model.FullAddress && x.IsDeleted == false).Count();
 
                     if (addressCount > 0)
                     {
@@ -869,7 +870,7 @@ namespace DunkeyAPI.Controllers
                     {
                         if (model.IsPrimary == true)
                         {
-                            if (ctx.UserAddresses.Any(x => x.IsPrimary == true && x.IsDeleted == false))
+                            if (ctx.UserAddresses.Any(x => x.User_ID==model.User_ID && x.IsPrimary == true && x.IsDeleted == false))
                             {
                                 return Content(HttpStatusCode.OK, new CustomResponse<Error>
                                 {
@@ -937,6 +938,96 @@ namespace DunkeyAPI.Controllers
                         Message = "Success",
                         StatusCode = (int)HttpStatusCode.OK,
                         Result = addressModel
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+        [HttpGet]
+        [Route("GetUserAddressesForDelivery")]
+        public IHttpActionResult GetUserAddressesForDelivery(int User_id)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    List<UserAddress> ReturnAddresses = new List<UserAddress>();
+                    var res = ctx.UserAddresses
+                        .Where(x => x.User_ID == User_id && x.IsDeleted == false).ToList();
+
+                    if (res.Count>0)
+                    {
+                        if (res.Any(x => x.IsPrimary == true))
+                        {
+                            ReturnAddresses.Add(res.FirstOrDefault(x => x.IsPrimary == true));
+                        }
+                        else
+                        {
+                            ReturnAddresses.Add(res.LastOrDefault());
+                        } 
+                    }
+                    Addresses addressModel = new Addresses();
+                    var f = Mapper.Map<List<AddressViewModel>>(ReturnAddresses);
+                    addressModel.addresses = f;
+                    CustomResponse<Addresses> response = new CustomResponse<Addresses>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = addressModel
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+
+        [HttpGet]
+        [Route("UpdateUserAddressesById")]
+        public IHttpActionResult GetUserAddressesById(int User_id,int Address_Id)
+        {
+            try
+            {
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    List<UserAddress> ReturnAddresses = new List<UserAddress>();
+                    var MarkPrimary = ctx.UserAddresses
+                        .FirstOrDefault(x => x.User_ID == User_id && x.Id==Address_Id && x.IsDeleted == false);
+                    var alreadyPrimary = ctx.UserAddresses
+                        .FirstOrDefault(x => x.User_ID == User_id && x.IsPrimary==true && x.IsDeleted == false);
+                    if (alreadyPrimary != null)
+                    {
+                        alreadyPrimary.IsPrimary = false;
+    
+                    }
+                    if(MarkPrimary != null)
+                    {
+                        MarkPrimary.IsPrimary = true;
+                    }
+                    ctx.SaveChanges();
+                    
+                    //Addresses addressModel = new Addresses();
+                    
+                    //var f = Mapper.Map<List<AddressViewModel>>(MarkPrimary);
+                    //addressModel.addresses = f;
+                    CustomResponse<UserAddress> response = new CustomResponse<UserAddress>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = MarkPrimary
                     };
                     return Ok(response);
                 }

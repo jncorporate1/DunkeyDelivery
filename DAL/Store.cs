@@ -73,7 +73,7 @@ namespace DAL
         [NotMapped]
         public bool ImageDeletedOnEdit { get; set; }
 
-        [JsonIgnore]
+       
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Category> Categories { get; set; }
 

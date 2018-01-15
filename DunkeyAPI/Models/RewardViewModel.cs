@@ -27,5 +27,11 @@ namespace DunkeyAPI.Models
     }
 
 
+    public class Rewards
+    {
+        public List<RewardMilestones> RewardsList { get; set; }
+    }
+
+
 
 }

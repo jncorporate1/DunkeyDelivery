@@ -408,7 +408,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 var responseValue = response.GetValue("Result").ToObject<ForgetPasswordEmail>();
                 //var callbackUrl = Url.Link("Default", new { Controller = "ResetPassword", Action = "ResetPassword", code = responseValue.Code });
                 //var callbackUrl = Url.Action("ResetPassword", "Home", new { area = "User", code = responseValue.forgetPasswordToken.Last().Code });
-                var callbackUrl = Utility.WebBaseUrl + "User/Home/ResetPassword?code=" + responseValue.forgetPasswordToken.Last().Code;
+                var callbackUrl = Utility.EmailBaseUrl + "User/Home/ResetPassword?code=" + responseValue.forgetPasswordToken.Last().Code;
                 const string subject = "Your Password Has Been Changed";
                 string body = "You recently requested to change password of "+model.Email+" "+ Environment.NewLine + " To Complete your request, please click link below: "+Environment.NewLine+" " +callbackUrl;
 

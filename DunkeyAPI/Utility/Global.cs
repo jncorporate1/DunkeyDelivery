@@ -7,6 +7,18 @@ namespace DunkeyAPI.Utility
 {
     public static class Global
     {
+
+        public class Constants
+        {
+            public const string Food = "Food";
+            public const string Grocery = "Grocery";
+            public const string Laundry = "Laundry";
+            public const string Alcohol = "Alcohol";
+            public const string Pharmacy = "Pharmacy";
+            public const string Retail = "Retail";
+            
+        }
+
         public enum NotificationTargetAudienceTypes
         {
             UserAndDeliverer = 1,
@@ -21,6 +33,14 @@ namespace DunkeyAPI.Utility
             Package,
             Offer_Product,
             Offer_Package
+        }
+
+        public enum ClothRequestTypes
+        {
+            Pending=0,
+            Accepted=1,
+            Rejected=2
+
         }
 
         public enum OrderStatuses

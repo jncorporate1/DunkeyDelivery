@@ -172,6 +172,8 @@ namespace DunkeyAPI.Models
         public string Phone { get; set; }
 
         public string Message { get; set; }
+
+        public string ContactReason { get; set; }
     }
 
     // admin panel 

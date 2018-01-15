@@ -76,7 +76,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             deliveryModel.SetSharedData(User);
             if(deliveryModel.Id != null)
             {
-                var addresses = await ApiCall<Addresses>.CallApi("/api/User/GetUserAddresses?User_id=" + deliveryModel.Id, null,false);
+                var addresses = await ApiCall<Addresses>.CallApi("/api/User/GetUserAddressesForDelivery?User_id=" + deliveryModel.Id, null,false);
                 if (addresses == null || addresses is Error)
                 {
                     TempData["ErrorMessage"] = (addresses as Error).ErrorMessage;
@@ -279,6 +279,23 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             return new EmptyResult();
         }
+
+
+
+        [HttpPost]
+        public async Task<ActionResult> ClothRequestToAdmin(ClothRequestBindingModel model)
+        {
+
+            var ClothRequest = await ApiCall<ClothRequestBindingModel>.CallApi("/api/Order/RequestGetCloth",model,true);
+            if (ClothRequest == null || ClothRequest is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "**basra*" + (ClothRequest as Error).ErrorMessage + "*basra**");
+            }
+
+            return Json(ClothRequest, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         [HttpPost]
         public ActionResult DeleteCartItem(CartItem model)

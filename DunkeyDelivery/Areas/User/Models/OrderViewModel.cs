@@ -177,4 +177,13 @@ namespace DunkeyDelivery.Areas.User.Models
         public string ImageUrl { get; set; }
         public bool IsFavourite { get; internal set; }
     }
+
+
+    public class ClothRequestBindingModel
+    {
+        public int store_Id { get; set; }
+
+        public int User_Id { get; set; }
+
+    }
 }

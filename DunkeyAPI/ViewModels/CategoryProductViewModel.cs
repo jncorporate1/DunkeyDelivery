@@ -26,12 +26,13 @@ namespace DunkeyAPI.ViewModels
 
         public string Image { get; set; }
 
-        public int? Category_id { get; set; }
+        public int? Category_id { get; set; } = -1;
 
-        public int Store_id { get; set; }
+        public int Store_id { get; set; } = -1;
 
         public string Size { get; set; }
 
+        public int quantity { get; set; } = -1;
 
         public string BusinessType { get; set; }
 
@@ -39,9 +40,9 @@ namespace DunkeyAPI.ViewModels
 
         public int MinDeliveryTime { get; set; }
 
-        public decimal? MinDeliveryCharges { get; set; }
+        public decimal? MinDeliveryCharges { get; set; } = -1;
 
-        public float? MinOrderPrice { get; set; }
+        public float? MinOrderPrice { get; set; } = -1;
 
         public void Dispose()
         {

@@ -298,14 +298,9 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         public ActionResult DemoFile()
         {
             System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("Id");
             dt.Columns.Add("Name");
             dt.Columns.Add("Price");
-            dt.Columns.Add("Description");
-            dt.Columns.Add("Status");
-            dt.Columns.Add("Category_Id");
-            dt.Columns.Add("Store_Id");
-            dt.Columns.Add("Size");
-
 
             //Column addition ends here
 
@@ -481,18 +476,13 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     }
 
 
-
                     content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "FileDeletedOnEdit");
                     response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ImportProducts", User,GetRequest:false, isMultipart: true, multipartContent: content));
                     
                     if (response is Error || response==null)
                     {
-                        var err=(response as Error).ErrorMessage;
-                        //var Stores = response.GetValue("ErrorMessage").ToObject<string>();
                         //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
-                        return Json(new { success = false, responseText = err }, JsonRequestBehavior.DenyGet);
-                       // return Json(response);
-
+                        return Json(new { success = false, responseText = "Error" }, JsonRequestBehavior.DenyGet);
                     }
                     else
                     {

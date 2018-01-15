@@ -67,9 +67,10 @@
     </div>
 </div>
 <script>
-    function addressCustomMessage() {
-        var message = arguments[0].responseText.substr(arguments[0].responseText.indexOf("**basra*") + 8, (arguments[0].responseText.indexOf("*basra**") - 8) - arguments[0].responseText.indexOf("**basra*"))
-        $("#ErrorMessage").text(message);
+    function addressCustomMessage(a,c,d) {
+       // var message = arguments[0].responseText.substr(arguments[0].responseText.indexOf("**basra*") + 8, (arguments[0].responseText.indexOf("*basra**") - 8) - arguments[0].responseText.indexOf("**basra*"))
+        d = d.replace("**basra*","").replace("*basra**","");
+        $("#ErrorMessage").text(d);
         $("#ErrorNotifications").show();
         $("#ErrorMessage").show().delay(3000).fadeOut();
     }

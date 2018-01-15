@@ -81,10 +81,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Alcohol/StoreCategories.cshtml">
-      <publishTime>01/05/2018 20:09:26</publishTime>
+      <publishTime>01/11/2018 17:12:30</publishTime>
     </File>
     <File Include="Areas/User/Views/Alcohol/_Categories.cshtml">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>01/11/2018 16:17:06</publishTime>
     </File>
     <File Include="Areas/User/Views/Alcohol/_Products.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -165,7 +165,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2018 20:41:58</publishTime>
     </File>
     <File Include="Areas/User/Views/Laundry/LaundryDetails.cshtml">
-      <publishTime>01/05/2018 20:23:40</publishTime>
+      <publishTime>01/11/2018 19:52:42</publishTime>
     </File>
     <File Include="Areas/User/Views/Manage/AddPhoneNumber.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -192,7 +192,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Order/DeliveryDetails.cshtml">
-      <publishTime>01/05/2018 21:02:43</publishTime>
+      <publishTime>01/11/2018 18:57:10</publishTime>
     </File>
     <File Include="Areas/User/Views/Order/OrderSummary.cshtml">
       <publishTime>12/30/2017 00:14:42</publishTime>
@@ -213,7 +213,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2018 20:09:49</publishTime>
     </File>
     <File Include="Areas/User/Views/Product/ProductDetails.cshtml">
-      <publishTime>01/05/2018 19:43:32</publishTime>
+      <publishTime>01/12/2018 12:22:40</publishTime>
     </File>
     <File Include="Areas/User/Views/Product/_ProductItems.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -225,7 +225,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Profile/_AddAddress.cshtml">
-      <publishTime>01/06/2018 18:53:39</publishTime>
+      <publishTime>01/11/2018 19:19:34</publishTime>
     </File>
     <File Include="Areas/User/Views/Profile/_AddCreditCard.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -258,13 +258,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/2018 15:43:23</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_BannerLayout.cshtml">
-      <publishTime>01/06/2018 17:55:07</publishTime>
+      <publishTime>01/11/2018 02:14:31</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_DetailsLayout.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_Layout.cshtml">
-      <publishTime>01/06/2018 17:17:52</publishTime>
+      <publishTime>01/11/2018 02:14:24</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_StoreLayout.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -273,7 +273,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/ShoppingCart/_ShoppingCart.cshtml">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>01/10/2018 19:56:11</publishTime>
     </File>
     <File Include="Areas/User/Views/Store/StoreCategories.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -297,7 +297,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2018 20:42:55</publishTime>
     </File>
     <File Include="bin/DunkeyDelivery.dll">
-      <publishTime>01/06/2018 19:01:09</publishTime>
+      <publishTime>01/11/2018 19:58:19</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>04/12/2012 19:19:36</publishTime>
@@ -477,7 +477,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/06/2018 19:55:07</publishTime>
     </File>
     <File Include="Content/assets/css/style.css">
-      <publishTime>01/08/2018 21:45:34</publishTime>
+      <publishTime>01/11/2018 21:04:55</publishTime>
     </File>
     <File Include="Content/assets/fonts/fontawesome-webfont.eot">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -3057,7 +3057,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>01/08/2018 23:40:43</publishTime>
+      <publishTime>01/09/2018 00:04:40</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>11/27/2017 13:08:23</publishTime>
@@ -3117,7 +3117,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/06/2018 03:24:50</publishTime>
+      <publishTime>01/11/2018 19:58:22</publishTime>
     </File>
   </ItemGroup>
 </Project>

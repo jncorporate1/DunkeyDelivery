@@ -1,10 +1,6 @@
 ﻿@model BasketWebPanel.ViewModels.SearchProductsViewModel
 @*/////StarRatingPlugin*@
-@*<link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />
-<link href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />*@
-
-
-
+<link href="~/Content/bootstrap-starrating/star-rating.css" rel="stylesheet" />
 <script src="~/Content/bootstrap-starrating/star-rating.js"></script>
 
 <style>
@@ -64,20 +60,13 @@
         max-width: auto;
     }*/
 </style>
-
-
 <div class="panel-body panel">
-    @using (Html.BeginForm("ExportProduct", "Product", FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-   
-    }
     <div class="">
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_content">
                     <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden">
-                        <table id="datatable" class="table table-striped table-bordered display" style="table-layout: auto; text-align:center;">
+                        <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
                             <thead>
                                 <tr>
                                     <th class="middled sorting_disabled" style="vertical-align:middle">ID</th>
@@ -108,11 +97,7 @@
                                 }
                             </tbody>
                         </table>
-                        
-                     
-
                         <script>
-                       
                             $(document).on("click", ".deleteButtons", function () {
                                 var productId = $(this).data('productid');
                                 $("#productid").val(productId);
@@ -124,28 +109,24 @@
                                 window.location.href = url.replace('__id__', productId);
                             });
 
-                            //$(document).ready(function () {
-                            //    var dataTable = $('#datatable').DataTable({
-                                  
-                            //        "pagingType": "full_numbers",
-                            //        "columnDefs": [{
-                            //            "targets": 5,
-                            //            "orderable": false
-                            //        },
-                            //        {
-                            //            "targets": 6,
-                            //            "orderable": false
-                            //        },
-                            //        {
-                            //            "targets": 7,
-                            //            "orderable": false
-                            //        }
-                            //        ],
-
-                            //    });
-                            //});
-
-
+                            $(document).ready(function () {
+                                var dataTable = $('#datatable').DataTable({
+                                    "pagingType": "full_numbers",
+                                    "columnDefs": [{
+                                        "targets": 5,
+                                        "orderable": false
+                                    },
+                                    {
+                                        "targets": 6,
+                                        "orderable": false
+                                    },
+                                    {
+                                        "targets": 7,
+                                        "orderable": false
+                                    }
+                                    ]
+                                });
+                            });
                         </script>
                     </div>
                 </div>
@@ -175,19 +156,8 @@
         <!-- /.modal-dialog -->
     </div>
 </div>
-
-
-
 <script>
 
-    $(document).ready(function () {
-        $('#datatable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                {extend: 'excelHtml5', text: 'Export to excel'}
-             ]
-        });
-    });
     $('#btnDeleteNo').on("click", function (e) {
         $('#deleteModal').modal('hide');
         var lblError = $("#lblErrorOnDelete");
@@ -210,14 +180,8 @@
             if (data == "Success") {
                 $('#deleteModal').modal('hide');
                 $(".modal-backdrop").fadeOut('slow', function () {
-                    //var table = $('#datatable').DataTable({
-                    //    "pagingType": "full_numbers",
-                    //    columnDefs: [{
-                    //        orderable: false,
-                    //        targets: [0]
-                    //    }],
-                    //});
-     
+                    var table = $('#datatable').DataTable();
+
                     var indexes = table.rows().eq(0).filter(function (rowIdx) {
                         return table.cell(rowIdx, 0).data() === productId ? true : false;
                     });
@@ -241,17 +205,4 @@
             }
         });
     });
-
-    function OnSuccessProductInsertion(res) {
-        $("#divLoader").hide();
-
-        //uriContent = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet," + encodeURIComponent(res);
-        //newWindow = window.open(uriContent, 'neuesDokument');
-        //window.location = "download." + res;
-
-        //var win = window.open(res, '_blank');
-       
-
-    }
 </script>
-

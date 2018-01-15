@@ -78,6 +78,7 @@
     <Compile Include="Favourite.cs" />
     <Compile Include="ForgetPasswordTokens.cs" />
     <Compile Include="JsonCustomDateTimeConverter.cs" />
+    <Compile Include="LaundryRequest.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Notification.cs" />
     <Compile Include="Offer.cs" />

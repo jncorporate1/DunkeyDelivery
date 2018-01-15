@@ -76,8 +76,18 @@
 										Skip straight to checkout, then let the cleaner sort your stuff<br>
 										and update your bill.
 									</p>
-									<a href="" onclick="return false;" class="get_btn">GET MY CLOTHES</a>
-								</div>
+                                    @if (Model.Id != null)
+                                    {
+                                        <a onclick="getClothRequest()" style="cursor:pointer;" id="ClothRequest" storeId="@Model.StoreViewModel.Id" UserId="@Model.Id" class="get_btn">GET MY CLOTHES</a>
+                                        <p style="color: red;display: none;font-size:  14px;margin-top:10px;" id="Cloth_error"></p>
+                                    }
+                                    else
+                                    {
+                                        <a  onclick="login_error_getCloth()" style="cursor:pointer;" storeId="@Model.StoreViewModel.Id" UserId="@Model.Id" class="get_btn">GET MY CLOTHES</a>
+                                        <p style="color: red;display: none;font-size:  14px;margin-top:10px;" id="Cloth_error"></p>
+                                    }
+                                    @*<a style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">*@
+                                    </div>
 
 								<p class="select-tag">or select your items below</p>
 
@@ -96,7 +106,7 @@
 														foreach (var product in category.Products)
 														{
 															<li>
-																<a id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">
+																<a  id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">
 																	<div class="left">
 																		@product.Name
 																		<p>@product.Description</p>
@@ -289,6 +299,38 @@
 </div>
 
 <script>
+
+   
+    function getClothRequest(){
+
+        var store_Id= $("#ClothRequest").attr("storeId");
+        var User_Id = $("#ClothRequest").attr("UserId");
+    
+        $.ajax({
+           
+            url: '@Url.Action("ClothRequestToAdmin", "Order", new { Area = "User" })',
+            type: "POST",
+            data: { store_Id: store_Id, User_Id: User_Id},
+            success: function (data) {
+                $("#Cloth_error").css("color","green");
+                $("#Cloth_error").text("Your request has been submitted successfully.");
+                $("#Cloth_error").show();
+                $('#Cloth_error').delay(3000).fadeOut();
+            
+            }, error: function (xhr, status, error) {
+                $("#Cloth_error").css("color","red");
+                $("#Cloth_error").text("You already requested to Get Cloths for today.");
+                $("#Cloth_error").show();
+                $('#Cloth_error').delay(3000).fadeOut();
+            }
+        });
+
+
+
+    }
+ 
+
+
     function ReviewSuccess(data){
            
         $("#review_message").show();
@@ -306,6 +348,13 @@
         $("#review_message").show();
         $('#review_message').delay(3000).fadeOut();
     }
+    function login_error_getCloth(){
+        $("#Cloth_error").css("color","red");
+        $("#Cloth_error").text("Please login to submit Get Cloth request.");
+        $("#Cloth_error").show();
+        $('#Cloth_error').delay(3000).fadeOut();
+    }
+
 
     function fillStar(id){
 

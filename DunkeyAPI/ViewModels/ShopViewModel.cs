@@ -19,8 +19,7 @@ namespace DunkeyAPI.ViewModels
             Latitude = model.Latitude;
 
         }
-
-
+        
 
         public string Description { get; set; }
 

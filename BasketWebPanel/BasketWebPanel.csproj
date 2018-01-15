@@ -235,7 +235,6 @@
     <Compile Include="ViewModels\AddBlogViewModel.cs" />
     <Compile Include="ViewModels\AddContentViewModel.cs" />
     <Compile Include="ViewModels\AddOfferViewModel.cs" />
-    <Compile Include="ViewModels\ContentViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\ReadyForDeliveryOrdersViewModel.cs" />
     <Compile Include="ViewModels\SearchBlogViewModel.cs" />
@@ -1076,11 +1075,8 @@
     <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Notifications\MyNotifications.cshtml" />
     <Content Include="Areas\Dashboard\Views\Tax\Index.cshtml" />
-    <Content Include="Areas\Dashboard\Views\Content\AboutUs.cshtml" />
-    <Content Include="Areas\Dashboard\Views\Content\ContactUs.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
-    <Content Include="SampleFile\Sample File.xlsx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />
     <Content Include="Scripts\Chart\Chart.min.js" />

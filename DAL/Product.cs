@@ -40,6 +40,7 @@ namespace DAL
 
         public string Size { get; set; }
 
+        [JsonIgnore]
         public virtual Category Category { get; set; }
 
         [NotMapped]

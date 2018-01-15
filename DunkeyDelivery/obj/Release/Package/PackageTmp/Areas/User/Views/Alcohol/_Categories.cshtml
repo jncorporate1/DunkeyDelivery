@@ -1,5 +1,7 @@
 ﻿@model DunkeyDelivery.Areas.User.Models.CategorySubCategoryVM
 @*@model DunkeyDelivery.Areas.User.Models.CategoriesViewModel*@
+
+@{ var className = ""; }
 <div class="col-md-12">
 
     <div class="tab">
@@ -26,10 +28,18 @@
             }*@
                 @if (Model.CategoryViewModel.Count != 0)
                 {
+                    if(Model.CategoryViewModel.Count == 1)
+                    {
+                        className = "width:100%;";
+                    }else if (Model.CategoryViewModel.Count == 2)
+                    {
+                        className = "width:50%;";
+                    }
+
                     foreach (var parentCat in Model.CategoryViewModel)
                     {
 
-                        <li><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
+                        <li style="@className" ><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
                     }
                 }
                 else

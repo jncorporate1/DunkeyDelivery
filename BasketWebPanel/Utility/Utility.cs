@@ -94,37 +94,7 @@ namespace BasketWebPanel
         public const string Price = @"^\$?(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$";
         public const string Name = @"^[A-z]+$";
     }
-    public class Content
-    {
 
-        public string GetContentTypeText(int Type)
-        {
-            var TypeStr = "";
-            switch (Type)
-            {
-                case 0:
-                    TypeStr = "About Us";
-                    break;
-                case 1:
-                    TypeStr = "Contact Us";
-                    break;
-
-                default:
-                    break;
-
-            }
-            return TypeStr;
-
-
-        }
-
-        public enum Types
-        {
-            AboutUs = 0,
-            ContactUs = 1
-        }
-
-    }
     public class Utility
     {
         public static DbGeography CreatePoint(double lat, double lon, int srid = 4326)

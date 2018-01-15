@@ -24,6 +24,14 @@ DESCRIPTION: Custom Template
     padding:20px;
 }
 
+
+@media only screen and (max-width:1200px) and (min-width:990px){
+    #menu-topmenu{
+            width: 150%;
+            margin-left: -15%;
+        }
+
+}
 @media only screen and (max-width:991px){
     .getapp > .delievryapp > img {
         display:none;
@@ -340,14 +348,22 @@ nav.fixed {
 .header_detail {
 	padding: 2% 0px 1% 0;
 }
+@media screen and (max-width:991px){
+    .toplogin ul{text-align:center !important;}
+}
+.toplogin ul{text-align:left ;}
 .toplogin ul li {
 	background: url(../images/liv.jpg) no-repeat right center;
-	padding: 0 23px 0px 10px;
+	padding: 0 15px 0px 9px !important;
 	display: inline-block;
 	font-size: 14px;
 	color: #5ca03c;
     line-height:25px;
 }
+    .toplogin ul li:last-child {
+padding: 0px !important;    
+    }
+
 .toplogin ul li+li {
 	background: none;
 }
@@ -406,8 +422,25 @@ nav.fixed {
 	width: 40px;
 	height: 40px;
 }
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#FName{
+    height: 45px;
+padding: 5px 15px;
+}
+#LName{
+    height: 45px;
+padding: 5px 15px;
+}
 .fgap {
-	margin-top: 172px;
+	margin-top: 183px;
 }
 .copyright {
 	color: #707676;
@@ -644,7 +677,19 @@ nav.fixed {
 	font-weight: bold;
 	text-transform: uppercase;
 	padding-bottom: 20px;
+    height:30px;
 }
+@media only screen and (max-width:1200px) and (min-width:1000px){
+    .lang.nopad{
+        position:relative;
+        top:-35px !important;
+        left:150px !important;
+    }
+    .fgap {
+        margin-top: 151px;
+    }
+}
+
 .howitorks .col-md-3, .howitorks .col-md-4 {
 	cursor: pointer;
 }
@@ -1923,7 +1968,7 @@ a#hamburg i {
 	border-right: 5px solid transparent;
 	border-bottom: 5px solid #fff;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 769px) {
 a#hamburg {
 	display: block;
 }
@@ -2062,7 +2107,7 @@ ul li.has-subnav .accordion-btn {
 	font-size: 24px;
 	width: 20px !important;
 	float: right;
-	line-height: inherit !important;
+	line-height: 1.3 !important;
 }
 .nav1 ul li:last-child {
 	border: 0;
@@ -2085,7 +2130,7 @@ ul li.has-subnav .accordion-btn {
 	position: absolute;
 	height: 2px;
 	width: 100%;
-	background: #000;
+	background: #CDC;
 	opacity: 1;
 	left: 0;
 	transform: rotate(0deg);
@@ -2139,7 +2184,7 @@ ul li.has-subnav .accordion-btn {
 	left: 4px;
 }
 }
- @media (min-width: 100px) and (max-width: 767px) {
+ @media (min-width: 100px) and (max-width: 769px) {
 main {
 	/*padding: 0 15px;*/
 }
@@ -2160,8 +2205,8 @@ header .searchform {
 	display: none;
 }
 
-.slider .inner-item {
-	height: 200px;
+.slider .inner-item,.slider {
+	height: 200px !important;
 }
 .slider .inner-item .caption {
 	display: none;
@@ -4883,7 +4928,7 @@ p.select-tag:after{display:none;}
 .content-main{padding:20px 15px;}
 .content-main li input[type="text"], .content-main li input[type="tel"], .content-main li input[type="email"], .content-main li select{font-size:16px;}
 .content-main li{width:100%; margin:0 0 10px !important;}	
-.top-banner.alchol-banner img.img-responsive{height:180px;}
+.top-banner.alchol-banner img.img-responsive{height:180px !important;}
 .alchol-banner input[type="text"]{width:80%;}
 .categories li{width:100%;}
 .categories-clasify li{font-size:14px; padding:20px;}
@@ -5867,14 +5912,50 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 
 
-@media (min-width: 100px) and (max-width: 767px) {
-nav.fixed
-{	
-	position: fixed;
-    top: 0px;
-    width: 100%;
-    z-index: 9999;
-    background: #6ebe44;
-    border-bottom: 2px solid #000;
+@media (min-width: 100px) and (max-width: 769px) {
+.menu-header
+
+{
+	display:none !important;
+	
+	
 }
+
+.delievryapp { left:0px;}
+
+.newsletter h5 {
+
+    line-height: 25px;
+   
+}
+
+
+.newsletter
+	{
+		    padding: 60px 10px 60px 40px !important;
+	}
+
+
+	.nav1 .mlogo
+	{
+		margin-top:0px;
+	}
+	
+	
+	.delievryapp {
+    left: 0px;
+    display: none;
+    position: initial !important;
+}
+
+
+}
+
+
+@media (min-width: 100px) and (max-width: 322px) {
+	body
+	{
+		overflow:hidden;
+	}
+	
 }
