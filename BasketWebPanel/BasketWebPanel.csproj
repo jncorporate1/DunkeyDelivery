@@ -220,6 +220,7 @@
     <Compile Include="Areas\Dashboard\Models\OfferProdutcsViewModel.cs" />
     <Compile Include="BindingModels\CategoriesBindingModel.cs" />
     <Compile Include="BindingModels\ChangeOrderStatusModel.cs" />
+    <Compile Include="BindingModels\FAQBindingModel.cs" />
     <Compile Include="BindingModels\NotificationBindingModel.cs" />
     <Compile Include="BindingModels\OfferBindingModel.cs" />
     <Compile Include="BindingModels\PackageBindingModel.cs" />
@@ -1075,6 +1076,10 @@
     <Content Include="Areas\Dashboard\Views\Pharmacy\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Notifications\MyNotifications.cshtml" />
     <Content Include="Areas\Dashboard\Views\Tax\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Content\FAQ.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Content\ManageFAQ.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Content\_SearchFAQsResults.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Content\_SearchFAQ.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

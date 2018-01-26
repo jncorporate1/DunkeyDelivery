@@ -39,7 +39,7 @@
                     foreach (var parentCat in Model.CategoryViewModel)
                     {
 
-                        <li style="@className" ><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
+                        <li style="@className cursor:pointer;" ><a onclick="GetSubCategories(this.id)" CategoryName="@parentCat.Name" id="@parentCat.Id" @*href="@Url.Action("SubCategories", "Alcohol", new { area = "User",@Model })"*@>@parentCat.Name</a></li>
                     }
                 }
                 else

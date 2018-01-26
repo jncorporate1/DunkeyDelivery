@@ -16,6 +16,7 @@ namespace DunkeyDelivery.ViewModels
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string ProfilePictureUrl { get; set; }
+        public string Country { get; set; }
 
         public void SetSharedData(IPrincipal User)
         {
@@ -26,7 +27,7 @@ namespace DunkeyDelivery.ViewModels
             var LastNameClaim = claimIdentity.Claims.FirstOrDefault(x => x.Type == "LastName");
             var fullName = claimIdentity.Claims.FirstOrDefault(x => x.Type == "FullName");
             var profilePictureUrl = claimIdentity.Claims.FirstOrDefault(x => x.Type == "ProfilePictureUrl");
-
+            var CountryClaim = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Country");
             if (idClaim != null)
             {
                 Id = idClaim.Value;
@@ -35,11 +36,13 @@ namespace DunkeyDelivery.ViewModels
                 Email = EmailClaim.Value;
                 UserName = fullName.Value == null ? "" : fullName.Value;
                 ProfilePictureUrl = profilePictureUrl == null ? "http://10.100.28.38:810/Content/images/img.jpg" : "http://10.100.28.38:810/Content/images/img.jpg";
+                Country = CountryClaim==null?"USA":CountryClaim.Value;
             }
-             
-             
-            
-             
+            Country = CountryClaim == null ? "USA" : CountryClaim.Value;
+
+
+
+
         }
     }
 }

@@ -5,8 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+//using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace BasketWebPanel.Areas.Dashboard.Controllers
 {
@@ -14,6 +17,114 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
     public class ContentController : Controller
     {
         // GET: Dashboard/Content
+
+
+        public ActionResult FAQ(int? Id)
+        {
+            FAQBindingModel model = new FAQBindingModel();
+            if (Id.HasValue)
+            {
+                var responseAdmin = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetFAQsById", User, null, true, false, null,"Id=" + Id.Value));
+                if (responseAdmin == null || responseAdmin is Error)
+                    ;
+                else
+                {
+                    model = responseAdmin.GetValue("Result").ToObject<FAQBindingModel>();
+                }
+            }
+
+            model.SetSharedData(User);
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FAQ(FAQBindingModel model)
+        {
+            model.SetSharedData(User);
+
+            if (model.Id == 0)
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+            }
+
+            var response = await ApiCall.CallApi("api/Content/FAQ", User, model);
+            if (response.ToString().Contains("UnAuthorized"))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "UnAuthorized Error");
+            }
+
+            if (response is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+            }
+            else
+            {
+                model = response.GetValue("Result").ToObject<FAQBindingModel>();
+                //var claimIdentity = ((ClaimsIdentity)User.Identity);
+
+                //if (model.Role == "SuperAdmin")
+                //{
+               
+                   TempData["SuccessMessage"] = "Data saved successfully.";
+             
+                      
+                //}
+
+                return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
+                //return RedirectToAction("Index");
+            }
+        }
+        
+
+        public ActionResult SearchFAQ()
+        {
+            FAQBindingModel returnModel = new FAQBindingModel();
+            return PartialView("_SearchFAQ", returnModel);
+        }
+        public ActionResult ManageFAQ()
+        {
+            Global.sharedDataModel.SetSharedData(User);
+            return View(Global.sharedDataModel);
+        }
+
+        public ActionResult SearchFAQsResults(SearchFAQModel model)
+        {
+            SearchFAQViewModel returnModel = new SearchFAQViewModel();
+            var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetFAQs", User, null, true, false, null, "Type=" +model.Type));
+            if (response is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+            }
+            else
+            {
+                returnModel = response.GetValue("Result").ToObject<SearchFAQViewModel>();
+            }
+         
+            returnModel.SetSharedData(User);
+            return PartialView("_SearchFAQsResults", returnModel);
+        }
+        
+        public JsonResult DeleteFAQ(int Id)
+        {
+            try
+            {
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Content/DeleteFAQ", User, null, true, false, null, "Id=" + Id));
+                if (response is Error)
+                    return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
+                else
+                    return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+
         public ActionResult Investors(int? Id)
         {
             AddContentViewModel model = new AddContentViewModel();

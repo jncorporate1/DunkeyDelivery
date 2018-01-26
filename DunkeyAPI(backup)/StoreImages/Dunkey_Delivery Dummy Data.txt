@@ -1,0 +1,19 @@
+Food:
+Domino's Pizza:  https://en.wikipedia.org/wiki/Domino%27s_Pizza
+Dunkin' Donuts:  https://en.wikipedia.org/wiki/Dunkin%27_Donuts
+
+Grocery:
+Walmart:  https://en.wikipedia.org/wiki/Walmart
+Costco:   https://en.wikipedia.org/wiki/Costco
+
+Laundry: 
+Valley Laundry & Pawn:  https://www.yellowpages.com/kirtland-nm/mip/valley-laundry-pawn-774418
+US Cleaners:     	https://www.yelp.com/biz/u-s-cleaners-kirkland-3
+
+Alcohol:
+NH Liquor & Wine Outlet:  http://www.liquorandwineoutlets.com/
+ABC Fine Wine & Spirits:  https://www.abcfws.com/
+
+Pharmacy: 
+CVS Pharmacy:  https://cvshealth.com/
+Rite Aid :     https://locations.riteaid.com/locations/ms/hattiesburg/5916-us-highway-49.html

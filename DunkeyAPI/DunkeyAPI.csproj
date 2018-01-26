@@ -324,6 +324,7 @@
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LaundryController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
@@ -359,6 +360,7 @@
     <Compile Include="Models\Admin\StoresViewModel.cs" />
     <Compile Include="Models\BlogVMl.cs" />
     <Compile Include="Models\DriverBindingModel.cs" />
+    <Compile Include="Models\FAQViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Models\MerchantBindingModel.cs" />
@@ -390,6 +392,8 @@
     <Compile Include="ViewModels\ClientProductViewModel.cs" />
     <Compile Include="ViewModels\ContentListViewModel.cs" />
     <Compile Include="ViewModels\DriverViewModel.cs" />
+    <Compile Include="ViewModels\FAQViewModel.cs" />
+    <Compile Include="ViewModels\LaundryViewModel.cs" />
     <Compile Include="ViewModels\MobileOrderViewModel.cs" />
     <Compile Include="ViewModels\NotificationBindingModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />

@@ -37,4 +37,29 @@ namespace BasketWebPanel.ViewModels
         public string ImageUrl { get; set; }
         public string RoleName { get; internal set; }
     }
+
+
+
+    public class SearchFAQViewModel : BaseViewModel
+    {
+        public SearchFAQViewModel()
+        {
+            FAQs = new List<FAQViewModel>();
+        }
+        public List<FAQViewModel> FAQs { get; set; }
+    }
+
+    public class FAQViewModel
+    {
+
+        public int Id { get; set; }
+
+        public string Question { get; set; }
+
+        public string Answer { get; set; }
+
+        public string Type { get; set; }
+
+
+    }
 }

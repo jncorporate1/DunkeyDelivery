@@ -10,6 +10,7 @@ using System.Linq;
 using System.Data.Entity;
 using static DunkeyAPI.Utility.Global;
 using static DunkeyDelivery.Utility;
+using DunkeyAPI.Models;
 
 namespace DunkeyAPI.Controllers
 {
@@ -48,6 +49,58 @@ namespace DunkeyAPI.Controllers
                         default:
                             return Ok(new CustomResponse<Error> { Message = ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Invalid entity type" } });
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetFAQs")]
+        public async Task<IHttpActionResult> GetFAQs(string Type,int? Page=0,int? Items=5)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    
+                    var FAQ =new FAQViewModel();
+                    if (string.IsNullOrEmpty(Type))
+                    {
+                        FAQ.FAQs = ctx.FAQ.Where(x=>x.isDeleted==false).OrderByDescending(x=>x.Id).Skip(Page.Value*Items.Value).Take(Items.Value).ToList();
+                        FAQ.TotalRecords = ctx.FAQ.Count(x => x.isDeleted == false);
+                    }
+                    else
+                    {
+                        FAQ.FAQs = ctx.FAQ.Where(x => x.Type == Type && x.isDeleted == false).OrderByDescending(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        FAQ.TotalRecords = ctx.FAQ.Count(x => x.Type == Type && x.isDeleted == false);
+                    }
+
+                    return Ok(new CustomResponse<FAQViewModel> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = FAQ });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [HttpGet]
+        [Route("GetFAQsById")]
+        public async Task<IHttpActionResult> GetFAQsById(int Id)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var FAQ = new FAQ();
+                    FAQ = ctx.FAQ.FirstOrDefault(x =>x.Id==Id && x.isDeleted == false);
+                    return Ok(new CustomResponse<FAQ> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = FAQ });
+
                 }
             }
             catch (Exception ex)

@@ -13,6 +13,7 @@ namespace DunkeyDelivery.Areas.Dashboard.Models
         public string UserName { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string Name { get; set; }
+        public string Country { get; set; }
 
         public void SetSharedData(IPrincipal User)
         {
@@ -21,7 +22,8 @@ namespace DunkeyDelivery.Areas.Dashboard.Models
             var Name = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Name");
             var profilePictureUrl = claimIdentity.Claims.FirstOrDefault(x => x.Type == "ProfilePictureUrl");
             UserName = fullName == null ? "" : fullName.Value;
-            ProfilePictureUrl =(Convert.ToString(profilePictureUrl.Value));
+            ProfilePictureUrl =profilePictureUrl==null?"":(Convert.ToString(profilePictureUrl.Value));
+            Country =Convert.ToString(claimIdentity.Claims.FirstOrDefault(x => x.Type == "Country"));
         } 
     }
 }

@@ -30,6 +30,8 @@ namespace DAL
 
         public string Image { get; set; }
 
+        public string Image_Selected { get; set; } = "";
+        
         public short Status { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -39,6 +41,9 @@ namespace DAL
         public int Store_Id { get; set; }
 
         public string Size { get; set; }
+
+        [NotMapped]
+        public string BusinessName { get; set; } = "";
 
         [JsonIgnore]
         public virtual Category Category { get; set; }

@@ -75,6 +75,7 @@
     <Compile Include="Driver.cs" />
     <Compile Include="Driver_Orders.cs" />
     <Compile Include="DunkeyContext.cs" />
+    <Compile Include="FAQ.cs" />
     <Compile Include="Favourite.cs" />
     <Compile Include="ForgetPasswordTokens.cs" />
     <Compile Include="JsonCustomDateTimeConverter.cs" />

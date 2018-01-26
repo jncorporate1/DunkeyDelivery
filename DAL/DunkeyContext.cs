@@ -60,6 +60,8 @@ namespace DAL
         public virtual DbSet<BusinessTypeTax> BusinessTypeTax { get; set; }
         public virtual DbSet<Content> Content { get; set; }
         public virtual DbSet<LaundryRequest> LaundryRequest { get; set; }
+        public virtual DbSet<FAQ> FAQ { get; set; }
+
 
 
 

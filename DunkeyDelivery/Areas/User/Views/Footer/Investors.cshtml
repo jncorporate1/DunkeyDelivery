@@ -1,18 +1,59 @@
 ﻿@{
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
+<style>
+    li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .col-md-4{
+            vertical-align: middle;
+            border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            display: inline-block;
+           
+    }
+    #image-invest{
+          transition: all .5s ease;
+     }
+    #image-invest:hover{
+            transform: scale(0.9);
 
+    }
+</style>
 <div class="main-section investors-main-section">
     <div class="container">
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <ul class="investor-list">
-            <li><img src="~/Content/assets/images/google-image.png" class="img img-responsive" /></li>
-            <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>
-            <li><img src="~/Content/assets/images/facebook-image.png" class="img img-responsive" /></li>
-            <li><img src="~/Content/assets/images/google-image.png" class="img img-responsive" /></li>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/01.png" class="img img-responsive" /></li></div>
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/02.png" class="img img-responsive" /></li></div>
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/03.png" class="img img-responsive" /></li></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/04.png" class="img img-responsive" /></li></div>
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/05.png" class="img img-responsive" /></li></div>
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/06.png" class="img img-responsive" /></li></div>
 
-            <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>
-            <li><img src="~/Content/assets/images/facebook-image.png" class="img img-responsive" /></li>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/07.png" class="img img-responsive" /></li></div>
+                <div class="col-md-4"><li id="image-invest"><img src="~/Content/assets/images/08.png" class="img img-responsive" /></li></div>
+
+
+            </div>
+        </div>
+
+       @*<ul class="">*@
+
+
+
+            @*<li><img src="~/Content/assets/images/brands.jpg" class="img img-responsive" /></li>*@
+ 
+
+        @* <li><img src="~/Content/assets/images/facebook-image.png" class="img img-responsive" /></li>
             <li><img src="~/Content/assets/images/google-image.png" class="img img-responsive" /></li>
             <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>
 
@@ -24,8 +65,8 @@
             <li><img src="~/Content/assets/images/google-image.png" class="img img-responsive" /></li>
             <li><img src="~/Content/assets/images/facebook-image.png" class="img img-responsive" /></li>
             <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>
-            <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>
-        </ul>
+            <li><img src="~/Content/assets/images/fin-image.png" class="img img-responsive" /></li>*@
+        @*</ul>*@
     </div>
 </div>
 

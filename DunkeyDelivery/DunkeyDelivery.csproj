@@ -237,6 +237,7 @@
     <Compile Include="Areas\User\Models\ContactUsViewModel.cs" />
     <Compile Include="Areas\User\Models\DeliveryDetailsViewModel.cs" />
     <Compile Include="Areas\User\Models\DriverViewModel.cs" />
+    <Compile Include="Areas\User\Models\FooterViewModel.cs" />
     <Compile Include="Areas\User\Models\GetProductViewModel.cs" />
     <Compile Include="Areas\User\Models\MerchantViewModel.cs" />
     <Compile Include="Areas\User\Models\OfferViewModel.cs" />
@@ -378,6 +379,14 @@
     <Content Include="Content\assets\css\library.css" />
     <Content Include="Content\assets\css\style.css" />
     <Content Include="Content\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\images\01.png" />
+    <Content Include="Content\assets\images\02.png" />
+    <Content Include="Content\assets\images\03.png" />
+    <Content Include="Content\assets\images\04.png" />
+    <Content Include="Content\assets\images\05.png" />
+    <Content Include="Content\assets\images\06.png" />
+    <Content Include="Content\assets\images\07.png" />
+    <Content Include="Content\assets\images\08.png" />
     <Content Include="Content\assets\images\1-icon.png" />
     <Content Include="Content\assets\images\1-image.png" />
     <Content Include="Content\assets\images\1st-rest.png" />
@@ -407,6 +416,8 @@
     <Content Include="Content\assets\images\Banner-5.jpg" />
     <Content Include="Content\assets\images\banner.jpg" />
     <Content Include="Content\assets\images\bars.jpg" />
+    <Content Include="Content\assets\images\basket.png" />
+    <Content Include="Content\assets\images\bellano.JPG" />
     <Content Include="Content\assets\images\benifits_sleep_study.jpg" />
     <Content Include="Content\assets\images\bigking.jpg" />
     <Content Include="Content\assets\images\blog-image%281%29.jpg" />
@@ -506,12 +517,14 @@
     <Content Include="Content\assets\images\h1.png" />
     <Content Include="Content\assets\images\h2.png" />
     <Content Include="Content\assets\images\h3.png" />
+    <Content Include="Content\assets\images\hairdeport.png" />
     <Content Include="Content\assets\images\Hong-Kong.jpg" />
     <Content Include="Content\assets\images\Hungary.jpg" />
     <Content Include="Content\assets\images\image-two%281%29.jpg" />
     <Content Include="Content\assets\images\image-two.jpg" />
     <Content Include="Content\assets\images\indeed-apply.png" />
     <Content Include="Content\assets\images\India.jpg" />
+    <Content Include="Content\assets\images\info.png" />
     <Content Include="Content\assets\images\investors-image.png" />
     <Content Include="Content\assets\images\investors\bertram.png" />
     <Content Include="Content\assets\images\investors\exxon-mobil.png" />
@@ -558,6 +571,7 @@
     <Content Include="Content\assets\images\mexico.png" />
     <Content Include="Content\assets\images\mobile-image.png" />
     <Content Include="Content\assets\images\Montenegro.jpg" />
+    <Content Include="Content\assets\images\mood.jpg" />
     <Content Include="Content\assets\images\n1.png" />
     <Content Include="Content\assets\images\n2.png" />
     <Content Include="Content\assets\images\n3.png" />
@@ -632,8 +646,10 @@
     <Content Include="Content\assets\images\tx.png" />
     <Content Include="Content\assets\images\UAE.jpg" />
     <Content Include="Content\assets\images\United-States-of-American.png" />
+    <Content Include="Content\assets\images\uptown.png" />
     <Content Include="Content\assets\images\Uruguay.png" />
     <Content Include="Content\assets\images\value-meal-banner.jpg" />
+    <Content Include="Content\assets\images\wildroot.jpg" />
     <Content Include="Content\assets\images\wordpress.png" />
     <Content Include="Content\assets\js\jquery.flagstrap.js" />
     <Content Include="Content\assets\js\jquery.flagstrap.min.js" />
@@ -1269,6 +1285,7 @@
     <Content Include="Areas\User\Views\ShoppingCart\ShoppingCart.cshtml" />
     <Content Include="Areas\User\Views\ShoppingCart\_ShoppingCart.cshtml" />
     <Content Include="Areas\User\Views\Blog\BlogDetails.cshtml" />
+    <Content Include="Areas\User\Views\Footer\_FAQResults.cshtml" />
     <None Include="Properties\PublishProfiles\DunkeyDeliveryWeb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart\Chart.js" />

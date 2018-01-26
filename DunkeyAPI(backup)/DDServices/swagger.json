@@ -1,0 +1,391 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.1",
+    "title": "Webservices For Test Project",
+    
+  },
+  "host": "localhost:58401",
+  "basePath": "/api/Products",
+  
+  "tags": [
+    {
+      "name": "Login",
+      "description": "Login Services"
+    },
+    {
+      "name": "Signup",
+      "description": "Signup Services"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+   "paths": {
+    
+  "/Login": {
+      
+      "post": {
+        "description": "Login User",
+        "summary": "Login User Into System",
+        "tags": [
+          "User"
+        ],
+        "operationId": "Login User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Email Address Of User"
+          },
+		  {
+            "name": "Password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Password Of Email In Above Field"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+  
+   "/Register": {
+      
+      "post": {
+        "description": "Register or SignUp",
+        "summary": "Register a new account",
+        "tags": [
+          "User"
+        ],
+        "operationId": "Register",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Email Address Of User"
+          },
+		  {
+            "name": "Password",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Password Of Email In Above Field"
+          },
+		  {
+            "name": "ConfirmPassword",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Confirm password"
+          },
+		  {
+            "name": "FirstName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "First Name of user"
+          },
+		  {
+            "name": "LastName",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Last Name of user"
+          },
+		  {
+            "name": "Phone",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": "Cell Phone No"
+          },
+		  {
+            "name": "Role",
+            "in": "formData",
+            "required": true,
+            "type": "short",
+            "description": "0 for user, 1 for deliverer, 2 for sub admin, 3 for super admin"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+  
+  
+"/Logout": {
+      
+      "post": {
+        "description": "Logout User",
+        "summary": "Logout User from System",
+        "tags": [
+          "User"
+        ],
+        "operationId": "Logout User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+		{
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Authorization token received"
+          },
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+	
+	"/RegisterWithImage": {
+      
+      "post": {
+        "description": "Multipart data request required along with fullname, email, password, confirmpassword, phonenumber, SignInType = 0 for User/1 for Deliverer",
+        "summary": "Logout User from System",
+		"consumes":"multipart/form-data",
+        "tags": [
+          "User"
+        ],
+        "operationId": "Logout User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+		{
+			"name": "file",
+            "in": "formData",
+            "type": "file",
+			required:true,
+            "description": "The File to upload"
+		},
+		{
+			"name": "FirstName",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "First Name"
+		},
+		{
+			"name": "LastName",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "Last Name"
+		},
+		{
+			"name": "Email",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "Email"
+		},
+		{
+			"name": "ConfirmPassword",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "ConfirmPassword"
+		},
+		{
+			"name": "Password",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "Password"
+		},
+		{
+			"name": "Phone",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "PhoneNumber"
+		},
+		{
+			"name": "Role",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "0 for user, 1 for deliverer"
+		}
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+	
+	"/Create": {
+      
+      "post": {
+        "description": "Multipart data request required along with fullname, email, password, confirmpassword, phonenumber, SignInType = 0 for User/1 for Deliverer",
+        "summary": "Logout User from System",
+		"consumes":"multipart/form-data",
+        "tags": [
+          "Product"
+        ],
+        "operationId": "Logout User",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+		{
+			"name": "file",
+            "in": "formData",
+            "type": "file",
+			required:true,
+            "description": "The File to upload"
+		},
+		{
+			"name": "Name",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "First Name"
+		},
+		{
+			"name": "Price",
+            "in": "formData",
+            "type": "integer",
+			required:true,
+            "description": "Last Name"
+		},
+		{
+			"name": "Store_id",
+            "in": "formData",
+            "type": "integer",
+			required:true,
+            "description": "Email"
+		},
+		{
+			"name": "Category_id",
+            "in": "formData",
+            "type": "integer",
+			required:true,
+            "description": "ConfirmPassword"
+		},
+		{
+			"name": "Description",
+            "in": "formData",
+            "type": "string",
+			required:true,
+            "description": "Password"
+		},
+		{
+			"name": "Status",
+            "in": "formData",
+            "type": "integer",
+			required:true,
+            "description": "PhoneNumber"
+		}
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+	
+
+	
+	"/ChangePassword": {
+      
+      "post": {
+        "description": "ChangePassword",
+        "summary": "ChangePassword.",
+        "tags": [
+          "User"
+        ],
+        "operationId": "ChangePassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+		{
+			"name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization Token"
+		},
+		{
+			"name": "NewPassword",
+            "in": "formData",
+            "type": "string",
+            "description": "New password."
+		},
+		{
+			"name": "ConfirmPassword",
+            "in": "formData",
+            "type": "string",
+            "description": "Confirm new password."
+		},
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+	
+	"/UploadUserImage": {
+      
+      "post": {
+        "description": "UploadUserImage",
+        "summary": "This will be used to replace profile picture of user.",
+        "tags": [
+          "User"
+        ],
+        "operationId": "UploadUserImage",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+		{
+			"name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Authorization Token"
+		},
+		{
+			"name": "Picture",
+            "in": "multipart/form-data",
+            "type": "file",
+            "description": "Picture"
+		},
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+	
+	},
+}

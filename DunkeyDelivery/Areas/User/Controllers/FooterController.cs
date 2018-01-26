@@ -1,8 +1,11 @@
 ﻿using DunkeyDelivery;
 using DunkeyDelivery.Areas.User.Models;
+using DunkeyDelivery.BindingModels;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -149,15 +152,46 @@ namespace DunkeyDelivery.Areas.User.Controllers
             Global.sharedDataModel.SetSharedData(User);
             return View("Partners",Global.sharedDataModel);
         }
-        public ActionResult FAQs()
+        public async Task<ActionResult> FAQs(string Type)
         {
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.Title = "FAQs";
             ViewBag.BannerTitle = "Frequently Asked Question";
             ViewBag.Path = "Home > FAQs";
+            //FAQListViewModel response = new FAQListViewModel();
+            FAQListPartialViewModel response = new FAQListPartialViewModel();
+
+            var responseModel = await ApiCall<FAQListPartialViewModel>.CallApi("api/GetFAQs?Type="+Type, null, false);
+            if(responseModel is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+            else
+            {
+                response = responseModel.GetValue("Result").ToObject<FAQListPartialViewModel>();
+            }
+            ViewBag.FAQ = response.FAQs;
             Global.sharedDataModel.SetSharedData(User);
             return View("FAQ",Global.sharedDataModel);
         }
+
+        public async Task<ActionResult> FAQsList(string Type,int? Page=0,int? Items=5)
+        {
+            FAQListPartialViewModel response = new FAQListPartialViewModel();
+            var responseModel = AsyncHelpers.RunSync<JObject>(() => ApiCall<FAQListPartialViewModel>.CallApi("api/GetFAQs?Type=" + Type+"&Page="+Page+"&Items="+Items, null, false));
+            if (responseModel is Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (responseModel as Error).ErrorMessage);
+            }
+            else
+            {
+                response = responseModel.GetValue("Result").ToObject<FAQListPartialViewModel>();
+            }
+
+            return PartialView("_FAQResults", response);
+        }
+
+
         public ActionResult RewardPoints()
         {
             ViewBag.BannerImage = "press-top-banner.jpg";

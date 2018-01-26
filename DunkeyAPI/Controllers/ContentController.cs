@@ -128,7 +128,7 @@ namespace DunkeyAPI.Controllers
                     var content = ctx.Content.FirstOrDefault(x => x.Type == Type);
                     if (content != null)
                     {
-                       return Ok(new CustomResponse<Content> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = content });
+                        return Ok(new CustomResponse<Content> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = content });
 
                     }
                     return Content(HttpStatusCode.OK, new CustomResponse<Error>
@@ -178,10 +178,10 @@ namespace DunkeyAPI.Controllers
                         {
                             Description = BindingModel.Description,
                             VideoUrl = BindingModel.VideoUrl,
-                            Type=(int)DunkeyDelivery.Content.Types.AboutUs,
-                            Heading=BindingModel.Heading,
-                            Title= BindingModel.Title,
-                            ImageUrl= BindingModel.ImageUrl
+                            Type = (int)DunkeyDelivery.Content.Types.AboutUs,
+                            Heading = BindingModel.Heading,
+                            Title = BindingModel.Title,
+                            ImageUrl = BindingModel.ImageUrl
 
                         };
 
@@ -205,5 +205,96 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("FAQ")]
+        public async Task<IHttpActionResult> FAQ(FAQViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var content = new FAQ();
+                    if (model.Id != 0)
+                    {
+                        content = ctx.FAQ.FirstOrDefault(x => x.Id == model.Id);
+                    }
+
+                    if (content.Question != null)
+                    {
+
+                        content.Question = model.Question;
+                        content.Answer = model.Answer;
+                        //content.Type= model.Type;
+                        ctx.SaveChanges();
+                        return Ok(new CustomResponse<FAQ> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = content });
+
+                    }
+                    else
+                    {
+                        FAQ NewFAQ = new FAQ
+                        {
+                            Question = model.Question,
+                            Answer = model.Answer,
+                            Type = model.Type,
+                            isDeleted = false,
+                        };
+
+                        ctx.FAQ.Add(NewFAQ);
+                        ctx.SaveChanges();
+                        return Ok(new CustomResponse<FAQ> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = NewFAQ });
+
+                    }
+                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    {
+                        Message = "Not Found",
+                        StatusCode = (int)HttpStatusCode.NotFound,
+                        Result = new Error { ErrorMessage = "Record not found." }
+                    });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+        [HttpGet]
+        [Route("DeleteFAQ")]
+
+        public async Task<IHttpActionResult> DeleteFAQ(int Id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var FAQ = ctx.FAQ.FirstOrDefault(x => x.Id == Id);
+                    FAQ.isDeleted = true;
+                    ctx.SaveChanges();
+                    return Ok(new CustomResponse<FAQ> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = FAQ });
+
+                }
+                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                {
+                    Message = "Not Found",
+                    StatusCode = (int)HttpStatusCode.NotFound,
+                    Result = new Error { ErrorMessage = "Record not found." }
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
     }
 }

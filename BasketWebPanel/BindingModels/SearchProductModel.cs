@@ -78,6 +78,11 @@ namespace BasketWebPanel.BindingModels
 
         public SelectList StoreOptions { get; internal set; }
     }
+    public class SearchFAQModel
+    {
+        public string Type { get; set; } = "";
+    }
+
     public class SearchBlogModel
     {
         public string BlogTitle { get; set; } = "";

@@ -1,4 +1,5 @@
 ﻿using DunkeyDelivery.Areas.User.Models;
+using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -574,6 +576,19 @@ namespace DunkeyDelivery.Areas.User.Controllers
           
         }
 
+
+        public async Task<JsonResult> SetCountry(string Country)
+        {
+
+
+            ClaimsIdentity identity;
+            User.AddUpdateClaim("Country", Country);
+            //identity = Identity as ClaimsIdentity;
+            //identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
+            //identity.AddClaim(new Claim("Country", Country));
+            return Json(JsonRequestBehavior.AllowGet);
+
+        }
 
 
 
