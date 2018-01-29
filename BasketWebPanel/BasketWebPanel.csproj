@@ -236,6 +236,7 @@
     <Compile Include="ViewModels\AddBlogViewModel.cs" />
     <Compile Include="ViewModels\AddContentViewModel.cs" />
     <Compile Include="ViewModels\AddOfferViewModel.cs" />
+    <Compile Include="ViewModels\ContentManagementViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\ReadyForDeliveryOrdersViewModel.cs" />
     <Compile Include="ViewModels\SearchBlogViewModel.cs" />

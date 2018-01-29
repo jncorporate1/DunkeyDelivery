@@ -123,7 +123,26 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             }
         }
 
+        public ActionResult AboutUs(ContentManagementViewModel returnModel)
+        {
+            ContentManagementViewModel resp = new ContentManagementViewModel();
+            resp.SetSharedData(User);
+            returnModel.Type = (int)BasketWebPanel.Content.Types.AboutUs;
+            var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Content/GetContentEntities", User, returnModel));
+            if (response == null || response is Error)
+            {
 
+            }
+            else
+            {
+                returnModel = response.GetValue("Result").ToObject<ContentManagementViewModel>();
+                returnModel.SetSharedData(User);
+                return View("AboutUs", returnModel);
+
+            }
+            return View("AboutUs", resp);
+
+        }
 
         public ActionResult Investors(int? Id)
         {

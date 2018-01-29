@@ -28,7 +28,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             //var profilePictureUrl = claimIdentity.Claims.FirstOrDefault(x => x.Type == "ProfilePictureUrl");
 
             model.SetSharedData(User);
-
+            ViewBag.IsIndex = 1;
             ViewBag.Title = "Home";
             return View("~/Areas/User/Views/Home/Index.cshtml", model);
 
@@ -96,6 +96,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.BannerImage = "press-top-banner.jpg";
             ViewBag.BannerTitle = "About Us";
             ViewBag.Path = "Home > About";
+            ViewBag.Title = "About Us";
             returnModel.SetSharedData(User);
             return View(returnModel);
         }
@@ -340,7 +341,20 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             //foreach (var offerProduct in responseValue.Offer_Products.Where(x => !String.IsNullOrEmpty(x.ImageUrl)))
             //    offerProduct.ImageUrl = /*Utility.BaseUrl +*/ offerProduct.ImageUrl;
-
+            if(responseValue.Offer_Packages.Count > 0)
+            {
+                foreach (var item in responseValue.Offer_Packages)
+                {
+                    item.Price = Math.Round(item.Price,4);
+                }
+            }
+            if (responseValue.Offer_Products.Count > 0)
+            {
+                foreach (var item in responseValue.Offer_Products)
+                {
+                    item.Price = Math.Round(item.Price, 4);
+                }
+            }
             ViewBag.BannerImage = "dealbanner.jpg";
             ViewBag.Title = " Deals";
             ViewBag.BannerTitle = "DEALS AND PROMOTIONS";

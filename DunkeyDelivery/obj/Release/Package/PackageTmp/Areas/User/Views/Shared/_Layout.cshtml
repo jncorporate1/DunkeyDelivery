@@ -1,55 +1,67 @@
 ﻿@model DunkeyDelivery.ViewModels.BaseViewModel
 <!DOCTYPE html>
 <html lang="en-US">
+@{
+    if (string.IsNullOrEmpty(Model.Country))
+    {
+        Model.Country = "USA";
+    }
+    var selectedCountry_ImageUrl = "http://10.100.28.36:802/Content/assets/images/"+@Model.Country + ".jpg";
+    selectedCountry_ImageUrl=selectedCountry_ImageUrl.Replace(" ","");
+}
 <head>
-	<meta charset="UTF-8" />
-	<title>Dunkey Delivery | @ViewBag.Title</title>
-	<link rel="profile" href="http://gmpg.org/xfn/11" />
-	<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link rel="icon" href="~/Content/assets/images/favicon.png" type="image/x-icon">
-	<!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+    <meta charset="UTF-8" />
+    <title>Dunkey Delivery | @ViewBag.Title</title>
+    <link rel="profile" href="http://gmpg.org/xfn/11" />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="~/Content/assets/images/favicon.png" type="image/x-icon">
+    <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
     <link href="~/Content/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet" />
     <link href="~/Content/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker-standalone.css" rel="stylesheet" />
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-	@*@section Styles {
-		Styles.Render("~/Content/css")
-	}*@
-	<link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/style.css" />
-
-	<link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/library.css" />
-	<script src="~/Content/assets/js/jquery.min.js"></script>
-	<!------------------------ Jquery CDN ------------------------------------>
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<meta name='robots' content='noindex,follow' />
-	@*<link rel='dns-prefetch' href='//s.w.org' />*@
-   @*<script type="text/javascript">
-		window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "http:\/\/localhost\/dunkeyDelivery\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3" } };
-		!function (a, b, c) { function d(a) { var b, c, d, e, f = String.fromCharCode; if (!k || !k.fillText) return !1; switch (k.clearRect(0, 0, j.width, j.height), k.textBaseline = "top", k.font = "600 32px Arial", a) { case "flag": return k.fillText(f(55356, 56826, 55356, 56819), 0, 0), !(j.toDataURL().length < 3e3) && (k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 65039, 8205, 55356, 57096), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 55356, 57096), 0, 0), c = j.toDataURL(), b !== c); case "emoji4": return k.fillText(f(55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0), d = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55357, 56425, 55356, 57341, 55357, 56507), 0, 0), e = j.toDataURL(), d !== e } return !1 } function e(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var f, g, h, i, j = b.createElement("canvas"), k = j.getContext && j.getContext("2d"); for (i = Array("flag", "emoji4"), c.supports = { everything: !0, everythingExceptFlag: !0 }, h = 0; h < i.length; h++) c.supports[i[h]] = d(i[h]), c.supports.everything = c.supports.everything && c.supports[i[h]], "flag" !== i[h] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[i[h]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (g = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", g, !1), a.addEventListener("load", g, !1)) : (a.attachEvent("onload", g), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), f = c.source || {}, f.concatemoji ? e(f.concatemoji) : f.wpemoji && f.twemoji && (e(f.twemoji), e(f.wpemoji))) }(window, document, window._wpemojiSettings);
-	</script>*@
-	<style type="text/css">
-		img.wp-smiley,
-		img.emoji {
-			display: inline !important;
-			border: none !important;
-			box-shadow: none !important;
-			height: 1em !important;
-			width: 1em !important;
-			margin: 0 .07em !important;
-			vertical-align: -0.1em !important;
-			background: none !important;
-			padding: 0 !important;
-		}
-
-
-        #selected_country{
-            margin-top: 3px;
-            margin-left: 0px;
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    @*@section Styles {
+            Styles.Render("~/Content/css")
+        }*@
+    <link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/style.css" />
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/library.css" />
+    <script src="~/Content/assets/js/jquery.min.js"></script>
+    <!------------------------ Jquery CDN ------------------------------------>
+    @*<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>*@
+    <meta name='robots' content='noindex,follow' />
+    @*<link rel='dns-prefetch' href='//s.w.org' />*@
+    @*<script type="text/javascript">
+            window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "http:\/\/localhost\/dunkeyDelivery\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.3" } };
+            !function (a, b, c) { function d(a) { var b, c, d, e, f = String.fromCharCode; if (!k || !k.fillText) return !1; switch (k.clearRect(0, 0, j.width, j.height), k.textBaseline = "top", k.font = "600 32px Arial", a) { case "flag": return k.fillText(f(55356, 56826, 55356, 56819), 0, 0), !(j.toDataURL().length < 3e3) && (k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 65039, 8205, 55356, 57096), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 55356, 57096), 0, 0), c = j.toDataURL(), b !== c); case "emoji4": return k.fillText(f(55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0), d = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55357, 56425, 55356, 57341, 55357, 56507), 0, 0), e = j.toDataURL(), d !== e } return !1 } function e(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var f, g, h, i, j = b.createElement("canvas"), k = j.getContext && j.getContext("2d"); for (i = Array("flag", "emoji4"), c.supports = { everything: !0, everythingExceptFlag: !0 }, h = 0; h < i.length; h++) c.supports[i[h]] = d(i[h]), c.supports.everything = c.supports.everything && c.supports[i[h]], "flag" !== i[h] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[i[h]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (g = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", g, !1), a.addEventListener("load", g, !1)) : (a.attachEvent("onload", g), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), f = c.source || {}, f.concatemoji ? e(f.concatemoji) : f.wpemoji && f.twemoji && (e(f.twemoji), e(f.wpemoji))) }(window, document, window._wpemojiSettings);
+        </script>*@
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
         }
 
-	</style>
 
-	<meta name="generator" content="WordPress 4.7.3" />
+        #selected_country {
+            margin-top: 3px;
+            margin-left: 0px;
+            cursor:pointer;
+        }
+      
+        .blockDisplay{
+            display:block !important;
+        }
+    </style>
+
+    <meta name="generator" content="WordPress 4.7.3" />
 </head>
 <div class="clear" style="clear:both"></div>
 
@@ -95,417 +107,532 @@
 
 
     <!-- -----------------------Push Responsive Menu   ---------------------- -->
-	<!-- -----------------------Push Responsive Menu   ---------------------- -->
-	<div class="topheader overflow">
-		<div class="container">
-			<div class="col-md-3"></div>
-			<div class="col-md-9 nopad wow fadeInRight">
-				<div class="col-md-6 header_detail">
-					<ul>
-						@*<li><i class="fa fa-mobile" aria-hidden="true"></i> 1234 - 5678 - 9012</li>*@
-						<li><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:support@dunkeydelivery.com">support@dunkeydelivery.com</a></li>
-					</ul>
-				</div>
-				<div class="col-md-6 col-sm-12 col-xs-12  toplogin nopad">
-                    <div class="col-md-7 col-sm-7 col-xs-7 nopad loginbuttons">
+    <!-- -----------------------Push Responsive Menu   ---------------------- -->
+    <div class="topheader overflow">
+        <div style="width:100%;background: #0e1a1f !important;">
+            <div class="container">
+                <div class="col-md-3"></div>
+                <div class="col-md-9 nopad wow fadeInRight">
+                    <div class="col-md-6 header_detail">
                         <ul>
-                            @if (string.IsNullOrEmpty(Model.UserName))
-                            {
-
-                                <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-                                <li style="position: relative;left: 6px;top: 0px;" ><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
-                                <li style="position: relative;left: -6px;top: 0px;" ><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
-
-                            }
-                            else
-                            {
-                                <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-                                <li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
-                                <li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
-
-                            }
+                            @*<li><i class="fa fa-mobile" aria-hidden="true"></i> 1234 - 5678 - 9012</li>*@
+                            <li><i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:support@dunkeydelivery.com">support@dunkeydelivery.com</a></li>
                         </ul>
                     </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12  toplogin nopad">
+                        <div class="col-md-7 col-sm-7 col-xs-7 nopad loginbuttons">
+                            <ul>
+                                @if (string.IsNullOrEmpty(Model.UserName))
+                                {
 
-					<div class="col-md-2 col-sm-2 col-xs-2 lang nopad">
-						<select style="position: relative;left: -6px;top: 4px;" >
-							<option>ENG</option>
-							<option>FRCH</option>
-						</select>
-					</div>
-                    <div class="col-md-3 col-sm-3 col-xs-3 lang nopad" style="position: relative;left: -6px;top: 4px;"  id="selected_country">
-                        <li><img src="~/Content/assets/images/United-States-of-American.png" alt=""><span >  USA </span></li>
-                    </div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                    <li style="position: relative;left: 6px;top: 0px;"><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
+                                    <li style="position: relative;left: -6px;top: 0px;"><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
 
-	<!-- -----------------------Push Responsive Menu   ---------------------- -->
-  
-	<main>
-		<header>
-			<div class="container nopad">
-				<div class="row rel">
+                                }
+                                else
+                                {
+                                    <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                                    <li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
+                                    <li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
 
-					<!-- -----------------------Logo  ---------------------- -->
-					<logo>
-						<div class="mlogo wow fadeInDown"> <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a>
-                            @*1234 - 5678 - 9012*@
-                        
+                                }
+                            </ul>
                         </div>
-					</logo>
-					<div class="col-md-6"></div>
-					<div class="col-md-6 nav5 wow fadeIn">
-						<nav class="nav">
-							<div class="menu-header">
-								<ul id="menu-topmenu" class="menu" >
-									<li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="@Url.Action("Index","Home",new {area="User" })">Home</a></li>
-									<li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-20">
-										<a href="#">Delivery</a>
-                                        <ul class="sub-menu">
-                                            <li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23"><a href="@Url.Action("Search","Home",new { search="Food" })">Food</a></li>
-                                            <li id="menu-item-24" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery</a></li>
-                                            <li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a></li>
-                                            <li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a></li>
-                                            <li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a></li>
-                                            <li id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
 
-                                        </ul>
-									</li>
-									<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a></li>
-									<li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="@Url.Action("Deals","Home",new { area = "User" })">Deals/Promotions</a></li>
-									<li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="@Url.Action("Contact","Home",new { area = "User" })">Contact</a></li>
-								</ul>
-							</div>
-							<!-- -----------------------Search Toggle ---------------------- -->
+                        <div class="col-md-2 col-sm-2 col-xs-2 lang nopad">
+                            <div id="google_translate_element" style="position: relative;right: 45px;top: 4px;">
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-3 lang nopad dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position: relative;left: 40px;top: 4px;" id="selected_country">
+                            <img src="@selectedCountry_ImageUrl" alt=""><span  style="color:#6ebe44;" >  @Model.Country </span>
+                        </div>
+                        <ul class="dropdown-menu col-md-6"  style="cursor:pointer;margin-left:308px;">
+                        
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span class="country_name">   Hungary</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Romania.jpg" alt=""><span class="country_name">   Romania</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Bulgaria.jpg" alt=""><span class="country_name">  Bulgaria</span></li>
 
-							@*<searchtoggle>
-								<div class="searchtoggle"><img src="~/Content/assets/images/search-icon.png" alt=""></div>
-								<div class="searchpanel">
-									<form method="get" onsubmit="return false" id="searchform" class="searchform" action="">
-										<input type="submit" id="searchsubmit" value="Search" />
-										<input type="text" value="" name="s" id="s" placeholder="Search" />
-									</form>
-								</div>
-							</searchtoggle>*@
-						</nav>
-					</div>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Hong-Kong.jpg" alt=""><span class="country_name">  Georgia</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Serbia.jpg" alt=""><span class="country_name">   Serbia</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Croatia.jpg" alt=""><span class="country_name">   Croatia</span></li>
 
-					<!-- -----------------------Search   ---------------------- -->
-					<!-- -----------------------End Search  ---------------------- -->
-					<div class="clearfix"></div>
-				</div>
-			</div>
-		</header>
-		@RenderBody()
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span class="country_name">   Montenegro</span></li>
 
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/USA.jpg" alt=""><span class="country_name">   USA</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/mexico.jpg" alt=""><span class="country_name">   Mexico</span></li>
 
-	   <footer class="footer overflow">
-			<div class="container">
-                <div class="col-md-5 cflags wow fadeInLeft">
-                    <h4>Delivery? In Your Country</h4>
-                    <div class="col-md-4">
-                        <h5>Europe</h5>
-                        <ul>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Hungary.jpg" alt="">Hungary</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Romania.jpg" alt="">Romania</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Bulgaria.jpg" alt="">Bulgaria</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Hong-Kong.jpg" alt="">Georgia</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Serbia.jpg" alt="">Serbia</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Croatia.jpg" alt="">Croatia</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Montenegro.jpg" alt="">Montenegro</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>North America</h5>
-                        <ul>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/United-States-of-American.png" alt="">USA</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/mexico.png" alt="">Mexico</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/dominica-flag.png" alt="">Dominica</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/canada.png" alt="">Canada</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/costarica_flag.png" alt="">Costa Rica</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/cuba.png" alt="">Cuba</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/svlarge.png" alt="">El Salvador</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Nicaragua.png" alt="">Nicarague</li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/dominica.jpg" alt=""><span class="country_name">   Dominica</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/canada.jpg" alt=""><span class="country_name">   Canada</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/costarica.jpg" alt=""><span class="country_name">   Costa Rica</span></li>
 
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>South America</h5>
-                        <ul>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Saudi-Arabia.jpg" alt="">Brazil</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/UAE.jpg" alt="">Argentina</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Peru.png" alt="">Peru</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Colombia.png" alt="">Colombia</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Chile.png" alt="">Chile</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Ecuador.png" alt="">Ecuador</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Uruguay.png" alt="">Uruguay</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Paraguay.png" alt="">Paraguay</li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/aruba.png" alt="">Aruba</li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/cuba.jpg" alt=""><span class="country_name">   Cuba</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Salvador.jpg" alt=""><span class="country_name">   Salvador</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Nicaragua.jpg" alt=""><span class="country_name">   Nicarague</span></li>
 
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span class="country_name">   Brazil</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/UAE.jpg" alt=""><span class="country_name">   Argentina</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Peru.jpg" alt=""><span class="country_name">   Peru</span></li>
+
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Colombia.jpg" alt=""><span class="country_name">   Colombia</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Chile.jpg" alt=""><span class="country_name">   Chile</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Ecuador.jpg" alt=""><span class="country_name">   Ecuador</span></li>
+
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Uruguay.jpg" alt=""><span class="country_name">   Uruguay</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Paraguay.jpg" alt=""><span class="country_name">   Paraguay</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries">&nbsp;&nbsp;&nbsp;<img src="~/Content/assets/images/Aruba.jpg" alt=""> <span class="country_name">   Aruba</span></li>
 
                         </ul>
                     </div>
                 </div>
-				<div class="col-md-1 nopad"></div>
-				<div class="col-md-3 nopad footercontact wow zoomIn">
-					<h5>Contact info</h5>
-                    <ul>
-                        <li><a href="javascript::">info@dunkeydelivery.com</a></li>
-                        <li>3338 Peachtree Rd NE Atlanta GA 30326</li>
-                        <li>+1 234 567 890</li>
-                        <li>+1 234 567 890</li>
-                    </ul>
-					<div class="clearfix"></div><br /><br />
-					<h5>Links</h5>
+            </div>
+        </div>
+        <!-- -----------------------Push Responsive Menu   ---------------------- -->
+
+        <main>
+            <header>
+                <div class="container nopad">
+                    <div class="row rel">
+
+                        <!-- -----------------------Logo  ---------------------- -->
+                        <logo>
+                            <div class="mlogo wow fadeInDown">
+                                <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/logo2.png" class="attachment-334x334 size-334x334" alt="" /> </a>
+                                @*1234 - 5678 - 9012*@
+
+                            </div>
+                        </logo>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6 nav5 wow fadeIn">
+                            <nav class="nav">
+                                <div class="menu-header">
+                                    <ul id="menu-topmenu" class="menu">
+                                        <li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-17"><a href="@Url.Action("Index","Home",new {area="User" })">Home</a></li>
+                                        <li id="menu-item-20" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-20">
+                                            <a href="#">Delivery</a>
+                                            <ul class="sub-menu">
+                                                <li id="menu-item-23" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-23"><a href="@Url.Action("Search","Home",new { search="Food" })">Food</a></li>
+                                                <li id="menu-item-24" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-24"><a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery</a></li>
+                                                <li id="menu-item-25" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-25"><a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a></li>
+                                                <li id="menu-item-26" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-26"><a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a></li>
+                                                <li id="menu-item-28" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-28"><a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a></li>
+                                                <li id="menu-item-29" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-29"><a href="@Url.Action("Search","Home",new { search="Retail" })">Retail</a></li>
+
+                                            </ul>
+                                        </li>
+                                        <li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a></li>
+                                        <li id="menu-item-19" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19"><a href="@Url.Action("Deals","Home",new { area = "User" })">Deals/Promotions</a></li>
+                                        <li id="menu-item-18" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-18"><a href="@Url.Action("Contact","Home",new { area = "User" })">Contact</a></li>
+                                    </ul>
+                                </div>
+                                <!-- -----------------------Search Toggle ---------------------- -->
+                                @*<searchtoggle>
+                                        <div class="searchtoggle"><img src="~/Content/assets/images/search-icon.png" alt=""></div>
+                                        <div class="searchpanel">
+                                            <form method="get" onsubmit="return false" id="searchform" class="searchform" action="">
+                                                <input type="submit" id="searchsubmit" value="Search" />
+                                                <input type="text" value="" name="s" id="s" placeholder="Search" />
+                                            </form>
+                                        </div>
+                                    </searchtoggle>*@
+                            </nav>
+                        </div>
+
+                        <!-- -----------------------Search   ---------------------- -->
+                        <!-- -----------------------End Search  ---------------------- -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </header>
+
+
+            @if (ViewBag.IsIndex == null)
+            {
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="icons-wrapper">
+                            <ul class="cat-wrap">
+                                <li><a href="@Url.Action("Search","Home",new { search="Food" })"><img src="~/Content/assets/images/s1.png" />Food</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/s2.png" />Grocery</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/s3.png" />Laundry</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/s4.png" />Alcohol</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/s5.png" />Pharmacy</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/s6.png" />Retail</a></li>
+
+                                <li style="position: relative;top: 10px;" class="cart-right"><div class="cart-main"><span class="cartopen"><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})">cart <span class="basket"><span style="visibility:none;">1</span></span></a></span></div></li>
+                            </ul>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            }
+
+
+
+
+
+
+
+
+            @RenderBody()
+
 
+            <footer class="footer overflow">
+                <div class="container">
+                    <div class="col-md-5 cflags wow fadeInLeft">
+
+                        <div class="footLogo">
+                            <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/foot-logo.png" class="attachment-334x334 size-334x334" alt="" /> </a> @*1234 - 5678 - 9012*@
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+                        </div>
+
+                        <h4>Delivery? In Your Country</h4>
+                        <div class="col-md-4">
+                            <h5>Europe</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span style="color: #979d9d;" class="country_name">Hungary</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Romania.jpg" alt=""><span style="color: #979d9d;" class="country_name">Romania</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Bulgaria.jpg" alt=""><span style="color: #979d9d;" class="country_name">Bulgaria</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Hong-Kong.jpg" alt=""><span style="color: #979d9d;" class="country_name">Georgia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Serbia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Serbia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Croatia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Croatia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span style="color: #979d9d;" class="country_name">Montenegro</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>North America</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/USA.jpg" alt=""><span style="color: #979d9d;" class="country_name">USA</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/mexico.jpg" alt=""><span style="color: #979d9d;" class="country_name">Mexico</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/dominica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Dominica</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/canada.jpg" alt=""><span style="color: #979d9d;" class="country_name">Canada</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/costarica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Costa Rica</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/cuba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Cuba</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Salvador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Salvador</span></li>
+                                <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Nicaragua.jpg" alt=""><span style="color: #979d9d;" class="country_name">Nicarague</span></li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>South America</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span style="color: #979d9d;" class="country_name">Brazil</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/UAE.jpg" alt=""><span style="color: #979d9d;" class="country_name">Argentina</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Peru.jpg" alt=""><span style="color: #979d9d;" class="country_name">Peru</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Colombia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Colombia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Chile.jpg" alt=""><span style="color: #979d9d;" class="country_name">Chile</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Ecuador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Ecuador</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Uruguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Uruguay</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Paraguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Paraguay</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Aruba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Aruba</span></li>
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-1 nopad"></div>
+                    <div class="col-md-3 nopad footercontact wow zoomIn">
+                        <h5>Get in Touch</h5>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
+                        <ul>
+                            <li><a href="javascript::">info@dunkeydelivery.com</a></li>
+                            <li>3338 Peachtree Rd NE Atlanta GA 30326</li>
+                            <li>+1 234 567 890</li>
+                            <li>+1 234 567 890</li>
+                        </ul>
+                        <div class="clearfix"></div><br /><br />
+                        <h5>Links</h5>
 
-					<div class="col-md-4 fmenu padleft">
-						<a href="@Url.Action("Search","Home",new { search="Food" })">Food</a>
-						<a href="@Url.Action("Search","Home",new { search="Retail" })">Retail </a>
-						<a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery </a>
-						<a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a>
-						<a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a>
 
-					</div>
+                        <div class="col-md-4 fmenu padleft">
+                            <a href="@Url.Action("Search","Home",new { search="Food" })">Food</a>
+                            <a href="@Url.Action("Search","Home",new { search="Retail" })">Retail </a>
+                            <a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery </a>
+                            <a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a>
+                            <a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a>
 
-					<div class="col-md-5 fmenu padleft">
+                        </div>
+
+                        <div class="col-md-5 fmenu padleft">
+
+                            <a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a>
+                            <a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a>
+                            <a href="@Url.Action("Investors","Footer",new { area="User"})">Investors</a>
+                            <a href="@Url.Action("Index","Merchant",new { area="User"})">Merchants</a>
+                            <a href="@Url.Action("FAQs", "Footer",new { area="User"})">FAQ</a>
+                        </div>
+
+                    </div>
 
-						<a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a>
-						<a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a>
-						<a href="@Url.Action("Investors","Footer",new { area="User"})">Investors</a>
-						<a href="@Url.Action("Index","Merchant",new { area="User"})">Merchants</a>
-						<a href="@Url.Action("FAQs", "Footer",new { area="User"})">FAQ</a>
-					</div>
 
-				</div>
 
 
 
+
+
+
 
+
+                    <div class="col-md-3 wow fadeInRight">
+                        <h5>stay connected with us</h5>
+                        <div class="subscribe-wrap">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                            <form action="#">
+                                <input type="email" name="email" id="email" placeholder="Your email address" />
+                                <input type="submit" name="submit" value="Subscribe" id="submit" />
+                            </form>
+                        </div>
+                        <socialicons>
+                            <div class="social_icons">
+                                <ul>
+                                    <li><a href="javascript::"> <i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </socialicons>
+
+                        <div class="fgap">&nbsp;</div>
+                        <div class="col-md-5 fmenu nopad">
+
 
+                            <a href="@Url.Action("Blog", "Footer")"> Blog</a>
+                            <a href="@Url.Action("Career", "Footer")">Careers</a>
+                            <a href="@Url.Action("Press", "Footer")">Press</a>
+                            <a href="@Url.Action("Index", "Driver")">Drivers</a>
+                            <a href="@Url.Action("Gift", "Footer")">Gift Cards</a>
 
+                        </div>
 
+                        <div class="col-md-7 fmenu" style="padding-left:0px;">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
+                            }
+                            <a href="@Url.Action("Partners", "Footer",new { area="User"})">Partners</a>
+                            <a href="@Url.Action("Contact", "Home",new { Area="User" })">Contact </a>
+                            <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
 
+                        </div>
 
 
-				<div class="col-md-3 wow fadeInRight">
-					<h5>stay connected with us</h5>
-					<socialicons>
-						<div class="social_icons">
-							<ul>
-								<li><a href="javascript::"> <i class="fa fa-twitter"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-							</ul>
-						</div>
-					</socialicons>
 
-					<div class="fgap">&nbsp;</div>
-					<div class="col-md-5 fmenu nopad">
+                    </div>
 
+                    <div class="clearfix"></div>
 
-						<a href="@Url.Action("Blog", "Footer")"> Blog</a>
-						<a href="@Url.Action("Career", "Footer")">Careers</a>
-						<a href="@Url.Action("Press", "Footer")">Press</a>
-						<a href="@Url.Action("Index", "Driver")">Drivers</a>
-						<a href="@Url.Action("Gift", "Footer")">Gift Cards</a>
+                    <hr />
 
-					</div>
+                    <div class="copyright wow fadeInUp"> © 2018 All rights reserved. <span>Dunkey Delivery</span></div>
 
-					<div class="col-md-7 fmenu" style="padding-left:0px;">
-                        @if (!string.IsNullOrEmpty(Model.Email))
-                        {
-                            <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
-                        }
-						<a href="@Url.Action("Partners", "Footer")">Partners</a>
-						<a href="@Url.Action("Contact", "Home",new { Area="User" })">Contact </a>
-                        <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
 
-					</div>
 
+                </div>
+            </footer>
 
 
-				</div>
+            <!------------------------ Back to top ------------------------------------>
+            <div id="back-top"> <a href="#top"> <span class="fa fa-arrow-circle-o-up"></span></a> </div>
 
-				<div class="clearfix"></div>
+            <!--<div id="winSize"></div>-->
+        </main>
 
-				<hr />
 
-				<div class="copyright wow fadeInUp"> © 2018 All rights reserved. <span>Dunkey Delivery</span></div>
 
+        <!------------------------ Jquery CDN ------------------------------------>
+        @*<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>*@
+        <script src="~/Content/assets/js/jquery.min.js"></script>
+        <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+        <script src="~/Content/assets/js/library.js"></script>
+        <script src="~/Content/assets/js/main.js"></script>
+        <script src="~/Scripts/WebValidation.js"></script>
+        <!------------------------ Javascript ------------------------------------>
+        @*@section Scripts {
+                Scripts.Render("~/Content/scripts")
+            }*@
+        <!------------------------ WOW Animation CDN------------------------------------>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+        @*<script>new WOW().init();</script>
+            <script type='text/javascript' src='http://webserver-03:679/dunkeyDelivery/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>*@
 
+        <script src="~/Scripts/commonJs.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-			</div>
-		</footer>
-	   
-		<!------------------------ Back to top ------------------------------------>
-		<div id="back-top"> <a href="#top"> <span class="fa fa-arrow-circle-o-up"></span></a> </div>
 
-		<!--<div id="winSize"></div>-->
-	</main>
 
-   
-
-	<!------------------------ Jquery CDN ------------------------------------>
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="~/Content/assets/js/jquery.min.js"></script>
-	<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-	<script src="~/Content/assets/js/library.js"></script>
-	<script src="~/Content/assets/js/main.js"></script>
-	<script src="~/Scripts/WebValidation.js"></script>
-	<!------------------------ Javascript ------------------------------------>
-	@*@section Scripts {
-		Scripts.Render("~/Content/scripts")
-	}*@
-	<!------------------------ WOW Animation CDN------------------------------------>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" rel="stylesheet" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-	@*<script>new WOW().init();</script>
-	<script type='text/javascript' src='http://webserver-03:679/dunkeyDelivery/wp-includes/js/wp-embed.min.js?ver=4.7.3'></script>*@
-
-	<script src="~/Scripts/commonJs.js"></script>
-	<script src="~/Scripts/jquery.validate.js"></script>
-	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script>
-        function changeCountry(obj) {
-            $("#selected_country").html($(obj).clone());
-        }
-
-$(document).ready(function(){
-    $("ul#categoriesList li:first a").trigger("click");
-
-
-
-
-  $('.addOnAco').find('a').click(function(){
-	//$('.addOnAco a').css('color','black');
-	//$('.addOnAco a').css('border-bottom','none');
-	$('.addOnAco a').removeClass('active-this');
-	  $(this).next().slideToggle('slow');
-	  $(this).addClass('active-this');
-
-	  $(".innerdata").not($(this).next()).slideUp('fast');
-	   $(".innerdata").not($(this).next()).addClass('non-active');
-	  $(this).next().addClass('activeit');
-
-
-
-
-	   if($(this).next().is(":visible")){
-		   $(this).addClass('active-again');
-
-	   }
-	   else{
-				$(this).removeClass('active-again');
-	   }
-
-
-
-	});
-
-});
-		// success insertion message for user website 
-
-function clearMessages() {
-	$("#Notifications").hide();
-	$("#SuccessNotifications").hide();
-	$("#ErrorNotifications").hide();
-}
-function customSuccessMessage() {
-	$("#ModalNotification").css("color", "green");
-	$("#SuccessNotifications").show();
-}
-
-function customErrorMessage() {
-	$("#ModalNotification").css("color", "red");
-	$("#ErrorNotifications").show();
-}
-
-function SuccessSubmission() {
-   
-	$("#ModalNotification").css("color","green");
-	$("#ModalNotification").text("Account created successfully, Admin will be in contact with you shortly");
-   $("#Notifications").show();
-}
-
-function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
-    debugger;
-	$("#ModalNotification").css("color", "red");
-	$("#ModalNotification").html(errorThrown);
-	$("#Notifications").show();
-
-}
-
-if ($("#successmsg").text().length > 4) {
-    $(".form-control").val("");
-}
-
-$(function () {
-    $('#datetimepicker10').datetimepicker({
-        viewMode: 'years',
-        format: 'DD/MM/YY'
-    });
-});
-
-$(function () {
-    $('#datetimepicker3').datetimepicker({
-        format: 'LT'
-    });
-});
-$(document).ready(function () {
-    $("#defaultOpen").addClass("active");
-});
-
-function openCity(evt, cityName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-
-
-}
-// Get the element with id="defaultOpen" and click on it
-        //document.getElementById("defaultOpen").click();
-        function login_first() {
-            //  $("#login_first").show().delay(2000).fadeOut();
-            $('#login_first')
-              .delay(1000)
-              .queue(function (next) {
-                  $(this).css('visibility', 'visible');
-                  next();
-              });
-        }
-        function invisibility_Animation(element_Id, Message) {
-            $('#' + element_Id).text(Message);
-            $('#'+element_Id)
-             .delay(1000)
-             .queue(function (next) {
-                 $(this).css('visibility', 'visible');
-                 next();
-             });
-        }
-
-	</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
-    <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
+        <script type="text/javascript">
+            function googleTranslateElementInit() {
+                new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+            }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
+        <script>
+
+
+            $("li.countryList").click(function (e) {
+                var list_item = $(this);
+                var Country = list_item.find('span').text();
+                console.log($("#selected_country").html($(this).clone()));
+                $.ajax({
+                    url: '@Url.Action("SetCountry", "Home", new { Area = "User" })',
+                    type: "GET",
+                    data: { Country: Country },
+                    success: function (data) {
+                        $("#selected_country").html($(this).clone());
+                        //window.location.reload();
+                    }, error: function (xhr, status, error) {
+                        //window.location.reload();
+                    }
+                });
+
+            });
+
+            $(document).ready(function () {
+                $("ul#categoriesList li:first a").trigger("click");
+
+
+
+
+                $('.addOnAco').find('a').click(function () {
+                    //$('.addOnAco a').css('color','black');
+                    //$('.addOnAco a').css('border-bottom','none');
+                    $('.addOnAco a').removeClass('active-this');
+                    $(this).next().slideToggle('slow');
+                    $(this).addClass('active-this');
+
+                    $(".innerdata").not($(this).next()).slideUp('fast');
+                    $(".innerdata").not($(this).next()).addClass('non-active');
+                    $(this).next().addClass('activeit');
+
+
+
+
+                    if ($(this).next().is(":visible")) {
+                        $(this).addClass('active-again');
+
+                    }
+                    else {
+                        $(this).removeClass('active-again');
+                    }
+
+
+
+                });
+
+            });
+            // success insertion message for user website
+
+            function clearMessages() {
+                $("#Notifications").hide();
+                $("#SuccessNotifications").hide();
+                $("#ErrorNotifications").hide();
+            }
+            function customSuccessMessage() {
+                $("#ModalNotification").css("color", "green");
+                $("#SuccessNotifications").show();
+            }
+
+            function customErrorMessage() {
+                $("#ModalNotification").css("color", "red");
+                $("#ErrorNotifications").show();
+            }
+
+            function SuccessSubmission() {
+
+                $("#ModalNotification").css("color", "green");
+                $("#ModalNotification").text("Account created successfully, Admin will be in contact with you shortly");
+                $("#Notifications").show();
+            }
+
+            function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
+                debugger;
+                $("#ModalNotification").css("color", "red");
+                $("#ModalNotification").html(errorThrown);
+                $("#Notifications").show();
+
+            }
+
+            if ($("#successmsg").text().length > 4) {
+                $(".form-control").val("");
+            }
+
+            $(function () {
+                $('#datetimepicker10').datetimepicker({
+                    viewMode: 'years',
+                    format: 'DD/MM/YY'
+                });
+            });
+
+            $(function () {
+                $('#datetimepicker3').datetimepicker({
+                    format: 'LT'
+                });
+            });
+            $(document).ready(function () {
+                $("#defaultOpen").addClass("active");
+            });
+
+            function openCity(evt, cityName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+
+
+            }
+            // Get the element with id="defaultOpen" and click on it
+            //document.getElementById("defaultOpen").click();
+            function login_first() {
+                //  $("#login_first").show().delay(2000).fadeOut();
+                $('#login_first')
+                  .delay(1000)
+                  .queue(function (next) {
+                      $(this).css('visibility', 'visible');
+                      next();
+                  });
+            }
+            function invisibility_Animation(element_Id, Message) {
+                $('#' + element_Id).text(Message);
+                $('#' + element_Id)
+                 .delay(1000)
+                 .queue(function (next) {
+                     $(this).css('visibility', 'visible');
+                     next();
+                 });
+            }
+
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+        <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 </body>
 </html>

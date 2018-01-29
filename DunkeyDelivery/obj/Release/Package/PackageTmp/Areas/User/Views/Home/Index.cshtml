@@ -4,6 +4,15 @@
 }
 
 <style>
+    #ListOfCountries{
+        margin-top:3px;
+        margin-bottom:3px;
+        margin-left:7px;    
+    }
+
+        /*#ListOfCountries:hover{
+            background: #66cc33;
+    }*/
     .search-item {
         color: black;
         border-bottom: 1px solid black;
@@ -252,13 +261,53 @@
         </div>
     </div>
 </slider>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-------------------------------------------Slider End-------------------------------------------------->
 <!-------------------------------------------Countries-------------------------------------------------->
 <div class="countries">
     <div class="container">
         <div class="col-md-2 nopad">Order In Your Country:</div>
-        <div class="col-md-8 flags text-center"><img src="~/Content/assets/images/flags.jpg" alt=""  /></div>
-        <div class="col-md-2"><a href="javascript::" class="btn2 btn-more-countries">More Countries</a></div>
+        <div class="col-md-8 flags text-center"><img src="~/Content/assets/images/flags.jpg" alt="" /></div>
+        <div class="col-md-2" style="position:  relative;top: -6px;">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn-md dropdown-toggle btn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More Countries
+            
+                </button>
+                <ul class="dropdown-menu" style="cursor:pointer;">
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span class="country_name">   Hungary</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Romania.jpg" alt=""><span class="country_name">   Romania</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Bulgaria.jpg" alt=""><span class="country_name">  Bulgaria</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Hong-Kong.jpg" alt=""><span class="country_name">  Georgia</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Serbia.jpg" alt=""><span class="country_name">   Serbia</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Croatia.jpg" alt=""><span class="country_name">   Croatia</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span class="country_name">   Montenegro</span></li>
+
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/USA.jpg" alt=""><span class="country_name">   USA</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/mexico.jpg" alt=""><span class="country_name">   Mexico</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/dominica.jpg" alt=""><span class="country_name">   Dominica</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/canada.jpg" alt=""><span class="country_name">   Canada</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/costarica.jpg" alt=""><span class="country_name">   Costa Rica</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/cuba.jpg" alt=""><span class="country_name">   Cuba</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Salvador.jpg" alt=""><span class="country_name">   Salvador</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Nicaragua.jpg" alt=""><span class="country_name">   Nicarague</span></li>
+
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span class="country_name">   Brazil</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/UAE.jpg" alt=""><span class="country_name">   Argentina</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Peru.jpg" alt=""><span class="country_name">   Peru</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Colombia.jpg" alt=""><span class="country_name">   Colombia</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Chile.jpg" alt=""><span class="country_name">   Chile</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Ecuador.jpg" alt=""><span class="country_name">   Ecuador</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Uruguay.jpg" alt=""><span class="country_name" >   Uruguay</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Paraguay.jpg" alt=""><span class="country_name">   Paraguay</span></li>
+                    <li class="countryList" id="ListOfCountries"><img src="~/Content/assets/images/Aruba.jpg" alt=""><span class="country_name">   Aruba</span></li>
+
+                </ul>
+            </div>
+        </div>
+        @*<div class="col-md-2"><a href="javascript::" class="btn2 btn-more-countries">More Countries</a></div>*@
     </div>
 </div>
 <!-------------------------------------------Countries End-------------------------------------------------->
@@ -444,10 +493,10 @@
 <!-------------------------------------------Rewards Ends------------------------------------>
 <!-------------------------------------------Top Brands------------------------------------>
 
-<section class="section topbrands wow fadeIn">
+@*<section class="section topbrands wow fadeIn">
     <h3>TOP BRANDS</h3>
     <img src="~/Content/assets/images/brands.jpg" alt="" />
-</section>
+</section>*@
 <!-------------------------------------------Top Brands Ends------------------------------------>
 <script>
     $(function () {

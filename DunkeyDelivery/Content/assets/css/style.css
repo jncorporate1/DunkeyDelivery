@@ -19,6 +19,10 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+.country_name{
+    color:#6ebe44;
+    font-weight:initial;
+}
 #addToCartIcon{		
             margin-left: 17px;		
 	    float: right;		
@@ -83,14 +87,15 @@ DESCRIPTION: Custom Template
 }
 
 .subscribe-wrap form input#submit{
-    background: #6fbc46;
+   background: #6fbc46;
     border: 0;
-    padding: 11px 12px;
+    padding: 10px 0px;
     color: #FFF;
     text-transform: uppercase;
     font-weight: 600;
-    margin-left: -5px;
+    margin-left: 0px;
     float: left;
+    width: 89px;
 }
 
 .footercontact p {
@@ -528,7 +533,7 @@ padding: 5px 15px;
 padding: 5px 15px;
 }
 .fgap {
-	margin-top: 183px;
+	margin-top: 143px;
 }
 .copyright {
 	color: #707676;
@@ -5617,6 +5622,7 @@ a.reset_time {
     font-weight: 400;
      color:#386c1d;
     text-transform: uppercase;
+        /*padding-top: 26px !important;*/
 }
 
 .cart-details {
@@ -5903,7 +5909,6 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 @media (min-width: 100px) and (max-width: 800px) 
 {
-	
 	.icons-wrapper ul.cat-wrap li {
     display: block;
     padding: 0px 14px 0px 2px;

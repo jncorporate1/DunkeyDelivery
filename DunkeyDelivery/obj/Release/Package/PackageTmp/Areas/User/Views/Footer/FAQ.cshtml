@@ -1,62 +1,97 @@
-﻿
-@{
-	ViewBag.Title = "FAQ";
-	Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
+﻿@{
+    ViewBag.Title = "FAQ";
+    Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
-<div class="main-section faq-main-section greybg">
-	<div class="container">
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla congue, dolor in porttitor efficitur, ante lacus bibendum velit, eu placerat est nibh quis velit. Sed pulvinar eros nec lectus pretium, sed auctor ligula ultricies. Quisque magna mauris, pulvinar ut libero vel, placerat imperdiet tortor. Mauris molestie, risus vitae fermentum luctus, neque purus consectetur ex, id vulputate est risus quis purus. Phasellus eleifend felis vehicula velit auctor dapibus. Suspendisse potenti. Donec nec interdum dui. Proin sodales tempor risus, aliquam laoreet lectus pretium vitae.
+@{
+    DunkeyDelivery.Areas.User.Models.FAQListViewModel model = new DunkeyDelivery.Areas.User.Models.FAQListViewModel();
+    model.FAQs = ViewBag.FAQ;
+}
 
-			<ul class="addOnAco accordion">
-				<li class="first">
-					<a href="javascript:;">What’s dunkeydelivery.com?</a>
-					<div class="innerdata activeit" id="innerActive">
-						@*<h3>Sed tempor sem sed nisl lobortis, vel euismod diam scelerisque?</h3>*@
-                        We never stop delivering. At dunkeydelivery.com, you can order delivery online from your favorite local restaurants, liquor stores, grocery stores, pharmacy and laundry.
-                    </div>
-				</li>
-				<li class="">
-					<a href="javascript:;">How do I use dunkeydelivery.com?</a>
-					<div class="innerdata" style="display: none;" id="innerActive">
-		        <p>
-                    Enter your address in the search bar on the home page, select the category that you’d like to browse (i.e. Food, Alcohol, Groceries or Laundry), and press the white Search button. On the results page, you can switch between categories by clicking the tabs at the top of the page.
-                </p>
-        <p>
-            If you know exactly what you’re looking for (e.g. “Starbucks”) or just have a general idea (e.g. “coffee” or “frappe’”), you can also enter keywords into the second search bar.
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    #FAQResults{
+        margin-top:10px;
+    }
 
-        </p>
+</style>
+
+<script>
+    $(document).ready(function(){
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.in").each(function(){
+        	$(this).siblings(".panel-heading").find(".glyphicon").addClass("glyphicon-minus").removeClass("glyphicon-plus");
+        });
+
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+        	$(this).parent().find(".glyphicon").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+        }).on('hide.bs.collapse', function(){
+        	$(this).parent().find(".glyphicon").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+        });
+    });
+</script>
+
+<div class="main-section faq-main-section greybg" style="padding-bottom:0px !important;">
+    <div class="container" style="margin-bottom: 53px;">
+
+            <div class="col-md-3">
+
+                <div class="rest-item-1" Page="0" items="5" Type="">
+                    <ul class="restitem1">
+                        <p style="border-bottom:1px solid #66cc33;" >FAQ's Categories</p>
+                        <li><a onclick="FilterFAQs(this.id)" id="General" class="active"><img src="/Content/assets/images/info.png"> General </a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Food" class="" ><img src="/Content/assets/images/rest1.png"> Food </a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Alcohol" class="" ><img src="/Content/assets/images/rest2.png"> Alcohol</a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Grocery" class=""><img src="/Content/assets/images/rest4.png"> Grocery</a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Laundry" class=""> <img src="/Content/assets/images/res3.png"> Laundry</a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Pharmacy" class="" ><img src="/Content/assets/images/rest3.png"> Pharmacy</a></li>
+                        <li><a onclick="FilterFAQs(this.id)" id="Retail" class=""><img src="/Content/assets/images/rest5.png"> Retail </a></li>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9" id="FAQResults">
+                @{
+                    Html.RenderAction("FAQsList", "Footer");
+                }
+            </div>
     </div>
-	</li>
-	<li class="">
-		<a href="javascript:;">How do I filter my results?</a>
-		<div class="innerdata" style="display: none;" id="innerActive">After you enter your address and press Search, you can sort the results alphabetically, or by customer rating, distance, or minimum subtotal. You can also select and combine filters like cuisine types or special offers.</div>
-	</li>
-	<li class="">
-		<a href="javascript:;">What is the “Default” sort setting?</a>
-		<div class="innerdata" style="display: none;" id="innerActive">The default sort is based off of factors like distance, ratings, and your own personal ordering history. It’s not based on paid advertisements from merchants; besides the clearly marked Sponsored listings at the top of the results, we don’t charge merchants to improve their search rank.</div>
-	</li>
-	<li class="">
-		<a href="javascript:;">Why don’t I see my favorite merchant?</a>
-		<div class="innerdata" style="display: none;" id="innerActive">If the merchant is closed when you do your search, it will appear at the bottom of the page with the next available delivery time written in green. But if your favorite merchant isn’t already on dunkeydelivery.com, then drop us a line via our Contact Us page. We love suggestions.</div>
-	</li>
-	<li class="">
-		<a href="javascript:;">How much does it cost to use dunkeydelivery.com?</a>
-		<div class="innerdata" style="display: none;" id="innerActive">$0. We don’t charge customers anything to use the service, so any delivery fees you might see are coming directly from the merchant to support their delivery staff.</div>
-	</li>
-	<li class="last">
-		<a href="javascript:;" class="a">So how do you make money?</a>
-		<div class="innerdata" style="display: none;" id="innerActive">We get a small percentage of the pre-tip subtotal for every order we send to a merchant. We never take a percentage of the tip.</div>
-	</li>
 
-</ul>
+    <script>
+
+        function FilterFAQs(id) {
+            if (typeof id != 'undefined') {
+                $(".rest-item-1").attr("Type", id);
+                $(".rest-item-1").attr("Page", "0");
+            }
+            var searchType = $(".rest-item-1").attr("Type");
+            var Page = $(".rest-item-1").attr("Page");
+            var url = '@Url.Action("FAQsList", "Footer",new { Area = "User" ,Type= "__type__",Page="__pageNo__"})';
+            url = url.replace("&amp;", "&");
+            url = url.replace("__type__", searchType);
+            url = url.replace("__pageNo__", Page);
 
 
 
 
-	</p>
-</div>
-</div>
+        $.ajax({
+            url: url,
+            Type: "GET",
+            data: { },
+            success: function (data) {
+                $('.addOnAco').remove();
+                $('#FAQResults').html(data);
+            }, error: function (xhr, status, error) {
 
-
+            }
+        });
+    }
+        function changePage(Page) {
+            $(".rest-item-1").attr("Page", Page);
+            FilterFAQs();
+        }
+       
+    </script>
 

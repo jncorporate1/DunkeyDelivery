@@ -13,7 +13,7 @@
         left: -42px;
     }
 </style>
-<div class="show-order order-details" id="orderItemsDiv">
+<div class="show-order order-details" style="margin-top:0px !important;"  id="orderItemsDiv">
     @*<div class="order-detail-info clearfix">
             <label class="switch">
                 <span class="del">DELIVERY</span>
@@ -42,7 +42,7 @@
         foreach (var cartItem in storeItem.CartItems)
         {
             <div class="single-order">
-                <h5 class="order-name_price">@cartItem.Name <label id="CartItemQty">(@cartItem.Qty)</label><span>$@cartItem.Total</span></h5>
+                <h5 class="order-name_price">@cartItem.Name <label id="CartItemQty">(@cartItem.Qty)</label><span style="text-decoration:none;">$@cartItem.Total</span></h5>
                 <h6 class="order-size_actions">
                     @cartItem.Size <span>
                         <a style="cursor:pointer" onclick="DeleteCartItem('@cartItem.ItemId', '@cartItem.Type', '@cartItem.StoreId')"><i class="fa fa-trash"></i></a>
@@ -69,7 +69,7 @@
         }
         else
         {
-            <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Model.Total</span></button>
+            <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Math.Round(Model.Total, 4)</span></button>
 
         }
     </div>

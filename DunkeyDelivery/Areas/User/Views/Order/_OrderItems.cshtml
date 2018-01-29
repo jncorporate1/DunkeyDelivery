@@ -61,7 +61,7 @@
         @if (Model.Total == 0 || Model.MinOrder > Model.Total)
         {
 
-            <button id="cart-Btn" onclick="MinOrderError()" class="place-order-btn">Go to Checkout <span>&nbsp $@Model.Total</span></button>
+            <button id="cart-Btn" onclick="MinOrderError()" class="place-order-btn">Go to Checkout <span>&nbsp $@Math.Round(Model.Total,4) </span></button>
             if (Model.MinOrder != 0)
             {
                 <p id="MinOrderError" style="display:none;color:red;">Min Order : $@Model.MinOrder</p>
@@ -74,7 +74,7 @@
         }
         else
         {
-            <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Model.Total</span></button>
+            <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Math.Round(Model.Total, 4)</span></button>
 
         }
     </div>

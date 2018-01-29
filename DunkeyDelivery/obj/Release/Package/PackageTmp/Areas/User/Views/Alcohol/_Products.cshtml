@@ -29,7 +29,7 @@
                 {
                     foreach (var product in Model.productslist)
                     {
-                        <li id="addCart" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')" >@product.Name <span>$@product.Price</span></li>
+                        <li style="cursor:pointer;" id="addCart" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')" >@product.Name   <i class="fa fa-plus" id="addToCartIcon" aria-hidden="true" style="margin-left:17px;float:right;margin-top:1px;"></i> <span>$@product.Price</span> </li>
                     }
                 }
                 else

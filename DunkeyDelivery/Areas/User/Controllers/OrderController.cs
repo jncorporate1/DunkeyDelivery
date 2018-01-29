@@ -250,7 +250,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                     if (existingCartItem != null)
                     {
                         existingCartItem.Qty += 1;
-                        existingCartItem.Total = existingCartItem.Price * existingCartItem.Qty;
+                        existingCartItem.Total = (float)Math.Round(existingCartItem.Price, 4)* existingCartItem.Qty;
                     }
                     else
                     {
@@ -260,14 +260,14 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
                 else
                 {
-                    model.Total = model.Price;
+                    model.Total =(float)Math.Round(model.Price,4);
                     cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
                 }
 
             }
             else
             {
-                model.Total = model.Price;
+                model.Total = (float)Math.Round(model.Price, 4);
                 cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
             }
 

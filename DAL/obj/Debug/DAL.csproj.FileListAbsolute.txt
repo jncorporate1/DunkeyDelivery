@@ -69,3 +69,4 @@ F:\Projects\DunkeyDelivery\DAL\bin\Debug\EntityFramework.SqlServer.xml
 F:\Projects\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
 F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
+F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache

@@ -60,7 +60,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("GetFAQs")]
-        public async Task<IHttpActionResult> GetFAQs(string Type,int? Page=0,int? Items=5)
+        public async Task<IHttpActionResult> GetFAQs(string Type,int? Page=0,int? Items=10000)
         {
             try
             {

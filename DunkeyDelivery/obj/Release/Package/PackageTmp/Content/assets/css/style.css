@@ -19,10 +19,103 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+.country_name{
+    color:#6ebe44;
+    font-weight:initial;
+}
+#addToCartIcon{		
+            margin-left: 17px;		
+	    float: right;		
+	    margin-top: 1px;		
+    border: 1px solid #a5a5a5;		
+  border-radius: 100px;		
+    color: #808080;		
+	    font-size: 12px;		
+    font-weight: 300;		
+	    padding: 4px 5px;		
+	    height: 20px;		
+   }
+.icons-wrapper ul.cat-wrap li {
+    display: inline-block;
+    padding: 0px 14px 0px 2px;
+    border-right: 1px solid #d8d8d8;
+}
+
+.icons-wrapper ul.cat-wrap li.cart-right {
+	padding: 0px 0px 0px 10px;
+    border-right: 0;
+}
+
+.icons-wrapper ul.cat-wrap li a {
+    color: #3b4346;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.icons-wrapper ul.cat-wrap li img {
+    max-height: 50px;
+}
+
+.icons-wrapper ul.cat-wrap {
+	    margin-bottom: 0;
+}
 
 .gift-form-side{
     padding:20px;
 }
+
+.subscribe-wrap {
+    margin-bottom: 25px;
+	float:left;
+	width:100%;
+}
+
+.subscribe-wrap p {
+    font-size: 14px;
+    color: #979d9d;
+    margin-bottom: 5px;
+}
+
+.subscribe-wrap form input#email {
+    height: 40px;
+    padding: 10px;
+    width: 65%;
+    border: 0;
+    font-weight: 400;
+    font-size: 12px;
+	float:left;
+}
+
+.subscribe-wrap form input#submit{
+   background: #6fbc46;
+    border: 0;
+    padding: 10px 0px;
+    color: #FFF;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-left: 0px;
+    float: left;
+    width: 89px;
+}
+
+.footercontact p {
+    font-size: 14px;
+    color: #979d9d;
+}
+
+.footLogo p {
+    color: #979d9d;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.footLogo a img {
+    max-height: 140px;
+    margin-bottom: 15px;
+    margin-top: 8px;
+}
+
 
 
 @media only screen and (max-width:1200px) and (min-width:990px){
@@ -278,7 +371,7 @@ nav.fixed {
 	top: 0;*/
 }
 .topheader {
-	background: #0e1a1f;
+	/*background: #0e1a1f;*/
 	color: #838383;
 }
 .overflow {
@@ -440,7 +533,7 @@ padding: 5px 15px;
 padding: 5px 15px;
 }
 .fgap {
-	margin-top: 183px;
+	margin-top: 143px;
 }
 .copyright {
 	color: #707676;
@@ -4452,7 +4545,7 @@ ul.product-list.laundry li .right {
 }
 .laundry-details-cont li a span {
 	padding: 12% 0 0;
-	display: block;
+	/*display: block;*/
 }
 .left {
 	float: left;
@@ -5529,6 +5622,7 @@ a.reset_time {
     font-weight: 400;
      color:#386c1d;
     text-transform: uppercase;
+        /*padding-top: 26px !important;*/
 }
 
 .cart-details {
@@ -5543,7 +5637,7 @@ a.reset_time {
 .cart-details ul.bill-details li span{font-size:12px;color:#3c4042;font-weight:300;font-family: 'Open Sans', sans-serif;display: block;float: left;}
 .cart-main {
     position: relative;
-    float: right;
+    float:right;
 }
 
 .cart-details ul.bill-details li span.product-name{font-weight:bold;text-transform: initial;}
@@ -5815,7 +5909,18 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 @media (min-width: 100px) and (max-width: 800px) 
 {
-	 
+	.icons-wrapper ul.cat-wrap li {
+    display: block;
+    padding: 0px 14px 0px 2px;
+    border-bottom: 1px solid #d8d8d8;
+    border-right: 0;
+}
+	
+	
+	.icons-wrapper ul.cat-wrap li.cart-right {
+    padding: 6px 0px 12px 10px;
+    border-right: 0;
+} 
 	
 	
 	#selected_country li
@@ -5875,12 +5980,17 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 		list-style:none;
 	}
 	
-	
+	#google_translate_element{
+        position: relative;
+        right: -2px !important;
+	}
 	#selected_country 
 	{
  
     width: 100%;
     text-align: center;
+    position:relative;
+    left:0px;
 	margin: 15px 0px;
 }
 
@@ -5909,10 +6019,26 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 .nopadleft .links li a{
     cursor:pointer;
 }
+    @media (min-width: 769px) and (max-width: 991px) {
+        	#google_translate_element{
+        position: relative;
+        right: -2px !important;
+	}
+	#selected_country 
+	{
+ 
+    width: 100%;
+    text-align: center;
+    position:relative ;
+    left:0px !important;
+	margin: 15px 0px;
+}
 
+    }
 
 
 @media (min-width: 100px) and (max-width: 769px) {
+
 .menu-header
 
 {
@@ -5947,7 +6073,19 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
     display: none;
     position: initial !important;
 }
-
+    	#google_translate_element{
+        position: relative;
+        right: -2px !important;
+	}
+	#selected_country 
+	{
+ 
+    width: 100%;
+    text-align: center;
+    position:relative ;
+    left:0px !important;
+	margin: 15px 0px;
+}
 
 }
 

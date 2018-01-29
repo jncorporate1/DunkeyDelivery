@@ -1,0 +1,96 @@
+﻿@model DunkeyDelivery.Areas.User.Models.FAQListPartialViewModel
+<style>
+    #accordinLink {
+        width: 100%;
+        text-align: left;
+        border: none;
+        background: transparent;
+    }
+
+        #accordinLink:hover {
+            cursor: pointer;
+            color: #66cc33;
+            text-decoration: underline;
+        }
+
+    #question {
+        margin-left: 0px;
+        padding-left: 0px;
+        position: relative;
+        left: -7px;
+    }
+</style>
+@if (Model.FAQs.Count > 0)
+{
+    var i = 0;
+        @*<ul class="addOnAco accordion">
+            @foreach (var faq in Model.FAQs)
+            {
+
+                <li class="">
+                    <a href="javascript:;">@faq.Question</a>
+                    <div class="innerdata" style="display: none;" id="innerActive">
+                        <p>@faq.Answer</p>
+                    </div>
+                </li>
+            }
+
+        </ul>*@
+foreach (var faq in Model.FAQs)
+{
+    <div class="bs-example">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <button id="accordinLink" class="accord_@faq.Id" onclick="changeIcon(this)" data-toggle="collapse" data-parent="#accordion" href="#collapse_@faq.Id">
+                    <div class="panel-heading">
+
+                        <h4 class="col-md-9" id="question">
+                           @faq.Question
+
+                        </h4>
+
+                    </div>
+                    <span class="glyphicon glyphicon-plus" style="float:right;"></span>
+                </button>
+                <div id="collapse_@faq.Id" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <p>@faq.Answer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    i++;
+    }
+}
+else
+{
+
+    <p style="text-align:center;margin-top: 42px;">No Result(s) Found.</p>
+
+}
+
+
+@if (Model.TotalRecords > 0)
+{
+    <div class="col-md-6 col-lg-offset-5 col-md-offset-5 col-sm-offset-0 col-xs-offset-0">
+        <ul class="pagination">
+            @if (Model.TotalRecords > 5)
+            {
+                var j = 0;
+                for (int i = 0; i <= Model.TotalRecords / 5; i++)
+                {
+                    <li>
+                        <a style="cursor:pointer;background:#66cc33;color:white;" id="@i" onclick="changePage(this.id)">
+                            @{ j = i + 1; }
+                            @j
+                        </a>
+                    </li>
+                                    }
+                                }
+
+
+
+        </ul>
+    </div>
+                                }
