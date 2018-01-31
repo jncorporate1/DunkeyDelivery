@@ -18,6 +18,10 @@ namespace DAL
 
         public Boolean isDeleted { get; set; }
 
+        public string Note { get; set; }
+
+        public double? Weight { get; set; }
+        
         public int Store_Id { get; set; }
 
         public int User_Id { get; set; }

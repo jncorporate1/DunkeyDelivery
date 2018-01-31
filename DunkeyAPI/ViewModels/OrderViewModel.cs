@@ -18,7 +18,7 @@ namespace DunkeyAPI.ViewModels
         public DateTime? DeliveryDateTime_To { get; set; }
 
         public string AdditionalNote { get; set; }
-
+        
         public UInt16 PaymentMethodType { get; set; }
 
         public string DeliveryAddress { get; set; }
@@ -36,6 +36,9 @@ namespace DunkeyAPI.ViewModels
 
         public string StripeAccessToken { get; set; }
         public string StripeEmail { get; set; }
+
+
+
     }
 
     public class DeliveryDetailsBindingModel
@@ -73,5 +76,21 @@ namespace DunkeyAPI.ViewModels
         public int Store_Id { get; set;}
 
         public int User_Id { get; set; }
+    }
+
+    public class RequestClothMobileBindingModel
+    {
+        public int Store_Id { get; set; }
+
+        public int User_Id { get; set; }
+
+        public double Weight { get; set; }
+
+        public string AdditionalNote { get; set; } = "";
+
+
+        public DateTime? PickUpTime { get; set; }
+
+
     }
 }

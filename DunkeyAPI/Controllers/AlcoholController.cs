@@ -87,7 +87,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("AlcoholStoreCategoryDetails")]
-        public async Task<IHttpActionResult> AlcoholStoreCategoryDetails(int Store_Id, int? Category_ParentId = 0, int? Page = 0, int? Items = 10)
+        public async Task<IHttpActionResult> AlcoholStoreCategoryDetails(int Store_Id, int? Category_ParentId = 0,string CategoryName="", int? Page = 0, int? Items = 10)
         {
             try
             {
@@ -95,24 +95,50 @@ namespace DunkeyAPI.Controllers
                 {
 
                     AlcoholStoreCategories model = new AlcoholStoreCategories();
-                    AlcoholChildCategories childModel = new AlcoholChildCategories();
+                    AlcoholStoreParentCategories responseModel = new AlcoholStoreParentCategories();
+                    //AlcoholChildCategories childModel = new AlcoholChildCategories();
                     var ParentIds = new List<int>();
+
+                    var WineParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 && x.Name.Contains("Wine") && x.Store_Id==Store_Id  && x.IsDeleted == false).FirstOrDefault();
+                    var LiquorParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 && x.Store_Id == Store_Id && x.Name.Contains("Liquor") && x.IsDeleted == false).FirstOrDefault();
+                    var BeerParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 && x.Store_Id == Store_Id && x.Name.Contains("Beer") && x.IsDeleted == false).FirstOrDefault();
+
                     if (Category_ParentId.Value == 0)
                     {
-                        var WineParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 && x.Name.Contains("Wine") && x.IsDeleted==false).FirstOrDefault();
-                        var LiquorParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 &&  x.Name.Contains("Liquor")).FirstOrDefault();
-                        var BeerParentId = ctx.Categories.Where(x => x.ParentCategoryId == 0 && x.Name.Contains("Beer")).FirstOrDefault();
 
-                        model.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value== WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                        model.Liquor = ctx.Categories.Include(x => x.Products).Where(x =>x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                        model.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value ==BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                        return Ok(new CustomResponse<AlcoholStoreCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
+                        responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.ParentCategoryId.Value== WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x =>x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value ==BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
                     }
                     else
                     {
-                        childModel.Categories = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                        return Ok(new CustomResponse<AlcoholChildCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = childModel });
+                        if (!string.IsNullOrEmpty(CategoryName))
+                        {
+                            if (CategoryName.Contains("Wine"))
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                            }
+                            else if (CategoryName.Contains("Liquor"))
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value== WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value ==BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                    
+                            }else
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                            }
+                        }
+                        //childModel.Categories = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
                     }
 
@@ -125,8 +151,7 @@ namespace DunkeyAPI.Controllers
             }
         }
 
-
-
+        
         [HttpGet]
         [Route("ChangeStore")]
         public async Task<IHttpActionResult> ChangeStore(int? Type, double latitude, double longitude, int? Page = 0, int? Items = 10)

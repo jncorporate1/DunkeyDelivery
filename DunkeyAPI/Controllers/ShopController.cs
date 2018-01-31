@@ -626,6 +626,36 @@ namespace DunkeyAPI.Models
             }
         }
 
+
+        [HttpGet]
+        [Route("GetCousines")]
+        public async Task<IHttpActionResult> GetCousines()
+        {
+            try
+            {
+                DunkeyContext ctx = new DunkeyContext();
+                CousineViewModel cousines = new CousineViewModel();
+
+                var query = "select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags join Stores on Stores.Id = StoreTags.Store_Id where Stores.BusinessType ='Food' AND Stores.IsDeleted='false' GROUP BY StoreTags.Tag ORDER BY TotalCount DESC";
+                var cuisines = ctx.Database.SqlQuery<Cuisines>(query).ToList();
+                
+                var f = Mapper.Map<List<Cuisines>>(cuisines);
+                cousines.cuisines = f;
+                CustomResponse<CousineViewModel> response = new CustomResponse<CousineViewModel>
+                {
+                    Message = "Success",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Result = cousines
+                };
+                return Ok(response);
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         [HttpPost]
         [Route("SubmitStoreReview")]
         public IHttpActionResult SubmitStoreReview(ReviewBindingModel model)

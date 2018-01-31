@@ -19,6 +19,35 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+@media only screen and (max-width:1000px) and (min-width:769px){
+    #dropdown-menu-id{
+          margin-left: 334px !important;
+     }    
+}
+@media only screen and (max-width:768px){
+ 
+     #dropdown-menu-id{
+            left: -182px !important;
+            text-align:left !important;
+     }   
+}
+@media only screen and (max-width:1024px) and (min-width:768px) {
+ 
+     #dropdown-menu-id{
+            left: -25px !important;
+            text-align:left !important;
+     }   
+}
+
+
+/*@media only screen and (max-width:626px){
+ 
+     #dropdown-menu-id{
+            margin-left: -178px;
+     }   
+}*/
+
+
 .country_name{
     color:#6ebe44;
     font-weight:initial;
@@ -39,6 +68,7 @@ DESCRIPTION: Custom Template
     display: inline-block;
     padding: 0px 14px 0px 2px;
     border-right: 1px solid #d8d8d8;
+	float: left;
 }
 
 .icons-wrapper ul.cat-wrap li.cart-right {
@@ -77,7 +107,7 @@ DESCRIPTION: Custom Template
 }
 
 .subscribe-wrap form input#email {
-    height: 40px;
+    height: 38px;
     padding: 10px;
     width: 65%;
     border: 0;
@@ -85,6 +115,50 @@ DESCRIPTION: Custom Template
     font-size: 12px;
 	float:left;
 }
+
+
+
+
+@media (min-width: 950px) and (max-width: 1130px) 
+{
+
+.footercol
+{
+	width: 30% !important;
+    display: inline-block;
+	    /*text-align: left !important;*/
+		vertical-align: top;
+    
+}
+
+
+.fmenu 
+	{
+	 display: inline-block;
+	 text-align:left !important;
+	 width:20% !important;
+
+
+	}
+
+
+
+
+
+.footercontact,.fnewsletter 
+{
+	width: 45% !important;
+
+}
+
+
+
+	
+
+}
+
+
+
 
 .subscribe-wrap form input#submit{
    background: #6fbc46;
@@ -119,6 +193,67 @@ DESCRIPTION: Custom Template
 
 
 @media only screen and (max-width:1200px) and (min-width:990px){
+	
+	.open .dropdown-menu {
+    display: block;
+    margin-left:70%!important;
+}
+
+
+
+.rest-image img {
+   
+    margin: 0 auto;
+}
+
+
+.footercol
+{
+	/*text-align:left;*/
+}
+	
+	
+	.flags
+	
+	{
+		
+		margin:10px 0px !important;
+		
+	}
+	
+	
+	.icons-wrapper ul.cat-wrap li a
+	{
+    
+    font-size: 11px !important;
+	
+	}
+	
+	
+	.icons-wrapper ul.cat-wrap li {
+    
+    padding: 0px 5px 0px 2px;
+    
+}
+
+
+.cart-right
+{
+	top:0px !important;
+	
+	
+}
+
+
+#selected_country {
+ 
+    position: absolute !important;
+    top: 13px !important;
+    left: 310px !important;
+}
+	
+	
+	
     #menu-topmenu{
             width: 150%;
             margin-left: -15%;
@@ -134,6 +269,10 @@ DESCRIPTION: Custom Template
     }
     #back-top a{
         display:none !important;
+    }
+    .toplogin ul
+    {
+        text-align: left !important;
     }
 }
 @media only screen and (max-width:1199px) and (min-width:992px){
@@ -353,6 +492,12 @@ nav {
 	z-index: 999;
 	width: 100%;
 }
+.nav1 .container
+{
+    width:100%;
+
+}
+
 .rel {
 	position: relative;
 }
@@ -377,6 +522,35 @@ nav.fixed {
 .overflow {
 	overflow: hidden;
 }
+
+
+@media (min-width: 100px) and (max-width: 769px) 
+{
+
+	.getapp .overflow
+	{
+		width:100% !important;
+	
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .footercontact ul li, .footercontact ul li a {
 	color: #979d9d;
 	font-size: 13px;
@@ -441,9 +615,20 @@ nav.fixed {
 .header_detail {
 	padding: 2% 0px 1% 0;
 }
-@media screen and (max-width:991px){
-    .toplogin ul{text-align:center !important;}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .toplogin ul{text-align:left ;}
 .toplogin ul li {
 	background: url(../images/liv.jpg) no-repeat right center;
@@ -779,7 +964,7 @@ padding: 5px 15px;
         left:150px !important;
     }
     .fgap {
-        margin-top: 151px;
+        margin-top: 130px;
     }
 }
 
@@ -2412,6 +2597,7 @@ header .searchform {
 	margin-top: 5px;
 	color: #000;
 	border: none;
+	height:auto !important;
 	padding: 12px 15px;
 }
 #form-inputs:focus {
@@ -3189,7 +3375,8 @@ ul.investor-list li img {
 	color: #999999;
 	font-size: 12px;
 	border: none;
-	float: left;
+	
+	    display: inline-block;
 	padding: 6px 0 0;
 	margin: 0;
 }
@@ -4556,6 +4743,8 @@ ul.product-list.laundry li .right {
 
 
 
+
+
 .get-my-clothes{width:100%; padding:30px 0; background:#FFF; text-align:center;}
 .get-my-clothes p{font-size:22px; font-weight:bold; color:#6ebe44; line-height:26px; padding:0 0 18px; margin:0;}
 .get_btn{width:155px; margin:0 auto; font-size:14px; color:#FFF; font-weight:bold; text-transform:uppercase;
@@ -4755,13 +4944,21 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 
 @media only screen and (max-width:1200px){
+	
+	
+	
+	
+
+
+	
+	
 .fmenu a::before{display:none;}
 .topheader .col-md-10,
 .topheader .col-md-5,
 .topheader .col-md-7,
 .topheader .col-md-4,
 .topheader .col-md-8,
-.topheader .col-md-2{width:100% !important; float:none; text-align:center;}	
+.topheader .col-md-2,.cflags{    width: 100%; float:none;  text-align:center;}	
 .container { width:100%; padding-left:2%; padding-right:2%; margin:0 !important; }
 .header_detail {
    padding:2% 0 0;
@@ -4778,7 +4975,25 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
    margin:10px 0;
     text-align: center;
 }
-.mlogo{width:200px;}
+.mlogo{width:200px;
+
+
+     top: -65px;
+    
+    left: 65px;
+  
+
+
+
+}
+
+.innerft .cflags 
+{
+	width:100% !important;
+}
+
+
+
 nav{float:right; width:initial; padding-right:25px;}
 .nav5 {
  width:100%;    padding: 0;
@@ -4903,6 +5118,25 @@ p.select-tag:after, p.select-tag:after{width:30%;}
     left: initial;
     margin: 10px auto 0;
 }
+
+
+
+@media only screen and (max-width:769px) {
+	
+	
+	.nav1 .mlogo {
+   
+    position: initial !important;
+ 
+    margin:0 !important;
+}
+	
+	
+	
+}
+
+
+
 nav {
     float: none;
     width: initial;
@@ -4910,7 +5144,7 @@ nav {
     border-top: 1px solid #dddddd;
 }
 
-header{padding:0 0 20px;}
+header{padding:0 0 0px;}
 .alchol-banner h6{display:none;}
 ul.product-list li .product-img{float:none;}
 ul.product-list li .product-cont{padding:20px 0 0; float:none;}
@@ -4987,6 +5221,22 @@ ul.addOnAco.accordion li a:after {
 }
 
 
+@media (min-width: 100px) and (max-width: 780px) 
+{
+	
+	#form-inputs
+	{
+		height: auto;
+	}
+	
+	
+.rest-image img {
+    height: 150px;
+    margin: 0 auto;
+}
+}
+
+
 
 @media only screen and (max-width:700px) {
 .content-main ul.profile li {
@@ -4996,8 +5246,8 @@ ul.addOnAco.accordion li a:after {
 .content-main ul.profile li.email-field input[type="email"]{width:100%;}
 .content-main ul.profile li:nth-child(even){ margin: 0 0 10px 0 !important;}
 .main-section.main-restaurant-section.greybg .pull-right ,
-.main-section.main-restaurant-section.greybg .pull-right #form-inputs{width:100%;}
-.main-section.main-restaurant-section.greybg .pull-right {padding:0;}
+.main-section.main-restaurant-section.greybg .pull-right #form-inputs{width: 90%; float: left;}
+.main-section.main-restaurant-section.greybg .pull-right {padding:0 !important;}
 .get-my-clothes p {
     font-size: 15px;
     line-height: 20px;
@@ -5905,6 +6155,16 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
     margin: 15px 0 0;		
 }
 
+
+
+@media (min-width: 1000px) and (max-width: 1200px) 
+{
+	
+	
+	
+	
+	
+}
    
 
 @media (min-width: 100px) and (max-width: 800px) 
@@ -5914,12 +6174,39 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
     padding: 0px 14px 0px 2px;
     border-bottom: 1px solid #d8d8d8;
     border-right: 0;
+	float: none;
 }
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	.cart-right
+	{
+		top:0px;
+	}
+	
+	.cart-main {
+    
+    float: none; 
+}
+	
+	
+	
 	
 	
 	.icons-wrapper ul.cat-wrap li.cart-right {
     padding: 6px 0px 12px 10px;
     border-right: 0;
+	top:0px !important;
 } 
 	
 	
@@ -5969,6 +6256,11 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
  
  @media (min-width: 800px) and (max-width: 1030px) 
 {
+	
+	
+	
+	
+
 	
 	 .container
 	{
@@ -6035,9 +6327,50 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 }
 
     }
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+
 
 
 @media (min-width: 100px) and (max-width: 769px) {
+	
+	.fmenu 
+{
+	
+	text-align: left !important;
+
+
+}
+
+
+
+.delievryapp  .container
+{
+	width:100%!important;
+
+}
+
+
+
+
+#form-inputs {
+
+    width: 95%;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
+	
 
 .menu-header
 
@@ -6058,7 +6391,8 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 .newsletter
 	{
-		    padding: 60px 10px 60px 40px !important;
+		    /*padding: 60px 10px 60px 40px !important;*/
+			padding:5% !important;
 	}
 
 
@@ -6089,11 +6423,320 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 }
 
-
 @media (min-width: 100px) and (max-width: 322px) {
 	body
 	{
-		overflow:hidden;
+		overflow-x:hidden;
+	}
+	
+	
+		.subscribe-wrap form input#email
+	{
+		width:100%;
+		
+	}
+	
+.subscribe-wrap form input#submit 
+{
+    width: 100%;
+    margin-top: 20px;
+}
+	
+}
+
+
+@media (min-width: 950px) and (max-width: 1130px) 
+{
+	
+	.icons-wrapper  ul.cat-wrap li a {
+    
+    font-size: 11px;
+}
+
+.footercol
+{
+	width: 30% !important;
+    display: inline-block;
+    
+}
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+@media (min-width: 100px) and (max-width: 769px) 
+{
+	
+	
+	body
+{
+	overflow-x:hidden;
+	}
+	
+	.open-menu body
+{
+	position:fixed;
+	overflow:hidden;
+	}
+	
+	
+	
+	
+	.panel-group .panel
+	{
+		position:relative;
+		
+	}
+	
+	
+		.glyphicon
+	{
+		position:absolute !important;
+		top:30px !important;
+		right:15px !important;
+		}
+	
+	
+	#form-inputs
+{
+	/*width:100% !important;*/
+}
+	
+	
+	.merchant-section-3 .tabs-menu li {
+  
+    
+    
+    width: 100%;
+    display: block;
+    padding: 5% 0;
+    height: auto;
+	maingin:0px;
+}
+	
+	
+	
+	
+	.subscribe-wrap form input#email
+	{
+		height:38px;
+	}
+	.footercol
+{
+	text-align:left !important;
+}
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media (min-width:730px) and (max-width: 800px) 
+{
+	#form-inputs
+{
+	width:100% !important;
+}
+	
+	.left-section-one-inner {
+  
+    margin-bottom: 5%;
+}
+
+
+
+#form-inputs
+{
+	width:100% !important;
+}
+	
+	
+	.singleImage {
+   
+
+
+    width: 30%;
+    margin-bottom: 2%;
+}
+	
+	
+}
+
+
+
+
+
+@media (min-width: 100px) and (max-width: 800px) 
+{
+	
+	
+	
+.main-restaurant-section
+{
+	padding:15px;
+}
+	
+	
+	.carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img
+	{
+		margin:0 auto;
+		
+	}
+	
+	
+	.singleImage {
+
+    margin-bottom: 5%;
+
+}
+
+.press-main-inner p {
+   
+    text-align: center;
+}
+
+
+.press-inner-heading {
+
+    text-align: center;
+    margin: 2% 0;
+}
+
+
+
+
+	
+	span.order-time {
+    float: none;
+    text-align: center;
+
+}
+
+
+.show-order.order-details .show-tax {
+    
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 35px;
+}
+
+
+
+.show-order h2 {
+
+    text-align: center;
+}
+
+
+
+ul.product-list li .product-cont {
+    
+    float: none;
+    text-align: center;
+}
+
+	
+	
+	ul.product-list li .right a.place-order-btn
+	{
+		margin:0 auto;
+		}
+	
+	ul.product-list li .left
+	{
+		width:100%;
+		}
+		
+		
+		
+	
+		ul.product-list li .product-img
+	{
+		margin:0 auto;
 	}
 	
 }
+
+
+
+
+
+
+@media (min-width: 760px) and (max-width: 800px) 
+{
+	
+
+	
+	
+	
+	ul.product-list li
+	{
+		text-align:center;
+	}
+	
+	
+	
+	
+	
+	
+	.footercol
+{
+	text-align:left !important;
+}
+	
+	
+
+.subscribe-wrap form input#email {
+    height: 38px;
+}
+	
+	
+.merchant-section-3 .tabs-menu li.current a
+{
+	font-size:13px;
+}
+
+.merchant-section-3 .tabs-menu li.current
+{
+   width: 19%;
+}
+}
+
+
+.open-menu body
+{
+	position:fixed !important;
+	overflow:hidden !important;
+	}
+
+
+
+
+
+

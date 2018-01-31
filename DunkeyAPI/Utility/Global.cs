@@ -27,6 +27,14 @@ namespace DunkeyAPI.Utility
             SubAdmins = 4
         }
 
+
+        public enum OrderFrequency
+        {
+            OneTime=0,
+            Weekly=1,
+            Monthly=2
+        }
+
         public enum CartItemTypes
         {
             Product,

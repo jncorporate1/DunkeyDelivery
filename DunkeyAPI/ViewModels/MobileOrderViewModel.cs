@@ -17,6 +17,10 @@ namespace DunkeyAPI.ViewModels
         public UserAddress Address { get; set; }
         public List<MobileCart> Store { get; set; }
         public OrderSummaryMobileViewModel OrderSummary { get; set; }
+
+        public string AdditionalNote { get; set; }
+
+        public short? Frequency { get; set; } = 0;
     }
     public class MobileCart
     {

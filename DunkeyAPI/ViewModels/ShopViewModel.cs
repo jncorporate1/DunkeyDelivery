@@ -58,6 +58,17 @@ namespace DunkeyAPI.ViewModels
 
 
     }
+    public class CousineViewModel
+    {
+        public CousineViewModel()
+        {
+           cuisines = new List<Cuisines>();
+        }
+        public List<Cuisines> cuisines { get; set; }
+
+
+    }
+
     public class Cuisines
     {
         public int Id { get; set; }

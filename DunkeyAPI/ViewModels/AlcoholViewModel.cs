@@ -68,6 +68,15 @@ namespace DunkeyAPI.ViewModels
         public List<productslist> Products { get; set; }
     }
 
+    public class AlcoholStoreParentCategories
+    {
+        public AlcoholStoreParentCategories()
+        {
+            Categories = new AlcoholStoreCategories();
+        }
+        public AlcoholStoreCategories Categories { get; set; }
+    }
+
     public class AlcoholStoreCategories
     {
         public AlcoholStoreCategories()

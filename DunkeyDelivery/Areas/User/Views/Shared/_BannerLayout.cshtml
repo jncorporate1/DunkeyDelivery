@@ -152,7 +152,7 @@
                         </div>
                     </div>
                 
-                    <ul class="dropdown-menu col-md-6" style="cursor:pointer;margin-left:308px;">
+                    <ul class="dropdown-menu col-md-6" id="dropdown-menu-id" style="cursor:pointer;margin-left:308px;">
 
                         <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span class="country_name">   Hungary</span></li>
                         <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Romania.jpg" alt=""><span class="country_name">   Romania</span></li>
@@ -264,7 +264,7 @@
                             <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/s5.png" />Pharmacy</a></li>
                             <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/s6.png" />Retail</a></li>
 
-                            <li style="position: relative;top: 10px;"    class="cart-right"><div class="cart-main"><span class="cartopen"><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})">cart <span class="basket"> <span style="visibility:none;">1</span></span></a></span></div></li>
+                            <li style="position: relative;"    class="cart-right"><div class="cart-main"><span class="cartopen"><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})">cart <span class="basket"> <span style="visibility:none;">1</span></span></a></span></div></li>
                         </ul>
 
 
@@ -296,145 +296,160 @@
 
 
 
-		<footer class="footer overflow">
-			<div class="container">
-                <div class="col-md-5 cflags wow fadeInLeft">
-                    <h4>Delivery? In Your Country</h4>
-                    <div class="col-md-4">
-                        <h5>Europe</h5>
-                        <ul>
-                            <li class="countryList"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span style="color: #979d9d;" class="country_name">Hungary</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Romania.jpg" alt=""><span style="color: #979d9d;" class="country_name">Romania</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Bulgaria.jpg" alt=""><span style="color: #979d9d;" class="country_name">Bulgaria</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Hong-Kong.jpg" alt=""><span style="color: #979d9d;" class="country_name">Georgia</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Serbia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Serbia</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Croatia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Croatia</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span style="color: #979d9d;" class="country_name">Montenegro</span></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h5>North America</h5>
-                        <ul>
-                            <li class="countryList"><img src="~/Content/assets/images/USA.jpg" alt=""><span style="color: #979d9d;" class="country_name">USA</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/mexico.jpg" alt=""><span style="color: #979d9d;" class="country_name">Mexico</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/dominica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Dominica</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/canada.jpg" alt=""><span style="color: #979d9d;" class="country_name">Canada</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/costarica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Costa Rica</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/cuba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Cuba</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Salvador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Salvador</span></li>
-                            <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Nicaragua.jpg" alt=""><span style="color: #979d9d;" class="country_name">Nicarague</span></li>
+		<footer class="footer overflow innerft">
+                <div class="container">
+                    <div class="col-md-5 cflags wow fadeInLeft">
 
-                        </ul>
+                        <div class="footLogo">
+                            <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/foot-logo.png" class="attachment-334x334 size-334x334" alt="" /> </a> @*1234 - 5678 - 9012*@
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+                        </div>
+
+                        <h4>Delivery? In Your Country</h4>
+                        <div class="col-md-4 footercol">
+                            <h5>Europe</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span style="color: #979d9d;" class="country_name">Hungary</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Romania.jpg" alt=""><span style="color: #979d9d;" class="country_name">Romania</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Bulgaria.jpg" alt=""><span style="color: #979d9d;" class="country_name">Bulgaria</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Hong-Kong.jpg" alt=""><span style="color: #979d9d;" class="country_name">Georgia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Serbia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Serbia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Croatia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Croatia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span style="color: #979d9d;" class="country_name">Montenegro</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 footercol">
+                            <h5>North America</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/USA.jpg" alt=""><span style="color: #979d9d;" class="country_name">USA</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/mexico.jpg" alt=""><span style="color: #979d9d;" class="country_name">Mexico</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/dominica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Dominica</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/canada.jpg" alt=""><span style="color: #979d9d;" class="country_name">Canada</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/costarica.jpg" alt=""><span style="color: #979d9d;" class="country_name">Costa Rica</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/cuba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Cuba</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Salvador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Salvador</span></li>
+                                <li onclick="changeCountry(this)"><img src="~/Content/assets/images/Nicaragua.jpg" alt=""><span style="color: #979d9d;" class="country_name">Nicarague</span></li>
+
+                            </ul>
+                        </div>
+                        <div class="col-md-4 footercol">
+                            <h5>South America</h5>
+                            <ul>
+                                <li class="countryList"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span style="color: #979d9d;" class="country_name">Brazil</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/UAE.jpg" alt=""><span style="color: #979d9d;" class="country_name">Argentina</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Peru.jpg" alt=""><span style="color: #979d9d;" class="country_name">Peru</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Colombia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Colombia</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Chile.jpg" alt=""><span style="color: #979d9d;" class="country_name">Chile</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Ecuador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Ecuador</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Uruguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Uruguay</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Paraguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Paraguay</span></li>
+                                <li class="countryList"><img src="~/Content/assets/images/Aruba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Aruba</span></li>
+
+
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h5>South America</h5>
+                    <div class="col-md-1 nopad"></div>
+                    <div class="col-md-3 nopad footercontact wow zoomIn">
+                        <h5>Get in Touch</h5>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
                         <ul>
-                            <li class="countryList"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span style="color: #979d9d;" class="country_name">Brazil</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/UAE.jpg" alt=""><span style="color: #979d9d;" class="country_name">Argentina</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Peru.jpg" alt=""><span style="color: #979d9d;" class="country_name">Peru</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Colombia.jpg" alt=""><span style="color: #979d9d;" class="country_name">Colombia</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Chile.jpg" alt=""><span style="color: #979d9d;" class="country_name">Chile</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Ecuador.jpg" alt=""><span style="color: #979d9d;" class="country_name">Ecuador</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Uruguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Uruguay</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Paraguay.jpg" alt=""><span style="color: #979d9d;" class="country_name">Paraguay</span></li>
-                            <li class="countryList"><img src="~/Content/assets/images/Aruba.jpg" alt=""><span style="color: #979d9d;" class="country_name">Aruba</span></li>
-
-
+                            <li><a href="javascript::">info@dunkeydelivery.com</a></li>
+                            <li>3338 Peachtree Rd NE Atlanta GA 30326</li>
+                            <li>+1 234 567 890</li>
+                            <li>+1 234 567 890</li>
                         </ul>
+                        <div class="clearfix"></div><br /><br />
+                        <h5>Links</h5>
+
+
+                        <div class="col-md-4 fmenu padleft">
+                            <a href="@Url.Action("Search","Home",new { search="Food" })">Food</a>
+                            <a href="@Url.Action("Search","Home",new { search="Retail" })">Retail </a>
+                            <a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery </a>
+                            <a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a>
+                            <a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a>
+
+                        </div>
+
+                        <div class="col-md-5 fmenu padleft">
+
+                            <a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a>
+                            <a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a>
+                            <a href="@Url.Action("Investors","Footer",new { area="User"})">Investors</a>
+                            <a href="@Url.Action("Index","Merchant",new { area="User"})">Merchants</a>
+                            <a href="@Url.Action("FAQs", "Footer",new { area="User"})">FAQ</a>
+                        </div>
+
                     </div>
+
+
+
+
+
+
+
+
+
+
+                    <div class="col-md-3 wow fadeInRight fnewsletter">
+                        <h5>stay connected with us</h5>
+                        <div class="subscribe-wrap">
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                            <form action="#">
+                                <input type="email" name="email" id="email" placeholder="Your email address" />
+                                <input type="submit" name="submit" value="Subscribe" id="submit" />
+                            </form>
+                        </div>
+                        <socialicons>
+                            <div class="social_icons">
+                                <ul>
+                                    <li><a href="javascript::"> <i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                                    <li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </socialicons>
+
+                        <div class="fgap">&nbsp;</div>
+                        <div class="col-md-5 fmenu nopad">
+
+
+                            <a href="@Url.Action("Blog", "Footer")"> Blog</a>
+                            <a href="@Url.Action("Career", "Footer")">Careers</a>
+                            <a href="@Url.Action("Press", "Footer")">Press</a>
+                            <a href="@Url.Action("Index", "Driver")">Drivers</a>
+                            <a href="@Url.Action("Gift", "Footer")">Gift Cards</a>
+
+                        </div>
+
+                        <div class="col-md-7 fmenu" style="padding-left:0px;">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
+                            }
+                            <a href="@Url.Action("Partners", "Footer",new { area="User"})">Partners</a>
+                            <a href="@Url.Action("Contact", "Home",new { Area="User" })">Contact </a>
+                            <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <hr />
+
+                    <div class="copyright wow fadeInUp"> © 2018 All rights reserved. <span>Dunkey Delivery</span></div>
+
+
+
                 </div>
-				<div class="col-md-1 nopad"></div>
-				<div class="col-md-3 nopad footercontact wow zoomIn">
-					<h5>Contact info</h5>
-					<ul>
-						<li><a href="javascript::">info@dunkeydelivery.com</a></li>
-						<li>3338 Peachtree Rd NE Atlanta GA 30326</li>
-						<li>+1 234 567 890</li>
-						<li>+1 234 567 890</li>
-					</ul>
-					<div class="clearfix"></div><br /><br />
-					<h5>Links</h5>
-
-
-					<div class="col-md-4 fmenu padleft">
-						<a href="@Url.Action("Search","Home",new { search="Food" })">Food</a>
-						<a href="@Url.Action("Search","Home",new { search="Retail" })">Retail </a>
-						<a href="@Url.Action("Search","Home",new { search="Grocery" })">Grocery </a>
-						<a href="@Url.Action("Search","Home",new { search="Alcohol" })">Alcohol</a>
-						<a href="@Url.Action("Search","Home",new { search="Laundry" })">Laundry</a>
-
-					</div>
-
-					<div class="col-md-5 fmenu padleft">
-
-						<a href="@Url.Action("Search","Home",new { search="Pharmacy" })">Pharmacy</a>
-						<a href="@Url.Action("Index","Ride",new { area = "User" })">Ride</a>
-						<a href="@Url.Action("Investors","Footer",new { area="User"})">Investors</a>
-						<a href="@Url.Action("Index","Merchant",new { area="User"})">Merchants</a>
-						<a href="@Url.Action("FAQs", "Footer",new { area="User"})">FAQ</a>
-					</div>
-
-
-				</div>
-
-
-
-
-
-
-
-
-
-
-				<div class="col-md-3 wow fadeInRight">
-					<h5>stay connected with us</h5>
-					<socialicons>
-						<div class="social_icons">
-							<ul>
-								<li><a href="javascript::"> <i class="fa fa-twitter"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-								<li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
-							</ul>
-						</div>
-					</socialicons>
-
-					<div class="fgap">&nbsp;</div>
-					<div class="col-md-5 fmenu nopad">
-
-						<a href="@Url.Action("Blog", "Footer",new { area="User"})"> Blog</a>
-						<a href="@Url.Action("Career", "Footer",new { area="User"})">Careers</a>
-						<a href="@Url.Action("Press", "Footer",new { area="User"})">Press</a>
-						<a href="@Url.Action("Index", "Driver",new { area="User"})">Drivers</a>
-						<a href="@Url.Action("Gift", "Footer",new { area="User"})">Gift Cards</a>
-
-					</div>
-
-					<div class="col-md-7 fmenu" style="padding-left:0px;">
-                        @if (!string.IsNullOrEmpty(Model.Email))
-                        {
-                            <a href="@Url.Action("GetRewards", "Footer", new { area = "User" })">Get Rewards</a>
-                        }
-						<a href="@Url.Action("Partners", "Footer",new { area="User"})">Partners</a>
-						<a href="@Url.Action("Contact", "Home",new { area="User"})">Contact </a>
-                        <a href="@Url.Action("About","Home",new { Area="User" })">About Us </a>
-					</div>
-
-
-
-				</div>
-
-				<div class="clearfix"></div>
-
-				<hr />
-
-				<div class="copyright wow fadeInUp"> © 2018 All rights reserved. <span>Dunkey Delivery</span></div>
-
-
-
-			</div>
-		</footer>
+            </footer>
 
 		<!------------------------ Back to top ------------------------------------>
 		<div id="back-top"> <a href="#top"> <span class="fa fa-arrow-circle-o-up"></span></a> </div>
@@ -472,7 +487,7 @@
 	<script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript">
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,es,ar,pt,ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
 }
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

@@ -184,8 +184,8 @@ namespace DunkeyAPI.ExtensionMethods
                     {
                         //Set Delivery Details
 
-                     
-                        UserAddress = ctx.UserAddresses.Include(x=>x.User).FirstOrDefault(x => x.User_ID == order.User_ID && x.IsPrimary == true && x.IsDeleted == false);
+
+                        UserAddress = ctx.UserAddresses.Include(x => x.User).FirstOrDefault(x => x.User_ID == order.User_ID && x.IsPrimary == true && x.IsDeleted == false);
                         if (UserAddress == null)
                         {
                             UserAddress = ctx.UserAddresses.Include(x => x.User).Where(x => x.User_ID == order.User_ID && x.IsDeleted == false).OrderByDescending(x => x.Id).FirstOrDefault();
@@ -226,7 +226,7 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void MakeOrder(this Order order, OrderViewModel model, DunkeyContext ctx)
+        public static void MakeOrder(this Order order, OrderViewModel model, DunkeyContext ctx, int? Device = 0)
         {
             try
             {
@@ -252,9 +252,23 @@ namespace DunkeyAPI.ExtensionMethods
                     }
                 }
                 order.SetOrderDetails(model);
+                if (Device.Value != 0)
+                {
+                    // for mobile
+                    order.CalculateStoreOrderSubTotal();
+                    order.CalculateStoreTotal();
+                    order.CalculateStoreSubTotal();
+                    order.CalculateOrderSettings();
+                }
+                else
+                {
+                    // for website
+                    order.CalculateSubTotal();
+                    order.CalculateTotal();
+                }
 
-                order.CalculateSubTotal();
-                order.CalculateTotal();
+
+
             }
             catch (Exception ex)
             {
@@ -262,11 +276,80 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
-        public static void CalculateSubTotal(this StoreOrder storeOrder)
+
+
+        // store related totals
+
+
+
+        // for mobile
+
+            // store sub total
+        public static void CalculateStoreOrderSubTotal(this Order order)
         {
-            storeOrder.Subtotal = storeOrder.Order_Items.Sum(x => x.Price);
+            // store sub total
+            foreach (var storeOrder in order.StoreOrders)
+            {
+                foreach (var orderItem in storeOrder.Order_Items)
+                {
+                    storeOrder.Subtotal = storeOrder.Subtotal + orderItem.Price * orderItem.Qty;
+                }
+
+            }
         }
 
+
+        // store  total
+        public static void CalculateStoreTotal(this Order StoreOrder)
+        {
+            try
+            {// check if min delivery time is in store object or noot
+                using (DunkeyContext ctx=new DunkeyContext())
+                {
+                    foreach (var storeOrder in StoreOrder.StoreOrders)
+                    {
+                        storeOrder.Total = storeOrder.Subtotal + Convert.ToDouble(ctx.Stores.FirstOrDefault(x=>x.Id==storeOrder.Store_Id).MinDeliveryCharges);
+                    } 
+                }
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
+
+        // order sub total
+        public static void CalculateStoreSubTotal(this Order order)
+        {
+            order.Subtotal = order.StoreOrders.Sum(x => x.Total);
+        }
+
+            // order total and other parameters
+        public static void CalculateOrderSettings(this Order order)
+        {
+            try
+            {
+                order.TipAmount = (order.StoreOrders.Sum(x => x.Subtotal) / 100) * 12;
+
+                DunkeySettings.LoadSettings();
+                order.DeliveryFee = DunkeySettings.DeliveryFee;
+                order.TotalTaxDeducted = order.StoreOrders.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+                order.Total = order.ServiceFee + order.DeliveryFee + order.StoreOrders.Sum(x => x.Subtotal) + order.TipAmount + order.TotalTaxDeducted;
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
+
+
+
+
+
+
+
+
+        // order total and sub total
         public static void CalculateSubTotal(this Order order)
         {
             foreach (var storeOrder in order.StoreOrders)
@@ -274,12 +357,28 @@ namespace DunkeyAPI.ExtensionMethods
                 storeOrder.CalculateSubTotal();
             }
             order.Subtotal = order.StoreOrders.Sum(x => x.Subtotal);
+            order.TipAmount = (order.Subtotal) / 100 * 12;
+        }
+
+        public static void CalculateSubTotal(this StoreOrder storeOrder)
+        {
+            storeOrder.Subtotal = storeOrder.Order_Items.Sum(x => x.Price);
+        }
+
+        public static void CalculateTax(this Order order)
+        {
+            var groupData = order.StoreOrders.Distinct();
+            foreach (var storeOrder in order.StoreOrders)
+            {
+
+            }
         }
 
         public static void CalculateTotal(this Order order)
         {
             try
             {
+
                 order.CalculateSubTotal();
                 order.ServiceFee = 0;
                 order.DeliveryFee = DunkeySettings.DeliveryFee;
@@ -291,6 +390,7 @@ namespace DunkeyAPI.ExtensionMethods
                 DunkeyDelivery.Utility.LogError(ex);
             }
         }
+
 
     }
 }

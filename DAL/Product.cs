@@ -45,6 +45,9 @@ namespace DAL
         [NotMapped]
         public string BusinessName { get; set; } = "";
 
+        [NotMapped]
+        public int MinDeliveryTime { get; set; } = 0;
+
         [JsonIgnore]
         public virtual Category Category { get; set; }
 

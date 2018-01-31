@@ -39,7 +39,7 @@ namespace DunkeyAPI.Controllers
                     order = new Order();
                     using (DunkeyContext ctx = new DunkeyContext())
                     {
-                        order.MakeOrder(model, ctx);
+                        order.MakeOrder(model, ctx,0); // 0 for website insert order
 
                         order.DeliveryTime_From = DateTime.Now;
                         order.DeliveryTime_To = DateTime.Now;
@@ -78,6 +78,67 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+
+
+
+        [HttpPost]
+        [Route("InsertOrderMobile")]
+        public async Task<IHttpActionResult> InsertOrderMobile(OrderViewModel model)
+        {
+            try
+            {
+                Order order;
+                if (System.Web.HttpContext.Current.Request.Params["Cart"] != null)
+                    model.Cart = JsonConvert.DeserializeObject<CartViewModel>(System.Web.HttpContext.Current.Request.Params["Cart"]);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (model.Cart.CartItems.Count() > 0)
+                {
+                    order = new Order();
+                    using (DunkeyContext ctx = new DunkeyContext())
+                    {
+                        order.MakeOrder(model, ctx,1); // 1 for mobile insert order
+
+                        order.DeliveryTime_From = DateTime.Now;
+                        order.DeliveryTime_To = DateTime.Now;
+
+                        //Charge User
+                        // StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
+
+                        //if (stripeCharge.Status != "succeeded")
+                        //{
+                        //    return Ok(new CustomResponse<Error> { Message = "Payment Failed", StatusCode = (int)HttpStatusCode.InternalServerError, Result = new Error { ErrorMessage = "We are unable to process your payments. Please try sometime later" } });
+                        //}
+
+                        ctx.Orders.Add(order);
+                        await ctx.SaveChangesAsync();
+                        var CurrentUser = ctx.Users.Where(x => x.Id == model.UserId).FirstOrDefault();
+                        if (CurrentUser.RewardPoints == 0)
+                        {
+                            CurrentUser.RewardPoints = order.Subtotal * DunkeyDelivery.Global.PointsToReward;
+                        }
+                        else
+                        {
+                            CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
+                        }
+                        ctx.SaveChanges();
+
+                        return Ok(new CustomResponse<Order> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
+                    }
+                }
+                else
+                    return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "No items in the cart." } });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
         [HttpGet]
         [Route("GetOrdersHistory")]
         public async Task<IHttpActionResult> GetOrdersHistory(int UserId, int SignInType, bool IsCurrentOrder, int PageSize, int PageNo)
@@ -112,14 +173,14 @@ namespace DunkeyAPI.Controllers
                     string orderQuery = String.Empty;
                     if (SignInType == (int)RolesCode.User)
                     {
-                        orderQuery = @"SELECT *, Users.FullName as UserFullName FROM Orders join Users on Users.ID = Orders.User_ID where Orders.User_Id = " + UserId + @" and Orders.IsDeleted = 0  ORDER BY Orders.id OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
+                        orderQuery = @"SELECT *, Users.FullName as UserFullName FROM Orders join Users on Users.ID = Orders.User_ID where Orders.User_Id = " + UserId + @" and Orders.IsDeleted = 0  ORDER BY Orders.id DESC OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
                     }
                     else
                     {
                         orderQuery = @"SELECT *, Users.FullName as UserFullName FROM Orders 
 						join Users on Users.ID = Orders.User_ID
 						where Orders.DeliveryMan_Id = " + UserId + @" and Orders.IsDeleted = 0  
-						ORDER BY Orders.id OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
+						ORDER BY Orders.id DESC OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
                     }
 
                     #endregion
@@ -286,21 +347,30 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     }
                     model.Address = UserAddress;
 
-                    var storeIds = model.Store.Select(x => x.storeId).Distinct();
+                    //var storeIds = model.Store.Select(x => x.storeId).Distinct();
 
-                    var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
+                    //var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
 
+                    //var Tax = new List<BusinessTypeTax>();
+
+                    //foreach (var tax in storeBusinessTypes)
+                    //{
+                    //    Tax.Add(ctx.BusinessTypeTax.FirstOrDefault(x=>x.BusinessType==tax.BusinessType));
+                    //}
                     //ctx.BusinessTypeTax.Where(x=>x.)
 
                     //ctx.BusinessTypeTax.Where(x=>x.BusinessType == businessType)
 
 
-                    var StoreTaxes = model.Store.GroupBy(x => x.StoreTax);
 
-                    var DistinctStoreIds = model.Store.GroupBy(x => x.businessType);
+                    var storeIds = model.Store.Select(x => x.storeId).Distinct();
 
+                    var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
 
+                    var Types=storeBusinessTypes.GroupBy(x => x.BusinessType).ToList();
 
+                    var taxes = new List<BusinessTypeTax>();
+                    
                     foreach (var store in model.Store)
                     {
                         var Store = ctx.Stores.FirstOrDefault(x => x.Id == store.storeId);
@@ -313,15 +383,30 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                         {
                             store.StoreSubTotal = store.StoreSubTotal + (ctx.Products.FirstOrDefault(x => x.Id == product.Id).Price * product.quantity);
                         }
+                       
+                    }
 
-                        model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + store.StoreSubTotal.Value;
+                    foreach (var SingleStore in model.Store)
+                    {
+                        SingleStore.StoreTotal = Convert.ToDouble(SingleStore.StoreSubTotal.Value) + Convert.ToDouble(SingleStore.minDeliveryCharges.Value);
+                    }
 
+                    foreach (var SingleStore in model.Store)
+                    {
+                        model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + SingleStore.StoreTotal.Value;
+                    }
+                    model.OrderSummary.Tax = 5;
+                    model.OrderSummary.Tip = Math.Round((model.OrderSummary.SubTotal / 100) * 12, 4);
+                    model.OrderSummary.Total = model.OrderSummary.SubTotal + model.OrderSummary.Tip + model.OrderSummary.Tax;
+                    foreach (var store in model.Store)
+                    {
                         if (store.minDeliveryCharges != null)
                         {
                             store.products.Add(new productslist { Name = "Delivery Fee", Price = Convert.ToDouble(store.minDeliveryCharges.Value), Store_id = store.storeId });
-                            model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + Convert.ToDouble(store.minDeliveryCharges.Value);
+                            //model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + Convert.ToDouble(store.minDeliveryCharges.Value);
                         }
                     }
+
 
 
 

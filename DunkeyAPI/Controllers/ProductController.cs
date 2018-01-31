@@ -513,7 +513,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
 
-                    var query = "SELECT Products.* FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
+                    var query = "SELECT Products.*,Stores.BusinessName FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
                     if (Store_id == 0)
                     { 
 
@@ -589,7 +589,16 @@ namespace DunkeyAPI.Controllers
                         query += " WHERE Products.Store_Id="+Store_id+ " AND Products.Name Like '%" + search_string.Trim() + "%'  ";
 
                     }
-                    query += "  ORDER BY Products.Name OFFSET "+Items*Page+" ROWS FETCH NEXT "+Items+" ROWS ONLY";
+
+                    if(Category_Type != 4)
+                    {
+                        query += "AND Stores.BusinessType != 'Pharmacy'  ORDER BY Products.Name OFFSET " + Items * Page + " ROWS FETCH NEXT " + Items + " ROWS ONLY";
+
+                    }else
+                    {
+                        query += " ORDER BY Products.Name OFFSET " + Items * Page + " ROWS FETCH NEXT " + Items + " ROWS ONLY";
+
+                    }
                     products.productslist = ctx.Database.SqlQuery<PL>(query).ToList();
                     
 

@@ -26,7 +26,9 @@ namespace DunkeyAPI.ViewModels
 
         public string Image { get; set; }
 
-        public int? Category_id { get; set; } = -1;
+        public string Image_Selected { get; set; } = null;
+
+        public int? Category_Id { get; set; } = -1;
 
         public int Store_id { get; set; } = -1;
 
@@ -151,6 +153,8 @@ namespace DunkeyAPI.ViewModels
         public int? Category_id { get; set; }
 
         public int Store_id { get; set; }
+
+        public string BusinessName { get; set; } = "";
 
         public string Size { get; set; } = "";
 

@@ -5,9 +5,10 @@
     if (string.IsNullOrEmpty(Model.Country))
     {
         Model.Country = "USA";
+        
     }
-    var selectedCountry_ImageUrl = "http://10.100.28.36:802/Content/assets/images/"+@Model.Country + ".jpg";
-    selectedCountry_ImageUrl=selectedCountry_ImageUrl.Replace(" ","");
+    var selectedCountry_ImageUrl = "/Content/assets/images/" + @Model.Country + ".jpg";
+    selectedCountry_ImageUrl = selectedCountry_ImageUrl.Replace(" ", "");
 }
 <head>
     <meta charset="UTF-8" />
@@ -67,7 +68,6 @@
 
 <body class="home blog logged-in">
     <!-- -----------------------Push Responsive Menu   ---------------------- -->
-
 
 
     <pushmenu>
@@ -147,7 +147,7 @@
                         <div class="col-md-3 col-sm-3 col-xs-3 lang nopad dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="position: relative;left: 40px;top: 4px;" id="selected_country">
                             <img src="@selectedCountry_ImageUrl" alt=""><span  style="color:#6ebe44;" >  @Model.Country </span>
                         </div>
-                        <ul class="dropdown-menu col-md-6"  style="cursor:pointer;margin-left:308px;">
+                        <ul class="dropdown-menu col-md-6" id="dropdown-menu-id"  style="cursor:pointer;margin-left:308px;">
                         
                             <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span class="country_name">   Hungary</span></li>
                             <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Romania.jpg" alt=""><span class="country_name">   Romania</span></li>
@@ -159,7 +159,7 @@
 
                             <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span class="country_name">   Montenegro</span></li>
 
-                            <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/USA.jpg" alt=""><span class="country_name">   USA</span></li>
+                            <li class="countryList blockDisplay" id="ListOfCountries selectit"><img src="~/Content/assets/images/USA.jpg" alt=""><span class="country_name">   USA</span></li>
                             <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/mexico.jpg" alt=""><span class="country_name">   Mexico</span></li>
 
                             <li class="countryList blockDisplay" id="ListOfCountries"><img src="~/Content/assets/images/dominica.jpg" alt=""><span class="country_name">   Dominica</span></li>
@@ -263,7 +263,7 @@
                                 <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/s5.png" />Pharmacy</a></li>
                                 <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/s6.png" />Retail</a></li>
 
-                                <li style="position: relative;top: 10px;" class="cart-right"><div class="cart-main"><span class="cartopen"><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})">cart <span class="basket"><span style="visibility:none;">1</span></span></a></span></div></li>
+                                <li style="position: relative;" class="cart-right"><div class="cart-main"><span class="cartopen"><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})">cart <span class="basket"><span style="visibility:none;">1</span></span></a></span></div></li>
                             </ul>
 
 
@@ -297,7 +297,7 @@
                         </div>
 
                         <h4>Delivery? In Your Country</h4>
-                        <div class="col-md-4">
+                        <div class="col-md-4 footercol">
                             <h5>Europe</h5>
                             <ul>
                                 <li class="countryList"><img src="~/Content/assets/images/Hungary.jpg" alt=""><span style="color: #979d9d;" class="country_name">Hungary</span></li>
@@ -309,7 +309,7 @@
                                 <li class="countryList"><img src="~/Content/assets/images/Montenegro.jpg" alt=""><span style="color: #979d9d;" class="country_name">Montenegro</span></li>
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 footercol">
                             <h5>North America</h5>
                             <ul>
                                 <li class="countryList"><img src="~/Content/assets/images/USA.jpg" alt=""><span style="color: #979d9d;" class="country_name">USA</span></li>
@@ -323,7 +323,7 @@
 
                             </ul>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 footercol">
                             <h5>South America</h5>
                             <ul>
                                 <li class="countryList"><img src="~/Content/assets/images/Brazil.jpg" alt=""><span style="color: #979d9d;" class="country_name">Brazil</span></li>
@@ -383,7 +383,7 @@
 
 
 
-                    <div class="col-md-3 wow fadeInRight">
+                    <div class="col-md-3 wow fadeInRight fnewsletter">
                         <h5>stay connected with us</h5>
                         <div class="subscribe-wrap">
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
@@ -455,8 +455,7 @@
         @*<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>*@
         <script src="~/Content/assets/js/jquery.min.js"></script>
         <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-        <script src="~/Content/assets/js/library.js"></script>
-        <script src="~/Content/assets/js/main.js"></script>
+
         <script src="~/Scripts/WebValidation.js"></script>
         <!------------------------ Javascript ------------------------------------>
         @*@section Scripts {
@@ -474,12 +473,12 @@
 
 
 
-        <script type="text/javascript">
-            function googleTranslateElementInit() {
-                new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
-            }
-        </script>
-        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,es,ar,pt,ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+}
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
         <script>
 
@@ -634,5 +633,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		        <script src="~/Content/assets/js/library.js"></script>
+        <script src="~/Content/assets/js/main.js"></script>
 </body>
 </html>
+
+
+

@@ -667,6 +667,7 @@ namespace DunkeyAPI.Controllers
                     {
                         string code = Guid.NewGuid().ToString("N").ToUpper();
                         code = CryptoHelper.Hash(code.Substring(0, 6));
+                        code = code.Substring(0, 6);
                         user.Password = code;
                         ctx.SaveChanges();
                         const string subject = "Your Password Has Been Changed";
