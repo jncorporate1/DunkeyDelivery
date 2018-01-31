@@ -31,6 +31,16 @@ DESCRIPTION: Custom Template
             text-align:left !important;
      }   
 }
+
+
+#reviewArea  
+{
+	min-width:100% !important;
+	width:100% !important;
+}
+
+
+
 @media only screen and (max-width:1024px) and (min-width:768px) {
  
      #dropdown-menu-id{
@@ -169,6 +179,7 @@ DESCRIPTION: Custom Template
     font-weight: 600;
     margin-left: 0px;
     float: left;
+	    height: 38px;
     width: 89px;
 }
 
@@ -278,6 +289,7 @@ DESCRIPTION: Custom Template
 @media only screen and (max-width:1199px) and (min-width:992px){
     .getapp > .delievryapp > img {
         width:90%;
+		    display: none;
         margin-top: 50px;
     }
 }
@@ -6344,12 +6356,71 @@ padding:0 25px 13px 25px;font-size:18px; color:#000;}
 
 @media (min-width: 100px) and (max-width: 769px) {
 	
+	
+	
+	.form-control textarea {
+    display: block;
+    width: 100% !important;
+
+}
+	
+	
+	
 	.fmenu 
 {
 	
 	text-align: left !important;
 
 
+}
+
+
+
+
+
+
+.laundry-details-cont ul li {
+     width: 100%; 
+   
+}
+
+.pharmacy-details .col-md-6,.pharmacy-details .col-md-3
+{
+	    padding-right: 0px !important;
+		margin-bottom:10px;
+		padding-left:0px !important; 
+}
+
+
+.show-order.order-details .single-order {
+   
+
+    margin-bottom: 15px;
+}
+
+
+.alcohol-details-main .tabcontent h3 {
+    font-size: 14px;
+      line-height: 23px;
+}
+
+
+.tab-btn {
+
+    display: block;
+    width: 100%;
+}
+
+.tabs-list li {
+  
+    width: 100%;
+}
+
+
+
+
+.toplogin ul {
+    text-align: center !important;
 }
 
 
@@ -6737,6 +6808,9 @@ ul.product-list li .product-cont {
 
 
 
-
+#reviewArea textarea 
+{
+	width:100% !important;
+}
 
 
