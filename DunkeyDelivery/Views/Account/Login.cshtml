@@ -3,6 +3,57 @@
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
 
+<meta name="google-signin-client_id" content="1045044413490-vkhi1ntvbqglmu11p1j29tkjk31pdd1l.apps.googleusercontent.com">
+
+@*<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+<script src="https://apis.google.com/js/api:client.js"></script>*@
+
+<script>
+    function onSuccess(googleUser) {
+        debugger;
+        //console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+        var FirstName = googleUser.getBasicProfile().getGivenName();
+        var LastName = googleUser.getBasicProfile().getFamilyName();
+        var Email = googleUser.getBasicProfile().getEmail();
+        var ImageUrl = googleUser.getBasicProfile().getImageUrl();
+
+        window.location.href = "/Gmail/GmailCallback?FirstName=" + FirstName + "&&LastName=" + LastName + "&&Email=" + Email + "&&ImageUrl=" + ImageUrl
+
+        @*//window.location.href = '@Url.Action("GmailCallback", "Gmail", new { FirstName=FirstName, LastName=LastName, Email= Email, ImageUrl= ImageUrl})';*@
+        @*$.ajax({
+  url: '@Url.Action("GmailCallback", "Gmail")',
+    data: { FirstName: FirstName, LastName: LastName, Email: Email, ImageUrl, ImageUrl },
+  success: function(data){
+      //call is successfully completed and we got result in data
+      window.location.reload(true);
+  },
+  error:function (xhr, ajaxOptions, thrownError){
+                  //some errror, some show err msg to user and log the error
+                  alert(xhr.responseText);
+
+                }
+  });*@
+
+       // window.location.href = '@Url.Action("GmailCallback", "Gmail")/' + FirstName + "/" + LastName + "/" + Email + "/" + ImageUrl;
+    }
+    function onFailure(error) {
+        console.log(error);
+    }
+    function renderButton() {
+        debugger;
+        gapi.signin2.render('my-signin2', {
+            'scope': 'profile email',
+            'width': 550,
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': onSuccess,
+            'onfailure': onFailure
+        });
+    }
+</script>
+
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 <div class="main-section login-main-section greybg">
     <div class="container">
@@ -37,7 +88,12 @@
                     <span><img src="~/Content/assets/images/or.png" alt=""></span>
 
                     <a href="@Url.Action("Facebook","Facebook")"><img src="~/Content/assets/images/facebook.png" alt=""></a>
+
                 </div>
+
+                <br />
+                <div id="my-signin2"></div>
+
                     </div>
             <script>
                 function removeInvalidError() {
