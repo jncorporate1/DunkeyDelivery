@@ -34,6 +34,8 @@ namespace DunkeyAPI.ViewModels
         public CartViewModel Cart { get; set; }
         public DeliveryDetailsBindingModel DeliveryDetails { get; set; }
 
+        public int? Frequency { get; set; } = 0;
+
         public string StripeAccessToken { get; set; }
         public string StripeEmail { get; set; }
 

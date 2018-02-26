@@ -124,6 +124,8 @@ namespace DunkeyAPI.ViewModels
 
         public int Order_Id { get; set; }
 
+        public double DeliveryFee { get; set; }
+
         public string StoreName { get; set; }
 
         public string ImageUrl { get; set; }

@@ -63,6 +63,10 @@ namespace DAL
         public virtual DbSet<FAQ> FAQ { get; set; }
 
 
+        public virtual DbSet<UserDevice> UserDevice { get; set; }
+
+
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -79,6 +83,25 @@ namespace DAL
                 .WithRequired(e => e.AdminNotification)
                 .HasForeignKey(e => e.AdminNotification_Id)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AdminNotifications>()
+                .HasMany(e => e.Notifications)
+                .WithOptional(e => e.AdminNotification)
+                .HasForeignKey(e => e.AdminNotification_Id)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+            .HasMany(e => e.UserDevice)
+            .WithRequired(e => e.User)
+            .HasForeignKey(e => e.User_Id)
+            .WillCascadeOnDelete(false);
+
+
+            //modelBuilder.Entity<DeliveryMan>()
+            //    .HasMany(e => e.Notifications)
+            //    .WithOptional(e => e.DeliveryMan)
+            //    .HasForeignKey(e => e.DeliveryMan_ID)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Product>()
                 .HasMany(e => e.PharmacyRequest_Products)
@@ -366,7 +389,7 @@ namespace DAL
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Notifications)
                 .WithRequired(e => e.User)
-                .HasForeignKey(e => e.User_Id)
+                .HasForeignKey(e => e.User_ID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()

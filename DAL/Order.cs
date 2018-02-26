@@ -52,6 +52,13 @@ namespace DAL
 
         public int? OrderPayment_Id { get; set; }
 
+        [NotMapped]
+        public int? Frequency { get; set; }
+
+        [NotMapped]
+        public int MaxDeliveryTime { get; set; }
+
+
         public short PaymentStatus { get; set; }
         
         public virtual OrderPayment OrderPayment { get; set; }

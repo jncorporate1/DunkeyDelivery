@@ -48,6 +48,13 @@ namespace DAL
         [NotMapped]
         public int MinDeliveryTime { get; set; } = 0;
 
+        public string BusinessType { get; set; } = "";
+
+        public decimal? MinDeliveryCharges { get; set; } = -1;
+
+        public float? MinOrderPrice { get; set; } = -1;
+
+
         [JsonIgnore]
         public virtual Category Category { get; set; }
 

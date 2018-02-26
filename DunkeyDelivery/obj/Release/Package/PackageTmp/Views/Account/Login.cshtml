@@ -10,8 +10,7 @@
         <div class="row">
             <div class="col-md-6">
                 <h1>LOGIN TO Dunkey Delivery</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
-
+              
                 @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
@@ -48,8 +47,7 @@
             </script>
                     <div class="col-md-6">
                         <h1>New User? Signup</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare ullamcorper volutpat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur </p>
-
+                       
                         <a href="@Url.Action("SignUp","Account")"><button class="Register_btn">Register Now</button></a>
                     </div>
 

@@ -38,6 +38,8 @@ namespace DAL
 
         public int Order_Id { get; set; }
 
+        public TimeSpan? OrderDeliveryTime { get; set; }
+
         [NotMapped]
         public double BusinessTypeTax { get; set; }
 

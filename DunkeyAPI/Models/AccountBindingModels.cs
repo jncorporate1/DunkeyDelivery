@@ -129,7 +129,33 @@ namespace DunkeyAPI.Models
 
 
     }
+    public class RegisterGmailBindingModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required]
+        public short SignIntype { get; set; }
+
+        public string ImageUrl { get; set; }
+    }
     public class RegisterExternalBindingModel
     {
         [Required]

@@ -402,7 +402,6 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Google.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.OAuth.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Owin.Security.Twitter.dll
-F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.SqlServer.Types.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.Web.Infrastructure.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Newtonsoft.Json.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Nexmo.Api.dll
@@ -470,3 +469,11 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Microsoft.SqlServer.Types.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Amazon.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Apple.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Blackberry.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Core.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Firefox.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Google.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\PushSharp.Windows.dll

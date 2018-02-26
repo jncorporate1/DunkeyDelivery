@@ -12,9 +12,11 @@ namespace DunkeyAPI.ViewModels
         {
             OrderSummary = new OrderSummaryMobileViewModel();
             Address = new UserAddress();
+            CreditCard = new CreditCard();
         }
         public int User_Id { get; set; }
         public UserAddress Address { get; set; }
+        public CreditCard CreditCard { get; set; }
         public List<MobileCart> Store { get; set; }
         public OrderSummaryMobileViewModel OrderSummary { get; set; }
 

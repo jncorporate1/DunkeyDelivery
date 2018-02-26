@@ -131,6 +131,34 @@
       <HintPath>..\packages\Nexmo.Csharp.Client.2.2.2\lib\net452\Nexmo.Api.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PushSharp.Amazon, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Amazon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Apple, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Apple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Blackberry, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Blackberry.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Core, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Firefox, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Firefox.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Google, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PushSharp.Windows, Version=4.0.10.0, Culture=neutral, PublicKeyToken=cf74b75eab2c0170, processorArchitecture=MSIL">
+      <HintPath>..\packages\PushSharp.4.0.10\lib\net45\PushSharp.Windows.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Stripe.net, Version=11.7.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Stripe.net.11.7.1\lib\net45\Stripe.net.dll</HintPath>
       <Private>True</Private>
@@ -313,6 +341,7 @@
     <Compile Include="BindingModels\StoreBindingModel.cs" />
     <Compile Include="ClientViewModel\ClientStoreViewModel.cs" />
     <Compile Include="ClientViewModel\StoreTagViewModel.cs" />
+    <Compile Include="Comparer\MyComparers.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AlcoholController.cs" />
@@ -323,9 +352,11 @@
     <Compile Include="Controllers\DealsController.cs" />
     <Compile Include="Controllers\DriverController.cs" />
     <Compile Include="Controllers\FileController.cs" />
+    <Compile Include="Controllers\FilterStoreViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LaundryController.cs" />
     <Compile Include="Controllers\MerchantController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\PharmacyController.cs" />
@@ -364,6 +395,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Models\MerchantBindingModel.cs" />
+    <Compile Include="Models\NotificationModel.cs" />
+    <Compile Include="Models\NotificationRelatedViewModels.cs" />
     <Compile Include="Models\ProductBindingModel.cs" />
     <Compile Include="Models\RewardViewModel.cs" />
     <Compile Include="Models\RideBindingModel.cs" />
@@ -382,6 +415,8 @@
     <Compile Include="Utility\DunkeySettings.cs" />
     <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Global.cs" />
+    <Compile Include="Utility\PushNotifications.cs" />
+    <Compile Include="Utility\PushNotificationsUtil.cs" />
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="ViewModels\AlcoholViewModel.cs" />
     <Compile Include="ViewModels\BlogViewModel.cs" />
@@ -494,7 +529,9 @@
     <Content Include="UserImages\EntityDesignerDiagram%284%29.jpg" />
     <Content Include="UserImages\EntityDesignerDiagram%285%29.jpg" />
     <Content Include="UserImages\EntityDesignerDiagram.jpg" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

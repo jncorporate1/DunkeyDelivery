@@ -256,6 +256,68 @@ namespace DunkeyAPI.Controllers
             //return Ok();
         }
 
+
+        [AllowAnonymous]
+        [Route("RegisterWithGmail")]
+        [HttpPost]
+        public async Task<IHttpActionResult> RegisterWithGmail(RegisterGmailBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    if (ctx.Users.Any(x => x.Email == model.Email))
+                    {
+                        var User = ctx.Users.FirstOrDefault(x => x.Email == model.Email);
+
+                        await User.GenerateToken(Request);
+                        CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = User };
+                        return Ok(response);
+                    }
+                    else
+                    {
+                        User userModel = new User
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            Email = model.Email,
+                            FullName = model.FullName,
+                            Status = (int)Global.StatusCode.Verified,
+                            Role = model.SignIntype
+
+                        };
+
+                        ctx.Users.Add(userModel);
+                        ctx.SaveChanges();
+                        using (ViewModels.UserViewModel userViewModel = new ViewModels.UserViewModel(userModel))
+                        {
+                            await userModel.GenerateToken(Request);
+                            CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = userModel };
+                            return Ok(response);
+
+                        }
+                    }
+                }
+
+                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                {
+                    Message = "Internal Server Error",
+                    StatusCode = (int)HttpStatusCode.InternalServerError,
+                    Result = new Error { ErrorMessage = "Internal Server Error." }
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
         [Route("RegisterWithImage")]
         [AllowAnonymous]
         public async Task<IHttpActionResult> RegisterWithImage()
@@ -450,7 +512,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var userModel = ctx.ForgotPasswordTokens.Include(x => x.User).Where(x => x.Code == model.Code).OrderByDescending(x=>x.CreatedAt).FirstOrDefault();
+                    var userModel = ctx.ForgotPasswordTokens.Include(x => x.User).Where(x => x.Code == model.Code).OrderByDescending(x => x.CreatedAt).FirstOrDefault();
 
                     if (userModel != null)
                     {
@@ -666,8 +728,8 @@ namespace DunkeyAPI.Controllers
                     if (user != null)
                     {
                         string code = Guid.NewGuid().ToString("N").ToUpper();
-                        code = CryptoHelper.Hash(code.Substring(0, 6));
-                        code = code.Substring(0, 6);
+                        var CodeToSend = code.Substring(0, 6);
+                        code = CryptoHelper.Hash(CodeToSend);
                         user.Password = code;
                         ctx.SaveChanges();
                         const string subject = "Your Password Has Been Changed";
@@ -686,7 +748,7 @@ namespace DunkeyAPI.Controllers
                         var message = new MailMessage(EmailUtil.FromMailAddress, new MailAddress(email))
                         {
                             Subject = subject,
-                            Body = body + " : " + code
+                            Body = body + " : " + CodeToSend
                         };
 
                         smtp.Send(message);
@@ -773,7 +835,7 @@ namespace DunkeyAPI.Controllers
                         Email = model.Email,
                         Phone = model.Phone,
                         Message = model.Message,
-                        ContactReason=model.ContactReason
+                        ContactReason = model.ContactReason
 
 
                     };
@@ -825,7 +887,7 @@ namespace DunkeyAPI.Controllers
                     {
                         User.FirstName = model.FName;
                         User.LastName = model.LName;
-                        User.Password =CryptoHelper.Hash(model.Password);
+                        User.Password = CryptoHelper.Hash(model.Password);
                     }
                     ctx.SaveChanges();
                     CustomResponse<User> response = new CustomResponse<User> { Message = Global.SuccessMessage, StatusCode = (int)HttpStatusCode.OK, Result = User };
@@ -856,7 +918,7 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-                    var addressCount = ctx.UserAddresses.Where(x =>x.User_ID==model.User_ID && x.FullAddress == model.FullAddress && x.IsDeleted == false).Count();
+                    var addressCount = ctx.UserAddresses.Where(x => x.User_ID == model.User_ID && x.FullAddress == model.FullAddress && x.IsDeleted == false).Count();
 
                     if (addressCount > 0)
                     {
@@ -871,7 +933,7 @@ namespace DunkeyAPI.Controllers
                     {
                         if (model.IsPrimary == true)
                         {
-                            if (ctx.UserAddresses.Any(x => x.User_ID==model.User_ID && x.IsPrimary == true && x.IsDeleted == false))
+                            if (ctx.UserAddresses.Any(x => x.User_ID == model.User_ID && x.IsPrimary == true && x.IsDeleted == false))
                             {
                                 return Content(HttpStatusCode.OK, new CustomResponse<Error>
                                 {
@@ -963,7 +1025,7 @@ namespace DunkeyAPI.Controllers
                     var res = ctx.UserAddresses
                         .Where(x => x.User_ID == User_id && x.IsDeleted == false).ToList();
 
-                    if (res.Count>0)
+                    if (res.Count > 0)
                     {
                         if (res.Any(x => x.IsPrimary == true))
                         {
@@ -972,7 +1034,7 @@ namespace DunkeyAPI.Controllers
                         else
                         {
                             ReturnAddresses.Add(res.LastOrDefault());
-                        } 
+                        }
                     }
                     Addresses addressModel = new Addresses();
                     var f = Mapper.Map<List<AddressViewModel>>(ReturnAddresses);
@@ -997,7 +1059,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("UpdateUserAddressesById")]
-        public IHttpActionResult GetUserAddressesById(int User_id,int Address_Id)
+        public IHttpActionResult GetUserAddressesById(int User_id, int Address_Id)
         {
             try
             {
@@ -1006,24 +1068,20 @@ namespace DunkeyAPI.Controllers
                 {
                     List<UserAddress> ReturnAddresses = new List<UserAddress>();
                     var MarkPrimary = ctx.UserAddresses
-                        .FirstOrDefault(x => x.User_ID == User_id && x.Id==Address_Id && x.IsDeleted == false);
+                        .FirstOrDefault(x => x.User_ID == User_id && x.Id == Address_Id && x.IsDeleted == false);
                     var alreadyPrimary = ctx.UserAddresses
-                        .FirstOrDefault(x => x.User_ID == User_id && x.IsPrimary==true && x.IsDeleted == false);
+                        .FirstOrDefault(x => x.User_ID == User_id && x.IsPrimary == true && x.IsDeleted == false);
                     if (alreadyPrimary != null)
                     {
                         alreadyPrimary.IsPrimary = false;
-    
+
                     }
-                    if(MarkPrimary != null)
+                    if (MarkPrimary != null)
                     {
                         MarkPrimary.IsPrimary = true;
                     }
                     ctx.SaveChanges();
-                    
-                    //Addresses addressModel = new Addresses();
-                    
-                    //var f = Mapper.Map<List<AddressViewModel>>(MarkPrimary);
-                    //addressModel.addresses = f;
+
                     CustomResponse<UserAddress> response = new CustomResponse<UserAddress>
                     {
                         Message = "Success",
@@ -1041,7 +1099,65 @@ namespace DunkeyAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Route("UpdateCreditCardById")]
+        public IHttpActionResult UpdateCreditCardById(int User_id, int Creditcard_Id, Boolean Mark)
+        {
+            try
+            {
 
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    List<CreditCard> alreadyPrimary = new List<CreditCard>();
+                    CreditCard MarkOrUnmarkPrimary = new CreditCard();
+                    //CreditCard alreadyPrimary = new CreditCard();
+                    if (Mark)
+                    {
+                        alreadyPrimary = ctx.CreditCards.Where(x => x.User_ID == User_id && x.Is_Primary == 1 && x.is_delete == false).ToList();
+                        if (alreadyPrimary != null)
+                        {
+                            foreach (var card in alreadyPrimary)
+                            {
+                                card.Is_Primary = 0;
+                            }
+                            ctx.SaveChanges();
+                        }
+
+                        MarkOrUnmarkPrimary = ctx.CreditCards.FirstOrDefault(x => x.User_ID == User_id && x.Id == Creditcard_Id && x.is_delete == false);
+                        if (MarkOrUnmarkPrimary != null)
+                        {
+                            MarkOrUnmarkPrimary.Is_Primary = 1;
+                        }
+
+
+                    }
+                    else
+                    {
+                        MarkOrUnmarkPrimary = ctx.CreditCards.FirstOrDefault(x => x.User_ID == User_id && x.Id == Creditcard_Id && x.is_delete == false);
+                        if (MarkOrUnmarkPrimary != null)
+                        {
+                            MarkOrUnmarkPrimary.Is_Primary = 0;
+                        }
+
+                    }
+                    ctx.SaveChanges();
+
+                    CustomResponse<CreditCard> response = new CustomResponse<CreditCard>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = MarkOrUnmarkPrimary
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
         [AllowAnonymous]
         [Route("RemoveAddress")]
         [HttpGet]
@@ -1141,6 +1257,15 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
+                    if (model.Is_Primary == 1)
+                    {
+                        var alreadyPrimary = ctx.CreditCards.Where(x =>x.Is_Primary == 1 && x.is_delete == false).FirstOrDefault();
+                        if (alreadyPrimary != null)
+                        {
+                            alreadyPrimary.Is_Primary = 0;
+                            ctx.SaveChanges();
+                        }
+                    }
                     var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete == false).FirstOrDefault();
                     if (creditCard == null)
                     {
@@ -1228,6 +1353,23 @@ namespace DunkeyAPI.Controllers
 
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
+
+
+                    List<CreditCard> alreadyPrimary = new List<CreditCard>();
+
+                    if (model.Is_Primary == 1)
+                    {
+                        alreadyPrimary = ctx.CreditCards.Where(x => x.User_ID == model.User_ID && x.Is_Primary == 1 && x.is_delete == false).ToList();
+                        if (alreadyPrimary != null)
+                        {
+                            foreach (var card in alreadyPrimary)
+                            {
+                                card.Is_Primary = 0;
+                            }
+                            ctx.SaveChanges();
+                        }
+                    }
+                    
                     var res = ctx.CreditCards.FirstOrDefault(x => x.Id == model.Id);
 
                     if (res != null)
@@ -1465,7 +1607,7 @@ namespace DunkeyAPI.Controllers
 
                                 existingUser.ProfilePictureUrl = socialUser.picture;
                                 existingUser.FullName = socialUser.name;
-                               
+
                                 ctx.SaveChanges();
                                 await existingUser.GenerateToken(Request);
                                 CustomResponse<User> response = new CustomResponse<User> { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = existingUser };

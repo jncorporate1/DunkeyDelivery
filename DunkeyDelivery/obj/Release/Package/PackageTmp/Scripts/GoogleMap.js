@@ -59,7 +59,8 @@ function SearchStore(StoreType, Address, FieldClass,Level) {
         //$address = $(".search-field").val();
        //var url = 'SearchByAddress?search=test&Address=123&Level=00';
        // var url =  '@Url.Action("Home","SearchByAddress",new {Area="User",Type="test",Address="123",Level="00"})';
-        var url = '@Html.Raw(@Url.Action("Home", "SearchByAddress",new {Area="User",Type="test",Address="123",Level="00"}))';
+     
+        var url = '/User/Home/SearchByAddress?Type=test&Address=123&Level=00';
         url = url.replace("test", StoreType);
         url = url.replace('123', Address);
         url = url.replace('00', Level);

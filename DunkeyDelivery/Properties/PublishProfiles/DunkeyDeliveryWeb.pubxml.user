@@ -99,7 +99,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/25/2018 20:33:13</publishTime>
     </File>
     <File Include="Areas/User/Views/Food/SearchFood.cshtml">
-      <publishTime>01/05/2018 20:39:52</publishTime>
+      <publishTime>02/03/2018 18:56:51</publishTime>
     </File>
     <File Include="Areas/User/Views/Food/_FoodDetails.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -126,13 +126,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Footer/Investors.cshtml">
-      <publishTime>01/26/2018 15:59:47</publishTime>
+      <publishTime>02/17/2018 18:25:59</publishTime>
     </File>
     <File Include="Areas/User/Views/Footer/Partners.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Footer/Press.cshtml">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>02/23/2018 17:33:42</publishTime>
     </File>
     <File Include="Areas/User/Views/Footer/_FAQResults.cshtml">
       <publishTime>01/25/2018 14:49:03</publishTime>
@@ -150,7 +150,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Home/ContactUs.cshtml">
-      <publishTime>12/15/2017 19:52:33</publishTime>
+      <publishTime>02/07/2018 19:08:33</publishTime>
     </File>
     <File Include="Areas/User/Views/Home/Deals.cshtml">
       <publishTime>12/23/2017 00:04:20</publishTime>
@@ -159,13 +159,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Home/Index.cshtml">
-      <publishTime>01/25/2018 20:24:17</publishTime>
+      <publishTime>02/07/2018 19:16:15</publishTime>
     </File>
     <File Include="Areas/User/Views/Home/NewPassword.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Home/Search.cshtml">
-      <publishTime>01/05/2018 20:41:58</publishTime>
+      <publishTime>02/03/2018 19:09:16</publishTime>
     </File>
     <File Include="Areas/User/Views/Laundry/LaundryDetails.cshtml">
       <publishTime>01/25/2018 18:59:03</publishTime>
@@ -198,7 +198,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/11/2018 18:57:10</publishTime>
     </File>
     <File Include="Areas/User/Views/Order/OrderSummary.cshtml">
-      <publishTime>12/30/2017 00:14:42</publishTime>
+      <publishTime>02/03/2018 18:52:38</publishTime>
     </File>
     <File Include="Areas/User/Views/Order/_Cart.cshtml">
       <publishTime>01/26/2018 17:52:27</publishTime>
@@ -225,7 +225,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/06/2018 18:48:17</publishTime>
     </File>
     <File Include="Areas/User/Views/Profile/_Account.cshtml">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>02/01/2018 18:45:52</publishTime>
     </File>
     <File Include="Areas/User/Views/Profile/_AddAddress.cshtml">
       <publishTime>01/11/2018 19:19:34</publishTime>
@@ -261,13 +261,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/01/2018 15:43:23</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_BannerLayout.cshtml">
-      <publishTime>01/31/2018 20:59:36</publishTime>
+      <publishTime>02/23/2018 19:11:10</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_DetailsLayout.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_Layout.cshtml">
-      <publishTime>01/31/2018 23:17:55</publishTime>
+      <publishTime>02/23/2018 19:11:18</publishTime>
     </File>
     <File Include="Areas/User/Views/Shared/_StoreLayout.cshtml">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -300,7 +300,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/05/2018 20:42:55</publishTime>
     </File>
     <File Include="bin/DunkeyDelivery.dll">
-      <publishTime>01/31/2018 23:19:09</publishTime>
+      <publishTime>02/23/2018 17:35:32</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>04/12/2012 19:19:36</publishTime>
@@ -483,7 +483,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/06/2018 19:55:07</publishTime>
     </File>
     <File Include="Content/assets/css/style.css">
-      <publishTime>02/01/2018 00:15:40</publishTime>
+      <publishTime>02/23/2018 19:12:43</publishTime>
     </File>
     <File Include="Content/assets/fonts/fontawesome-webfont.eot">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -566,6 +566,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/6-icon.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
+    <File Include="Content/assets/images/AboutUs.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
+    </File>
     <File Include="Content/assets/images/adrees-banner.jpg">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
@@ -582,7 +585,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Content/assets/images/appbtn.png">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>02/07/2018 18:39:00</publishTime>
     </File>
     <File Include="Content/assets/images/argentina-flag.png">
       <publishTime>12/22/2017 16:25:35</publishTime>
@@ -652,6 +655,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/blog.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/Blogs.jpg">
+      <publishTime>02/17/2018 20:08:27</publishTime>
     </File>
     <File Include="Content/assets/images/brands - Copy.jpg">
       <publishTime>12/22/2017 17:15:46</publishTime>
@@ -740,6 +746,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/canada.png">
       <publishTime>12/22/2017 16:25:35</publishTime>
     </File>
+    <File Include="Content/assets/images/Careers.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
+    </File>
     <File Include="Content/assets/images/Chile.jpg">
       <publishTime>01/22/2018 12:53:40</publishTime>
     </File>
@@ -760,6 +769,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/complete-bar.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/ContactUs.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
     </File>
     <File Include="Content/assets/images/costarica.jpg">
       <publishTime>01/22/2018 12:53:40</publishTime>
@@ -869,8 +881,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/facebook.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
+    <File Include="Content/assets/images/FAQ.jpg">
+      <publishTime>02/17/2018 20:08:27</publishTime>
+    </File>
     <File Include="Content/assets/images/fav.png">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>02/07/2018 18:40:00</publishTime>
     </File>
     <File Include="Content/assets/images/favicon.ico">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -898,6 +913,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/footercountries.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/free-easy.png">
+      <publishTime>02/07/2018 18:40:00</publishTime>
     </File>
     <File Include="Content/assets/images/g1.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -928,6 +946,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/gift-image.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/GiftCards.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
     </File>
     <File Include="Content/assets/images/google-image%281%29.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -986,8 +1007,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/info.png">
       <publishTime>01/25/2018 15:11:22</publishTime>
     </File>
+    <File Include="Content/assets/images/Investor.png">
+      <publishTime>02/17/2018 16:16:27</publishTime>
+    </File>
     <File Include="Content/assets/images/investors-image.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/Investors.png">
+      <publishTime>02/17/2018 20:08:25</publishTime>
     </File>
     <File Include="Content/assets/images/investors/bertram.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -1088,6 +1115,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/location-mark.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
+    <File Include="Content/assets/images/login.png">
+      <publishTime>02/23/2018 15:35:16</publishTime>
+    </File>
     <File Include="Content/assets/images/logo%281%29.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
@@ -1178,6 +1208,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/assets/images/partner.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
+    <File Include="Content/assets/images/Partners.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
+    </File>
     <File Include="Content/assets/images/partners/arcadia-data.jpg">
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
@@ -1209,7 +1242,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:22</publishTime>
     </File>
     <File Include="Content/assets/images/points.png">
-      <publishTime>11/27/2017 13:08:22</publishTime>
+      <publishTime>02/07/2018 18:40:00</publishTime>
     </File>
     <File Include="Content/assets/images/portfolio.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -1222,6 +1255,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/press-top-banner.jpg">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/Press.jpg">
+      <publishTime>02/17/2018 20:08:29</publishTime>
     </File>
     <File Include="Content/assets/images/profile.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -1333,6 +1369,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Content/assets/images/services.png">
       <publishTime>11/27/2017 13:08:22</publishTime>
+    </File>
+    <File Include="Content/assets/images/signup.png">
+      <publishTime>02/23/2018 15:35:16</publishTime>
     </File>
     <File Include="Content/assets/images/Singapore.jpg">
       <publishTime>11/27/2017 13:08:22</publishTime>
@@ -3099,7 +3138,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Scripts/GoogleMap.js">
-      <publishTime>11/27/2017 13:08:23</publishTime>
+      <publishTime>02/01/2018 15:38:58</publishTime>
     </File>
     <File Include="Scripts/guage/gauge.js">
       <publishTime>11/27/2017 13:08:23</publishTime>
@@ -3180,7 +3219,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Views/Account/Login.cshtml">
-      <publishTime>01/09/2018 00:04:40</publishTime>
+      <publishTime>02/23/2018 16:06:51</publishTime>
     </File>
     <File Include="Views/Account/Register.cshtml">
       <publishTime>11/27/2017 13:08:23</publishTime>
@@ -3195,7 +3234,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Views/Account/SignUp.cshtml">
-      <publishTime>01/08/2018 23:40:10</publishTime>
+      <publishTime>02/23/2018 19:14:27</publishTime>
     </File>
     <File Include="Views/Account/VerifyCode.cshtml">
       <publishTime>11/27/2017 13:08:23</publishTime>
@@ -3240,7 +3279,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:23</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/26/2018 17:55:21</publishTime>
+      <publishTime>02/23/2018 17:35:36</publishTime>
     </File>
   </ItemGroup>
 </Project>

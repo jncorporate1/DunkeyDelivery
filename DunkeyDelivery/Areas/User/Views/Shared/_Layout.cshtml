@@ -25,9 +25,11 @@
             Styles.Render("~/Content/css")
         }*@
     <link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/style.css" />
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    @*<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>*@
+
+
     <link rel="stylesheet" type="text/css" media="all" href="~/Content/assets/css/library.css" />
-    <script src="~/Content/assets/js/jquery.min.js"></script>
+    @*<script src="~/Content/assets/js/jquery.min.js"></script>*@
     <!------------------------ Jquery CDN ------------------------------------>
     @*<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>*@
     <meta name='robots' content='noindex,follow' />
@@ -121,20 +123,20 @@
                     </div>
                     <div class="col-md-6 col-sm-12 col-xs-12  toplogin nopad">
                         <div class="col-md-7 col-sm-7 col-xs-7 nopad loginbuttons">
-                            <ul>
+                            <ul id="credentials">
                                 @if (string.IsNullOrEmpty(Model.UserName))
                                 {
 
                                     <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-                                    <li style="position: relative;left: 6px;top: 0px;"><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
-                                    <li style="position: relative;left: -6px;top: 0px;"><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
+                                    <li style="white-space: nowrap;overflow-x: hidden;width: 95px;text-overflow: ellipsis;font-family: lato,sans-serif;"><a href="@Url.Action("Login", "Account",new { area=""})">Log In</a></li>
+                                    <li  style="position: relative;left: 6px;top: -8px;" ><a href="@Url.Action("SignUp", "Account",new { area=""})">Sign up</a></li>
 
                                 }
                                 else
                                 {
                                     <li><a href="@Url.Action("ShoppingCart", "Profile",new { area="User"})"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
-                                    <li><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
-                                    <li><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
+                                    <li style="white-space: nowrap;overflow-x: hidden;width: 84px;text-overflow: ellipsis;font-family: lato,sans-serif;"><a href="@Url.Action("Index", "Profile",new { area="User",id=2})">@Model.UserName</a></li>
+                                    <li style="position: relative;top: -8px;"><a href="@Url.Action("LogOff", "Account",new { area=""})">Logout</a></li>
 
                                 }
                             </ul>
@@ -257,9 +259,9 @@
                         <div class="icons-wrapper">
                             <ul class="cat-wrap">
                                 <li><a href="@Url.Action("Search","Home",new { search="Food" })"><img src="~/Content/assets/images/s1.png" />Food</a></li>
-                                <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/s2.png" />Grocery</a></li>
-                                <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/s3.png" />Laundry</a></li>
-                                <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/s4.png" />Alcohol</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Grocery" })"><img src="~/Content/assets/images/s3.png" />Grocery</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Laundry" })"><img src="~/Content/assets/images/s4.png" />Laundry</a></li>
+                                <li><a href="@Url.Action("Search","Home",new { search="Alcohol" })"><img src="~/Content/assets/images/s2.png" />Alcohol</a></li>
                                 <li><a href="@Url.Action("Search","Home",new { search="Pharmacy" })"><img src="~/Content/assets/images/s5.png" />Pharmacy</a></li>
                                 <li><a href="@Url.Action("Search","Home",new { search="Retail" })"><img src="~/Content/assets/images/s6.png" />Retail</a></li>
 
@@ -293,7 +295,7 @@
 
                         <div class="footLogo">
                             <a href="@Url.Action("Index","Home",new {area="User" })" title="Dunkey Delivery" rel="home"><img style="width: auto;height: auto;" src="~/Content/assets/images/foot-logo.png" class="attachment-334x334 size-334x334" alt="" /> </a> @*1234 - 5678 - 9012*@
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took</p>
+                            <p>Dunkey Delivery is subscription based delivery company that delivers products ranging from food, grocery, pharmacy and retail. We Never Stop Delivering.</p>
                         </div>
 
                         <h4>Delivery? In Your Country</h4>
@@ -343,7 +345,7 @@
                     <div class="col-md-1 nopad"></div>
                     <div class="col-md-3 nopad footercontact wow zoomIn">
                         <h5>Get in Touch</h5>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
+                        <p>Questions? Feel free to contact with us.</p>
                         <ul>
                             <li><a href="javascript::">info@dunkeydelivery.com</a></li>
                             <li>3338 Peachtree Rd NE Atlanta GA 30326</li>
@@ -386,7 +388,7 @@
                     <div class="col-md-3 wow fadeInRight fnewsletter">
                         <h5>stay connected with us</h5>
                         <div class="subscribe-wrap">
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry</p>
+                            <p>Get the latest updates from Dunkey Delivery by subscribing below.</p>
                             <form action="#">
                                 <input type="email" name="email" id="email" placeholder="Your email address" />
                                 <input type="submit" name="submit" value="Subscribe" id="submit" />
@@ -395,11 +397,12 @@
                         <socialicons>
                             <div class="social_icons">
                                 <ul>
-                                    <li><a href="javascript::"> <i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>
-                                    <li><a href="javascript::"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+                                    <li><a href="http://www.twitter.com/dunkeydelivery" target="_blank"> <i class="fa fa-twitter"></i></a></li>
+                                    @*<li><a href="javascript::"> <i class="fa fa-dribbble" aria-hidden="true"></i></a></li>*@
+                                    <li><a href="http://www.facebook.com/dunkeydelivery" target="_blank"> <i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="http://www.instagram.com/dunkeydelivery" target="_blank"> <i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                    @*<li><a href="javascript::"> <i class="fa fa-google-plus" aria-hidden="true"></i></a></li>*@
+                                    @*<li><a href="javascript::"> <i class="fa fa-vimeo" aria-hidden="true"></i></a></li>*@
                                 </ul>
                             </div>
                         </socialicons>
@@ -408,11 +411,11 @@
                         <div class="col-md-5 fmenu nopad">
 
 
-                            <a href="@Url.Action("Blog", "Footer")"> Blog</a>
-                            <a href="@Url.Action("Career", "Footer")">Careers</a>
-                            <a href="@Url.Action("Press", "Footer")">Press</a>
-                            <a href="@Url.Action("Index", "Driver")">Drivers</a>
-                            <a href="@Url.Action("Gift", "Footer")">Gift Cards</a>
+                            <a href="@Url.Action("Blog", "Footer", new { area = "User" })"> Blog</a>
+                            <a href="@Url.Action("Career", "Footer", new { area = "User" })">Careers</a>
+                            <a href="@Url.Action("Press", "Footer", new { area = "User" })">Press</a>
+                            <a href="@Url.Action("Index", "Driver", new { area = "User" })">Drivers</a>
+                            <a href="@Url.Action("Gift", "Footer", new { area = "User" })">Gift Cards</a>
 
                         </div>
 
@@ -452,7 +455,7 @@
 
 
         <!------------------------ Jquery CDN ------------------------------------>
-        @*<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>*@
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script src="~/Content/assets/js/jquery.min.js"></script>
         <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
@@ -478,6 +481,12 @@ function googleTranslateElementInit() {
     new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'en,es,ar,pt,ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
 }
     </script>
+
+        @*<script type="text/javascript">
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+}
+        </script>*@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
         <script>
@@ -630,9 +639,13 @@ function googleTranslateElementInit() {
             }
 
         </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>*@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
         <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        @*<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>*@
 		        <script src="~/Content/assets/js/library.js"></script>
         <script src="~/Content/assets/js/main.js"></script>
 </body>

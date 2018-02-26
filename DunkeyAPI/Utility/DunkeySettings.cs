@@ -11,6 +11,8 @@ namespace DunkeyAPI.Utility
         public static int Id { get; set; }
         public static double DeliveryFee { get; set; }
         public static string Currency { get; set; }
+        public static double Tip { get; set; }
+        public static double Point { get; set; }
 
         public static void LoadSettings()
         {
@@ -24,6 +26,8 @@ namespace DunkeyAPI.Utility
                         Id = setting.Id;
                         DeliveryFee = setting.DeliveryFee;
                         Currency = setting.Currency;
+                        Tip = setting.Tip;
+                        Point = setting.Point;
                     }
                 }
             }

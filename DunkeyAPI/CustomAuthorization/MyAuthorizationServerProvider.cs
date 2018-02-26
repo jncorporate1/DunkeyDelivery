@@ -68,11 +68,11 @@ namespace DunkeyDelivery
                         //    context.SetError("invalid username or password!", json);
                         //}
                     }
-                    else if (SignInType == 0 || SignInType == 5)
+                    else if (SignInType == 0 || SignInType == 5 || SignInType == 6)
                     {
-                        if (SignInType == 5)
+                        if (SignInType == 5 || SignInType == 6)
                         {
-                            userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Role == 5 && x.IsDeleted == false);
+                            userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Role == SignInType && x.IsDeleted == false);
                         }
                         else
                             userModel = ctx.Users.FirstOrDefault(x => x.Email == context.UserName && x.Password == context.Password);

@@ -502,7 +502,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("ProductByName")]
-        public IHttpActionResult ProductByName(string search_string, int Category_id=0 ,int Category_Type=10,int Store_id=0,int Items=6,int Page=0)
+        public IHttpActionResult ProductByName(string search_string, int Category_id=0 ,int Category_Type=10,double? latitude=0,double? longitude=0,int Store_id=0,int Items=6,int Page=0)
         {
             try
             {
@@ -512,8 +512,19 @@ namespace DunkeyAPI.Controllers
                 var Type = Utility.Categories_enum(Category_Type);
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
+                    var query = "";
+                    var ExtendedQuery = "Where ";
+                    if (latitude != 0 && longitude != 0)
+                    {
+                    
+                        //    query = "SELECT Products.*,Stores.BusinessName ,Stores.Location.STDistance('POINT("+longitude+ " " + latitude + ")') as Distance FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
+                        //    ExtendedQuery = ExtendedQuery + " Stores.Location.STDistance('POINT(151.231784830557 -33.8771332224149)') <= 50 ";
 
-                    var query = "SELECT Products.*,Stores.BusinessName FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
+                    }
+                    else
+                    {
+                        query = "SELECT Products.*,Stores.BusinessName FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id  ";
+                    }
                     if (Store_id == 0)
                     { 
 
@@ -528,7 +539,11 @@ namespace DunkeyAPI.Controllers
                                 }
                                 else
                                 {
-                                    query += " WHERE Products.Name Like '%" + search_string.Trim() + "%' ";
+                                    if (latitude != 0 && longitude != 0)
+                                    {
+                                        ExtendedQuery = ExtendedQuery + " AND ";
+                                    }
+                                    query += " "+ ExtendedQuery + " Products.Name Like '%" + search_string.Trim() + "%' ";
 
                                 }
 
@@ -536,7 +551,11 @@ namespace DunkeyAPI.Controllers
                             }
                             else
                             {
-                                query += " WHERE Stores.BusinessType='" + Type + "'";
+                                if (latitude != 0 && longitude != 0)
+                                {
+                                    ExtendedQuery = ExtendedQuery + " AND ";
+                                }
+                                query += " " + ExtendedQuery + " Stores.BusinessType='" + Type + "'";
                                 if (string.IsNullOrEmpty(search_string))
                                 {
 
@@ -562,7 +581,11 @@ namespace DunkeyAPI.Controllers
                                 }
                                 else
                                 {
-                                    query += " WHERE Products.Name Like '%" + search_string.Trim() + "%'  AND Products.Category_Id=" + Category_id + " ";
+                                    if (latitude != 0 && longitude != 0)
+                                    {
+                                        ExtendedQuery = ExtendedQuery + " AND ";
+                                    }
+                                    query += " " + ExtendedQuery + " Products.Name Like '%" + search_string.Trim() + "%'  AND Products.Category_Id=" + Category_id + " ";
 
                                 }
 
@@ -570,7 +593,11 @@ namespace DunkeyAPI.Controllers
                             }
                             else
                             {
-                                query += " WHERE Stores.BusinessType='" + Type + "' AND Products.Category_Id=" + Category_id + " ";
+                                if (latitude != 0 && longitude != 0)
+                                {
+                                    ExtendedQuery = ExtendedQuery + " AND ";
+                                }
+                                query += " " + ExtendedQuery + " Stores.BusinessType='" + Type + "' AND Products.Category_Id=" + Category_id + " ";
                                 if (string.IsNullOrEmpty(search_string))
                                 {
 
@@ -585,8 +612,11 @@ namespace DunkeyAPI.Controllers
                         }
                     }else
                     {
-
-                        query += " WHERE Products.Store_Id="+Store_id+ " AND Products.Name Like '%" + search_string.Trim() + "%'  ";
+                        if(latitude !=0 && longitude != 0)
+                        {
+                            ExtendedQuery = ExtendedQuery + " AND ";
+                        }
+                        query += " " + ExtendedQuery + " Products.Store_Id=" + Store_id+ " AND Products.Name Like '%" + search_string.Trim() + "%'  ";
 
                     }
 

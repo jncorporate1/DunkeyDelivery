@@ -400,6 +400,7 @@
     <Content Include="Content\assets\images\5-image.png" />
     <Content Include="Content\assets\images\5buksbox.jpg" />
     <Content Include="Content\assets\images\6-icon.png" />
+    <Content Include="Content\assets\images\AboutUs.jpg" />
     <Content Include="Content\assets\images\adrees-banner.jpg" />
     <Content Include="Content\assets\images\alcohol-banner.jpg" />
     <Content Include="Content\assets\images\alcohol-banner.png" />
@@ -427,6 +428,7 @@
     <Content Include="Content\assets\images\blog-image2.jpg" />
     <Content Include="Content\assets\images\blog-image3.jpg" />
     <Content Include="Content\assets\images\blog.png" />
+    <Content Include="Content\assets\images\Blogs.jpg" />
     <Content Include="Content\assets\images\brands - Copy.jpg" />
     <Content Include="Content\assets\images\brands-img1.png" />
     <Content Include="Content\assets\images\brands-img10.png" />
@@ -454,11 +456,13 @@
     <Content Include="Content\assets\images\buyonegetone.jpg" />
     <Content Include="Content\assets\images\bx_loader.gif" />
     <Content Include="Content\assets\images\canada.jpg" />
+    <Content Include="Content\assets\images\Careers.jpg" />
     <Content Include="Content\assets\images\Chile.jpg" />
     <Content Include="Content\assets\images\clients.png" />
     <Content Include="Content\assets\images\close-btn.png" />
     <Content Include="Content\assets\images\Colombia.jpg" />
     <Content Include="Content\assets\images\complete-bar.png" />
+    <Content Include="Content\assets\images\ContactUs.jpg" />
     <Content Include="Content\assets\images\costarica.jpg" />
     <Content Include="Content\assets\images\Croatia.jpg" />
     <Content Include="Content\assets\images\cuba.jpg" />
@@ -490,6 +494,7 @@
     <Content Include="Content\assets\images\empty-cart.png" />
     <Content Include="Content\assets\images\facebook-image.png" />
     <Content Include="Content\assets\images\facebook.png" />
+    <Content Include="Content\assets\images\FAQ.jpg" />
     <Content Include="Content\assets\images\fav.png" />
     <Content Include="Content\assets\images\favicon.ico" />
     <Content Include="Content\assets\images\favicon.png" />
@@ -500,6 +505,7 @@
     <Content Include="Content\assets\images\foot-logo.png" />
     <Content Include="Content\assets\images\footercoontact.png" />
     <Content Include="Content\assets\images\footercountries.png" />
+    <Content Include="Content\assets\images\free-easy.png" />
     <Content Include="Content\assets\images\g1.png" />
     <Content Include="Content\assets\images\g11.png" />
     <Content Include="Content\assets\images\g2.png" />
@@ -509,6 +515,7 @@
     <Content Include="Content\assets\images\Georgia.jpg" />
     <Content Include="Content\assets\images\gift-image%281%29.png" />
     <Content Include="Content\assets\images\gift-image.png" />
+    <Content Include="Content\assets\images\GiftCards.jpg" />
     <Content Include="Content\assets\images\google-image%281%29.png" />
     <Content Include="Content\assets\images\google-image.png" />
     <Content Include="Content\assets\images\green-icon.png" />
@@ -528,7 +535,9 @@
     <Content Include="Content\assets\images\indeed-apply.png" />
     <Content Include="Content\assets\images\India.jpg" />
     <Content Include="Content\assets\images\info.png" />
+    <Content Include="Content\assets\images\Investor.png" />
     <Content Include="Content\assets\images\investors-image.png" />
+    <Content Include="Content\assets\images\Investors.png" />
     <Content Include="Content\assets\images\investors\bertram.png" />
     <Content Include="Content\assets\images\investors\exxon-mobil.png" />
     <Content Include="Content\assets\images\investors\fin.png" />
@@ -562,6 +571,7 @@
     <Content Include="Content\assets\images\loader.png" />
     <Content Include="Content\assets\images\location-map.png" />
     <Content Include="Content\assets\images\location-mark.png" />
+    <Content Include="Content\assets\images\login.png" />
     <Content Include="Content\assets\images\logo%281%29.png" />
     <Content Include="Content\assets\images\logo2%281%29.png" />
     <Content Include="Content\assets\images\logo2%282%29.png" />
@@ -589,6 +599,7 @@
     <Content Include="Content\assets\images\Pakistan.jpg" />
     <Content Include="Content\assets\images\Paraguay.jpg" />
     <Content Include="Content\assets\images\partner.png" />
+    <Content Include="Content\assets\images\Partners.jpg" />
     <Content Include="Content\assets\images\partners\arcadia-data.jpg" />
     <Content Include="Content\assets\images\partners\cloudvelox.jpg" />
     <Content Include="Content\assets\images\partners\respond.jpg" />
@@ -603,6 +614,7 @@
     <Content Include="Content\assets\images\post-image.jpg" />
     <Content Include="Content\assets\images\press-inner-image.jpg" />
     <Content Include="Content\assets\images\press-top-banner.jpg" />
+    <Content Include="Content\assets\images\Press.jpg" />
     <Content Include="Content\assets\images\profile.png" />
     <Content Include="Content\assets\images\progress-bar1.png" />
     <Content Include="Content\assets\images\rating.png" />
@@ -639,6 +651,7 @@
     <Content Include="Content\assets\images\select-icon.png" />
     <Content Include="Content\assets\images\Serbia.jpg" />
     <Content Include="Content\assets\images\services.png" />
+    <Content Include="Content\assets\images\signup.png" />
     <Content Include="Content\assets\images\Singapore.jpg" />
     <Content Include="Content\assets\images\slider.png" />
     <Content Include="Content\assets\images\svlarge.jpg" />
@@ -1384,6 +1397,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

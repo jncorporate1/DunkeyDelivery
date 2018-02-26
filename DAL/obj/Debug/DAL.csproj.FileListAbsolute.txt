@@ -70,3 +70,10 @@ F:\Projects\DunkeyDelivery\DAL\bin\Debug\Newtonsoft.Json.xml
 F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.dll
 F:\Projects\DunkeyDelivery\DAL\obj\Debug\DAL.pdb
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Amazon.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Apple.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Blackberry.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Core.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Firefox.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Google.dll
+F:\Projects\DunkeyDelivery\DAL\bin\Debug\PushSharp.Windows.dll

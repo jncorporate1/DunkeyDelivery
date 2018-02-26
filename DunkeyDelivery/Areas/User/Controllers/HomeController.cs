@@ -93,7 +93,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 returnModel.Description= responseResult.Description;
             }
 
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "AboutUs.jpg";
             ViewBag.BannerTitle = "About Us";
             ViewBag.Path = "Home > About";
             ViewBag.Title = "About Us";
@@ -118,7 +118,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 model.Description = responseResult.Description;
             }
             
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "ContactUs.jpg";
             ViewBag.Title = "Contact Us";
             ViewBag.BannerTitle = "Contact Us";
             ViewBag.Path = "Home > Contact Us";
@@ -193,6 +193,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
             if (Type == "All")
             {
+                
                 response = await ApiCall<Shop>.CallApi("api/Shop/GetAllNearbyStores?Address="+Address, null, false);
             }
             else
@@ -202,8 +203,8 @@ namespace DunkeyDelivery.Areas.User.Controllers
             }
             if (response == null)
             {
-                throw new Exception("Some unknown error encountered!");
-                return View("Home");
+                var Response = new HomeViewModel { ErrorMessage = "Over Query Limit" };
+                return View("~/Areas/User/Views/Home/index.cshtml", Response);
             }
             if(response is Error)
             {

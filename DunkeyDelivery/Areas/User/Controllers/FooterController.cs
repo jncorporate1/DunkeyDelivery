@@ -24,7 +24,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
         public ActionResult Investors()
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "Investor.png";
             ViewBag.Title = "Investors";
             ViewBag.BannerTitle = "Our Valuable Investors";
             ViewBag.Path = "Home > Investors";
@@ -33,7 +33,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public async Task<ActionResult> Blog()
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "Blogs.jpg";
             ViewBag.Title = "Blog";
             ViewBag.BannerTitle = "Blog";
             ViewBag.Path = "Home > Blog";
@@ -104,7 +104,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public ActionResult Career()
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "Careers.jpg";
             ViewBag.Title = "Careers";
             ViewBag.BannerTitle = "Careers";
             ViewBag.Path = "Home > Careers";
@@ -125,7 +125,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
         public ActionResult Press()
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "Press.jpg";
             ViewBag.Title = "Press";
             ViewBag.BannerTitle = "Press";
             ViewBag.Path = "Home > Press";
@@ -136,7 +136,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public ActionResult Gift()
         {
             GiftViewModel model = new GiftViewModel();
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "GiftCards.jpg";
             ViewBag.Title = "Gift Cards";
             ViewBag.BannerTitle = "Gifts Cards";
             ViewBag.Path = "Home > Gift Cards";
@@ -145,7 +145,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public ActionResult Partners()
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "Partners.jpg";
             ViewBag.Title = "Partners";
             ViewBag.BannerTitle = "Partners";
             ViewBag.Path = "Home > Partners";
@@ -154,7 +154,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         }
         public async Task<ActionResult> FAQs(string Type)
         {
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "FAQ.jpg";
             ViewBag.Title = "FAQs";
             ViewBag.BannerTitle = "Frequently Asked Question";
             ViewBag.Path = "Home > FAQs";

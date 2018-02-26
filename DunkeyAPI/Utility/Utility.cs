@@ -209,9 +209,15 @@ namespace DunkeyDelivery
             return charge;
         }
 
+        public enum NotificationStatus
+        {
+            Unread = 0,
+            Read = 1
+        }
+
     }
 
-
+    
 
     public class Global
     {
@@ -283,6 +289,13 @@ namespace DunkeyDelivery
 
         }
 
+        public enum AlcoholCategoryTypes
+        {
+            Wine = 1,
+            Liquor = 2,
+            Beer = 3
+        }
+
     }
 
     public class Content
@@ -323,4 +336,24 @@ namespace DunkeyDelivery
         public static string FromPassword = ConfigurationManager.AppSettings["FromPassword"];
         public static MailAddress FromMailAddress = new MailAddress(FromEmail, FromName);
     }
+
+    public enum FilterSortBy
+    {
+        Distance=0,
+        Rating=1,
+        DeliveryTime =2,
+        Price=3,
+        MinDelivery=4,
+        AtoZ=5,
+        Relevance=6
+
+    }
+
+    public enum FilterAlcoholSortBy
+    {
+        BestSelling = 0,
+        Low2High= 1,
+        A2Z= 2,
+        High2Low= 3
+     }
 }

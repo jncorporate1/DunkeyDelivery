@@ -16,13 +16,13 @@ namespace DAL
             Favourites = new HashSet<Favourite>();
             CreditCards = new HashSet<CreditCard>();
             Notifications = new HashSet<Notification>();
-            Notifications1 = new HashSet<Notification>();
             ForgetPasswordToken = new HashSet<ForgetPasswordTokens>();
             Orders = new HashSet<Order>();
             Payment_Details = new HashSet<Payment_Details>();
             UserAddresses = new HashSet<UserAddress>();
             BlogComments = new HashSet<BlogComments>();
             StoreRatings = new HashSet<StoreRatings>();
+            UserDevice = new HashSet<UserDevice>();
 
 
         }
@@ -90,9 +90,6 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ForgetPasswordTokens> ForgetPasswordToken { get; set; }
 
-        [JsonIgnore]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notification> Notifications1 { get; set; }
 
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -113,6 +110,10 @@ namespace DAL
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserRewards> UserRewards { get; set; }
+
+        [JsonIgnore]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserDevice> UserDevice { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreRatings> StoreRatings { get; set; }

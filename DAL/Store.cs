@@ -126,6 +126,8 @@ namespace DAL
         [NotMapped]
         public double BusinessTypeTax { get; set; }
 
+        [NotMapped]
+        public int CategoryType { get; set; }
 
         public class RatingTypes
         {

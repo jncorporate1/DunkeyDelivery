@@ -96,6 +96,7 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Antlr3.Runtime.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Elmah.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\EntityFramework.SqlServer.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Facebook.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Core.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -124,6 +125,7 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Deployment.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Razor.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\WebGrease.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Facebook.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Newtonsoft.Json.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Net.Http.Formatting.xml
@@ -154,5 +156,3 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftA
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Release\DunkeyDelivery.pdb
-F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Facebook.dll
-F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Facebook.xml

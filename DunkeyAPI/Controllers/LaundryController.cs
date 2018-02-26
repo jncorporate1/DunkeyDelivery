@@ -53,6 +53,10 @@ namespace DunkeyAPI.Controllers
                         var prod= ctx.Stores.FirstOrDefault(x => x.Id == product.Store_Id);
                         product.MinDeliveryTime = prod.MinDeliveryTime;
                         product.BusinessName = prod.BusinessName;
+                        product.BusinessType = prod.BusinessType;
+                        product.MinDeliveryCharges = prod.MinDeliveryCharges;
+                        product.MinOrderPrice = prod.MinOrderPrice;
+
                     }
 
                     return Ok(new CustomResponse<LaundryProductsViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = returnModel });

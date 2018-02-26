@@ -57,18 +57,18 @@
         <div class="main-slider">
             <div class="inner-item" style="background:url( ~/Content/assets/images/banner-5.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
-                    <h2 class="wow fadeInLeft">
+                    <h2 class="wow fadeInLeft text-visible">
                         Get Your Food Retail and Groceries at your doorstep
                     </h2>
                     <div class="wow fadeInRight" style="line-height:10px;">
-                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                        <p class="text-visible">FIND OUT WHO DELIVERS NEAR YOU</p>
                     </div>
                     <div class="container">
                         <ul class="bulltes wow zoomIn">
                             <li id="Food" onclick="SearchStore(this.id,document.getElementById('currentSearch').value,'Field1','0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
-                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value,'Field1','0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                             <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
                             <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value,'Field1','0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                             <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                             <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field1', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
                             <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
@@ -81,7 +81,7 @@
                                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                                {
                                    <script>
-                                       $(".Field1").html("<p style='font-size:14px;color:red;padding-right: 63px;'>Invalid Address</p>").show().delay(3000).fadeOut();
+                                       $(".Field1").html("<p style='font-size:14px;color:red;padding-right: 63px;'>@Model.ErrorMessage</p>").show().delay(3000).fadeOut();
 
                                    </script>
                                   
@@ -138,18 +138,18 @@
             </div>
             <div class="inner-item" style="background:url( ~/Content/assets/images/banner-2.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
-                    <h2 class="wow fadeInLeft">
+                    <h2 class="wow fadeInLeft text-visible">
                         Get Your Food Retail and Groceries at your doorstep
                     </h2>
                     <div class="wow fadeInRight">
-                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                        <p class="text-visible">FIND OUT WHO DELIVERS NEAR YOU</p>
                     </div>
                     <div class="container">
                         <ul class="bulltes wow zoomIn">
                             <li id="Food" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
-                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                             <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
                             <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                            <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                             <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                             <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field2', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
                             <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
@@ -176,11 +176,11 @@
             </div>
             <div class="inner-item" style="background:url( ~/Content/assets/images/banner-3.jpg ) no-repeat center top / cover  ">
                 <div class="caption">
-                    <h2 class="wow fadeInLeft">
+                    <h2 class="wow fadeInLeft text-visible">
                         Get Your Food Retail and Groceries at your doorstep
                     </h2>
                     <div class="wow fadeInRight">
-                        <p>FIND OUT WHO DELIVERS NEAR YOU</p>
+                        <p class="text-visible">FIND OUT WHO DELIVERS NEAR YOU</p>
                     </div>
                     <div class="container">
                         <ul class="bulltes wow zoomIn">
@@ -190,9 +190,9 @@
 
                             <ul class="bulltes wow zoomIn">
                                 <li id="Food" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s1.png" alt="" /></a></li>
-                                <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                                 <li id="Grocery" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s3.png" alt="" /></a></li>
                                 <li id="Laundary" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s4.png" alt="" /></a></li>
+                                <li id="Alcohol" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s2.png" alt="" /></a></li>
                                 <li id="Pharmacy" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s5.png" alt="" /></a></li>
                                 <li id="Retailer" onclick="SearchStore(this.id, document.getElementById('currentSearch').value, 'Field3', '0')"><a target="_blank"><img src="~/Content/assets/images/s6.png" alt="" /></a></li>
                                 <li id="Ride"><a href="@Url.Action("Index","Ride",new { area = "User" })" target="_blank"><img src="~/Content/assets/images/s7.png" alt="" /></a></li>
@@ -227,19 +227,13 @@
                                 $("." + FieldClass).html("<p style='font-size:14px;color:red;'>Address field is required</p>").show().delay(3000).fadeOut();
                               
                             } else {
-                                //var Address=$("input[tabindex='0']").attr("value");
-                                //var lat=$("#lat").val();
-                                //var lng=$("#lng").val();
-                                //if (lat.length < 1 || lng.length < 1) {
-                                //    lat = 0;
-                                //    lng = 0;
-                                //}
-                                //$address = $(".search-field").val();
-                                var url = '@Html.Raw(@Url.Action("SearchByAddress", "Home", new { Type = "test",Address = "123",Level="00" }))';
+                            
+                                var url = '@Html.Raw(Url.Action("SearchByAddress", "Home", new { Type = "test",Address = "123",Level="00" }))';
+                                debugger;
                                 url = url.replace("test", StoreType);
                                 url = url.replace('123', Address);
                                 url = url.replace('00', Level);
-                                window.location.href = url;
+        //                        window.location.href = url;
 
                                 //$.ajax({
                                 //    type: "GET",
@@ -261,9 +255,7 @@
         </div>
     </div>
 </slider>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <!-------------------------------------------Slider End-------------------------------------------------->
 <!-------------------------------------------Countries-------------------------------------------------->
 <div class="countries">
@@ -454,21 +446,21 @@
         <div class="wow zoomIn">
             <div class="col-md-4">
                 <div class="worksicon">
-                    <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
+                    <img width="75" height="75" src="~/Content/assets/images/fav.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Find Favorites and  Discover New Ones</h3>
                 <p>Thousands of restaurants and stores to choose from with a single click.</p>
             </div>
             <div class="col-md-4">
                 <div class="worksicon">
-                    <img width="75" height="75" src="~/Content/assets/images/h3.png" class="attachment- size- wp-post-image" alt="" />
+                    <img width="75" height="75" src="~/Content/assets/images/points.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Earn Points &#038;  Get Rewards</h3>
                 <p>Score Delivery Points with every purchase and cash them in for free credit and other rewards. </p>
             </div>
             <div class="col-md-4">
                 <div class="worksicon">
-                    <img width="75" height="75" src="~/Content/assets/images/h2.png" class="attachment- size- wp-post-image" alt="" />
+                    <img width="75" height="75" src="~/Content/assets/images/free-easy.png" class="attachment- size- wp-post-image" alt="" />
                 </div>
                 <h3>Free, Easy, and  Essential</h3>
                 <p>It's free to order, quick and easy while saving time ordering your favorites. </p>

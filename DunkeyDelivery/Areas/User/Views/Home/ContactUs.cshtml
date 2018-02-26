@@ -3,7 +3,13 @@
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
 
-
+<style>
+     #map {
+       width: 100% !important;
+    height: 297px !important;
+    background: #ccc !important;
+      }
+</style>
 
 <div class="main-section contact-main-section greybg" style="background: rgba(128, 128, 128, 0.26);">
     <div class="container">
@@ -43,7 +49,30 @@
                     <button type="submit" class="btn-submit">Submit</button>
               }
             </div>
- 
+            <div class="col-md-6">
+                <div id="map" style="width:400px;height:400px;background:yellow"></div>
+            </div>
+
         </div>
     </div>
 </div>
+
+
+<script>
+
+    function initMap() {
+        var myLatLng = { lat: 33.848777, lng: -84.371120 };
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 8,
+            center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Hello World!'
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCASKJr1hEpyL9h2C92jB6pVymCl9Zvd44&callback=initMap"></script>

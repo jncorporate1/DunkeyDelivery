@@ -64,7 +64,7 @@ namespace DunkeyDelivery.Controllers
         {
             // ViewBag.ReturnUrl = returnUrl;
             ViewBag.Title = "Login";
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "login.png";
             ViewBag.Path = "Home > Log In";
             ViewBag.BannerTitle = "LOGIN";
             return View(new LoginViewModel());
@@ -74,7 +74,7 @@ namespace DunkeyDelivery.Controllers
         {
 
             ViewBag.Title = "Sign Up";
-            ViewBag.BannerImage = "press-top-banner.jpg";
+            ViewBag.BannerImage = "signup.png";
             ViewBag.Path = "Home > Create Account";
             ViewBag.BannerTitle = " Sign Up";
             return View(new RegisterViewModel());

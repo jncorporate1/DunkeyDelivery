@@ -1,5 +1,6 @@
 namespace DAL
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -11,17 +12,29 @@ namespace DAL
         public int Id { get; set; }
 
         [Required]
-        public string Title { get; set; }
-        
-        [Required]
         public string Text { get; set; }
 
-        public int User_Id { get; set; }
+        public string Title { get; set; }
 
-        public virtual User User { get; set; }
-
+        [Required]
         public int Status { get; set; }
 
-        public int AdminNotification_Id { get; set; }
+        public int? User_ID { get; set; }
+
+        //public int? DeliveryMan_ID { get; set; }
+
+        public DateTime TimeOfSending { get; set; }
+
+        public string NotificationImage { get; set; }
+
+        public int? AdminNotification_Id { get; set; }
+
+        [JsonIgnore]
+        public virtual User User { get; set; }
+
+        //[JsonIgnore]
+        //public virtual DeliveryMan DeliveryMan { get; set; }
+
+        public virtual AdminNotifications AdminNotification { get; set; }
     }
 }

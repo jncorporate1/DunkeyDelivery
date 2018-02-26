@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BasketApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,7 +8,7 @@ namespace DunkeyAPI.Utility
 {
     public static class Global
     {
-
+        public static PushNotifications objPushNotifications = new PushNotifications(false);
         public class Constants
         {
             public const string Food = "Food";
@@ -61,7 +62,16 @@ namespace DunkeyAPI.Utility
             Dispatched,
             Completed
         }
+        public enum PushNotificationType
+        {
+            Announcement = 1,
+            OrderAccepted = 2,
+            OrderRejected = 3,
+            OrderAssignedToDeliverer = 4,
+            OrderDispatched = 5,
+            OrderCompleted = 6,
 
+        }
 
         public class ResponseMessages
         {

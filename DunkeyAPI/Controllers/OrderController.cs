@@ -100,9 +100,11 @@ namespace DunkeyAPI.Controllers
                     using (DunkeyContext ctx = new DunkeyContext())
                     {
                         order.MakeOrder(model, ctx,1); // 1 for mobile insert order
-
-                        order.DeliveryTime_From = DateTime.Now;
-                        order.DeliveryTime_To = DateTime.Now;
+                        order.DeliveryDetails_AddtionalNote = model.AdditionalNote;
+                        order.PaymentMethod = model.PaymentMethodType;
+                        order.Frequency = model.Frequency;
+                        //order.DeliveryTime_From = DateTime.Now;
+                        //order.DeliveryTime_To = DateTime.Now;
 
                         //Charge User
                         // StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
@@ -261,6 +263,129 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
         }
 
         [HttpGet]
+        [Route("GetOrdersHistoryMobile")]
+        public async Task<IHttpActionResult> GetOrdersHistoryMobile(int UserId, int SignInType, bool IsCurrentOrder, int PageSize, int PageNo)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    OrdersHistoryViewModel orderHistory = new OrdersHistoryViewModel();
+
+                    if (SignInType == (int)RolesCode.User)
+                    {
+                        if (IsCurrentOrder)
+                            orderHistory.Count = ctx.Orders.Count(x => x.User_ID == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed);
+                        else
+                            orderHistory.Count = ctx.Orders.Count(x => x.User_ID == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed);
+                    }
+                    else
+                    {
+                        if (IsCurrentOrder)
+                            orderHistory.Count = ctx.Orders.Count(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status != (int)OrderStatuses.Completed);
+                        else
+                            orderHistory.Count = ctx.Orders.Count(x => x.DeliveryMan_Id == UserId && x.IsDeleted == false && x.Status == (int)OrderStatuses.Completed);
+                    }
+
+                    if (orderHistory.Count == 0)
+                    {
+                        return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
+                    }
+
+                    #region OrderQuery
+                    string orderQuery = String.Empty;
+                    if (SignInType == (int)RolesCode.User)
+                    {
+                        orderQuery = @"SELECT *, Users.FullName as UserFullName FROM Orders join Users on Users.ID = Orders.User_ID where Orders.User_Id = " + UserId + @" and Orders.IsDeleted = 0  ORDER BY Orders.id DESC OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
+                    }
+                    else
+                    {
+                        orderQuery = @"SELECT *, Users.FullName as UserFullName FROM Orders 
+						join Users on Users.ID = Orders.User_ID
+						where Orders.DeliveryMan_Id = " + UserId + @" and Orders.IsDeleted = 0  
+						ORDER BY Orders.id DESC OFFSET " + PageNo * PageSize + " ROWS FETCH NEXT " + PageSize + " ROWS ONLY;";
+                    }
+
+                    #endregion
+
+                    orderHistory.orders = ctx.Database.SqlQuery<OrderVM>(orderQuery).ToList();
+
+                    var orderIds = string.Join(",", orderHistory.orders.Select(x => x.Id.ToString()));
+
+                    #region StoreOrderQuery
+                    var storeOrderQuery = @"
+						select
+						StoreOrders.*,
+						Stores.BusinessName as StoreName,
+						Stores.ImageUrl from StoreOrders 
+						join Stores on Stores.Id = StoreOrders.Store_Id
+						where 
+						Order_Id in (" + orderIds + @")
+						";
+                    #endregion
+
+                    var storeOrders = ctx.Database.SqlQuery<StoreOrderViewModel>(storeOrderQuery).ToList();
+
+                    var storeOrderIds = string.Join(",", storeOrders.Select(x => x.Id.ToString()));
+
+                    #region OrderItemsQuery
+
+                    var orderItemsQuery = @"SELECT
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Id
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Id
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Id
+  END AS ItemId,
+  Order_Items.Name AS Name,
+  Order_Items.Price AS Price,
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Image
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.ImageUrl
+  END AS ImageUrl,
+  Order_Items.Id,
+  Order_Items.Qty,
+
+  Order_Items.StoreOrder_Id
+FROM Order_Items
+LEFT JOIN products
+  ON products.Id = Order_Items.Product_Id
+LEFT JOIN Packages
+  ON Packages.Id = Order_Items.Package_Id
+LEFT JOIN Offer_Products
+  ON Offer_Products.Id = Order_Items.Offer_Product_Id
+LEFT JOIN Offer_Packages
+  ON Offer_Packages.Id = Order_Items.Offer_Package_Id
+WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
+                    #endregion
+
+                    var orderItems = ctx.Database.SqlQuery<OrderItemViewModel>(orderItemsQuery).ToList();
+
+                    foreach (var orderItem in orderItems)
+                    {
+                        storeOrders.FirstOrDefault(x => x.Id == orderItem.StoreOrder_Id).OrderItems.Add(orderItem);
+
+                    }
+
+                    foreach (var storeOrder in storeOrders)
+                    {
+                        orderHistory.orders.FirstOrDefault(x => x.Id == storeOrder.Order_Id).StoreOrders.Add(storeOrder);
+                        storeOrder.DeliveryFee = storeOrder.Total - storeOrder.Subtotal;
+                    }
+                    return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
+        [HttpGet]
         [Route("RepeatOrder")]
         public async Task<IHttpActionResult> RepeatOrder(string orderId)
         {
@@ -339,38 +464,42 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                 {
                     if (System.Web.HttpContext.Current.Request.Params["Store"] != null)
                         model.Store = JsonConvert.DeserializeObject<List<MobileCart>>(System.Web.HttpContext.Current.Request.Params["Store"]);
-                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id && x.IsPrimary == true);
+                    var UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id && x.IsPrimary == true && x.IsDeleted == false);
                     if (UserAddress == null)
                     {
-                        UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id);
-
+                        UserAddress = ctx.UserAddresses.FirstOrDefault(x => x.User_ID == model.User_Id && x.IsDeleted==false );
+                        if(UserAddress == null)
+                        {
+                            return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "User addresses not found." } });
+                        }
                     }
                     model.Address = UserAddress;
 
-                    //var storeIds = model.Store.Select(x => x.storeId).Distinct();
-
-                    //var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
-
-                    //var Tax = new List<BusinessTypeTax>();
-
-                    //foreach (var tax in storeBusinessTypes)
-                    //{
-                    //    Tax.Add(ctx.BusinessTypeTax.FirstOrDefault(x=>x.BusinessType==tax.BusinessType));
-                    //}
-                    //ctx.BusinessTypeTax.Where(x=>x.)
-
-                    //ctx.BusinessTypeTax.Where(x=>x.BusinessType == businessType)
-
+                    var UserCreditCard = ctx.CreditCards.FirstOrDefault(x => x.User_ID == model.User_Id && x.Is_Primary == 1 && x.is_delete == false);
+                    if (UserCreditCard == null)
+                    {
+                        UserCreditCard = ctx.CreditCards.FirstOrDefault(x => x.User_ID == model.User_Id && x.is_delete== false);
+                        if (UserCreditCard == null)
+                        {
+                            return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "User credit card not found." } });
+                        }
+                    }
+                    model.CreditCard = UserCreditCard;
 
 
                     var storeIds = model.Store.Select(x => x.storeId).Distinct();
 
                     var storeBusinessTypes = ctx.Stores.Where(x => storeIds.Contains(x.Id));
 
-                    var Types=storeBusinessTypes.GroupBy(x => x.BusinessType).ToList();
+                    var Types=storeBusinessTypes.GroupBy(x => x.BusinessType).Select(x=>x.Key);
 
-                    var taxes = new List<BusinessTypeTax>();
-                    
+                    foreach (var item in Types)
+                    {
+                        model.OrderSummary.Tax = model.OrderSummary.Tax + ctx.BusinessTypeTax.FirstOrDefault(x => item.Contains(x.BusinessType)).Tax;
+
+
+                    }
+             
                     foreach (var store in model.Store)
                     {
                         var Store = ctx.Stores.FirstOrDefault(x => x.Id == store.storeId);
@@ -394,21 +523,23 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     foreach (var SingleStore in model.Store)
                     {
                         model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + SingleStore.StoreTotal.Value;
+                        model.OrderSummary.DeliveryFee = model.OrderSummary.DeliveryFee + Convert.ToDouble(SingleStore.minDeliveryCharges);
+                        model.OrderSummary.SubTotalWDF = model.OrderSummary.SubTotal - model.OrderSummary.DeliveryFee;
                     }
-                    model.OrderSummary.Tax = 5;
-                    model.OrderSummary.Tip = Math.Round((model.OrderSummary.SubTotal / 100) * 12, 4);
+              
+                    if(DunkeySettings.Tip == 0)
+                    {
+                        DunkeySettings.LoadSettings();
+                    }
+                    model.OrderSummary.Tip = Math.Round((model.OrderSummary.SubTotal / 100) * DunkeySettings.Tip, 4);
                     model.OrderSummary.Total = model.OrderSummary.SubTotal + model.OrderSummary.Tip + model.OrderSummary.Tax;
                     foreach (var store in model.Store)
                     {
                         if (store.minDeliveryCharges != null)
                         {
                             store.products.Add(new productslist { Name = "Delivery Fee", Price = Convert.ToDouble(store.minDeliveryCharges.Value), Store_id = store.storeId });
-                            //model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + Convert.ToDouble(store.minDeliveryCharges.Value);
                         }
                     }
-
-
-
 
                 }
                 return Ok(new CustomResponse<MobileOrderViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
@@ -437,5 +568,33 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+
+        [HttpPost]
+        [Route("testdatetime")]
+        public async Task<IHttpActionResult> testdatetime()
+        {
+            try
+            {
+                using (DunkeyContext ctx=new DunkeyContext())
+                {
+
+                    var UTCnow = DateTime.UtcNow;
+                    var time = ctx.Stores.FirstOrDefault(x => x.Id == 1).MinDeliveryTime;
+                    var test=Convert.ToDateTime(time);
+                    var tim = TimeSpan.FromMilliseconds(Convert.ToDouble(time));
+
+
+                    //var deliveryTime=tim.TimeOfDay;
+
+                }
+                return Ok(new CustomResponse<string> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = "" });
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
     }
 }

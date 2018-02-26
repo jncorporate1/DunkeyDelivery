@@ -12,13 +12,14 @@ namespace DunkeyAPI.ViewModels
         public AlcoholViewModel()
         {
             Stores = new List<Store>();
+
         }
 
         public List<Store> Stores { get; set; }
         public int? TotalRecords { get; set; } = 0;
 
     }
-
+   
     public class StoreViewModel
     {
         public int Id { get; set; }
@@ -75,6 +76,8 @@ namespace DunkeyAPI.ViewModels
             Categories = new AlcoholStoreCategories();
         }
         public AlcoholStoreCategories Categories { get; set; }
+        public List<Product> Products { get; set; }
+        public bool IsLast { get; set; } = false;
     }
 
     public class AlcoholStoreCategories

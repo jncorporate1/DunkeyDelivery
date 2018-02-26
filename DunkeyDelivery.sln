@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyDelivery", "DunkeyDelivery\DunkeyDelivery.csproj", "{DC618494-C6DC-4F03-AD7C-9A945C6DF410}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1185B06B-ADA0-41D9-A5D2-C99BFD9F3DD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyAPI", "DunkeyAPI\DunkeyAPI.csproj", "{7709898D-0C58-4FC0-BCF4-F2199560E2BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWebPanel", "BasketWebPanel\BasketWebPanel.csproj", "{4A36B3A7-1158-4A2C-B434-904E23B32FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyDelivery", "DunkeyDelivery\DunkeyDelivery.csproj", "{DC618494-C6DC-4F03-AD7C-9A945C6DF410}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1185B06B-ADA0-41D9-A5D2-C99BFD9F3DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1185B06B-ADA0-41D9-A5D2-C99BFD9F3DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1185B06B-ADA0-41D9-A5D2-C99BFD9F3DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A36B3A7-1158-4A2C-B434-904E23B32FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC618494-C6DC-4F03-AD7C-9A945C6DF410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

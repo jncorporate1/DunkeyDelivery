@@ -66,6 +66,7 @@ namespace DunkeyAPI.Controllers
             }
         }
 
+        
         [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
         [Route("GetSinglePharmacyRequest")]
         [HttpGet]

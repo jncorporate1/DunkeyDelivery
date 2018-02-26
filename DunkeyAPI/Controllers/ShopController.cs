@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -282,7 +283,7 @@ namespace DunkeyAPI.Models
             {
                 DunkeyContext ctx = new DunkeyContext();
                 var res = ctx.Categories.Where(x => x.Store_Id == Store_id && x.ParentCategoryId == 0 && x.IsDeleted == false).OrderBy(x => x.Name).ToList();
-
+            
                 CustomResponse<List<Category>> response = new CustomResponse<List<Category>>
                 { Message = "Success", StatusCode = (int)HttpStatusCode.OK, Result = res };
                 return Ok(response);
@@ -512,6 +513,7 @@ namespace DunkeyAPI.Models
             try
             {
                 var locationService = new GoogleLocationService();
+
                 var points = locationService.GetLatLongFromAddress(Address);
                 if (points == null)
                 {
@@ -638,7 +640,7 @@ namespace DunkeyAPI.Models
 
                 var query = "select StoreTags.Tag ,COUNT(Tag) AS TotalCount from StoreTags join Stores on Stores.Id = StoreTags.Store_Id where Stores.BusinessType ='Food' AND Stores.IsDeleted='false' GROUP BY StoreTags.Tag ORDER BY TotalCount DESC";
                 var cuisines = ctx.Database.SqlQuery<Cuisines>(query).ToList();
-                
+
                 var f = Mapper.Map<List<Cuisines>>(cuisines);
                 cousines.cuisines = f;
                 CustomResponse<CousineViewModel> response = new CustomResponse<CousineViewModel>
@@ -779,11 +781,13 @@ namespace DunkeyAPI.Models
                 if (Lat != 0 && Lng != 0)
                 {
                     var point = DunkeyDelivery.Utility.CreatePoint(Lat, Lng);
-                    res = ctx.Stores.Where(x => x.BusinessType == Type && x.Location.Distance(point) < Global.NearbyStoreRadius).Include(x => x.StoreTags).Include(x => x.StoreDeliveryHours).Include(x => x.StoreRatings).ToList();
+                    res = ctx.Stores.Where(x => x.BusinessType == Type && x.Location.Distance(point) < Global.NearbyStoreRadius && x.IsDeleted==false).Include(x => x.StoreTags).Include(x => x.StoreDeliveryHours).Include(x => x.StoreRatings).ToList();
 
                     foreach (var store in res)
                     {
-                        distance = store.Location.Distance(point).Value;
+                        store.CalculateAverageRating();
+                        //distance = store.Location.Distance(point).Value;
+                        distance = 1.0;
                         response.NearByStores.Add(new NearByStores(store, distance));
 
                     }
@@ -791,11 +795,12 @@ namespace DunkeyAPI.Models
                 }
 
 
-                res = ctx.Stores.Where(x => x.BusinessType == Type).Include(x => x.StoreDeliveryHours).Include(x => x.StoreTags).Include(x => x.StoreRatings).ToArray().ToList();
+                res = ctx.Stores.Where(x => x.BusinessType == Type && x.IsDeleted == false).Include(x => x.StoreDeliveryHours).Include(x => x.StoreTags).Include(x => x.StoreRatings).ToArray().ToList();
 
                 foreach (var store in res)
                 {
                     // distance = store.Location.Distance(point).Value;
+                    store.CalculateAverageRating();
                     response.PopularStores.Add(new PopularStores(store));
                 }
 
@@ -938,7 +943,7 @@ namespace DunkeyAPI.Models
 
         [HttpGet]
         [Route("GetStoreByIdMobile")]
-        public IHttpActionResult GetStoreByIdMobile(short Id,double? latitude=0,double? longitude=0)
+        public IHttpActionResult GetStoreByIdMobile(short Id, double? latitude = 0, double? longitude = 0)
         {
             try
             {
@@ -949,7 +954,7 @@ namespace DunkeyAPI.Models
                 {
                     var point = DunkeyDelivery.Utility.CreatePoint(latitude.Value, longitude.Value);
                     res = ctx.Stores.Include(z => z.StoreRatings.Select(y => y.User)).Include(z => z.StoreTags).Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").First();
-                    res.Distance= res.Location.Distance(point).Value;
+                    res.Distance = res.Location.Distance(point).Value;
                 }
                 else
                 {
@@ -991,11 +996,11 @@ namespace DunkeyAPI.Models
             }
 
         }
-        
+
 
         [HttpGet]
         [Route("GetNearbyStoresMobile")]
-        public IHttpActionResult GetNearbyStoresMobile(string Type, double latitude = 0, double longitude = 0,int? Page=0,int? Items=10)
+        public IHttpActionResult GetNearbyStoresMobile(string Type, double latitude = 0, double longitude = 0, int? Page = 0, int? Items = 10)
         {
             try
             {
@@ -1012,13 +1017,13 @@ namespace DunkeyAPI.Models
 
                         if (point != null)
                         {
-                            stores = ctx.Stores.Include(x => x.StoreTags).Include(x => x.StoreRatings).Include(x => x.StoreDeliveryHours).Where(x => x.Location.Distance(point) < Global.NearbyStoreRadius && x.BusinessType == Type).OrderBy(x=>x.Id).Skip(Page.Value*Items.Value).Take(Items.Value).ToList();
+                            stores = ctx.Stores.Include(x => x.StoreTags).Include(x => x.StoreRatings).Include(x => x.StoreDeliveryHours).Where(x => x.Location.Distance(point) < Global.NearbyStoreRadius && x.BusinessType == Type).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                             shopViewModel.TotalStores = ctx.Stores.Count(x => x.Location.Distance(point) < Global.NearbyStoreRadius && x.BusinessType == Type);
                         }
                         else
                         {
                             stores = ctx.Stores.Include(x => x.StoreTags).Include(x => x.StoreRatings).Include(x => x.StoreDeliveryHours).Where(x => x.BusinessType == Type).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                            shopViewModel.TotalStores = ctx.Stores.Count(x=>x.BusinessType == Type);
+                            shopViewModel.TotalStores = ctx.Stores.Count(x => x.BusinessType == Type);
                         }
 
                     }
@@ -1035,10 +1040,10 @@ namespace DunkeyAPI.Models
 
                         foreach (var store in stores)
                         {
-                            if(latitude != 0 && longitude != 0)
+                            if (latitude != 0 && longitude != 0)
                             {
                                 store.Distance = store.Location.Distance(point).Value;
-                            }    
+                            }
                             store.CalculateAverageRating();
                             store.CalculateAllTypesAverageRating();
                         }
@@ -1050,7 +1055,7 @@ namespace DunkeyAPI.Models
 
                     shopViewModel.Store = stores;
 
-                   
+
                     CustomResponse<Shop> reponse = new CustomResponse<Shop>
                     {
                         Message = Global.SuccessMessage,
@@ -1067,6 +1072,192 @@ namespace DunkeyAPI.Models
             }
 
         }
+
+        [HttpGet]
+        [Route("FilterStore")]
+        public IHttpActionResult FilterStore(string CategoryName="",int SortBy = 0, int Rating = 0, int MinDeliveryTime = 0, string PriceRanges = "", decimal MinDeliveryCharges = 0, bool IsSpecial = false, bool IsFreeDelivery = false, bool IsNewRestaurants = false, string Cuisines = "", double latitude = 0, double longitude = 0)
+        {
+            try
+            {
+                FilterStoreViewModel model = new FilterStoreViewModel();
+                // for products
+                var ExtendedQuery = "";
+                var ExtendedWhere = "";
+                //  ----
+
+                // for price ranges
+                string[] PriceRangesString;
+                int[] PriceRangesInt = new int[0];
+                // --------
+                var query = "";
+                if (!string.IsNullOrEmpty(PriceRanges))
+                {
+                    PriceRangesString = PriceRanges.Split(',');
+                    PriceRangesInt = Array.ConvertAll(PriceRangesString, s => int.Parse(s));
+                    
+                    ExtendedQuery = "  join Products on Stores.Id=Products.Store_Id ";
+                    if (PriceRangesInt.Count() < 2)
+                    {
+                        ExtendedWhere = " Products.Price <= "+PriceRangesInt.FirstOrDefault()+" ";
+                    }else
+                    {
+                        ExtendedWhere = "(Products.Price >= "+PriceRangesInt.Min()+" OR Products.Price <= "+PriceRangesInt.Max()+") ";
+                    }
+                }
+
+                if (latitude != 0 && longitude != 0)
+                {
+                 //   query = "SELECT Stores.*,Stores.Location.STDistance('POINT(" + longitude + " " + latitude + ")') as Distance ,(SELECT AVG(CAST(StoreRatings.Rating AS FLOAT)) From StoreRatings WHERE StoreRatings.Store_Id=Stores.Id)as AverageRating From Stores WHERE ";
+
+                    query = @"select Stores.Id,
+ Stores.BusinessType,
+ Stores.Description,
+ Stores.BusinessName,
+ Stores.Latitude,
+ Stores.Longitude,
+ Stores.Open_From,
+ Stores.Open_To,
+ Stores.ImageUrl,
+ Stores.Address,
+ Stores.ContactNumber,
+ Stores.MinDeliveryTime,
+ Stores.MinDeliveryCharges,
+ Stores.MinOrderPrice,
+ Stores.IsDeleted ,AVG(CAST(StoreRatings.Rating AS FLOAT)) AverageRating,Stores.Location.STDistance('POINT(" + longitude + " " + latitude + ")') as Distance  from Stores left join StoreRatings on Stores.Id = StoreRatings.Store_Id WHERE ";
+
+                }
+                else
+                {
+                    query = @"select Stores.Id,
+ Stores.BusinessType,
+ Stores.Description,
+ Stores.BusinessName,
+ Stores.Latitude,
+ Stores.Longitude,
+ Stores.Open_From,
+ Stores.Open_To,
+ Stores.ImageUrl,
+ Stores.Address,
+ Stores.ContactNumber,
+ Stores.MinDeliveryTime,
+ Stores.MinDeliveryCharges,
+ Stores.MinOrderPrice,
+ Stores.IsDeleted ,AVG(CAST(StoreRatings.Rating AS FLOAT)) AverageRating from Stores
+ left join StoreRatings on Stores.Id = StoreRatings.Store_Id WHERE ";
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+
+                    if (MinDeliveryTime != 0)
+                    {
+                        query += " Stores.MinDeliveryTime <= " + MinDeliveryTime + " AND ";
+                    }
+                    if (MinDeliveryCharges != 0)
+                    {
+                        query += " Stores.MinDeliveryCharges <= " + MinDeliveryCharges + " AND ";
+                    }
+                    if (MinDeliveryCharges == 0 && IsFreeDelivery == true)
+                    {
+                        query += " Stores.MinDeliveryCharges = 0  AND ";
+                    }
+                    if (IsNewRestaurants)
+                    {
+                        //query += "Stores.MinDeliveryCharges = 0 AND";
+                    }
+
+
+
+                    query += " Stores.IsDeleted='false' AND Stores.BusinessType='" + CategoryName + "' ";
+
+
+                    query += @" group by Stores.Id,
+                                  Stores.BusinessType,
+                                 Stores.Description,
+                                 Stores.BusinessName,
+                                 Stores.Latitude,
+                                 Stores.Longitude,
+                                 Stores.Open_From,
+                                 Stores.Open_To,
+                                 Stores.ImageUrl,
+                                 Stores.Address,
+                                 Stores.ContactNumber,
+                                 Stores.MinDeliveryTime,
+                                 Stores.MinDeliveryCharges,
+                                 Stores.MinOrderPrice,
+                                 Stores.IsDeleted,
+                                 StoreRatings.Rating";
+
+                    if(latitude !=0 && longitude != 0)
+                    {
+                        query += ",Stores.Location.STDistance('POINT(" + longitude + " " + latitude + ")')";
+                    }
+
+                    if (Rating != 0)
+                    {
+                        query += "  having AVG(StoreRatings.Rating) = "+Rating+" ";
+                    }
+                    
+                    if (SortBy == (int)FilterSortBy.DeliveryTime)
+                    {
+                        query += " ORDER BY MinDeliveryTime ASC";
+                    }
+                    else if (SortBy == (int)FilterSortBy.Distance)
+                    {
+                        query += " ORDER BY Distance ASC";
+                    }
+                    else if (SortBy == (int)FilterSortBy.MinDelivery && latitude !=0 && longitude != 0 )
+                    {
+                        query += " ORDER BY MinDeliveryCharges ASC";
+                    }
+                    else if (SortBy == (int)FilterSortBy.Price)
+                    {
+                        //query += " ORDER BY MinDeliveryTime ASC";
+                    }
+                    else if (SortBy == (int)FilterSortBy.Rating)
+                    {
+                        query += " ORDER BY AverageRating DESC";
+                    }
+                    else if (SortBy == (int)FilterSortBy.AtoZ)
+                    {
+                        query += " ORDER BY Stores.BusinessName ASC";
+                    }
+                    else
+                    {
+                        //query += " ORDER BY MinDeliveryTime ASC";
+                    }
+                    model.NearByStores = ctx.Database.SqlQuery<FilterStores>(query).ToList();
+
+
+                    foreach (var item in model.NearByStores)
+                    {
+                        if(item.AverageRating == null)
+                        {
+                            item.AverageRating = 0;
+                        }
+                    }
+                    //if(Rating != 0)
+                    //{
+                    //    foreach
+                    //}
+
+                    CustomResponse<FilterStoreViewModel> reponse = new CustomResponse<FilterStoreViewModel>
+                    {
+                        Message = Global.SuccessMessage,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = model
+                    };
+
+                    return Ok(reponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
 
         //[HttpGet]
         //[Route("GetStoreByIdMobile")]

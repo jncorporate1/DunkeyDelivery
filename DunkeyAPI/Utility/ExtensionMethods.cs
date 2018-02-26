@@ -171,12 +171,14 @@ namespace DunkeyAPI.ExtensionMethods
             try
             {
                 order.OrderNo = Guid.NewGuid().ToString("N").ToUpper();
-                order.OrderDateTime = DateTime.Now;
+                order.OrderDateTime = DateTime.UtcNow;
                 order.Status = (int)OrderStatuses.Initiated;
                 order.DeliveryTime_From = model.DeliveryDateTime_From;
                 order.DeliveryTime_To = model.DeliveryDateTime_To;
                 order.PaymentMethod = model.PaymentMethodType;
                 order.User_ID = model.UserId;
+                order.DeliveryDetails_AddtionalNote = model.AdditionalNote;
+                
                 if (string.IsNullOrEmpty(order.DeliveryDetails_Address) && string.IsNullOrEmpty(order.DeliveryDetails_Phone))
                 {
                     var UserAddress = new UserAddress();
@@ -257,6 +259,7 @@ namespace DunkeyAPI.ExtensionMethods
                     // for mobile
                     order.CalculateStoreOrderSubTotal();
                     order.CalculateStoreTotal();
+                    order.CalculateDeliveryDetails();
                     order.CalculateStoreSubTotal();
                     order.CalculateOrderSettings();
                 }
@@ -324,7 +327,7 @@ namespace DunkeyAPI.ExtensionMethods
             order.Subtotal = order.StoreOrders.Sum(x => x.Total);
         }
 
-            // order total and other parameters
+        // order total and other parameters
         public static void CalculateOrderSettings(this Order order)
         {
             try
@@ -343,8 +346,19 @@ namespace DunkeyAPI.ExtensionMethods
         }
 
 
-
-
+        //public static void CalculateMobileOrderSettings(this MobileOrderViewModel MobileModel)
+        //{
+        //    try
+        //    {
+        //        DunkeySettings.LoadSettings();
+        //        MobileModel.OrderSummary.Tax = MobileModel.Store.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
+                
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        DunkeyDelivery.Utility.LogError(ex);
+        //    }
+        //}
 
 
 
@@ -391,6 +405,39 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
+        public static void CalculateDeliveryDetails(this Order StoreOrder)
+        {
+            try
+            {// check if min delivery time is in store object or noot
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    //var Store = StoreOrder.StoreOrders.FirstOrDefault().Store_Id;
+                    var storeId = StoreOrder.StoreOrders.FirstOrDefault().Store_Id;
+                    var Storee = ctx.Stores.FirstOrDefault(x => x.Id == storeId);
+                    StoreOrder.MaxDeliveryTime = Storee.MinDeliveryTime;
+                    // adding delivery date time to every store order time
+                    //foreach (var Order in StoreOrder.StoreOrders)
+                    //{
+                    //    var time = ctx.Stores.FirstOrDefault(x => x.Id == Order.Store_Id).MinDeliveryTime;
+                    //    if(time != 0)
+                    //    {
+                    //        Order.OrderDeliveryTime = DateTime.UtcNow.AddMinutes(Convert.ToDouble(time)).TimeOfDay;
+                    //    }
+                    //}
 
+
+
+
+                    //foreach (var storeOrder in StoreOrder.StoreOrders)
+                    //{
+                    //    storeOrder.Total = storeOrder.Subtotal + Convert.ToDouble(ctx.Stores.FirstOrDefault(x => x.Id == storeOrder.Store_Id).MinDeliveryCharges);
+                    //}
+                }
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
     }
 }
