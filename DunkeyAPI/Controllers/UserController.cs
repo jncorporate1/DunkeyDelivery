@@ -288,7 +288,8 @@ namespace DunkeyAPI.Controllers
                             Email = model.Email,
                             FullName = model.FullName,
                             Status = (int)Global.StatusCode.Verified,
-                            Role = model.SignIntype
+                            Role = model.SignIntype,
+                            ProfilePictureUrl=model.ImageUrl
 
                         };
 

@@ -102,8 +102,10 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("AlcoholStoreCategoryDetails")]
-        public async Task<IHttpActionResult> AlcoholStoreCategoryDetails(int Store_Id, int? Category_Id = 0, int? Category_ParentId = 0, string CategoryName = "", int? Page = 0, int? Items = 10)
+        public async Task<IHttpActionResult> AlcoholStoreCategoryDetails(int Store_Id, int? Category_Id = 0, int? Category_ParentId = 0, string CategoryName = "", int? Page = 0, int? Items = 10,int? Type_Id=0)
         {
+
+            // WARNING  !!!!!! Dont try to understand this service . your head will burn up . implemented this during training 
             try
             {
                 using (DunkeyContext ctx = new DunkeyContext())
@@ -173,6 +175,113 @@ namespace DunkeyAPI.Controllers
                             }
                         }
                         return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+
+                    }else if (!string.IsNullOrEmpty(CategoryName) && Type_Id != 0)
+                    {
+                       
+                            if (CategoryName.Contains("Wine"))
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                                if (responseModel.Categories.Wine.Count == 0 && Category_Id != 0)
+                                {
+                                    responseModel.Products = ctx.Products.Where(x => x.Store.Id == Store_Id && x.Category_Id == Category_Id.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                    responseModel.IsLast = true;
+                                }
+
+                                if (LiquorParentId != null)
+                                {
+                                    responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                }
+                                if (BeerParentId != null)
+                                {
+                                    responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                }
+                            }
+                            else if (CategoryName.Contains("Liquor"))
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                                if (responseModel.Categories.Liquor.Count == 0 && Category_Id != 0)
+                                {
+                                    responseModel.Products = ctx.Products.Where(x => x.Store.Id == Store_Id && x.Category_Id == Category_Id.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                    responseModel.IsLast = true;
+                                }
+
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                            }
+                            else
+                            {
+                                responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+
+                                if (responseModel.Categories.Beer.Count == 0 && Category_Id != 0)
+                                {
+                                    responseModel.Products = ctx.Products.Where(x => x.Store.Id == Store_Id && x.Category_Id == Category_Id.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                                    responseModel.IsLast = true;
+                                }
+
+                            }
+                        foreach (var prod in responseModel.Categories.Wine)
+                        {
+                            foreach (var prodDetail in prod.Products)
+                            {
+                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                prodDetail.BusinessName = StoreDetails.BusinessName;
+                                prodDetail.BusinessType = StoreDetails.BusinessType;
+                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                            }
+                        }
+                        foreach (var prod in responseModel.Categories.Liquor)
+                        {
+                            foreach (var prodDetail in prod.Products)
+                            {
+                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                prodDetail.BusinessName = StoreDetails.BusinessName;
+                                prodDetail.BusinessType = StoreDetails.BusinessType;
+                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                            }
+                        }
+                        foreach (var prod in responseModel.Categories.Beer)
+                        {
+                            foreach (var prodDetail in prod.Products)
+                            {
+                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                prodDetail.BusinessName = StoreDetails.BusinessName;
+                                prodDetail.BusinessType = StoreDetails.BusinessType;
+                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                            }
+                        }
+
+                        if (responseModel.Products != null)
+                        {
+                            foreach (var prodDetail in responseModel.Products)
+                            {
+                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                prodDetail.BusinessName = StoreDetails.BusinessName;
+                                prodDetail.BusinessType = StoreDetails.BusinessType;
+                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                            }
+                        }
+
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+
 
                     }
                     else
@@ -591,9 +700,7 @@ namespace DunkeyAPI.Controllers
                 var query = @"SELECT  Products.*
                 FROM Products 
                 join Stores on Products.Store_Id = Stores.Id
-				Join Categories
-				on Categories.Id=Products.Category_Id
-                LEFT JOIN storeratings 
+			    LEFT JOIN storeratings 
                 ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
 
 
@@ -638,12 +745,7 @@ namespace DunkeyAPI.Controllers
                         }
 
                     }
-
-                    if(Type != 0)
-                    {
-                        query += "  Category_Id="+Type.Value +"  AND";
-                    }
-
+                    
                     query += " stores.isdeleted = 'false'  ";
                     if (!string.IsNullOrEmpty(Size))
                     {

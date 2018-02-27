@@ -45,12 +45,12 @@ namespace DunkeyAPI.Controllers
                         order.DeliveryTime_To = DateTime.Now;
 
                         //Charge User
-                        // StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
+                         StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
 
-                        //if (stripeCharge.Status != "succeeded")
-                        //{
-                        //    return Ok(new CustomResponse<Error> { Message = "Payment Failed", StatusCode = (int)HttpStatusCode.InternalServerError, Result = new Error { ErrorMessage = "We are unable to process your payments. Please try sometime later" } });
-                        //}
+                        if (stripeCharge.Status != "succeeded")
+                        {
+                            return Ok(new CustomResponse<Error> { Message = "Payment Failed", StatusCode = (int)HttpStatusCode.InternalServerError, Result = new Error { ErrorMessage = "We are unable to process your payments. Please try sometime later" } });
+                        }
 
                         ctx.Orders.Add(order);
                         await ctx.SaveChangesAsync();
@@ -107,7 +107,7 @@ namespace DunkeyAPI.Controllers
                         //order.DeliveryTime_To = DateTime.Now;
 
                         //Charge User
-                        // StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
+                        //StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
 
                         //if (stripeCharge.Status != "succeeded")
                         //{
