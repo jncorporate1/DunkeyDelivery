@@ -70,7 +70,7 @@ namespace DunkeyDelivery.Controllers
                         identity.AddClaim(new Claim("Id", Convert.ToString(model.Id)));
                         identity.AddClaim(new Claim("FirstName", model.FirstName));
                         identity.AddClaim(new Claim("LastName", model.LastName));
-                        identity.AddClaim(new Claim(ClaimTypes.Role, "Gmail")); // set it enum
+                        identity.AddClaim(new Claim("Role",Convert.ToString(model.Role))); // set it enum
                         AuthenticationManager.SignOut();
                         AuthenticationManager.SignIn(identity);
 

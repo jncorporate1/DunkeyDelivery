@@ -18,6 +18,8 @@ namespace DunkeyDelivery.ViewModels
         public string ProfilePictureUrl { get; set; }
         public string Country { get; set; }
 
+        public int Role { get; set; }
+
         public void SetSharedData(IPrincipal User)
         {
             var claimIdentity = ((ClaimsIdentity)User.Identity);
@@ -28,6 +30,8 @@ namespace DunkeyDelivery.ViewModels
             var fullName = claimIdentity.Claims.FirstOrDefault(x => x.Type == "FullName");
             var profilePictureUrl = claimIdentity.Claims.FirstOrDefault(x => x.Type == "ProfilePictureUrl");
             var CountryClaim = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Country");
+            var RoleClaim = claimIdentity.Claims.FirstOrDefault(x => x.Type == "Role");
+
             if (idClaim != null)
             {
                 Id = idClaim.Value;
@@ -37,6 +41,7 @@ namespace DunkeyDelivery.ViewModels
                 UserName = fullName.Value == null ? "" : fullName.Value;
                 ProfilePictureUrl = profilePictureUrl == null ? "http://10.100.28.38:810/Content/images/img.jpg" : "http://10.100.28.38:810/Content/images/img.jpg";
                 Country = CountryClaim==null?"USA":CountryClaim.Value;
+                Role = RoleClaim == null ? 0 : Convert.ToInt32(RoleClaim.Value);
             }
             Country = CountryClaim == null ? "USA" : CountryClaim.Value;
 
