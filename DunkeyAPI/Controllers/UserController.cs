@@ -92,10 +92,24 @@ namespace DunkeyAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
+
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
+                    var userModel = new User();
+                    short RoleId = 5;
+                    if (model.Role > 0)
+                    {
+                        RoleId = model.Role;
+                        // Gmail
+                        userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Role == RoleId && x.IsDeleted == false);
 
-                    var userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Role == 5 && x.IsDeleted == false);
+                    }
+                    else
+                    {
+                        //Facebook
+                        userModel = ctx.Users.FirstOrDefault(x => x.Email == model.Email && x.Role == RoleId && x.IsDeleted == false);
+
+                    }
 
 
                     if (userModel != null)
@@ -110,11 +124,12 @@ namespace DunkeyAPI.Controllers
                     }
                     else
                     {
+
                         User newUser = new DAL.User
                         {
                             FirstName = model.FirstName,
                             LastName = model.LastName,
-                            Role = 5,
+                            Role = RoleId,
                             Email = model.Email,
                             ProfilePictureUrl = model.ProfilePictureUrl,
                             FullName = model.FirstName + " " + model.LastName

@@ -215,7 +215,8 @@ namespace DunkeyDelivery
             SubAdmin = 2,
             SuperAdmin = 3,
             ApplicationAdmin = 4,
-            Facebook=5
+            Facebook=5,
+            Gmail = 6
         }
 
         public static HttpStatusCode LogError(Exception ex)

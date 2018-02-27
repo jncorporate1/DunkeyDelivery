@@ -68,7 +68,8 @@ namespace DunkeyDelivery.Models
 
         public string Password { get; set; }
 
-    
+        public short Role { get; set; }
+
     }
 
     public class RegisterViewModel :BaseViewModel
