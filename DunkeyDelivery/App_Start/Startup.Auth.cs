@@ -58,11 +58,11 @@ namespace DunkeyDelivery
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "345352311526-s763tqi2iof6846j4njb527588o28tb2.apps.googleusercontent.com",
+                ClientSecret = "JTPWEJ6SYlmFsKzu9Xk7ijyn"
+            });
         }
     }
 }

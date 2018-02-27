@@ -127,6 +127,8 @@ namespace DunkeyDelivery.Controllers
                 identity.AddClaim(new Claim("access_token", userModel.Token.access_token));
                 identity.AddClaim(new Claim("token_type", userModel.Token.token_type));
                 identity.AddClaim(new Claim("expires_in", userModel.Token.expires_in));
+                identity.AddClaim(new Claim("Role", Convert.ToString(userModel.Role)));
+
                 // identity.AddClaim(new Claim("refresh_token", userModel.Token.refresh_token));
 
                 switch (userModel.Role)
