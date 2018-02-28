@@ -4,6 +4,8 @@
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
 }
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
 <style>
     .main-section {
         padding: 0px !important;
@@ -96,7 +98,7 @@
 
                                     if (Model.Categories.First() == category)
                                     {
-                                        <li class="active" id="item_@category.Id">
+                                        <li class="active" >
                                             @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Store_id = Model.shopViewModel.Id, Category_Id = @category.Id }, new AjaxOptions()
                                        {
 
@@ -240,6 +242,8 @@
         </div>
     </div>
     <script>
+
+
         function ReviewSuccess(data){
            
             $("#review_message").show();
@@ -290,11 +294,14 @@
         //    $("#"+id).removeClass("fa-star");
         //}
 
-        //$(document).ready(function () {
-        //    $("ul#categoriesList li:first a").trigger("click");
-        //});
+        $(document).load(function () {
+            $("ul#categoriesList li.active").click();
+        });
 
 
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
     </script>
     <script>
 
@@ -324,8 +331,6 @@
 
     </script>
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
-    </script>
+  
 
     <!-- Tabs JS -->

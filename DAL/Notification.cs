@@ -19,7 +19,7 @@ namespace DAL
         [Required]
         public int Status { get; set; }
 
-        public int? User_ID { get; set; }
+        public int User_ID { get; set; }
 
         //public int? DeliveryMan_ID { get; set; }
 

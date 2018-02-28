@@ -84,7 +84,7 @@ namespace DunkeyDelivery.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
+                return new HttpStatusCodeResult(Utility.LogError(ex), "Internal Server Error");
             }
 
         }

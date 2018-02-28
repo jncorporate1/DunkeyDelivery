@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using DunkeyDelivery.Models;
+using System.Configuration;
 
 namespace DunkeyDelivery
 {
@@ -58,10 +59,15 @@ namespace DunkeyDelivery
             //   appId: "",
             //   appSecret: "");
 
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "345352311526-s763tqi2iof6846j4njb527588o28tb2.apps.googleusercontent.com",
+            //    ClientSecret = "aT0u_usubvjRF8EAiWi3d8aX"
+            //});
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "345352311526-s763tqi2iof6846j4njb527588o28tb2.apps.googleusercontent.com",
-                ClientSecret = "JTPWEJ6SYlmFsKzu9Xk7ijyn"
+                ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"]
             });
         }
     }

@@ -194,8 +194,10 @@ namespace DunkeyDelivery
 
             var customer = customers.Create(new StripeCustomerCreateOptions
             {
+
                 Email = stripeEmail,
                 SourceToken = stripeToken
+                
             });
 
             var charge = charges.Create(new StripeChargeCreateOptions

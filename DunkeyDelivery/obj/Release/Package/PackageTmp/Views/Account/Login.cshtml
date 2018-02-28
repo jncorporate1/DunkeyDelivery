@@ -3,6 +3,26 @@
     Layout = "~/Areas/User/Views/Shared/_BannerLayout.cshtml";
 }
 
+@*<meta name="google-signin-client_id" content="1045044413490-vkhi1ntvbqglmu11p1j29tkjk31pdd1l.apps.googleusercontent.com">*@
+
+
+<script>
+    //function onSuccess(googleUser) {
+    //    debugger;
+    //    var FirstName = googleUser.getBasicProfile().getGivenName();
+    //    var LastName = googleUser.getBasicProfile().getFamilyName();
+    //    var Email = googleUser.getBasicProfile().getEmail();
+    //    var ImageUrl = googleUser.getBasicProfile().getImageUrl();
+
+    //    window.location.href = "/Gmail/GmailCallback?FirstName=" + FirstName + "&&LastName=" + LastName + "&&Email=" + Email + "&&ImageUrl=" + ImageUrl
+    //}
+    //function onFailure(error) {
+    //    console.log(error);
+    //}
+
+</script>
+
+@*<script src="https://apis.google.com/js/platform.js" async defer></script>*@
 
 <div class="main-section login-main-section greybg">
     <div class="container">
@@ -37,7 +57,13 @@
                     <span><img src="~/Content/assets/images/or.png" alt=""></span>
 
                     <a href="@Url.Action("Facebook","Facebook")"><img src="~/Content/assets/images/facebook.png" alt=""></a>
+
                 </div>
+
+                <br />
+
+                <div class="g-signin2" data-width="550" data-height="50" data-theme="dark" data-onsuccess="onSuccess"></div>
+
                     </div>
             <script>
                 function removeInvalidError() {

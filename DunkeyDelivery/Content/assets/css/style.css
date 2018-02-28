@@ -22,6 +22,10 @@ DESCRIPTION: Custom Template
 .text-visible{
     text-shadow: 2px 2px 2px #000 !important;
 }
+#OrderItems{
+        margin-bottom: 12px;
+}
+
 @media only screen and (max-width:1000px) and (min-width:769px) {
     #dropdown-menu-id {
         margin-left: 334px !important;
@@ -3763,6 +3767,7 @@ ul.investor-list li img {
     padding: 15px 25px;
     border-top: 5px solid #66cc33;
     margin-top: 30px;
+         margin-bottom: 12px;
 }
 
 .single-order {
