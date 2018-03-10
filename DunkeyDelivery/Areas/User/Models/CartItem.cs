@@ -1,4 +1,5 @@
 ﻿using DunkeyDelivery.ViewModels;
+using System;
 using System.Collections.Generic;
 
 namespace DunkeyDelivery.Areas.User.Models
@@ -16,6 +17,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public double Tax { get; set; }
         public int TotalCartItems { get; set; }
         public float? MinOrder { get; set; } = 0;
+        public int CurrentStoreId { get; set; }
     }
 
     public class StoreItem
@@ -30,6 +32,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public List<CartItem> CartItems { get; set; }
         public string BusinessType { get; set; }
         public double BusinessTypeTax { get; set; }
+        public DeliveryType DeliveryType { get; set; }
 
         public class DistinctComparerOnBusinessType : IEqualityComparer<StoreItem>
         {
@@ -49,7 +52,23 @@ namespace DunkeyDelivery.Areas.User.Models
             }
         }
     }
+    public class DeliveryType
+    {
 
+        public int Type_Id { get; set; }
+        public DateTime OrderDate { get; set; }
+        public TimeSpan OrderTime { get; set; }
+        public bool IsTypeSet { get; set; }
+
+    }
+    public class DeliveryTypeCookieBindingModel
+    {
+        public int Store_Id { get; set; }
+        public int Type_Id { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public TimeSpan? OrderTime { get; set; }
+        public int MinDeliveryTime { get; set; }
+    }
     public class CartItem
     {
         public float Price { get; set; }

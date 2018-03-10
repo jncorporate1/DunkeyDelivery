@@ -1,5 +1,6 @@
 ﻿using DAL;
 using DunkeyAPI.BindingModels;
+using DunkeyAPI.ExtensionMethods;
 using DunkeyAPI.Models.Admin;
 using DunkeyAPI.Utility;
 using DunkeyAPI.ViewModels;
@@ -16,6 +17,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using static DunkeyAPI.Utility.Global;
 using static DunkeyDelivery.Utility;
@@ -710,7 +712,7 @@ namespace DunkeyAPI.Controllers
                 var httpRequest = HttpContext.Current.Request;
                 string newFullPath = string.Empty;
                 string fileNameOnly = string.Empty;
-
+                List<DAL.StoreDeliveryTypes> DeliveryTypes = new List<DAL.StoreDeliveryTypes>();
                 StoreBindingModel model = new StoreBindingModel();
                 Store existingStore = new Store();
 
@@ -730,9 +732,42 @@ namespace DunkeyAPI.Controllers
                 model.Description = httpRequest.Params["Description"];
                 model.Address = httpRequest.Params["Address"];
                 model.BusinessType = httpRequest.Params["StoreType"];
-                model.MinDeliveryCharges = 5;
-                model.MinDeliveryTime = 45;
-                model.MinOrderPrice = 15;
+
+
+                if (httpRequest.Params["MinDeliveryCharges"] != null)
+                {
+                    model.MinDeliveryCharges = Convert.ToDecimal(httpRequest.Params["MinDeliveryCharges"]);
+                }
+
+                if (httpRequest.Params["MinOrderPrice"] != null)
+                {
+                    model.MinOrderPrice = float.Parse(httpRequest.Params["MinOrderPrice"]);
+                }
+
+                if (httpRequest.Params["MinDeliveryTime"] != null)
+                {
+                    model.MinDeliveryTime = Convert.ToInt32(httpRequest.Params["MinDeliveryTime"]);
+                }
+
+                if (!string.IsNullOrEmpty(httpRequest.Params["DeliveryTypes"]))
+                {
+                    model.DeliveryTypes= Convert.ToString(httpRequest.Params["DeliveryTypes"]);
+                    model.DeliveryTypes_Id = model.DeliveryTypes.Split(',').Select(int.Parse).ToList();
+                }
+                else
+                {
+                    
+                }
+
+                if (httpRequest.Params["ImageDeletedOnEdit"] != null)
+                {
+                    model.ImageDeletedOnEdit = Convert.ToBoolean(httpRequest.Params["ImageDeletedOnEdit"]);
+                }
+
+
+
+
+              
 
                 TimeSpan openFrom, openTo;
                 TimeSpan.TryParse(httpRequest.Params["Open_From"], out openFrom);
@@ -882,10 +917,10 @@ namespace DunkeyAPI.Controllers
                     storeModel.StoreDeliveryHours.Id = storeModel.Id;
                     storeModel.Address = model.Address;
                     storeModel.BusinessType = model.BusinessType;
-                    storeModel.MinDeliveryCharges = 5;
-                    storeModel.MinDeliveryTime = 45;
-                    storeModel.MinOrderPrice = 15;
-
+                    storeModel.MinDeliveryCharges = model.MinDeliveryCharges;
+                    storeModel.MinDeliveryTime =model.MinDeliveryTime;
+                    storeModel.MinOrderPrice = model.MinOrderPrice;
+                    
                     if (storeModel.Id == 0)
                     {
                         ctx.Stores.Add(storeModel);
@@ -896,7 +931,19 @@ namespace DunkeyAPI.Controllers
                             postedFile.SaveAs(newFullPath);
                             storeModel.ImageUrl = ConfigurationManager.AppSettings["StoreImageFolderPath"] + storeModel.Id + fileExtension;
                         }
-                            ctx.SaveChanges();
+
+                        if (model.DeliveryTypes_Id.Count > 0)
+                        {
+                           
+                            DeliveryTypes.AddDeliveryTypesToList(storeModel.Id, model.DeliveryTypes_Id);
+                            //foreach (var item in model.DeliveryTypes_Id)
+                            //{
+                            //    DeliveryTypes.Add(new StoreDeliveryTypes { Store_Id = storeModel.Id, Type_Id = item,Type_Name=DunkeyDelivery.Utility.StoreDeliveryTypes(item) });
+                            //}
+                            ctx.StoreDeliveryTypes.AddRange(DeliveryTypes);
+                        }
+
+                        ctx.SaveChanges();
                     }
                     else
                     {
@@ -917,11 +964,18 @@ namespace DunkeyAPI.Controllers
 
                         ctx.Entry(existingStore).CurrentValues.SetValues(storeModel);
 
+                        ctx.Database.ExecuteSqlCommand("Delete From StoreDeliveryTypes Where Store_Id= " + existingStore.Id);
+
+                        DeliveryTypes.AddDeliveryTypesToList(existingStore.Id, model.DeliveryTypes_Id);
+                        ctx.StoreDeliveryTypes.AddRange(DeliveryTypes);
+
                         if (existingStore.StoreDeliveryHours == null)
                             ctx.StoreDeliveryHours.Add(storeModel.StoreDeliveryHours);
                         else
                             ctx.Entry(existingStore.StoreDeliveryHours).CurrentValues.SetValues(storeModel.StoreDeliveryHours);
-                            ctx.SaveChanges();
+
+
+                        ctx.SaveChanges();
                     }
 
 
@@ -1405,14 +1459,35 @@ and
                             existingStoreOrder.Status = order.Status;
                         }
                     }
+                    ctx.SaveChanges();
                     //Mark Statuses for Orders
                     foreach (var order in model.Orders)
                     {
                         var existingOrder = ctx.Orders.Include(x => x.StoreOrders).FirstOrDefault(x => x.Id == order.OrderId);
                         existingOrder.Status = existingOrder.StoreOrders.Min(x => x.Status);
+
+                        ctx.SaveChanges();
                     }
 
-                    ctx.SaveChanges();
+                    foreach (var storeOrder in model.Orders)
+                    {
+                        var order = ctx.Orders.FirstOrDefault(x => x.Id == storeOrder.OrderId);
+                        var OrderOfStore = ctx.StoreOrders.FirstOrDefault(x=>x.Order_Id==storeOrder.OrderId && x.Id==storeOrder.StoreOrder_Id);
+                        #region Sending Notification
+                        var UserAndroidDevices = ctx.UserDevice.Where(x => x.User_Id == order.User_ID && x.Platform == true).ToList();
+                        var UserIOSDevices = ctx.UserDevice.Where(x => x.User_Id == order.User_ID && x.Platform == false).ToList();
+                        var NotificationMessage = "Your order # " + OrderOfStore.Id + " status changed to " + GetOrderStatusNameString(OrderOfStore.Status);
+                        HostingEnvironment.QueueBackgroundWorkItem(cancellationToken =>
+                        {
+                            DunkeyAPI.Utility.Global.objPushNotifications.SendIOSPushNotification(UserIOSDevices, null, new Notification { Title = "Order Status Changed", Text = NotificationMessage, Item_Id = order.Id+","+OrderOfStore.Id });
+                            DunkeyAPI.Utility.Global.objPushNotifications.SendAndroidPushNotification(UserAndroidDevices, null, new Notification { Title = "Order Status Changed", Text = NotificationMessage, Item_Id = order.Id + "," + OrderOfStore.Id });
+
+                        });
+                        #endregion
+                    }
+
+
+
                 }
                 return Ok(new CustomResponse<string> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
             }

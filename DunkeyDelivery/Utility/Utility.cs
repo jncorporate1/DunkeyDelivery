@@ -218,7 +218,13 @@ namespace DunkeyDelivery
             Facebook=5,
             Gmail = 6
         }
-
+        public enum DeliveryTypes
+        {
+            ASAP= 0,
+            Today= 1,
+            Later = 2
+           
+        }
         public static HttpStatusCode LogError(Exception ex)
         {
 

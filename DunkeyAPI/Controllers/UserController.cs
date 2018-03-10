@@ -1282,7 +1282,7 @@ namespace DunkeyAPI.Controllers
                             ctx.SaveChanges();
                         }
                     }
-                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete == false).FirstOrDefault();
+                    var creditCard = ctx.CreditCards.Where(x => x.CCNo == model.CCNo && x.is_delete == false && x.User_ID==model.User_ID).FirstOrDefault();
                     if (creditCard == null)
                     {
                         CreditCard creditcardModel = new CreditCard

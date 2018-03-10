@@ -196,7 +196,7 @@ Where PharmacyRequest_Products.PharmacyRequest_Id = " + pharmacyRequest.Id;
 
                     if(UserAddress == null)
                     {
-                        return Ok(new CustomResponse<Error> { Message = Utility.Global.ResponseMessages.NotFound, StatusCode = (int)HttpStatusCode.NotFound, Result = new Error { ErrorMessage = "User addresses not found." } });
+                        return Ok(new CustomResponse<Error> { Message = Utility.Global.ResponseMessages.NotFound, StatusCode = (int)HttpStatusCode.NotFound, Result = new Error { ErrorMessage = "Add at least one delivery address to proceed." } });
                     }
                     PharmacyRequest pharmModel = new PharmacyRequest
                     {

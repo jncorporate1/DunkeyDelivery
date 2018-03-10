@@ -15,6 +15,6 @@ namespace DunkeyAPI.Models
 
         public int Type { get; set; }
 
-        public int EntityId { get; set; }
+        public string EntityId { get; set; }
     }
 }

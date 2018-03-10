@@ -49,7 +49,7 @@ namespace DAL
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //public virtual ICollection<Order_Items> Order_Items { get; set; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Package_Products> Package_Products { get; set; }
 

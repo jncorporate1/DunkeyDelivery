@@ -326,7 +326,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("SearchProductByName")]
-        public IHttpActionResult SearchProductByName(string search_string,int Category_id=10)
+        public IHttpActionResult SearchProductByName(string search_string,int Category_id=10)   
         {
             try
             {
@@ -368,13 +368,19 @@ namespace DunkeyAPI.Controllers
 
                     products = ctx.Database.SqlQuery<Product>(query).ToList();
 
-                    //var res = ctx.Products
-                    //    .Where(x => x.Name.StartsWith(search_string)).ToList();
-                    //ClientProductViewModel model = new ClientProductViewModel();
-                    //model= Mapper.Map<ClientProductViewModel>(res);
 
-                     CustomResponse<List<Product>> response = new CustomResponse<List<Product>>
-                    //CustomResponse<IEnumerable<Product>> response = new CustomResponse<IEnumerable<Product>>
+                    foreach (var prod in products)
+                    {
+                        var Store = ctx.Stores.FirstOrDefault(x => x.Id == prod.Store_Id);
+                        prod.BusinessName = Store.BusinessName;
+                        prod.BusinessType = Store.BusinessType;
+                        prod.MinDeliveryCharges = Store.MinDeliveryCharges;
+                        prod.MinDeliveryTime = Store.MinDeliveryTime;
+                        prod.MinOrderPrice = Store.MinOrderPrice;
+                    }
+
+
+                    CustomResponse<List<Product>> response = new CustomResponse<List<Product>>
                     {
                         Message = "Success",
                        StatusCode = (int)HttpStatusCode.OK,
@@ -630,7 +636,16 @@ namespace DunkeyAPI.Controllers
 
                     }
                     products.productslist = ctx.Database.SqlQuery<PL>(query).ToList();
-                    
+
+                    foreach (var prod in products.productslist)
+                    {
+                        var Store = ctx.Stores.FirstOrDefault(x => x.Id == prod.Store_id);
+                        prod.BusinessName = Store.BusinessName;
+                        prod.BusinessType= Store.BusinessType;
+                        prod.MinDeliveryCharges = Store.MinDeliveryCharges;
+                        prod.MinDeliveryTime = Store.MinDeliveryTime;
+                        prod.MinOrderPrice = Store.MinOrderPrice;
+                    }
 
 
                     CustomResponse<CPVM> response = new CustomResponse<CPVM>

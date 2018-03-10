@@ -232,6 +232,7 @@
     <Compile Include="Custom\DbGeographyyConverter.cs" />
     <Compile Include="Custom\ElmahHandledErrorLoggerFilter.cs" />
     <Compile Include="Utility\EnumHelpers.cs" />
+    <Compile Include="Utility\Extension.cs" />
     <Compile Include="ViewModels\AddAdminViewModel.cs" />
     <Compile Include="ViewModels\AddBlogViewModel.cs" />
     <Compile Include="ViewModels\AddContentViewModel.cs" />

@@ -736,6 +736,8 @@
     <Content Include="Content\bootstrap-datepicker\tests\suites\options.js" />
     <Content Include="Content\bootstrap-datepicker\tests\tests.html" />
     <Content Include="Content\bootstrap-datepicker\tests\_coverage.html" />
+    <Content Include="Content\bootstrap-timepicker\jquery.timepicker.min.css" />
+    <Content Include="Content\bootstrap-timepicker\jquery.timepicker.min.js" />
     <Content Include="Content\bootstrap-wysiwyg\css\style.css" />
     <Content Include="Content\bootstrap-wysiwyg\js\bootstrap-wysiwyg.min.js" />
     <Content Include="Content\bootstrap-wysiwyg\src\bootstrap-wysiwyg.js" />

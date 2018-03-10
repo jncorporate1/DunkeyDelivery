@@ -23,7 +23,7 @@ namespace DunkeyAPI.Controllers
             {
                 DunkeyContext ctx = new DunkeyContext();
 
-                OfferViewModel model = new OfferViewModel { Offer_Packages = ctx.Offer_Packages.Include(x => x.Package).Include(x => x.Offer.Store).ToList(), Offer_Products = ctx.Offer_Products.Include(x => x.Product).Include(x => x.Offer.Store).ToList() };
+                OfferViewModel model = new OfferViewModel { Offer_Packages = ctx.Offer_Packages.Include(x => x.Package).Include(x=>x.Package.Package_Products.Select(y=>y.Product)).Include(x => x.Offer.Store).Where(x => x.IsDeleted == false && x.Offer.IsDeleted == false).ToList(), Offer_Products = ctx.Offer_Products.Include(x => x.Product).Include(x => x.Offer.Store).Where(x => x.IsDeleted == false && x.Offer.IsDeleted==false).ToList() };
 
                 CustomResponse<OfferViewModel> response = new CustomResponse<OfferViewModel>
                 {

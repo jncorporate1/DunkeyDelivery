@@ -1,5 +1,6 @@
 ﻿using BasketWebPanel.Areas.Dashboard.Models;
 using BasketWebPanel.BindingModels;
+using BasketWebPanel.Extensions;
 using BasketWebPanel.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -40,9 +41,25 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     model.Store = responseStore.GetValue("Result").ToObject<StoreViewModel>();
                     model.Store.StoreDeliveryHours = model.Store.StoreDeliveryHours ?? new StoreDeliveryHoursViewModel();
+
+                    if (model.Store.StoreDeliveryTypes.Count > 0)
+                    {
+                        model.StoreTypesToString();
+                    }
+
                 }
+
+
             }
-           
+            model.StoreDeliveryTypes = new SelectList(
+                     new List<SelectListItem> {
+                    //new SelectListItem { Text = Utility.RoleTypes.SubAdmin.ToString(), Value = Utility.RoleTypes.SubAdmin.ToString("D") },
+                    new SelectListItem { Text = Utility.DeliveryTypes.ASAP.ToString(), Value = Utility.DeliveryTypes.ASAP.ToString("D") },
+                    new SelectListItem { Text = Utility.DeliveryTypes.Today.ToString(), Value = Utility.DeliveryTypes.Today.ToString("D") },
+                    new SelectListItem { Text = Utility.DeliveryTypes.Later.ToString(), Value = Utility.DeliveryTypes.Later.ToString("D") }
+
+                    //new SelectListItem { Text = Utility.RoleTypes.SuperAdmin.ToString(), Value = Utility.RoleTypes.SuperAdmin.ToString("D") }
+                     });
             return View(model);
         }
 
@@ -73,6 +90,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         public async Task<ActionResult> Index(AddStoreViewModel model)
         {
             model.Store.Description = model.Store.Description ?? "";
+            var DeliveryTypeIdsString = string.Empty;
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -105,11 +123,26 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = ImageFile.FileName };
                 content.Add(fileContent);
             }
+
+
+
+            if (model.Store.DeliveryType_Id != null)
+            {
+                DeliveryTypeIdsString = string.Join(",", model.Store.DeliveryType_Id);
+            }
+            
+
             if (model.Store.Id > 0)
             {
                 content.Add(new StringContent(model.Store.Id.ToString()), "Id");
             }
             content.Add(new StringContent(model.Store.BusinessName), "StoreName");
+
+            content.Add(new StringContent(Convert.ToString(model.Store.MinDeliveryCharges)), "MinDeliveryCharges");
+            content.Add(new StringContent(Convert.ToString(model.Store.MinDeliveryTime)), "MinDeliveryTime");
+            content.Add(new StringContent(Convert.ToString(model.Store.MinOrderPrice)), "MinOrderPrice");
+            content.Add(new StringContent(DeliveryTypeIdsString), "DeliveryTypes");
+            
             content.Add(new StringContent(model.Store.BusinessType), "StoreType");
             content.Add(new StringContent(model.Store.Latitude.ToString()), "Lat");
             content.Add(new StringContent(model.Store.Longitude.ToString()), "Long");
@@ -151,7 +184,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     else
                         TempData["SuccessMessage"] = "The store has been added successfully.";
                 }
-                
+
                 return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using DAL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +9,7 @@ namespace DunkeyAPI.ViewModels
 {
     public class CategoryProductViewModel
     {
-        public CategoryProductViewModel()
+        public CategoryProductViewModel() 
         {
             productslist = new List<productslist>();
         }
@@ -21,6 +22,8 @@ namespace DunkeyAPI.ViewModels
         public string Name { get; set; }
 
         public double Price { get; set; }
+
+        public int ItemId { get; set; }=0;
 
         public string Description { get; set; }
 
@@ -154,9 +157,21 @@ namespace DunkeyAPI.ViewModels
 
         public int Store_id { get; set; }
 
-        public string BusinessName { get; set; } = "";
+        //public string BusinessName { get; set; } = "";
 
         public string Size { get; set; } = "";
+
+
+        public string BusinessName { get; set; } = "";
+
+
+        public int MinDeliveryTime { get; set; } = 0;
+
+        public string BusinessType { get; set; } = "";
+
+        public decimal? MinDeliveryCharges { get; set; } = -1;
+
+        public float? MinOrderPrice { get; set; } = -1;
 
 
         public void Dispose()

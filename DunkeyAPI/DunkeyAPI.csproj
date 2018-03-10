@@ -415,6 +415,7 @@
     <Compile Include="Utility\DunkeySettings.cs" />
     <Compile Include="Utility\ExtensionMethods.cs" />
     <Compile Include="Utility\Global.cs" />
+    <Compile Include="Utility\MobileUtility.cs" />
     <Compile Include="Utility\PushNotifications.cs" />
     <Compile Include="Utility\PushNotificationsUtil.cs" />
     <Compile Include="Utility\Utility.cs" />

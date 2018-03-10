@@ -35,7 +35,7 @@ namespace DunkeyAPI.Controllers
                             return Ok(new CustomResponse<Category> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Categories.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
 
                         case (int)DunkeyEntityTypes.Store:
-                            return Ok(new CustomResponse<Store> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Stores.Include(x => x.StoreDeliveryHours).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
+                            return Ok(new CustomResponse<Store> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Stores.Include(x => x.StoreDeliveryHours).Include(x=>x.StoreDeliveryTypes).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
 
                         case (int)DunkeyEntityTypes.Package:
                             return Ok(new CustomResponse<Package> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Packages.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });

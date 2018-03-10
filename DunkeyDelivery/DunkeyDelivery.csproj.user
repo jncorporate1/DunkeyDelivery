@@ -12,6 +12,7 @@
     <NameOfLastUsedPublishProfile>DunkeyDeliveryWeb</NameOfLastUsedPublishProfile>
     <IISExpressSSLPort>44343</IISExpressSSLPort>
     <ToolsVersionPromptShown>2.1</ToolsVersionPromptShown>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

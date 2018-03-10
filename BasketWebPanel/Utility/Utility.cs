@@ -93,6 +93,8 @@ namespace BasketWebPanel
     {
         public const string Price = @"^\$?(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$";
         public const string Name = @"^[A-z]+$";
+        public const string Minutes = @"^[0-9][0-9]$";
+
     }
     public class Content
     {
@@ -142,6 +144,13 @@ namespace BasketWebPanel
             SuperAdmin = 3,
             ApplicationAdmin = 4
         }
+        public enum DeliveryTypes
+        {
+            ASAP = 0,
+            Today= 1,
+            Later= 2
+        }
+
 
         public enum WeightUnits
         {

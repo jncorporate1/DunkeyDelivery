@@ -10,6 +10,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 {
     public class BlogController : Controller
     {
+        
         // GET: User/Blog
         public ActionResult Index()
         {

@@ -250,7 +250,7 @@ namespace DunkeyAPI.Models
             try
             {
                 DunkeyContext ctx = new DunkeyContext();
-                var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").Include(x => x.StoreRatings).First();
+                var res = ctx.Stores.Where(x => x.Id == Id && x.IsDeleted == false).Include("StoreDeliveryHours").Include(x=>x.StoreDeliveryTypes).Include(x => x.StoreRatings).First();
                 if (res != null)
                 {
                     res.CalculateAverageRating();

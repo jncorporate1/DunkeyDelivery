@@ -278,8 +278,9 @@ namespace BasketApi
                             pushModel.aps.alert.title = OtherNotification.Title;
                             pushModel.aps.alert.body = OtherNotification.Text;
                             pushModel.notification.NotificationId = OtherNotification.Id;
-
                             pushModel.notification.Type = Type;
+                            pushModel.notification.EntityId = OtherNotification.Item_Id;
+                            
                             pushModel.aps.contentavailable = 1;
                         }
 
@@ -378,7 +379,7 @@ namespace BasketApi
                         msgModel.Message = OtherNotification.Text;
                         msgModel.NotificationId = OtherNotification.Id;
                         msgModel.Title = OtherNotification.Title;
-                        //msgModel.DeliveryMan_Id = OtherNotification.DeliveryMan_ID;
+                        msgModel.EntityId = OtherNotification.Item_Id;
                     }
 
                     if (device.ApplicationType == UserDevice.ApplicationTypes.Enterprise)

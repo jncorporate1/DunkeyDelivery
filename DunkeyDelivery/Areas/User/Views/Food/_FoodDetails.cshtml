@@ -18,7 +18,7 @@
                             </p>
                         </div>
                         <div class="col-md-4"> <h4>@product.Size</h4></div>
-                        <div class="col-md-3"><h4>$@product.Price  <span><a id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@product.Store.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store.Id')"><i class="fa fa-plus"></i></a></span></h4></div>
+                        <div class="col-md-3"><h4>$@product.Price  <span><a id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@product.Store.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store.Id','@Model.shopViewModel.MinOrderPrice')"><i class="fa fa-plus"></i></a></span></h4></div>
                     </div>
 
                 </div>
@@ -29,27 +29,4 @@
     </div>
 </div>
 <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
-    function AddToCart(id, productName, price, size, StoreId) {
-        var StoreName = $("#addCart").attr("storeName");
-        var BusinessType = $("#addCart").attr("storeBusinessType");
-        var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
-        var data = {
-            ItemId: id,
-            name: productName,
-            price: price,
-            type: 0,
-            size: size,
-            StoreId: StoreId,
-            StoreName: StoreName,
-            BusinessType: BusinessType,
-            BusinessTypeTax: BusinessTypeTax
-        }
-        $.post("@Url.Action("AddToCart","Order")", data,
-            function (e) {
-                $('#OrderItems').load('@Url.Action("OrderItems","Order")')
-                //e.preventDefault();
-            })
-    }
 
-</script>

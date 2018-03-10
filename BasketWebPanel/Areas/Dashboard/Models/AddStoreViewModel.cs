@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity.Spatial;
 using BasketWebPanel.ViewModels;
+using System.Web.Mvc;
 
 namespace BasketWebPanel.Areas.Dashboard.Models
 {
@@ -16,6 +17,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         }
 
         public StoreViewModel Store { get; set; }
+        public SelectList StoreDeliveryTypes { get; internal set; }
     }
 
     public class StoreViewModel
@@ -23,6 +25,7 @@ namespace BasketWebPanel.Areas.Dashboard.Models
         public StoreViewModel()
         {
             StoreDeliveryHours = new StoreDeliveryHoursViewModel();
+            StoreDeliveryTypes = new List<StoreDeliveryTypes>();
         }
 
         public int Id { get; set; }
@@ -54,13 +57,42 @@ namespace BasketWebPanel.Areas.Dashboard.Models
 
         public TimeSpan Open_To { get; set; }
 
-        public double AverageRating { get; set; }
+        //[Required(ErrorMessage = "This field is required")]
+        //[RegularExpression(MyRegularExpressions.Minutes, ErrorMessage = "Please enter a valid delivery time")]
+        public int MinDeliveryTime { get; set; }
 
+
+        [Required(ErrorMessage = "This field is required")]
+        [Range(1, 1000, ErrorMessage = "Please enter a valid delivery charges")]
+        [RegularExpression(MyRegularExpressions.Price, ErrorMessage = "Please enter a delivery charges")]
+        public decimal? MinDeliveryCharges { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [Range(1, 1000, ErrorMessage = "Please enter a valid order price")]
+        [RegularExpression(MyRegularExpressions.Price, ErrorMessage = "Please enter a order price")]
+        public float? MinOrderPrice { get; set; }
+
+        public double AverageRating { get; set; }
+   
+        public List<int> DeliveryType_Id { get; set; }
+
+        public string DeliveryTypeStringIds { get; set; }
+
+        public List<StoreDeliveryTypes> StoreDeliveryTypes { get; set; }
+        
         public StoreDeliveryHoursViewModel StoreDeliveryHours { get; set; }
 
     }
-    
+    public class StoreDeliveryTypes
+    {
+        public int Id { get; set; }
 
+        public int Type_Id { get; set; }
+
+        public string Type_Name { get; set; }
+
+        public int Store_Id { get; set; }
+    }
     public class StoreDeliveryHoursViewModel
     {
         public int Id { get; set; }

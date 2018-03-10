@@ -131,6 +131,7 @@
     <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Store.cs" />
     <Compile Include="StoreDeliveryHours.cs" />
+    <Compile Include="StoreDeliveryTypes.cs" />
     <Compile Include="StoreOrder.cs" />
     <Compile Include="StoreRatings.cs" />
     <Compile Include="StoreTags.cs" />

@@ -465,3 +465,4 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Twitter.xm
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
+F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache

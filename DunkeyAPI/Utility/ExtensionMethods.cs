@@ -13,6 +13,25 @@ namespace DunkeyAPI.ExtensionMethods
 {
     public static class ExtensionMethods
     {
+
+        public static void AddDeliveryTypesToList(this List<DAL.StoreDeliveryTypes> DeliveryTypes, int Store_Id,List<int> DeliveryTypes_Ids)
+        {
+            try
+            {
+                if (DeliveryTypes_Ids.Count > 0)
+                {
+                    foreach (var item in DeliveryTypes_Ids)
+                    {
+                        DeliveryTypes.Add(new StoreDeliveryTypes { Store_Id = Store_Id, Type_Id = item, Type_Name = DunkeyDelivery.Utility.StoreDeliveryTypes(item) });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
+        
         public static void SetAverageRating(this Store store)
         {
             try

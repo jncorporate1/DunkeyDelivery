@@ -40,6 +40,7 @@ namespace DunkeyAPI.Models
 
         public double? Longitude { get; set; }
 
+        public int Category_Id { get; set; }
 
         public double? AverageRating { get; set; }
 

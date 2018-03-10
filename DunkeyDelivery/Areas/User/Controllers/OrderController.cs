@@ -21,7 +21,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             return View();
         }
-        public ActionResult OrderItems(float? MinOrder)
+        public ActionResult OrderItems(float? MinOrder,int? CurrentStoreId)
         {
             Cart cart = new Cart();
 
@@ -37,6 +37,10 @@ namespace DunkeyDelivery.Areas.User.Controllers
             if (MinOrder != null)
             {
                 cart.MinOrder = MinOrder;
+            }
+            if(CurrentStoreId.HasValue)
+            {
+                cart.CurrentStoreId = CurrentStoreId.Value;
             }
             return PartialView("_OrderItems", cart);
         }
@@ -206,8 +210,55 @@ namespace DunkeyDelivery.Areas.User.Controllers
             return Json(JsonRequestBehavior.AllowGet);
         }
 
-       
-        
+        [HttpPost]
+        public ActionResult AddDeliveryTimeToStore(DeliveryTypeCookieBindingModel model)
+        {
+            HttpCookie cookie = new HttpCookie("Cart");
+            Cart cart = new Cart();
+            if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
+            {
+                var cartCookie = Request.RequestContext.HttpContext.Request.Cookies.Get("Cart");
+                cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
+
+                var existingStore = cart.Stores.FirstOrDefault(x => x.StoreId == model.Store_Id);
+
+                if (existingStore != null)
+                {
+                   
+                }
+                else
+                {
+                   
+                }
+
+            }
+            else
+            {
+                //model.Total = (float)Math.Round(model.Price, 4);
+                //cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
+                DeliveryTypeCookieBindingModel DeliveryType = new DeliveryTypeCookieBindingModel();
+                if (model.Type_Id == 0)
+                {
+                    DeliveryType.Type_Id = 0;
+                    DeliveryType.MinDeliveryTime = model.MinDeliveryTime;
+                }else if (model.Type_Id == 1)
+                {
+                    DeliveryType.Type_Id = 0;
+                    DeliveryType.MinDeliveryTime = model.MinDeliveryTime;
+                }
+                else
+                {
+
+                }
+                cart.Stores.Add(new StoreItem {StoreId=model.Store_Id });
+            }
+
+            cookie.Value = JObject.FromObject(cart).ToString();
+            Request.RequestContext.HttpContext.Response.Cookies.Add(cookie);
+
+            return new EmptyResult();
+        }
+
 
         //[HttpPost]
         public JsonResult GetCart()
@@ -243,6 +294,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 //CartItem existingCartItem;
                 //var existingCartItem = cart.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type && x.StoreId == model.StoreId);
                 var existingStore = cart.Stores.FirstOrDefault(x => x.StoreId == model.StoreId);
+                
                 if (existingStore != null)
                 {
                     var existingCartItem = existingStore.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type);

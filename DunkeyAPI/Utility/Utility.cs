@@ -19,6 +19,32 @@ namespace DunkeyDelivery
 {
     public static class Utility
     {
+
+        public static string StoreDeliveryTypes(int Type_Id)
+        {
+
+            var Type = "";
+
+            switch (Type_Id)
+            {
+                case 0:
+                    Type = "ASAP";
+                    break;
+                case 1:
+                    Type = "Today";
+                    break;
+                case 2:
+                    Type = "Later";
+                    break;
+                default:
+                    break;
+
+            }
+            return Type;
+
+
+        }
+
         private static HttpClient client = new HttpClient();
 
         public static string BaseUrl = ConfigurationManager.AppSettings["BaseUrl"];
@@ -184,6 +210,42 @@ namespace DunkeyDelivery
             }
         }
 
+        public static string GetOrderStatusNameString(int orderStatus)
+        {
+            try
+            {
+
+                switch (orderStatus)
+                {
+                    case 0:
+                        return "Initiated";
+                        break;
+                    case 1:
+                        return "Accepted";
+                        break;
+                    case 2:
+                        return "Rejected";
+                        break;
+                    case 3:
+                        return "In Progress";
+                        break;
+                    case 4:
+                        return "Ready For Delivery";
+                        break;
+                    case 5:
+                        break;
+                    default:
+                        break;
+                }
+                return ((OrderStatuses)orderStatus).ToString();
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return null;
+            }
+        }
+
         public static StripeCharge GetStripeChargeInfo(string stripeEmail, string stripeToken, int amount)
         {
             var customers = new StripeCustomerService();
@@ -241,7 +303,7 @@ namespace DunkeyDelivery
     }
     public class Stores
     {
-
+        
         public string Categories_enum(int Category_id)
         {
 

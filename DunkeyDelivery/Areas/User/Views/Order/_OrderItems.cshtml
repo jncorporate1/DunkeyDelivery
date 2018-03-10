@@ -35,6 +35,7 @@
             </div>
         </div>*@
     <h2>Your Order</h2>
+
     @foreach (var storeItem in Model.Stores)
     {
         <h4>@storeItem.StoreName</h4>
@@ -44,7 +45,7 @@
                 <h5 class="order-name_price">@cartItem.Name <label id="CartItemQty">(@cartItem.Qty)</label><span>$@cartItem.Total</span></h5>
                 <h6 class="order-size_actions">
                     @cartItem.Size <span>
-                        <a style="cursor:pointer" onclick="DeleteCartItem('@cartItem.ItemId', '@cartItem.Type', '@cartItem.StoreId')"><i class="fa fa-trash"></i></a>
+                        <a style="cursor:pointer" onclick="DeleteCartItem('@cartItem.ItemId', '@cartItem.Type', '@cartItem.StoreId','@Model.MinOrder')"><i class="fa fa-trash"></i></a>
                     </span>
                 </h6>
             </div>
@@ -62,6 +63,7 @@
         {
 
             <button id="cart-Btn" onclick="MinOrderError()" class="place-order-btn">Go to Checkout <span>&nbsp $@Math.Round(Model.Total,4) </span></button>
+
             if (Model.MinOrder != 0)
             {
                 <p id="MinOrderError" style="display:none;color:red;">Min Order : $@Model.MinOrder</p>
@@ -70,15 +72,24 @@
             {
 
             }
-
         }
         else
         {
-            <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Math.Round(Model.Total, 4)</span></button>
+            var Store = Model.Stores.FirstOrDefault(x => x.StoreId == Model.CurrentStoreId);
+            if (Store.DeliveryType !=null && Store.DeliveryType.IsTypeSet)
+            {
+                <input type="text" value="true" id="IsTypeSet" />
+            }
+            else
+            {
+                <input type="text" value="false" id="IsTypeSet" />
+            }
+             <button onclick="Cart()" id="cart-Btn" class="place-order-btn">Go to Checkout <span>&nbsp $<span id="cart_min_order"></span>@Math.Round(Model.Total, 4)</span></button>
+            
 
         }
     </div>
-    @*<p class="points"><img src="~/Content/assets/images/points.png" /></p>*@
+    <p class="points"><img src="~/Content/assets/images/order_points.png" /></p>
 </div>
 
 
@@ -103,31 +114,32 @@
     //}
 
 
-    function DeleteCartItem(itemId, type, StoreId) {
+    @*function DeleteCartItem(itemId, type, StoreId,MinOrder) {
         var data = {
             ItemId: itemId,
             type: type,
             StoreId: StoreId
         }
-
         $.post("@Url.Action("DeleteCartItem", "Order")", data,
             function () {
-                $('#OrderItems').load('@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.MinOrder })')
+                var url = '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.MinOrder,CurrentStoreId=Model.CurrentStoreId })';
+                url = url.replace("&amp;", "&");
+                $('#OrderItems').load();
             })
 
-    }
+    }*@
 
 </script>
 
 <script>
-    function Cart() {
+    @*function Cart() {
         var url = '@Url.Action("CartWithData", "Order")';
         $('#Cart').load(url);
 
         $("#OrderItems").fadeOut();
         $("#Cart").fadeIn();
 
-    }
+    }*@
     function MinOrderError() {
         $('#MinOrderError').fadeIn('fast').delay(3000).fadeOut('fast');
     }

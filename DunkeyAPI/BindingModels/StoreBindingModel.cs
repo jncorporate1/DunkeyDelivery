@@ -35,6 +35,10 @@ namespace DunkeyAPI.BindingModels
 
         public string ImageUrl { get; set; }
 
+        public string DeliveryTypes { get; set; }
+
+        public List<int> DeliveryTypes_Id { get; set; }
+
         public TimeSpan Open_From { get; set; }
 
         public TimeSpan Open_To { get; set; }

@@ -30,6 +30,7 @@ namespace DAL
         public virtual DbSet<StoreOrder> StoreOrders { get; set; }
         public virtual DbSet<Favourite> Favourites { get; set; }
 
+
         //public virtual DbSet<Store_Timings> Store_Timings { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
@@ -61,6 +62,7 @@ namespace DAL
         public virtual DbSet<Content> Content { get; set; }
         public virtual DbSet<LaundryRequest> LaundryRequest { get; set; }
         public virtual DbSet<FAQ> FAQ { get; set; }
+        public virtual DbSet<StoreDeliveryTypes> StoreDeliveryTypes { get; set; }
 
 
         public virtual DbSet<UserDevice> UserDevice { get; set; }
@@ -83,6 +85,13 @@ namespace DAL
                 .WithRequired(e => e.AdminNotification)
                 .HasForeignKey(e => e.AdminNotification_Id)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Store>()
+                .HasMany(e => e.StoreDeliveryTypes)
+                .WithOptional(e => e.Store)
+                .HasForeignKey(e => e.Store_Id)
+                .WillCascadeOnDelete(false);
+
 
             modelBuilder.Entity<AdminNotifications>()
                 .HasMany(e => e.Notifications)

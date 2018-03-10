@@ -40,7 +40,7 @@ namespace DunkeyDelivery.Areas.User.Models
     {
         public Shop()
         {
-            Store =new List<ShopViewModel>();
+            Store = new List<ShopViewModel>();
         }
 
         public string ErrorMessage { get; set; } = "";
@@ -52,8 +52,12 @@ namespace DunkeyDelivery.Areas.User.Models
         public string FilterType { get; set; }
 
     }
-    public class ShopViewModel 
+    public class ShopViewModel
     {
+        public ShopViewModel()
+        {
+            StoreDeliveryTypes = new List<Models.StoreDeliveryTypes>();
+        }
         public int Id { get; set; }
 
         public string FirstName { get; set; }
@@ -61,9 +65,9 @@ namespace DunkeyDelivery.Areas.User.Models
         public string LastName { get; set; }
 
         public string Address { get; set; }
-        
+
         public string BusinessName { get; set; }
-        
+
         public string BusinessType { get; set; }
 
         public double BusinessTypeTax { get; set; }
@@ -88,16 +92,29 @@ namespace DunkeyDelivery.Areas.User.Models
 
         public DateTime? Open_To { get; set; }
 
-        public string MinDeliveryTime { get; set; }
+        public int MinDeliveryTime { get; set; }
 
-        public decimal MinDeliveryCharges { get; set; }
+        public decimal? MinDeliveryCharges { get; set; }
 
         public double Distance { get; set; }
 
         public IEnumerable<StoreTags> StoreTags { get; set; }
+        
+        public List<StoreDeliveryTypes> StoreDeliveryTypes { get; set; }
 
         public DeliveryHours StoreDeliveryHours { get; set; }
     }
+    public class StoreDeliveryTypes
+    {
+        public int Id { get; set; }
+
+        public int Type_Id { get; set; }
+
+        public string Type_Name { get; set; }
+
+        public int? Store_Id { get; set; }
+    }
+
     public class StoreTags
     {
         public int Id { get; set; }
@@ -122,7 +139,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public TimeSpan Saturday_To { get; set; }
         public TimeSpan Sunday_From { get; set; }
         public TimeSpan Sunday_To { get; set; }
-        
+
     }
 
 
@@ -133,7 +150,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public string BusinessType { get; set; }
 
         public string Description { get; set; }
-        
+
         public string BusinessName { get; set; }
 
         public double? Latitude { get; set; }

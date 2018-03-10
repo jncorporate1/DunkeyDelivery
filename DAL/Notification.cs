@@ -21,6 +21,9 @@ namespace DAL
 
         public int User_ID { get; set; }
 
+        [NotMapped]
+        public string Item_Id { get; set; }
+
         //public int? DeliveryMan_ID { get; set; }
 
         public DateTime TimeOfSending { get; set; }
