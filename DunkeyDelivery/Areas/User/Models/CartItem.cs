@@ -25,6 +25,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public StoreItem()
         {
             CartItems = new List<CartItem>();
+            DeliveryType = new DeliveryTypeCookieBindingModel();
         }
         public int StoreId { get; set; }
         public string StoreName { get; set; }
@@ -32,7 +33,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public List<CartItem> CartItems { get; set; }
         public string BusinessType { get; set; }
         public double BusinessTypeTax { get; set; }
-        public DeliveryType DeliveryType { get; set; }
+        public DeliveryTypeCookieBindingModel DeliveryType { get; set; }
 
         public class DistinctComparerOnBusinessType : IEqualityComparer<StoreItem>
         {
@@ -54,7 +55,7 @@ namespace DunkeyDelivery.Areas.User.Models
     }
     public class DeliveryType
     {
-
+        public int Store_Id { get; set; }
         public int Type_Id { get; set; }
         public DateTime OrderDate { get; set; }
         public TimeSpan OrderTime { get; set; }
@@ -65,9 +66,8 @@ namespace DunkeyDelivery.Areas.User.Models
     {
         public int Store_Id { get; set; }
         public int Type_Id { get; set; }
-        public DateTime? OrderDate { get; set; }
-        public TimeSpan? OrderTime { get; set; }
-        public int MinDeliveryTime { get; set; }
+        public DateTime? OrderDateTime { get; set; }
+        public int? MinDeliveryTime { get; set; }
     }
     public class CartItem
     {

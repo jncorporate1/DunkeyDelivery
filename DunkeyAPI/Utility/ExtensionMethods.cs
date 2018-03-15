@@ -247,6 +247,25 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
+        public static void SetOrderDeliveryDetails(this OrderViewModel model,Order order)
+        {
+            using (DunkeyContext ctx=new DunkeyContext())
+            {
+                foreach (var storeOrder in order.StoreOrders)
+                {
+                    var SingleOrder=ctx.StoreOrders.FirstOrDefault(x => x.OrderNo == storeOrder.OrderNo);
+                    var StoreDeliveryDetail = model.StoreDeliverytype.FirstOrDefault(x=>x.Store_Id==SingleOrder.Store_Id);
+                    if (!SingleOrder.OrderDeliveryTime.HasValue)
+                    {
+                        SingleOrder.OrderDeliveryTime = StoreDeliveryDetail.OrderDateTime.Value;
+                        SingleOrder.Type_Id = StoreDeliveryDetail.Type_Id;
+                        ctx.SaveChanges();
+                    }
+                }
+                //var StoreOrder=ctx.StoreOrders.Where()
+            }
+        }
+
         public static void MakeOrder(this Order order, OrderViewModel model, DunkeyContext ctx, int? Device = 0)
         {
             try
@@ -272,6 +291,8 @@ namespace DunkeyAPI.ExtensionMethods
                         }
                     }
                 }
+
+         
                 order.SetOrderDetails(model);
                 if (Device.Value != 0)
                 {

@@ -1,0 +1,105 @@
+﻿@model BasketWebPanel.BindingModels.SearchOrderModel
+
+<div class="panel-body panel">
+    <div class="row">
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" title="">Order Status</label>
+                    <span class="ico-help" title="Search by a order status"><i class="fa fa-question-circle"></i></span>
+                    @Html.DropDownList("OrderStatusId", new SelectList(Model.OrderStatusOptions.Items,
+                "value", "Text", Model.OrderStatusOptions.SelectedValue), new { @class = "form-control", @Id = "aioOrderStatus" })
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline  ">
+                    <label class="control-label" title="">Payment Status</label>
+                    <span class="ico-help" title="Search by a payment status"><i class="fa fa-question-circle"></i></span>
+                    @Html.DropDownList("PaymentStatusId", new SelectList(Model.PaymentStatusOptions.Items,
+                "value", "Text", Model.PaymentStatusOptions.SelectedValue), new { @class = "form-control", @Id = "aioPaymentStatus" })
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" title="">Payment Method</label>
+                    <span class="ico-help" title="Search by a shipping status"><i class="fa fa-question-circle"></i></span>
+                    @Html.DropDownList("PaymentMethodId", new SelectList(Model.PaymentMethodOptions.Items,
+                "value", "Text", Model.PaymentMethodOptions.SelectedValue), new { @class = "form-control", @Id = "aioPaymentMethod" })
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-left:6px; margin-right:6px">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStore" title="">Store</label>
+                    <span class="ico-help" title="Search by a shipping status"><i class="fa fa-question-circle"></i></span>
+                    @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                    {
+                        @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+          "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", @Id = "aioStoreName" })
+                    }
+                    else
+                    {
+                        @Html.DropDownList("StoreId", new SelectList(Model.StoreOptions.Items,
+          "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", @Id = "aioStoreName" })
+                        @Html.HiddenFor(x => x.StoreId);
+                    }
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group form-inline ">
+                    <label class="control-label" for="SearchStartDate" title="">Start Date</label>
+                    <span class="ico-help" title="Search by a start date"><i class="fa fa-question-circle"></i></span>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control" id="datetimepicker1" name="StartDate" />
+                        <span class="input-group-addon open-datetimepicker1">
+                            <span class="glyphicon glyphicon-calendar "></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-inline ">
+                <div class="col-md-4 col-sm-12 col-xs-12">
+                    <label class="control-label" for="SearchEndDate" title="">End Date</label>
+                    <span class="ico-help" title="Search by a end date"><i class="fa fa-question-circle"></i></span>
+                    <div class='input-group date'>
+                        <input type='text' class="form-control " id="datetimepicker2" name="EndDate" />
+                        <span class="input-group-addon open-datetimepicker2">
+                            <span class="glyphicon glyphicon-calendar "></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7 col-md-offset-5">
+            <button type="button" onclick="OnSubmit()" id="search-customers" class="btn btn-primary btn-search">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        OnSubmit();
+    });
+
+    function OnSubmit() {
+        var url = '@Url.Action("SearchOrderResults", "Orders")';
+        $('#tblSearchResult').load
+            (url,
+            {
+                OrderStatusId: $('#aioOrderStatus').find(":selected").val(),
+                PaymentStatusId: $('#aioPaymentStatus').find(":selected").val(),
+                PaymentMethodId: $('#aioPaymentMethod').find(":selected").val(),
+                StoreId: $('#aioStoreName').find(":selected").val(),
+                StartDate: document.getElementById('datetimepicker1').value,
+                EndDate: document.getElementById('datetimepicker2').value
+            });
+    }
+</script>

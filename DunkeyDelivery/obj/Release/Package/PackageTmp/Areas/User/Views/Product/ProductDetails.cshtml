@@ -4,6 +4,8 @@
 
     ViewBag.Title = "Store Details";
     Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    var StyleClass = "";
+    var StyleCss = "";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <div class="top-banner product-detail-banner">
@@ -93,7 +95,7 @@
                                     }
                                     else
                                     {
-   
+
                                         <li id="item_@category.Id">
                                             @Ajax.ActionLink(@category.Name, "GetCategoryProducts", new { Area = "User", BusinessTypeTax = Model.shopViewModel.BusinessTypeTax, BusinessType = Model.shopViewModel.BusinessType, Category_Id = @category.Id }, new AjaxOptions()
                                        {
@@ -118,8 +120,8 @@
                         </div>
 
                         @*@{
-                            Html.RenderAction("GetCategoryProducts", "UserStore", new { Store_id = @ViewBag.StoreDetails.Id, Category_Id = @Model.Categories.First().Id });
-                        }*@
+                                Html.RenderAction("GetCategoryProducts", "UserStore", new { Store_id = @ViewBag.StoreDetails.Id, Category_Id = @Model.Categories.First().Id });
+                            }*@
 
 
                     </div>
@@ -190,13 +192,13 @@
                         </div>
                         <ul>
                             @*<li>
-                        <img src="~/Content/assets/images/rating.png" />
-                        <p>
-                            By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
-                            The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
-                            tasty it literally blew me away.
-                        </p>
-                    </li>*@
+                                    <img src="~/Content/assets/images/rating.png" />
+                                    <p>
+                                        By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                                        The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                                        tasty it literally blew me away.
+                                    </p>
+                                </li>*@
 
                         </ul>
                     </div>
@@ -206,39 +208,6 @@
                     @{
                         Html.RenderAction("StoreInfo", "UserStore", new { area = "User", Model });
                     }
-                    @*<div class="row">
-                        <div id="map"></div>
-                    </div>
-                    <div class="" style="margin-top: 50px;margin-bottom:50px;">
-                        <div class="time-info clearfix">
-                            <div class="col-md-12 nopadleft">
-                                <h3>Delivery hours</h3>
-                                <ul>
-                                    @if (Model.shopViewModel.StoreDeliveryHours.Count() != 0)
-                                    {
-
-
-                                        <li> <div class="left">Tue 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                        <li> <div class="left">Wed 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                        <li> <div class="left">Thu 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                        <li> <div class="left">Fri 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                        <li> <div class="left">Sat 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                        <li> <div class="left">Sun 05/02 </div>      <div class="right"> 4:00pm - 8:00am</div></li>
-                                    }
-                                    else
-                                    {
-                                        <li> Delivery Time Not Available</li>
-                                    }
-
-
-                                </ul>
-                            </div>
-
-                      
-
-                        </div>
-                    </div>*@
-
 
                 </div>
 
@@ -269,7 +238,214 @@
 
         </div>
 
+        <style>
+            #btn1 {
+                width: 115px;
+            }
 
+            #btn2 {
+                width: 115px;
+            }
+
+            #btn3 {
+                width: 115px;
+            }
+
+            #btn4 {
+                position: relative;
+                padding: 10px;
+                left: 25px;
+                width: 75%;
+            }
+
+
+            .common {
+                display: none;
+            }
+
+            .ui-timepicker-container {
+                z-index: 10000 !important;
+            }
+        </style>
+        @* Modal for asap later and today order *@
+        <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <input type="hidden" id="HiddenProductId" value="" /> @*this id of product is used to generate click programatically on specific link for add to cart in case user selected delivery type*@
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal Header</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="HiddenProductId" value="" /> @*this id of product is used to generate click programatically on specific link for add to cart in case user selected delivery type*@
+                            <div class="row ">
+                                @if (Model.shopViewModel.StoreDeliveryTypes.Count == 1)
+                                {
+                                    StyleClass = "col-md-8 col-md-offset-2";
+                                }
+                                else if (Model.shopViewModel.StoreDeliveryTypes.Count == 2)
+                                {
+                                    StyleClass = "col-md-4 col-md-offset-1";
+                                    StyleCss = "style=position:relative;left:30px;";
+
+                                }
+                                else
+                                {
+                                    StyleClass = "col-md-2 col-md-offset-1";
+                                    StyleCss = "style=position:relative;left:32px;";
+
+                                }
+                                @foreach (var type in Model.shopViewModel.StoreDeliveryTypes)
+                                {
+                                    if (type.Type_Id == (int)Utility.DeliveryTypes.ASAP)
+                                    {
+                                        <button id="type_@type.Type_Id" onclick="SetDeliveryType(@type.Type_Id,@Model.shopViewModel.Id)" type="button" data-Type_Id="@type.Type_Id" class="btn btn-success @StyleClass" @StyleCss>
+                                            @type.Type_Name
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="type_@type.Type_Id" onclick="ShowDeliveryOptions(this.id)" type="button" data-Type_Id="@type.Type_Id" class="btn btn-success @StyleClass" @StyleCss>
+                                            @type.Type_Name
+                                        </button>
+                                    }
+
+                                }
+                            </div>
+
+
+                            <div class="row">
+                                @foreach (var type in Model.shopViewModel.StoreDeliveryTypes)
+                                {
+                                    if (type.Type_Id == (int)Utility.DeliveryTypes.ASAP)
+                                    {
+                                        <div class="DeliveryAsap common row" id="Id_@type.Type_Id">
+                                            <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.shopViewModel.Id)"
+                                                     class="btn btn-success col-md-4">
+                                                Delivery ASAP
+                                            </budtton>
+                                            <input type="hidden" value="@Model.shopViewModel.MinDeliveryTime" id="AsapTime" />
+                                        </div>
+                                    }
+                                    else if (type.Type_Id == (int)Utility.DeliveryTypes.Today)
+                                    {
+                                        <div class="DeliveryToday common" id="Id_@type.Type_Id">
+
+                                            <div class="col-md-9 col-sm-12 col-md-offset-1" style="margin-top: 16px;margin-bottom: 25px;padding-left: 41px;">
+                                                <label class="control-label" for="OpeningTime" title="">Select Order Time</label>
+                                                <div class='input-group date'>
+                                                    <input type='text' class="form-control " id="timepicker1" name="Store.Open_From" value="" />
+                                                    <span class="input-group-addon open-timepicker1">
+                                                        <span class="glyphicon glyphicon-time "></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-11 col-md-offset-1">
+                                                <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.shopViewModel.Id)"
+                                                         class="btn btn-success col-md-4 ">
+                                                    Delivery Today
+                                                </budtton>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+
+                                        <div class="DeliveryLater common" id="Id_@type.Type_Id">
+                                            <div class="row" style="margin-top: 16px;margin-bottom: 25px;padding-left: 60px;">
+                                                <div class="col-md-6 col-sm-12" style="padding-left: 35px;
+">
+                                                    <label class="control-label" for="OpeningTime" title="">Select Order Date</label>
+                                                    <div class="form-group">
+                                                        <div class='input-group date' id='datetimepicker'>
+                                                            <input type='text' class="form-control" />
+                                                            <span class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-calendar"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12" style="padding-right: 85px;">
+                                                    <label class="control-label" for="OpeningTime" title="">Select Order Time</label>
+                                                    <div class='input-group date'>
+                                                        <input type='text' class="form-control " id="timepicker2" name="Store.Open_From" value="" />
+                                                        <span class="input-group-addon open-timepicker2">
+                                                            <span class="glyphicon glyphicon-time "></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-md-offset-1">
+                                                <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.shopViewModel.Id)"
+                                                         class="btn btn-success">
+                                                    Delivery Later
+                                                </budtton>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+
+
+
+                            <script>
+                                function SetDeliveryType(Type_Id,Store_Id){
+
+                                    var Time="";
+                                    var Date=GetCurrentDate();
+                                    switch (Type_Id) {
+                                        case 0:
+                                            Time=GetCurrentTime($("#AsapTime").val());
+                                            break;
+                                        case 1:
+                                            Time=$("#timepicker1").val();
+                                            break;
+                                        case 2:
+                                            Date=$("#datetimepicker > input").val();
+                                            Time=$("#timepicker2").val();
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    var OrderDateTime=Date+" "+Time;
+
+                                    var data = {
+                                        Type_Id: Type_Id,
+                                        OrderDateTime:OrderDateTime,
+                                        Store_Id:Store_Id
+                                    }
+                                    $.post("@Url.Action("AddDeliveryTimeToStore", "Order")", data,
+                                    function (e) {
+
+                                        @*$('#OrderItems').load('@Url.Action("OrderItems","Order")')*@
+                                        var url= '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice, CurrentStoreId = Model.shopViewModel.Id })';
+                                        url=url.replace("&amp;","&");
+                                        $('#OrderItems').load(url);
+                                        //e.preventDefault();
+                                    });
+
+
+                                    $('#myModal').modal('hide');
+                                    $("#IsTypeSet").val("true");
+                                    $(".addCart[ProductId='"+$("#HiddenProductId").val()+"']").click();
+                                }
+
+
+                            </script>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>
@@ -324,29 +500,29 @@
 </script>
 <script>
 
-        var BusinessName="@Model.shopViewModel.BusinessName";
-        var BusinessImage="@Model.shopViewModel.ImageUrl";
-        var PointerLoc= {lat: @Model.shopViewModel.Latitude, lng:@Model.shopViewModel.Latitude};
-        BusinessImage=encodeURI(BusinessImage);
-        $('#info-tab').on('click',function(){
-            initMap();
-            $("#map").click();
+    var BusinessName="@Model.shopViewModel.BusinessName";
+    var BusinessImage="@Model.shopViewModel.ImageUrl";
+    var PointerLoc= {lat: @Model.shopViewModel.Latitude, lng:@Model.shopViewModel.Latitude};
+    BusinessImage=encodeURI(BusinessImage);
+    $('#info-tab').on('click',function(){
+        initMap();
+        $("#map").click();
+    });
+
+    function initMap() {
+        var myLatLng = PointerLoc;
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: myLatLng
         });
 
-        function initMap() {
-            var myLatLng = PointerLoc;
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
 
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 10,
-                center: myLatLng
-            });
-
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map
-
-            });
-        }
+        });
+    }
 
 </script>
 
@@ -354,7 +530,119 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places">
 </script>
 <script>
-        $(document).ready(function () {
-            $("ul#categoriesList li:first a").trigger("click");
+    $(document).ready(function () {
+        $("ul#categoriesList li:first a").trigger("click");
+    });
+</script>
+
+@*/////TimePicker*@
+<script src="~/Content/bootstrap-timepicker/jquery.timepicker.min.js"></script>
+<link href="~/Content/bootstrap-timepicker/jquery.timepicker.min.css" rel="stylesheet" />
+<script>
+    function AddToCart(id, productName, price, size, StoreId,MinOrderPrice) {
+
+        var TypeCount=@Model.shopViewModel.StoreDeliveryTypes.Count;
+        var TypeValue=$("#IsTypeSet").val();
+        if(TypeCount > 0 && TypeValue=='false'){
+            $("#HiddenProductId").val(id);
+            $('#myModal').modal("show");
+
+
+        }else{
+            var StoreName = $("#addCart").attr("storeName");
+            var BusinessType = $("#addCart").attr("storeBusinessType");
+            var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
+
+            //var id = $("#addCart").attr("ProductId");
+            //var productName = $("#addCart").attr("ProductName");
+            //var price = $("#addCart").attr("ProductPrice");
+            //var size = $("#addCart").attr("ProductSize");
+            //var StoreId = $("#addCart").attr("StoreId");
+            //var StoreName = $("#addCart").attr("StoreMinOrder");
+
+
+
+
+
+            var data = {
+                ItemId: id,
+                name: productName,
+                price: price,
+                type: 0,
+                size: size,
+                StoreId: StoreId,
+                StoreName: StoreName,
+                BusinessType: BusinessType,
+                BusinessTypeTax: BusinessTypeTax
+            }
+            $.post("@Url.Action("AddToCart","Order")", data,
+                function (e) {
+
+
+                    var url= '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice, CurrentStoreId = Model.shopViewModel.Id })';
+                    url=url.replace("&amp;","&");
+                    $('#OrderItems').load(url);
+
+                })
+
+        }
+    }
+
+    function DeleteCartItem(itemId, type, StoreId,MinOrder) {
+        var data = {
+            ItemId: itemId,
+            type: type,
+            StoreId: StoreId
+        }
+        $.post("@Url.Action("DeleteCartItem", "Order")", data,
+        function () {
+            var url = '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.shopViewModel.MinOrderPrice,CurrentStoreId=Model.shopViewModel.Id})';
+            url = url.replace("&amp;", "&");
+            $('#OrderItems').load(url);
+        })
+
+    }
+
+    function Cart() {
+
+
+        var url = '@Url.Action("CartWithData", "Order")';
+        $('#Cart').load(url);
+
+        $("#OrderItems").fadeOut();
+        $("#Cart").fadeIn();
+    }
+
+
+    $(function () {
+
+        var CurrentDate=new Date();
+        var AddedDate=new Date();
+        $('#datetimepicker').datetimepicker({
+            format: 'YYYY/MM/DD',
+            allowInputToggle: true,
+            defaultDate:CurrentDate,
+            minDate:CurrentDate,
+            maxDate:AddedDate.setDate(AddedDate.getDate() + 4)
+               
+
         });
+    });
+    function ShowDeliveryOptions(DivId){
+
+        $("#Id_0").hide();
+        $("#Id_1").hide();
+        $("#Id_2").hide();
+        $('#Id_'+$("#"+DivId).data('type_id')).show();
+
+    }
+
+
+    $('.open-timepicker').click(function (event) {
+        event.preventDefault();
+        $('#timepicker').click();
+    });
+    $('#timepicker1').timepicker({ minTime:'@Model.shopViewModel.Open_From.Value.TimeOfDay' ,maxTime:'@Model.shopViewModel.Open_To.Value.TimeOfDay',defaultTime:'@Model.shopViewModel.Open_From'});
+    $('#timepicker2').timepicker({ minTime:'@Model.shopViewModel.Open_From.Value.TimeOfDay' ,maxTime:'@Model.shopViewModel.Open_To.Value.TimeOfDay',defaultTime:'@Model.shopViewModel.Open_From'});
+
 </script>

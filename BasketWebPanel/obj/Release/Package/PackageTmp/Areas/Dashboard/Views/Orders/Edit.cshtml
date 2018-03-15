@@ -1,0 +1,413 @@
+﻿<style>
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+        color: #555;
+        border: 1px solid #555;
+        border-bottom-color: transparent
+    }
+
+    </style>
+
+<div class="panel-heading panel panel-default ">
+<div id="exTab2" class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#1" data-toggle="tab">Info</a>
+        </li>
+        <li>
+            <a href="#2" data-toggle="tab">Billing Information</a>
+        </li>
+        <li>
+            <a href="#3" data-toggle="tab">Shipping Info</a>
+        </li>
+        <li>
+            <a href="#4" data-toggle="tab">Products</a>
+        </li>
+        <li>
+            <a href="#5" data-toggle="tab">Order Notes</a>
+        </li>
+    </ul>
+  
+    <div class="tab-content panel-body"  style="border:1px solid #dddddd">
+        <div class="tab-pane  active panel-default " id="1">
+            <div class="panel-heading" style="color:#5a738e" > Summary</div>
+            <div class="tab-pane  panel-body panel panel-default" id="1">
+            <div class="form-group">
+                <div class="row">
+                 <div class="col-md-3" style="text-align:right; color:#2a3f54">
+                     Order Status <span class="ico-help" title="The status of this order"><i class="fa fa-question-circle"></i></span>
+                 </div>
+                 <div class="col-md-9">
+                     Completed
+                     <input type="button" onclick="return ChangeStatus()" id="ChangeStatusButton" value="Change" style="height:20px; font-size:11px; background-color:#3c8dbc; color:white"><span id="orderstatus"></span>
+                    </div>
+@*/////ScriptToChangeOrderStatus*@
+                    <script>
+                        function ChangeStatus() {
+                            if (document.getElementById("ChangeStatusButton").value == "Save") {
+                                document.getElementById("orderstatus").hidden = true;
+                                document.getElementById("ChangeStatusButton").value = "Change";
+                                location.reload();
+                            }
+                            else {
+                                document.getElementById("orderstatus").innerHTML += "<select><option value='1'>Initiated</option><option value='2'>In Progress</option><option value='3'>Completed</option></select>";
+                                document.getElementById("ChangeStatusButton").value = "Save";
+                            }
+
+                            return false;
+                        }
+                    </script>
+            </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3" style="text-align:right; color:#2a3f54">
+                            Order # <span class="ico-help" title="The unique number of this order"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                        <div class="col-md-9">
+                            5
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3" style="text-align:right; color:#2a3f54">
+                            Order GUID <span class="ico-help" title="Internel reference for order"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                        <div class="col-md-9">
+                            c3a5b32c-71a9-4d32-8d0a-94e586ec89c6
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-3" style="text-align:right; color:#2a3f54">
+                            Store <span class="ico-help" title="A store name in which this order was placed"><i class="fa fa-question-circle"></i></span>
+                        </div>
+                        <div class="col-md-9">
+                          KFC
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-heading" style="color:#5a738e"> Purchased From</div>
+            <div class="tab-pane  panel-body panel panel-default" id="1">
+
+                <div id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingOne">
+                            <h5 class="mb-0">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Dunkin' Donuts <span class="glyphicon glyphicon-chevron-down"></span> <span class="pull-right">Total Items: 9</span>
+                                </a>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped table-bordered" @*style="table-layout: fixed; width:auto "*@>
+                                        <thead>
+                                            <tr>
+                                                <th>Picture</th>
+                                                <th>Product Name</th>
+                                                <th>Store Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Discount</th>
+                                                <th>Total</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#datatable').DataTable({
+                                                "pagingType": "full_numbers"
+                                            });
+                                        });
+                                    </script>
+                                </div>                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingTwo">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          Domino's Pizza <span class="glyphicon glyphicon-chevron-down"></span> <span class="pull-right">Total Items: 4</span>
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped table-bordered" @*style="table-layout: fixed; width:auto "*@>
+                                        <thead>
+                                            <tr>
+                                                <th>Picture</th>
+                                                <th>Product Name</th>
+                                                <th>Store Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Discount</th>
+                                                <th>Total</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#datatable').DataTable({
+                                                "pagingType": "full_numbers"
+                                            });
+                                        });
+                                    </script>
+                                </div>                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="headingThree">
+                            <h5 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                              Pancake House <span class="glyphicon glyphicon-chevron-down"></span> <span class="pull-right">Total Items: 2</span>
+                                </a>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="card-block">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped table-bordered" @*style="table-layout: fixed; width:auto "*@>
+                                        <thead>
+                                            <tr>
+                                                <th>Picture</th>
+                                                <th>Product Name</th>
+                                                <th>Store Name</th>
+                                                <th>Price</th>
+                                                <th>Quantity</th>
+                                                <th>Discount</th>
+                                                <th>Total</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                                <td>Latte</td>
+                                                <td>Dunkin' Donuts</td>
+                                                <td>$700</td>
+                                                <td>2</td>
+                                                <td>$1.00</td>
+                                                <td>$699</td>
+                                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#datatable').DataTable({
+                                                "pagingType": "full_numbers"
+                                            });
+                                        });
+                                    </script>
+                                </div>                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane  panel-body panel panel-default" id="1">
+               
+            </div>
+        </div>
+        <div class="tab-pane   panel-default" id="2">
+            <div class="tab-pane  panel-body panel panel-default" id="2">
+                <h3>2</h3>
+            </div>
+            <div class="tab-pane  panel-body panel panel-default" id="2">
+                <h3>Test 2</h3>
+            </div>
+        </div>
+        <div class="tab-pane   panel-default" id="4">
+         
+                <div class="table-responsive">
+                    <table id="datatable" class="table table-striped table-bordered" @*style="table-layout: fixed; width:auto "*@>
+                        <thead>
+                            <tr>
+                                <th>Picture</th>
+                                <th>Product Name</th>
+                                <th>Store Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Discount</th>
+                                <th>Total</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                <td>Latte</td>
+                                <td>Dunkin' Donuts</td>
+                                <td>$700</td>
+                                <td>2</td>
+                                <td>$1.00</td>
+                                <td>$699</td>
+                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+
+                            </tr>
+                            <tr>
+                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                <td>Latte</td>
+                                <td>Dunkin' Donuts</td>
+                                <td>$700</td>
+                                <td>2</td>
+                                <td>$1.00</td>
+                                <td>$699</td>
+                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+
+                            </tr>
+                            <tr>
+                                <td><img src="https://milklife.com/sites/default/files/styles/large_retina/public/main_image/Recipe/2013/09/18/Protein-Packed%20Latte_square.jpg?itok=Xzagoq9T " style="height:50px; width:50px" /></td>
+                                <td>Latte</td>
+                                <td>Dunkin' Donuts</td>
+                                <td>$700</td>
+                                <td>2</td>
+                                <td>$1.00</td>
+                                <td>$699</td>
+                                <td><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <script>
+                        $(document).ready(function () {
+                            $('#datatable').DataTable({
+                                "pagingType": "full_numbers"
+                            });
+                        });
+                    </script>
+                </div>
+
+           
+           
+        </div>
+
+    </div>
+</div>
+
+    </div>

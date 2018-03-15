@@ -1,0 +1,360 @@
+﻿@model BasketWebPanel.ViewModels.AddAdminViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="row">
+        <input id="adminIds" type="hidden" name="Admin.Id" value="@Model.Admin.Id" />
+        <div class="col-md-12 col-xs-12">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" id="success-alert">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <strong></strong><span>@TempData["SuccessMessage"]</span>
+                </div>
+            }
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong> <span> </span>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    @if (Model.Admin.Id == 0)
+                    {
+                        <h2>Add New Admin</h2>
+                    }
+                    else
+                    {
+                        <h2>Edit Admin</h2>
+                    }
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+                    <input type="hidden" id="hdnRole" value="@Model.Role">
+                    <style>
+                        input[type=number]::-webkit-inner-spin-button,
+                        input[type=number]::-webkit-outer-spin-button {
+                            -webkit-appearance: none;
+                            -moz-appearance: none;
+                            appearance: none;
+                            margin: 0;
+                        }
+                    </style>
+                    @using (Ajax.BeginForm("Index", "Admin", new AjaxOptions { OnSuccess = "OnUserSuccessInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }))
+
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(x => x.Admin.Id)
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                <label>First Name</label>
+                                @Html.TextBoxFor(x => x.Admin.FirstName, new { @autofocus = "", @class = "form-control", id = "FirstName", @placeholder = "First Name" })
+                                @Html.ValidationMessageFor(m => m.Admin.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <label>Last Name</label>
+                                @Html.TextBoxFor(x => x.Admin.LastName, new { @class = "form-control", id = "LastName", @placeholder = "Last Name" })
+                                @Html.ValidationMessageFor(m => m.Admin.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                <label>Email</label>
+                                @Html.TextBoxFor(x => x.Admin.Email, new { @class = "form-control", id = "Email", @placeholder = "Email", @type = "email" })
+                                @Html.ValidationMessageFor(m => m.Admin.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <label>Phone Number</label>
+                                <input type="tel" data-val="true" data-val-required="Phone Number is required" class="form-control input-validation-error numbersOnly" maxlength="15" name="Admin.Phone" id="PhoneNumber" data-val-length="Phone Number length should be at least 10 digits" data-val-length-max="15" data-val-length-min="10" data-val-required="Phone Number is required" placeholder="Phone Number" value="@Model.Admin.Phone">
+                                @Html.ValidationMessageFor(m => m.Admin.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        if (Model.Admin.Id == 0)
+                        {
+                            <div class="row">
+                                <div class="col-md-6 col-xs-6">
+                                    <label>Password</label>
+                                    @Html.PasswordFor(x => x.Admin.Password, new { @class = "form-control", id = "Password", @placeholder = "Password" })
+                                    @Html.ValidationMessageFor(m => m.Admin.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-md-6 col-xs-6">
+                                    <label>Confirm Password</label>
+                                    @Html.PasswordFor(x => x.Admin.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword", @placeholder = "Confirm Password" })
+                                    @Html.ValidationMessageFor(m => m.Admin.ConfirmPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                <label>Store Name</label>
+                                @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                {
+                                    if (Model.Admin.Role == (int)Model.Role)
+                                    {
+                                        <select disabled class="form-control valid" data-val="true" data-val-number="The field Role must be a number." data-val-required="The Role field is required." id="Admin_Store__Id" name="">
+                                            <option value="0">All</option>
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Admin.Store_Id", new SelectList(Model.StoreOptions.Items,
+                            "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control" })
+                                        @*if (Model.Admin.Store_Id == 0)
+                                                        {
+                                                            <select disabled class="form-control valid" data-val="true" data-val-number="The field Role must be a number." data-val-required="The Role field is required." id="Admin_Store__Id" name="">
+                                                                <option value="0">All</option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DropDownList("Admin.Store_Id", new SelectList(Model.StoreOptions.Items,
+                                            "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control" })
+                                                        }*@
+
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("Admin.Store_Id", new SelectList(Model.StoreOptions.Items,
+                            "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control" })
+                                    @Html.HiddenFor(x => x.StoreId);
+                                }
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <label>Role</label>
+                                @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                {
+                                    if (Model.Admin.Role == (int)Model.Role)
+                                    {
+                                        <select disabled class="form-control valid" data-val="true" data-val-number="The field Role must be a number." data-val-required="The Role field is required." id="Store_Role" name="Admin.Role">
+                                            <option value="3">SuperAdmin</option>
+                                        </select>
+                                        @Html.HiddenFor(x=>x.Admin.Role)
+                                        @*@Html.DropDownList("Admin.Role", new SelectList(Model.RoleOptions.Items,
+                                            "value", "Text", Model.RoleOptions.SelectedValue), new { @class = "form-control" })*@
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownList("Admin.Role", new SelectList(Model.RoleOptions.Items,
+                            "value", "Text", Model.RoleOptions.SelectedValue), new { @class = "form-control" })
+
+                                        @*if (Model.Admin.Store_Id == 0)
+                                                        {
+                                                            <select disabled class="form-control valid" data-val="true" data-val-number="The field Role must be a number." data-val-required="The Role field is required." id="Store_Role" name="Admin.Role">
+                                                                <option value="3">SuperAdmin</option>
+                                                            </select>
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.DropDownList("Admin.Role", new SelectList(Model.RoleOptions.Items,
+                                            "value", "Text", Model.RoleOptions.SelectedValue), new { @class = "form-control" })
+                                                        }*@
+
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("Admin.Role", new SelectList(Model.RoleOptions.Items,
+                            "value", "Text", Model.RoleOptions.SelectedValue), new { @class = "form-control" })
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 col-xs-12">
+                                <div id="UploadImage" hidden>
+                                    <label>Upload Profile Image</label>
+                                    <div class="input-group image-preview" style="margin-bottom:0px">
+                                        <input type="text" class="form-control image-preview-filename" name="Admin.ImageUrl" id="txtImageUrl" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                        <span class="input-group-btn">
+                                            <!-- image-preview-clear button -->
+                                            <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <!-- image-preview-input -->
+                                            <div class="btn btn-default image-preview-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="image-preview-input-title">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                            </div>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Admin.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                    <!-- /input-group image-preview [TO HERE]-->
+                                </div>
+                                <div id="EditImage" hidden>
+                                    <label>Profile Image</label>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                            <img src="@ApiCall.BaseUrl@Model.Admin.ImageUrl" alt="" width="48" height="48">
+                                        </div>
+                                    </div>
+                                    <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <div hidden id="HasImage1">@Model.Admin.ImageUrl</div>
+
+                            </div>
+                            <span style="padding-left:10px" id="ImageError" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-right" style="margin-top:20px;">
+                                <button id="btnReset" onclick="ClearValidationErrorMessages()" class="btn btn-primary" type="reset">Reset</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/intlTelInput.js"></script>
+<script src="~/Content/intl-tel-input-master/build/js/utils.js"></script>
+<script>
+    $(document).ready(function () {
+        setTimeout(
+function () {
+    if ($('#success-alert') != null) {
+        $('#success-alert').slideUp(500, function () {
+        });
+    }
+}, 3000);
+
+        var adminId = $("#adminId").val();
+        var editImageVal = $('#HasImage1').text();
+        if (adminId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+
+        $("#PhoneNumber").keydown(function (e) {
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                return;
+            }
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105) && (e.keyCode == 43)) {
+                e.preventDefault();
+            }
+        });
+
+        $("#PhoneNumber").bind("cut copy paste", function (e) {
+            e.preventDefault();
+        });
+
+    });
+
+    $(function () {
+        $("#PhoneNumber").intlTelInput({
+            allowExtensions: true,
+            autoFormat: true,
+            autoHideDialCode: false,
+            autoPlaceholder: false,
+            defaultCountry: "auto",
+            ipinfoToken: "yolo",
+            nationalMode: false,
+            numberType: "MOBILE",
+            preventInvalidNumbers: true
+            //utilsScript: "../Content/intl-tel-input-master/build/js/utils.js"
+        });
+    });
+
+    function OnUserSuccessInsertion() {
+        if ($('#hdnRole').val() == "SubAdmin") {
+            $("#success-alert span").text("The admin has been updated successfully.");
+
+            window.location.href = "@Url.Action("Index", "Admin")";
+            //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            //    $("#success-alert").slideUp(500);
+            //});
+        }
+        else {
+            window.location.href = "@Url.Action("ManageAdmins", "Admin")";
+        }
+        @*$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500, function () {
+                if ($("#adminIds").val() > 0) {
+                    if ($('#hdnRole').val() == "SuperAdmin") {
+                        window.location.href = "@Url.Action("ManageAdmins", "Admin")";
+                    }
+                }
+            });
+        });
+
+        if ($('#hdnRole').val() == "SubAdmin") {
+            window.location.href = "@Url.Action("Index", "Admin")";
+        }
+
+        $("#FirstName").val('');
+        $("#LastName").val('');
+        $("#Email").val('');
+        $("#PhoneNumber").val('');
+        $("#Password").val('');
+        $("#ConfirmPassword").val('');
+        $("#SignInType").val('2');
+        $("#clearImage").trigger("click");
+        $("#EditImage").hide();
+        $("#UploadImage").show();*@
+
+    }
+
+    jQuery('.numbersOnly').keypress(function () {
+        return (event.charCode == 43 || (event.charCode >= 48 && event.charCode <= 57));
+    });
+
+    function UploadImage() {
+        var AllowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileInput');
+        //Iterating through each files selected in fileInput
+        var file = fileInput.files[0];
+        formdata.append(file.name, file);
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#ImageError").text("Only .Jpeg & .Png files are allowed.");
+            $("#clearImage").trigger("click");
+            return false;
+        }
+        else {
+            $("#ImageError").text("");
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Admin/UploadImage');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("errImageUrl").innerHTML = '';
+                }
+            }
+            return false;
+        }
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Admin/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage", "Admin")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+
+
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+</script>

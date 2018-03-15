@@ -597,6 +597,7 @@
     <Content Include="Content\assets\images\no-rating.png" />
     <Content Include="Content\assets\images\od.png" />
     <Content Include="Content\assets\images\or.png" />
+    <Content Include="Content\assets\images\order_points.png" />
     <Content Include="Content\assets\images\Pakistan.jpg" />
     <Content Include="Content\assets\images\Paraguay.jpg" />
     <Content Include="Content\assets\images\partner.png" />

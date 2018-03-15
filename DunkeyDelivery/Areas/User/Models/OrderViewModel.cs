@@ -36,6 +36,7 @@ namespace DunkeyDelivery.Areas.User.Models
             Cart = new CartViewModel();
             DeliveryDetails = new DeliveryDetails();
             PaymentInformation = new PaymentInormation();
+            StoreDeliverytype = new List<DeliveryTypeCookieBindingModel>();
         }
 
         public CartViewModel Cart { get; set; }
@@ -43,7 +44,8 @@ namespace DunkeyDelivery.Areas.User.Models
         public DeliveryDetails DeliveryDetails { get; set; }
 
         public PaymentInormation PaymentInformation { get; set; }
-
+        
+        public List<DeliveryTypeCookieBindingModel> StoreDeliverytype { get; set; }
         public string StripeAccessToken { get; set; }
         public string StripeEmail { get; set; }
 
@@ -54,8 +56,11 @@ namespace DunkeyDelivery.Areas.User.Models
         public CartViewModel()
         {
             CartItems = new List<CartItemViewModel>();
+ 
         }
         public List<CartItemViewModel> CartItems { get; set; }
+
+
     }
 
     public class CartItemViewModel
@@ -64,6 +69,7 @@ namespace DunkeyDelivery.Areas.User.Models
         public int ItemType { get; set; }
         public int Qty { get; set; }
         public int StoreId { get; set; }
+
     }
 
     // Order History View Models

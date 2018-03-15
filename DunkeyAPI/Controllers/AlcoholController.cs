@@ -860,7 +860,7 @@ namespace DunkeyAPI.Controllers
                 string ExtendedWhere = "";
 
 
-                var query = @"SELECT  Products.*
+                var query = @"SELECT Stores.*, Products.*
                 FROM Products 
                 join Stores on Products.Store_Id = Stores.Id
 			    LEFT JOIN storeratings 
@@ -948,30 +948,42 @@ namespace DunkeyAPI.Controllers
                     //}
 
 
-                    foreach (var SingleStore in store)
-                    {
-                        var storee = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).FirstOrDefault(y => y.Id == SingleStore.Id && y.BusinessType == "Alcohol");
-                        if (storee != null)
-                        {
-                            returnModel.Stores.Add(storee);
 
-                        }
-                    }
+                    // from here
 
-                    foreach (var item in returnModel.Stores)
-                    {
-                        foreach (var subItem in item.Categories)
-                        {
-                            foreach (var SubsubItem in subItem.Products)
-                            {
-                                SubsubItem.BusinessName = item.BusinessName;
-                                SubsubItem.MinDeliveryCharges = item.MinDeliveryCharges;
-                                SubsubItem.BusinessType = item.BusinessType;
-                                SubsubItem.MinDeliveryTime = item.MinDeliveryTime;
-                                SubsubItem.MinOrderPrice = item.MinOrderPrice;
-                            }
-                        }
-                    }
+                    ////foreach (var SingleStore in store)
+                    ////{
+                    ////    var storee = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).FirstOrDefault(y => y.Id == SingleStore.Id && y.BusinessType == "Alcohol");
+                    ////    if (storee != null)
+                    ////    {
+                    ////        returnModel.Stores.Add(storee);
+
+                    ////    }
+                    ////}
+
+
+                    var abc = ctx.Stores.Include(x => x.Categories).Include(x => x.Products.Where(y=>y.Price==100)                    
+                    ).Where(
+                        x => x.Address.Contains("asd")
+                        ).ToList();
+
+
+
+
+                    //foreach (var item in returnModel.Stores)
+                    //{
+                    //    foreach (var subItem in item.Categories)
+                    //    {
+                    //        foreach (var SubsubItem in subItem.Products)
+                    //        {
+                    //            SubsubItem.BusinessName = item.BusinessName;
+                    //            SubsubItem.MinDeliveryCharges = item.MinDeliveryCharges;
+                    //            SubsubItem.BusinessType = item.BusinessType;
+                    //            SubsubItem.MinDeliveryTime = item.MinDeliveryTime;
+                    //            SubsubItem.MinOrderPrice = item.MinOrderPrice;
+                    //        }
+                    //    }
+                    //}
 
 
 

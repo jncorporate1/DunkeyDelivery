@@ -918,7 +918,8 @@ namespace DunkeyAPI.Controllers
                     storeModel.Address = model.Address;
                     storeModel.BusinessType = model.BusinessType;
                     storeModel.MinDeliveryCharges = model.MinDeliveryCharges;
-                    storeModel.MinDeliveryTime =model.MinDeliveryTime;
+                    //storeModel.MinDeliveryTime =model.MinDeliveryTime;
+                    storeModel.MinDeliveryTime = 45;
                     storeModel.MinOrderPrice = model.MinOrderPrice;
                     
                     if (storeModel.Id == 0)

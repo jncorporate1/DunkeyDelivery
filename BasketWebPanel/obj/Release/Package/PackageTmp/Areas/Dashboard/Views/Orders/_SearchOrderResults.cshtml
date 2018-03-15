@@ -1,0 +1,375 @@
+﻿@model BasketWebPanel.ViewModels.SearchOrdersListViewModel
+@*@using (Ajax.BeginForm("SaveOrderStatuses", "Orders", new AjaxOptions { OnSuccess = "OnSuccessStatusInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { @Id = "frmOrderStatus" }))
+    {*@
+<style>
+    .hide {
+        display: none;
+    }
+
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+    }
+    /*table.dataTable tr th.select-checkbox.selected::after {
+        content: "✔";
+        margin-top: -11px;
+        margin-left: -4px;
+        text-align: center;
+        text-shadow: rgb(176, 190, 217) 1px 1px, rgb(176, 190, 217) -1px -1px, rgb(176, 190, 217) 1px -1px, rgb(176, 190, 217) -1px 1px;
+    }*/
+</style>
+<form data-ajax="true" data-ajax-loading="#divLoader" id="frmOrderStatus" method="post" novalidate="novalidate">
+    @*<form id="frmOrderStatus">*@
+    @Html.AntiForgeryToken()
+    <div class="panel-body panel">
+        <div class="alert alert-success" id="success-alert" hidden>
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Success! </strong><span> </span>
+        </div>
+        <div class="alert alert-error" id="error-alert" hidden>
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong>Error! </strong> <span> </span>
+        </div>
+        <div class="x_title">
+            <h3 class="pull-left">Orders</h3>
+            <div class="pull-right">
+                <button type="submit" id="btnSavePackage" class="btn btn-success"><i class="fa fa-plus-square"></i>  Save </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="">
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                </div>
+            </div>
+            <div class="row" id="divMain">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_content">
+                        <div class="table-responsive" style="overflow-x:auto; overflow-y:hidden">
+                            <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                                <thead>
+                                    <tr>
+                                        <th style="vertical-align:middle" width="20px"><input id="mastercheckbox" type="checkbox"></th>
+                                        <th style="vertical-align:middle">Order #</th>
+                                        <th style="vertical-align:middle">Store Order Status</th>
+                                        <th style="vertical-align:middle">Customer</th>
+                                        <th style="vertical-align:middle">Store Name</th>
+                                        <th style="display:none">Order Status</th>
+                                        <th style="vertical-align:middle">Payment Status</th>
+                                        <th style="vertical-align:middle">Created On</th>
+                                        <th style="vertical-align:middle">Order Total</th>
+                                        <th style="vertical-align:middle">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Orders.Count; i++)
+                                    {
+                                        <tr>
+                                            <td style="vertical-align:middle" data-orderstatus="@Model.Orders[i].OrderStatus" data-index="@i" data-orderid="@Model.Orders[i].Id" id="@Model.Orders[i].StoreOrder_Id">@Html.CheckBoxFor(x => Model.Orders[i].IsChecked, new {@orderstatus=Model.Orders[i].OrderStatus, @orderId = Model.Orders[i].Id, @storeorderId = Model.Orders[i].StoreOrder_Id, @class = "checkBoxClass" })</td>
+                                            <td style="vertical-align:middle">@Model.Orders[i].Id @Html.HiddenFor(x => Model.Orders[i].Id) @Html.HiddenFor(x => Model.Orders[i].StoreOrder_Id)</td>
+                                            <td style="vertical-align:middle" id="hdnOrderStatusId_@i" data-orderstatus="@Model.Orders[i].OrderStatus">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" id="@("btnOrderStatus_" + i)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-color:white">
+                                                        @Model.Orders[i].OrderStatusName <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        @foreach (SelectListItem orderStatusOption in Model.OrderStatusOptions.Items)
+                                                        {
+                                                            if (Convert.ToInt32(orderStatusOption.Value) <= 5) // Show till readyfordelivery
+                                                            {
+                                                                <li data-storeorderid="@Model.Orders[i].StoreOrder_Id" data-orderid="@Model.Orders[i].Id" style="padding-left: 10px; cursor:pointer; text-align:left" onclick="StatusChanged(@i, this.innerHTML, @orderStatusOption.Value, this.getAttribute('data-storeorderid'), this.getAttribute('data-orderid'));">@orderStatusOption.Text</li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li data-storeorderid="@Model.Orders[i].StoreOrder_Id" data-orderid="@Model.Orders[i].Id" class="hide" style="padding-left: 10px; cursor:pointer; text-align:left" onclick="StatusChanged(@i, this.innerHTML, @orderStatusOption.Value, this.getAttribute('data-storeorderid'), this.getAttribute('data-orderid'));">@orderStatusOption.Text</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                    @* <input type="hidden" id="@("hdnOrderStatusId_" + i)" name="@("Orders[" + i + "].OrderStatus")" value="@Model.Orders[i].OrderStatus" />*@
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle"> @Model.Orders[i].CustomerName </td>
+                                            <td style="vertical-align:middle"> @Model.Orders[i].StoreName </td>
+                                            <td style="display:none; vertical-align:middle"> @Model.Orders[i].OrderStatus </td>
+                                            <td style="vertical-align:middle"> @Model.Orders[i].PaymentStatus </td>
+                                            <td style="vertical-align:middle"> @Model.Orders[i].CreatedOn </td>
+                                            <td style="vertical-align:middle"> @Model.Orders[i].OrderTotal </td>
+                                            <td class="centered" style="vertical-align:middle">
+                                                <p data-toggle="tooltip" title="View Details" style="margin: 0 0 0px;" data-original-title="View Details">
+                                                <p>
+                                                    @*<a href="@Url.Action("EditOrders", "Orders")">  *@
+                                                    <button title="Order details is coming soon" type="button" class="btn btn-link" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                                    </button>
+                                                    @*</a>*@
+                                                </p>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*/////DeletePopUp*@
+        <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                        <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+                    </div>
+                    <div class="modal-footer ">
+                        <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>&nbsp;No</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+</form>
+<script>
+    var selectedOrders = [];
+
+    $(document).ready(function () {
+        var table = $('#datatable').DataTable({
+            "pagingType": "full_numbers",
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: [0, 9]
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            order: [
+                [1, 'asc']
+            ]
+        });
+
+        $('#datatable').on('page.dt', function () {
+            //$("#mastercheckbox").prop("checked", false);
+            //$(".checkBoxClass").prop("checked", false);
+        });
+
+        table.rows().every(function (rowIdx) {
+            //var data = this.data()[2];
+            ChangeStatusColor(rowIdx, $("#hdnOrderStatusId_" + rowIdx).data("orderstatus"));
+        })
+
+        $("#mastercheckbox").click(function () {
+            var isChecked = this.checked;
+            $(':checkbox', table.rows().nodes()).prop('checked', isChecked);
+            selectedOrders = [];
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+
+                var chkBoxCell = table.cell(rowIdx, 0).node()
+
+                if (isChecked) {
+
+                    var orderObj = {
+                        StoreOrder_Id: $(chkBoxCell).attr("id"),
+                        OrderId: $(chkBoxCell).data("orderid"),
+                        Status: $(chkBoxCell).data("orderstatus")
+                    }
+
+                    selectedOrders.push(orderObj)
+                }
+                else {
+                    selectedOrders = [];
+                }
+
+                // ... do something with data(), or this.node(), etc
+            });
+            //$(':checkbox').attr('checked', $(this).is(':checked')).change();
+        });
+
+        $(':checkbox', table.rows().nodes()).change(function () {
+            if (!$(this).prop("checked")) {
+                $("#mastercheckbox").prop("checked", false);
+            }
+        });
+
+
+        // In case you want to postback only selected ids
+        //wire up checkboxes.
+        $('#datatable').on('change', 'input[type=checkbox][id!=mastercheckbox]', function (e) {
+            var $check = $(this);
+            var chkBoxCell = table.cell("#" + $check.attr("storeorderId")).node();
+
+            if ($check.is(":checked") == true) {
+
+                var checked = jQuery.inArray($check.val(), selectedOrders);
+
+
+                if (checked == -1) {
+
+                    //add id to selectedOrders.
+                    var orderObj = {
+                        StoreOrder_Id: $(chkBoxCell).attr("id"),
+                        OrderId: $(chkBoxCell).data("orderid"),
+                        Status: $(chkBoxCell).data("orderstatus")
+                    }
+
+                    selectedOrders.push(orderObj);
+                }
+            } else {
+
+                selectedOrders = selectedOrders.filter(function (el) {
+                    return el.StoreOrder_Id !== $(chkBoxCell).attr("id");
+                });
+                //var checked = jQuery.inArray($check.attr("storeorderId"), selectedOrders.filter(function (el) {
+                //    return el.StoreOrder_Id == $(chkBoxCell).attr("id");
+                //}));
+
+                //console.log($(chkBoxCell).attr("id"));
+
+                //if (checked > -1) {
+
+                //    var orderObj = {
+                //        StoreOrder_Id: $(chkBoxCell).attr("id"),
+                //        Order_Id: $(chkBoxCell).data("orderid"),
+                //        Status: status
+                //    }
+                //    console.log(orderObj);
+                //    //selectedOrders.pop(orderObj);
+
+                //    console.log(selectedOrders);
+                //    //remove id from selectedOrders.
+                //    //selectedOrders = $.grep(selectedOrders, function (item, index) {
+                //    //    return item != $check.attr("storeorderId");
+                //    //});
+                //}
+            }
+
+
+            //updateMasterCheckbox();
+        });
+
+      
+    });
+
+    function StatusChanged(index, text, value, storeOrderId, orderId) {
+        var table = $('#datatable').DataTable();
+
+        var btn = document.getElementById('btnOrderStatus_' + index)
+        btn.innerHTML = text + ' <span class="caret"></span>';
+        $(table.cell("#" + storeOrderId).node()).data("orderstatus", value);
+        
+        if (document.getElementById("Orders_" + index + "__IsChecked").checked == true) {
+            //remove from selectedorders
+            selectedOrders = selectedOrders.filter(function (el) {
+                return el.StoreOrder_Id !== storeOrderId;
+            });
+
+            //add into selectedorder
+            var orderObj = {
+                StoreOrder_Id: storeOrderId,
+                OrderId: orderId,
+                Status: value
+            }
+
+            selectedOrders.push(orderObj);
+        }
+        ChangeStatusColor(index, value);
+    }
+
+    function ChangeStatusColor(rowNum, statusType) {
+        if (statusType == 1) {  //initiated
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#0082c8";
+        }
+        else if (statusType == 2) { // Accepted
+            var btn = document.getElementById("btnOrderStatus_" + rowNum);
+            btn.style.backgroundColor = "#008080";
+        }
+        else if (statusType == 3) { // Rejected
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#e6194b";
+        }
+        else if (statusType == 4) { // In Progress
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#800000";
+        }
+        else if (statusType == 5) { // Ready for delivery
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#3cb44b";
+        }
+        else if (statusType == 6) { // Assigned to deliverer
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#808000";
+        }
+        else if (statusType == 7) { // Deliverer In Progress
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#aa6e28";
+        }
+        else if (statusType == 8) { // Dispatched
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#f58231";
+        }
+        else if (statusType == 9) { // Completed
+            document.getElementById("btnOrderStatus_" + rowNum).style.backgroundColor = "#3cb44b";
+        }
+    }
+
+    function ChangeToBlue() {
+        document.getElementById("Button1").style.backgroundColor = "#327ab7";
+    }
+    function ChangeToLightBlue() {
+        document.getElementById("Button1").style.backgroundColor = "#5bc0de";
+    }
+    function ChangeToYellow() {
+        document.getElementById("Button1").style.backgroundColor = "#f0ad4e";
+    }
+    function ChangeToGreen() {
+        document.getElementById("Button1").style.backgroundColor = "#57b457";
+    }
+
+    function OnSuccessStatusInsertion() {
+        $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+            $("#success-alert").slideUp(500);
+        });
+    }
+
+
+
+    // Handle form submission event
+    $('#frmOrderStatus').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+
+        var table = $('#datatable').DataTable();
+
+        // Serialize form data
+
+        //var data = table.$('input,select,textarea').serialize();
+
+        var postData = {
+            selectedOrders: selectedOrders
+        };
+
+        addAntiForgeryToken(postData);
+
+        // Submit form data via Ajax
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveOrderStatus", "Orders")',
+            data: postData,
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                OnFailedInsertion(XMLHttpRequest, textStatus, errorThrown)
+            },
+            success: function (data) {
+                OnSuccessStatusInsertion()
+                //console.log('Server response', data);
+            }
+
+        });
+    });
+</script>

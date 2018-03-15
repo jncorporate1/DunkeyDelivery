@@ -229,7 +229,7 @@
                             } else {
                             
                                 var url = '@Html.Raw(Url.Action("SearchByAddress", "Home", new { Type = "test",Address = "123",Level="00" }))';
-                                debugger;
+                             
                                 url = url.replace("test", StoreType);
                                 url = url.replace('123', Address);
                                 url = url.replace('00', Level);
@@ -323,8 +323,9 @@
         <div class="col-md-1"></div>
         <div class="col-md-10">
             <h3 class="wow fadeIn">HOW IT WORKS</h3>
-   @*         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, </p>*@
-        </div>
+          
+  
+              </div>
         <div class="col-md-1"></div>
         <div class="clearfix"></div>
         <br />

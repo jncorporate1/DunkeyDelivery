@@ -45,12 +45,12 @@ namespace DunkeyAPI.Controllers
                         order.DeliveryTime_To = DateTime.Now;
 
                         //Charge User
-                        StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
+                        //StripeCharge stripeCharge = DunkeyDelivery.Utility.GetStripeChargeInfo(model.StripeEmail, model.StripeAccessToken, Convert.ToInt32(order.Total));
 
-                        if (stripeCharge.Status != "succeeded")
-                        {
-                            return Ok(new CustomResponse<Error> { Message = "Payment Failed", StatusCode = (int)HttpStatusCode.InternalServerError, Result = new Error { ErrorMessage = "We are unable to process your payments. Please try sometime later" } });
-                        }
+                        //if (stripeCharge.Status != "succeeded")
+                        //{
+                        //    return Ok(new CustomResponse<Error> { Message = "Payment Failed", StatusCode = (int)HttpStatusCode.InternalServerError, Result = new Error { ErrorMessage = "We are unable to process your payments. Please try sometime later" } });
+                        //}
 
                         ctx.Orders.Add(order);
                         await ctx.SaveChangesAsync();
@@ -64,6 +64,7 @@ namespace DunkeyAPI.Controllers
                             CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
                         }
                         ctx.SaveChanges();
+                        model.SetOrderDeliveryDetails(order);
 
                         return Ok(new CustomResponse<Order> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
                     }
@@ -598,10 +599,10 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     #endregion
 
                     model.Address = MobileUtility.GetUserUserAddress(model.User_Id);
-                    if (model.Address == null)
-                    {
-                        return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one delivery address to proceed." } });
-                    }
+                    //if (model.Address == null)
+                    //{
+                    //    return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one delivery address to proceed." } });
+                    //}
 
                     #region CommentedGetUserCreditCard
                     //var UserCreditCard = ctx.CreditCards.FirstOrDefault(x => x.User_ID == model.User_Id && x.Is_Primary == 1 && x.is_delete == false);
@@ -616,10 +617,10 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     #endregion
 
                     model.CreditCard = MobileUtility.GetUserCreditCard(model.User_Id);
-                    if (model.CreditCard == null)
-                    {
-                        return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one credit card to proceed." } });
-                    }
+                    //if (model.CreditCard == null)
+                    //{
+                    //    return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one credit card to proceed." } });
+                    //}
 
                     #region GetStoreBasedTaxes
                     var storeIds = model.Store.Select(x => x.storeId).Distinct();

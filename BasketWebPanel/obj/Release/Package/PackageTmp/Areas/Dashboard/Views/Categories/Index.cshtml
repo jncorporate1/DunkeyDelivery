@@ -1,0 +1,210 @@
+﻿@model BasketWebPanel.Areas.Dashboard.Models.AddCategoryViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            @Html.AntiForgeryToken()
+            <div class="alert alert-success" id="success-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Success! </strong>
+            </div>
+
+            <div class="alert alert-error" id="error-alert" hidden>
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong>Error! </strong> <span> </span>
+            </div>
+            @using (Ajax.BeginForm("Index", "Categories", new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "ParentCategoryId", OnSuccess = "OnCatSuccessInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="x_panel">
+                    <div class="x_title">
+                        @if (Model.Category.Id == 0)
+                        {
+                            <h2>Add New Category</h2>
+                        }
+                        else
+                        {
+                            <h2>Edit Category</h2>
+                        }
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <input type="hidden" id="CatId" name="Category.Id" value="@Model.Category.Id" />
+                        <div class="form-group">
+                            <label>Category Name</label>
+                            <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Category.Name" id="CategoryName" data-val-required="This field is required" placeholder="Category Name" value="@Model.Category.Name">
+                            @Html.ValidationMessageFor(m => m.Category.Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label id="StoreLabel">Select Store</label>
+                                @if (Model.Role == Utility.RoleTypes.SuperAdmin)
+                                {
+                                @Html.DropDownList("Category.Store_Id", new SelectList(Model.StoreOptions.Items,
+                "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", onchange = "OnStoreChange()" })
+                                }
+                                else
+                                {
+                                @Html.DropDownList("Category.Store_Id", new SelectList(Model.StoreOptions.Items,
+                "value", "Text", Model.StoreOptions.SelectedValue), new { @disabled = true, @class = "form-control", onchange = "OnStoreChange()" })
+                                @Html.HiddenFor(x => x.Category.Store_Id);
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div>
+                                <label>Parent Category</label>
+                                @Html.DropDownList("Category.ParentCategoryId", new SelectList(Model.ParentCategoryOptions.Items,
+                "value", "Text", Model.ParentCategoryOptions.SelectedValue), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div id="CategoriesTags">
+                                <label>Tags</label>
+                                <input class="form-control bootstrap-tagsinput"  id="Tags" data-role="tagsinput" placeholder="Tags (Comma separated)"/>
+                                @*/////After entering this field in binding model kindly use the below mentioned code instead of above mentioned*@
+
+                                @*<input type="text" autofocus data-val="true" class="form-control input-validation-error bootstrap-tagsinput" name="Category.Tags" data-role="tagsinput" id="Tags" data-val-required="This field is required" placeholder="Tags" value="@Model.Category.Tags">
+                                @Html.ValidationMessageFor(m => m.Category.Tags, "", new { @class = "text-danger" })*@
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12 col-xs-12">
+                                <div id="UploadImage" hidden>
+                                    <label>Upload Category Image</label>
+                                    <div class="input-group image-preview" style="margin-bottom:0px">
+                                        <input type="text" name="Category.ImageUrl" id="txtImageUrl"class="form-control image-preview-filename input-validation-error" readonly> <!-- don't give a name === doesn't send on POST/GET -->
+                                        <span class="input-group-btn">
+                                            <!-- image-preview-clear button -->
+                                            <button type="button" id="clearImage" class="btn btn-default image-preview-clear" onclick="ClearImage()" style="display:none;">
+                                                <span class="glyphicon glyphicon-remove"></span> Clear
+                                            </button>
+                                            <!-- image-preview-input -->
+                                            <div class="btn btn-default image-preview-input">
+                                                <span class="glyphicon glyphicon-folder-open"></span>
+                                                <span class="image-preview-input-title">Browse</span>
+                                                <input type="file" accept="image/png, image/jpeg, image/gif" onchange="UploadImage()" id="fileInput" name="Image" /> <!-- rename it -->
+                                            </div>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Category.ImageUrl, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                    <!-- /input-group image-preview [TO HERE]-->
+                                </div>
+
+                                <div id="EditImage" hidden>
+                                    <label>Category Image</label>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                            <img src="@ApiCall.BaseUrl@Model.Category.ImageUrl" alt="" width="48" height="48">
+                                        </div>
+                                    </div>
+                                    @* <button id="btnEditImg" onclick="EditDivDeletePic()" title="Edit" class="btn btn-primary btn-xs editButtons" data-title="Edit" data-productid="8" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button>*@
+                                    <button id="btnDeleteImg" title="Delete" onclick="EditDivDeletePic()" class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-productid="8" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button>
+                                </div>
+                                <div hidden id="HasImage1">@Model.Category.ImageUrl</div>
+                            </div>
+                            <span style="padding-left:10px" id="ImageError" class="text-danger"></span>
+                        </div>
+                        <div class="col-xs-12 col-md-12 col-xs-12 form-group" style="padding-left:0px">
+                            <label>Description</label>
+                            @Html.TextAreaFor(x => x.Category.Description, new { @class = "form-control", placeholder = "Description", id = "Description"})
+                            @Html.ValidationMessageFor(m => m.Category.Description, "", new { @class = "text-danger" })
+                                </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                            <button class="btn btn-primary" onclick="ClearValidationErrorMessages()" type="reset">Reset</button>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        var catId = $("#CatId").val();
+        var editImageVal = $('#HasImage1').text();
+        if (catId == "" || editImageVal == "") {
+            $('#EditImage').hide();
+            $('#UploadImage').show();
+        }
+        else {
+            $('#EditImage').show();
+            $('#UploadImage').hide();
+            $("#txtImageUrl").val(editImageVal);
+        }
+    });
+
+    function UploadImage() {
+        var AllowedFileTypes = ["image/jpeg", "image/png", "image/jpg"];
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('fileInput');
+
+        var file = fileInput.files[0];
+
+        formdata.append(file.name, file);
+        if (AllowedFileTypes.indexOf(file.type) == -1) {
+            $("#ImageError").text("Only .Jpeg & .Png files are allowed.");
+            $("#clearImage").trigger("click");
+            return false;
+        }
+        else {
+            $("#ImageError").text("");
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'Categories/UploadImage');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    document.getElementById("errImageUrl").innerHTML = '';
+                }
+            }
+            return false;
+        }
+    }
+
+    function ClearImage() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'Categories/DeleteImage');
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function EditDivDeletePic() {
+        $('#EditImage').hide();
+        $('#UploadImage').show();
+        DeleteImageOnEdit();
+    }
+
+    function DeleteImageOnEdit() {
+        var xhr = new XMLHttpRequest();
+        var url = '@Url.Action("DeleteImage","Categories")'
+        xhr.open('POST', url);
+        xhr.send("Clear");
+        $("#txtImageUrl").val('');
+    }
+
+    function OnCatSuccessInsertion() {
+        window.location.href = "@Url.Action("ManageCategories", "Categories")";
+        //$("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        //    $("#success-alert").slideUp(500);
+        //});
+        //OnStoreChange();
+        //$("#CategoryName").val('');
+        //$("#Description").val('');
+        //$("#clearImage").trigger("click");
+        //$("#EditImage").hide();
+        //$("#UploadImage").show();
+    }
+</script>

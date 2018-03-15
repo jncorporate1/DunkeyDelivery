@@ -585,7 +585,7 @@ function googleTranslateElementInit() {
         });
 
         function onSuccess(googleUser) {
-            debugger;
+       
             var FirstName = googleUser.getBasicProfile().getGivenName();
             var LastName = googleUser.getBasicProfile().getFamilyName();
             var Email = googleUser.getBasicProfile().getEmail();
@@ -594,12 +594,12 @@ function googleTranslateElementInit() {
             window.location.href = "/Gmail/GmailCallback?FirstName=" + FirstName + "&&LastName=" + LastName + "&&Email=" + Email + "&&ImageUrl=" + ImageUrl
         }
         function onFailure(error) {
-            debugger;
+ 
             console.log(error);
         }
 
         function LogoutGmail() {
-            debugger;
+          
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
             });
@@ -636,7 +636,7 @@ function SuccessSubmission() {
 }
 
 function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
-    debugger;
+
 	$("#ModalNotification").css("color", "red");
 	$("#ModalNotification").html(errorThrown);
 	$("#Notifications").show();
@@ -729,8 +729,33 @@ function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
 
 	    //$('#' + element_Id).css('visibility', 'hidden');
 	}
-	</script>
 
+	function GetCurrentDate() {
+	    var d = new Date();
+
+	    var month = d.getMonth() + 1;
+	    var day = d.getDate();
+
+	    var output = d.getFullYear() + '/' +
+            (('' + month).length < 2 ? '0' : '') + month + '/' +
+            (('' + day).length < 2 ? '0' : '') + day;
+	    return output;
+	}
+
+	function GetCurrentTime(AddToMinute) {
+	    if (AddToMinute == undefined) {
+	        AddToMinute = 0;
+	    }
+	        var date = new Date();
+	        var dateString = date.getHours() + ":" + date.getMinutes(date.setMinutes(date.getMinutes() + AddToMinute));
+
+	        return dateString;
+	    
+	}
+	</script>
+    @*<script src="~/Scripts/jquery-1.10.2.min.js"></script>*@
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
     <script src="~/Content/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>

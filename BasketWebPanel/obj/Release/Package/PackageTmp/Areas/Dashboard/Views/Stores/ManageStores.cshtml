@@ -1,0 +1,257 @@
+﻿@model BasketWebPanel.ViewModels.StoresListViewModel
+@{
+    ViewBag.Title = "ManageStores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .table caption + thead tr:first-child th,
+    .table colgroup + thead tr:first-child th,
+    .table thead:first-child tr:first-child th,
+    .table caption + thead tr:first-child td,
+    .table colgroup + thead tr:first-child td,
+    .table thead:first-child tr:first-child td {
+        border-top: 0;
+        text-align: center;
+        vertical-align: central;
+    }
+    .caption {
+        background: transparent !important;
+    }
+        /*td {
+        height: 40px;
+        max-height: 40px;
+        width: 40px;
+        max-width: 40px;
+  
+    }
+
+    td {
+        position: relative;
+        text-overflow: ellipsis;
+    }
+
+    img.normal, img.fullsize.normal {
+        height: 100%;
+        max-height: 100%;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .centered {
+        text-align: center;
+    }
+
+    .middled, tr {
+        vertical-align: middle;
+    }
+
+    table {
+        table-layout: fixed;
+    }
+
+    img.fullsize {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        height: auto;
+        max-height: auto;
+        width: auto;
+        max-width: auto;
+    }*/
+</style>
+
+<div class="right_col" role="main">
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            @if (TempData["SuccessMessage"] != null)
+            { 
+            <div class="alert alert-success" id="success-alert">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong></strong><span>@TempData["SuccessMessage"]</span>
+            </div>
+            }
+            <div class="panel-heading">
+                <div class="x_title">
+                    <div class="row">
+                        <h3 class="pull-left">Manage Stores</h3>
+                        <div class="pull-right">
+                            <a href="@Url.Action("Index","Stores")" class="btn bg-blue">
+                                <i class="fa fa-plus-square"></i>
+                                Add new
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div id="tblSearchResult">
+                        <div class="panel-body panel">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+
+                                        <div class="x_content">
+                                            <div class="table-responsive"  style="overflow-x:auto; overflow-y:hidden">
+                                                <table id="datatable" class="table table-striped table-bordered" style="table-layout: auto; text-align:center;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="middled" style="vertical-align:middle">ID</th>
+                                                            <th style="vertical-align:middle">Store Name</th>
+                                                            <th style="vertical-align:middle">Store Type</th>
+                                                            <th style="vertical-align:middle">Ratings</th>
+                                                            <th style="vertical-align:middle">Longitude</th>
+                                                            <th style="vertical-align:middle">Latitude</th>
+                                                            <th style="vertical-align:middle">Open_From</th>
+                                                            <th style="vertical-align:middle">Open_To</th>
+                                                            <th style="vertical-align:middle">Logo</th>
+                                                            <th class="centered" style="vertical-align:middle">Edit</th>
+                                                            <th class="centered" style="vertical-align:middle">Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var store in Model.Stores)
+                                                        {
+                                                            <tr>
+                                                                <td style="vertical-align:middle">@store.Id</td>
+                                                                <td style="vertical-align:middle">@store.BusinessName</td>
+                                                                <td style="vertical-align:middle">@store.BusinessType</td>
+
+                                                                <td style="vertical-align:middle"><input id="input-2" name="input-2" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1" value="@store.AverageRating"></td>
+                                                                <td style="vertical-align:middle">@store.Longitude</td>
+                                                                <td style="vertical-align:middle">@store.Latitude</td>
+                                                                <td style="vertical-align:middle">@store.Open_From</td>
+                                                                <td style="vertical-align:middle">@store.Open_To</td>
+                                                                <td style="vertical-align:middle"><img src="@ApiCall.BaseUrl@store.ImageUrl"  style="height:35px;width:100px; max-height:35px;max-width:100px" class="normal" /></td>
+                                                                <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Edit"><button class="btn btn-primary btn-xs editButtons" data-title="Edit" data-storeid="@store.Id" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                                                                <td class="centered" style="vertical-align:middle"><p data-placement="top" data-toggle="tooltip" style="margin:3px 0px 0px" title="" data-original-title="Delete"><button class="btn btn-danger btn-xs deleteButtons" data-title="Delete" data-storeid="@store.Id" data-toggle="modal" data-target="#deleteModal"><span class="glyphicon glyphicon-trash"></span></button></p></td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            @*/////DeletePopUp*@
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true" style="display: none;">
+
+                                <div class="modal-dialog">
+                                    <input type="hidden" id="storeId" value="" />
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" id="btnDeleteClose" class="close" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                            <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span>Are you sure you want to delete this Store?</div>
+                                            <label id="lblErrorOnDelete" hidden class="text-danger"></label>
+                                        </div>
+                                        <div class="modal-footer ">
+                                            <button type="button" id="btnDeleteYes" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span>&nbsp;Yes</button>
+                                            <button type="button" id="btnDeleteNo" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>&nbsp;No</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/jquery")
+<script>
+    $(document).on("click", ".deleteButtons", function () {
+        var storeId = $(this).data('storeid');
+        $("#storeId").val(storeId);
+    });
+
+    $(document).on("click", ".editButtons", function () {
+        var storeId = $(this).data('storeid');
+        var url = '@Url.Action("Index", "Stores", new { StoreId = "__id__" })';
+        window.location.href = url.replace('__id__', storeId);
+    });
+
+    $(document).ready(function () {
+        setTimeout(
+function () {
+    if ($('#success-alert') != null) {
+        $('#success-alert').slideUp(500, function () {
+        });
+    }
+}, 3000);
+        //var message = $("#hdnMessage").val();
+        //if (message != "") {
+        //    $("#success-alert span").text(message);
+        //    $("#success-alert").fadeTo(2000, 500).slideUp(500, function () {
+        //        $("#success-alert").slideUp(500);
+        //    });
+        //}
+
+        $('#datatable').DataTable({
+            "pagingType": "full_numbers",
+            "columnDefs": [{
+                "targets": 6,
+                "orderable": false
+            },
+                                  {
+                                      "targets": 7,
+                                      "orderable": false
+                                  },
+                                  {
+                                      "targets": 8,
+                                      "orderable": false
+                                  }
+            ]
+        });
+    });
+
+    $('#btnDeleteNo').on("click", function (e) {
+        $('#deleteModal').modal('hide');
+        var lblError = $("#lblErrorOnDelete");
+        lblError.text("");
+        lblError.hide();
+    });
+
+    $('#btnDeleteClose').on("click", function (e) {
+        $('#deleteModal').modal('hide');
+        var lblError = $("#lblErrorOnDelete");
+        lblError.text("");
+        lblError.hide();
+    });
+
+    $('#btnDeleteYes').on("click", function (e) {
+        var storeId = $("#storeId").val();
+        var url = '@Url.Action("DeleteStore", "Stores")';
+        var lblError = $("#lblErrorOnDelete");
+        $.get(url, { StoreId: storeId }, function (data) {
+            if (data == "Success") {
+                $('#deleteModal').modal('hide');
+                $(".modal-backdrop").fadeOut('slow', function () {
+                    var table = $('#datatable').DataTable();
+
+                    var indexes = table.rows().eq(0).filter(function (rowIdx) {
+                        return table.cell(rowIdx, 0).data() === storeId ? true : false;
+                    });
+                    table.rows(indexes).remove().draw(false);
+                });
+                lblError.text("");
+                lblError.hide();
+            }
+            else {
+                lblError.text(data);
+                lblError.show();
+            }
+        });
+    });
+</script>

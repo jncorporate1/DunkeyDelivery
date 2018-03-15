@@ -230,15 +230,7 @@
                                     </ul>
                                 </div>
                                 <!-- -----------------------Search Toggle ---------------------- -->
-                                @*<searchtoggle>
-                                        <div class="searchtoggle"><img src="~/Content/assets/images/search-icon.png" alt=""></div>
-                                        <div class="searchpanel">
-                                            <form method="get" onsubmit="return false" id="searchform" class="searchform" action="">
-                                                <input type="submit" id="searchsubmit" value="Search" />
-                                                <input type="text" value="" name="s" id="s" placeholder="Search" />
-                                            </form>
-                                        </div>
-                                    </searchtoggle>*@
+                             
                             </nav>
                         </div>
 
@@ -452,6 +444,10 @@
             <div id="back-top"> <a href="#top"> <span class="fa fa-arrow-circle-o-up"></span></a> </div>
 
             <!--<div id="winSize"></div>-->
+          
+            
+
+
         </main>
 
 
@@ -490,6 +486,8 @@ function googleTranslateElementInit() {
 }
         </script>*@
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
 
         <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
         <script>
@@ -550,7 +548,7 @@ function googleTranslateElementInit() {
 
 
             function onSuccess(googleUser) {
-                debugger;
+        
                 var FirstName = googleUser.getBasicProfile().getGivenName();
                 var LastName = googleUser.getBasicProfile().getFamilyName();
                 var Email = googleUser.getBasicProfile().getEmail();
@@ -563,7 +561,7 @@ function googleTranslateElementInit() {
             }
 
             function LogoutGmail() {
-                debugger;
+               
                 var auth2 = gapi.auth2.getAuthInstance();
                 auth2.signOut().then(function () {
                 });
@@ -600,7 +598,7 @@ function googleTranslateElementInit() {
             }
 
             function FailedSubmission(XMLHttpRequest, textStatus, errorThrown) {
-                debugger;
+           
                 $("#ModalNotification").css("color", "red");
                 $("#ModalNotification").html(errorThrown);
                 $("#Notifications").show();
@@ -669,7 +667,27 @@ function googleTranslateElementInit() {
                      next();
                  });
             }
+            function GetCurrentDate() {
+                var d = new Date();
 
+                var month = d.getMonth() + 1;
+                var day = d.getDate();
+
+                var output = d.getFullYear() + '/' +
+                    (('' + month).length < 2 ? '0' : '') + month + '/' +
+                    (('' + day).length < 2 ? '0' : '') + day;
+                return output;
+            }
+            function GetCurrentTime(AddToMinute) {
+                if (AddToMinute == undefined) {
+                    AddToMinute = 0;
+                }
+                var date = new Date();
+                var dateString = date.getHours() + ":" + date.getMinutes(date.setMinutes(date.getMinutes() + AddToMinute));
+
+                return dateString;
+
+            }
         </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

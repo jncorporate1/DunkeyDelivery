@@ -1,81 +1,255 @@
 ﻿@model DunkeyDelivery.Areas.User.Models.LaundryProductsInCategory
 @{
-	ViewBag.Title = "Store Details";
-	Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Store Details";
+    Layout = "~/Areas/User/Views/Shared/_Layout.cshtml";
+    var StyleClass = "";
+    var StyleCss = "";
 }
-<div class="top-banner product-detail-banner">
-	<img src="~/Content/assets/images/alcohol-detail-banner.jpg" class="img img-responsive" />
-	<div class="banner-inner-text" />
-	<img src="@DunkeyDelivery.Utility.BaseUrl@Model.StoreViewModel.ImageUrl" class="logo-img common-logo-height" />
-	@*<h3 class="rating"><img src="~/Content/assets/images/rating.png" /> (225 Reviews)</h3>*@
-	<div class="row">
-		@for (var i = 1; i <= 5; i++)
-		{
-			if (Model.StoreViewModel.AverageRating == 0)
-			{
-				<span><i class="icon fa fa fa-star-o"></i></span>
-			}
-			else if (i - Model.StoreViewModel.AverageRating <= 0)
-			{
-				<span><i class="icon fa fa-star"></i></span>
-				// rating
-			}
-			else if (i - Model.StoreViewModel.AverageRating < 1)
-			{
-				<span><i class="icon fa fa-star-half-full"></i></span>
-				// half rating
-			}
-			else
-			{
-				<span><i class="icon fa fa-star-o"></i></span>
-				// no rating
-			}
-		}
-	</div>
+<div class="top-banner product-detail-banner" >
+    <img src="~/Content/assets/images/alcohol-detail-banner.jpg" class="img img-responsive" />
+    <div class="banner-inner-text" style="top:50px !important;" />
+    <img src="@DunkeyDelivery.Utility.BaseUrl@Model.StoreViewModel.ImageUrl" class="logo-img common-logo-height" />
+    @*<h3 class="rating"><img src="~/Content/assets/images/rating.png" /> (225 Reviews)</h3>*@
+    <div class="row">
+        @for (var i = 1; i <= 5; i++)
+        {
+            if (Model.StoreViewModel.AverageRating == 0)
+            {
+                <span><i class="icon fa fa fa-star-o"></i></span>}
+            else if (i - Model.StoreViewModel.AverageRating <= 0)
+            {
+                <span><i class="icon fa fa-star"></i></span>    // rating
+            }
+            else if (i - Model.StoreViewModel.AverageRating < 1)
+            {
+                <span><i class="icon fa fa-star-half-full"></i></span>    // half rating
+            }
+            else
+            {
+                <span><i class="icon fa fa-star-o"></i></span>    // no rating
+            }
+        }
+    </div>
 
-	<h1 class="product-heading-banner">@Model.StoreViewModel.BusinessName</h1>
+    <h1 class="product-heading-banner">@Model.StoreViewModel.BusinessName</h1>
 
-	<p class="banner-inner-data">@Model.StoreViewModel.Address</p>
-	<p class="banner-inner-data">Min $<span id="min_order">@Model.StoreViewModel.MinOrderPrice</span>   |     Estimated time @Model.StoreViewModel.MinDeliveryTime min</p>
+    <p class="banner-inner-data">@Model.StoreViewModel.Address</p>
+    <p class="banner-inner-data">Min $<span id="min_order">@Model.StoreViewModel.MinOrderPrice</span>   |     Estimated time @Model.StoreViewModel.MinDeliveryTime min</p>
 </div>
-</div>
+
 <div class="current-menu-paths">
-	<div class="container">
-		<p> Home > Restaurants   >  @Model.StoreViewModel.BusinessName </p>
-	</div>
+    <div class="container">
+        <p> Home > Restaurants   >  @Model.StoreViewModel.BusinessName </p>
+    </div>
 </div>
 
 <div class="main-section product-detail-main pharmacy-details-main">
 
-	<div class="container">
-		<div class="row">
+    <div class="container">
+        <div class="row">
 
 
-			<div class="col-md-9" style="margin-top: 30px;padding-bottom: 30px;">
-				<ul class="tabs-list clearfix">
-					<li>
-						<button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Services</button>
-					</li>
-					<li>
-						<button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
-					</li>
-					<li>
-						<button class="tab-btn tablinks" id="info-tab" onclick="openCity(event, 'newyork')">Info</button>
-					</li>
-				</ul>
+            <div class="col-md-9" style="margin-top: 30px;padding-bottom: 30px;">
+                <ul class="tabs-list clearfix">
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Services</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" onclick="openCity(event, 'paris')">Reviews</button>
+                    </li>
+                    <li>
+                        <button class="tab-btn tablinks" id="info-tab" onclick="openCity(event, 'newyork')">Info</button>
+                    </li>
+                </ul>
 
-				<!-- TAB CONTENT -->
+                <!-- TAB CONTENT -->
 
-				<div class="tab1 tabcontent" id="London">
-					<div class="row">
-						<div class="col-md-12">
+                @*  STart here *@
+                <style>
+                    #btn1 {
+                        width: 115px;
+                    }
 
-							<div class="tab">
-								<div class="get-my-clothes clearfix">
-									<p>
-										Skip straight to checkout, then let the cleaner sort your stuff<br>
-										and update your bill.
-									</p>
+                    #btn2 {
+                        width: 115px;
+                    }
+
+                    #btn3 {
+                        width: 115px;
+                    }
+
+                    #btn4 {
+                        position: relative;
+                        padding: 10px;
+                        left: 25px;
+                        width: 75%;
+                    }
+
+
+                    .common {
+                        display: none;
+                    }
+
+                    .ui-timepicker-container {
+                        z-index: 10000 !important;
+                    }
+                </style>
+                @* Modal for asap later and today order *@
+                <div class="container">
+                    <!-- Modal -->
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content" id="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Schedule Your Order</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" id="HiddenProductId" value="" /> @*this id of product is used to generate click programatically on specific link for add to cart in case user selected delivery type*@
+                                    <div class="row ">
+                                        @if (Model.StoreViewModel.StoreDeliveryTypes.Count == 1)
+                                        {
+                                            StyleClass = "col-md-8 col-md-offset-2";
+                                        }
+                                        else if (Model.StoreViewModel.StoreDeliveryTypes.Count == 2)
+                                        {
+                                            StyleClass = "col-md-4 col-md-offset-1";
+                                            StyleCss = "style=position:relative;left:30px;";
+
+                                        }
+                                        else
+                                        {
+                                            StyleClass = "col-md-2 col-md-offset-1";
+                                            StyleCss = "style=position:relative;left:32px;";
+
+                                        }
+                                        @foreach (var type in Model.StoreViewModel.StoreDeliveryTypes)
+                                        {
+                                            if (type.Type_Id == (int)Utility.DeliveryTypes.ASAP)
+                                            {
+                                                <button id="type_@type.Type_Id" onclick="SetDeliveryType(@type.Type_Id,@Model.StoreViewModel.Id)" type="button" data-Type_Id="@type.Type_Id" class="btn btn-success @StyleClass" @StyleCss>
+                                                    @type.Type_Name
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button id="type_@type.Type_Id" onclick="ShowDeliveryOptions(this.id)" type="button" data-Type_Id="@type.Type_Id" class="btn btn-success @StyleClass" @StyleCss>
+                                                    @type.Type_Name
+                                                </button>
+                                            }
+
+                                        }
+                                    </div>
+                                    <div class="row">
+                                        @foreach (var type in Model.StoreViewModel.StoreDeliveryTypes)
+                                        {
+                                            if (type.Type_Id == (int)Utility.DeliveryTypes.ASAP)
+                                            {
+                                                <div class="DeliveryAsap common row" id="Id_@type.Type_Id">
+                                                    <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.StoreViewModel.Id)"
+                                                             class="btn btn-success col-md-4">
+                                                        Delivery ASAP
+                                                    </budtton>
+                                                    <input type="hidden" value="@Model.StoreViewModel.MinDeliveryTime" id="AsapTime" />
+                                                </div>
+                                            }
+                                            else if (type.Type_Id == (int)Utility.DeliveryTypes.Today)
+                                            {
+                                                <div class="DeliveryToday common" id="Id_@type.Type_Id">
+
+                                                    <div class="col-md-9 col-sm-12 col-md-offset-1" style="margin-top: 16px;margin-bottom: 25px;padding-left: 41px;">
+                                                        <label class="control-label" for="OpeningTime" title="">Select Order Time</label>
+                                                        <div class='input-group date'>
+                                                            <input type='text' class="form-control " id="timepicker1" name="Store.Open_From" value="" />
+                                                            <span class="input-group-addon open-timepicker1">
+                                                                <span class="glyphicon glyphicon-time "></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-11 col-md-offset-1">
+                                                        <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.StoreViewModel.Id)"
+                                                                 class="btn btn-success col-md-4 ">
+                                                            Delivery Today
+                                                        </budtton>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+
+                                                <div class="DeliveryLater common" id="Id_@type.Type_Id">
+                                                    <div class="row" style="margin-top: 16px;margin-bottom: 25px;padding-left: 60px;">
+                                                        <div class="col-md-6 col-sm-12" style="padding-left: 35px;
+">
+                                                            <label class="control-label" for="OpeningTime" title="">Select Order Date</label>
+                                                            <div class="form-group">
+                                                                <div class='input-group date' id='datetimepicker'>
+                                                                    <input type='text' class="form-control" />
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12" style="padding-right: 85px;">
+                                                            <label class="control-label" for="OpeningTime" title="">Select Order Time</label>
+                                                            <div class='input-group date'>
+                                                                <input type='text' class="form-control " id="timepicker2" name="Store.Open_From" value="" />
+                                                                <span class="input-group-addon open-timepicker2">
+                                                                    <span class="glyphicon glyphicon-time "></span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-md-offset-1">
+                                                        <budtton id="btn4" type="button" onclick="SetDeliveryType(@type.Type_Id,@Model.StoreViewModel.Id)"
+                                                                 class="btn btn-success">
+                                                            Delivery Later
+                                                        </budtton>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+
+                                    <script>
+
+                                    </script>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                @* end here *@
+
+
+
+
+
+
+
+
+
+
+                <div class="tab1 tabcontent" id="London">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="tab">
+                                <div class="get-my-clothes clearfix">
+                                    <p>
+                                        Skip straight to checkout, then let the cleaner sort your stuff<br>
+                                        and update your bill.
+                                    </p>
                                     @if (Model.Id != null)
                                     {
                                         <a onclick="getClothRequest()" style="cursor:pointer;" id="ClothRequest" storeId="@Model.StoreViewModel.Id" UserId="@Model.Id" class="get_btn">GET MY CLOTHES</a>
@@ -83,76 +257,76 @@
                                     }
                                     else
                                     {
-                                        <a  onclick="login_error_getCloth()" style="cursor:pointer;" storeId="@Model.StoreViewModel.Id" UserId="@Model.Id" class="get_btn">GET MY CLOTHES</a>
+                                        <a onclick="login_error_getCloth()" style="cursor:pointer;" storeId="@Model.StoreViewModel.Id" UserId="@Model.Id" class="get_btn">GET MY CLOTHES</a>
                                         <p style="color: red;display: none;font-size:  14px;margin-top:10px;" id="Cloth_error"></p>
                                     }
                                     @*<a style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">*@
-                                    </div>
+                                </div>
 
-								<p class="select-tag">or select your items below</p>
+                                <p class="select-tag">or select your items below</p>
 
-								@if (Model.laundryproducts.Count != 0)
-								{
-									foreach (var category in Model.laundryproducts)
-									{
-										<div class="pharmacy-details clearfix laundry-details">
+                                @if (Model.laundryproducts.Count != 0)
+                                {
+                                    foreach (var category in Model.laundryproducts)
+                                    {
+                                        <div class="pharmacy-details clearfix laundry-details">
 
 
-											<h4>@category.Name</h4>
-											<div class="laundry-details-cont">
-												<ul>
-													@if (category.Products.Count != 0)
-													{
-														foreach (var product in category.Products)
-														{
-															<li>
-																<a  id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">
-																	<div class="left">
-                                                                      
-                                                                            @product.Name
-                                                                            <p>@product.Description</p>
-</div>
+                                            <h4>@category.Name</h4>
+                                            <div class="laundry-details-cont">
+                                                <ul>
+                                                    @if (category.Products.Count != 0)
+                                                    {
+                                                        foreach (var product in category.Products)
+                                                        {
+                                                            <li>
+                                                                <a class="addCart" id="addCart" style="cursor:pointer" storeBusinessTypeTax="@Model.StoreViewModel.BusinessTypeTax" storeBusinessType="@Model.StoreViewModel.BusinessType" ProductId='@product.Id' storeName="@Model.StoreViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@Model.StoreViewModel.Id')">
+                                                                    <div class="left">
+
+                                                                        @product.Name
+                                                                        <p>@product.Description</p>
+                                                                    </div>
                                                                     <i class="fa fa-plus" id="addToCartIcon" aria-hidden="true" style="margin-left:17px;float:right;margin-top:1px;"></i> <span>
                                                                         <div class="right">
                                                                             <span> $@product.Price</span>
                                                                         </div>
 
-</a>
-															</li>
-														}
-													}
-													else
-													{
-														<li>
-																<a>
-																	<div class="left">No Result(s) Found</div>
-															 
-																</a>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a>
+                                                                <div class="left">No Result(s) Found</div>
 
-														</li>
-													}
-												</ul>
-											</div>
-										</div>
+                                                            </a>
 
-									}
-								}
-								else
-								{
-									<div class="pharmacy-details clearfix Laundry-details">
-										<h3 class="text-center">No Result(s) Found</h3>
-									</div>
-										}
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
 
-									</div>
-						</div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="pharmacy-details clearfix Laundry-details">
+                                        <h3 class="text-center">No Result(s) Found</h3>
+                                    </div>
+                                }
 
-
+                            </div>
+                        </div>
 
 
 
-					</div>
-				</div>
+
+
+                    </div>
+                </div>
                 <div class="tab1 tabcontent" id="paris">
                     <div class="reviews-main clearfix reviews-tab">
                         <h4>Reviews</h4>
@@ -219,98 +393,107 @@
                         </div>
                         <ul>
                             @*<li>
-                        <img src="~/Content/assets/images/rating.png" />
-                        <p>
-                            By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
-                            The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
-                            tasty it literally blew me away.
-                        </p>
-                    </li>*@
+                                    <img src="~/Content/assets/images/rating.png" />
+                                    <p>
+                                        By: Yisroel H on Jan 5, 2017 | 1 review written | 1 order placed<br>
+                                        The Quality here outdid any of my local butchers. The meat was fresh, juicy, and so
+                                        tasty it literally blew me away.
+                                    </p>
+                                </li>*@
 
                         </ul>
                     </div>
+
                 </div>
-				<div class="tab1 tabcontent" id="newyork">
+                <div class="tab1 tabcontent" id="newyork">
 
-					<div class="location-info clearfix">
-						<h3>
-							@Model.StoreViewModel.Address
-						</h3>
-						<div id="map"></div>
-
-
-					</div>
-
-					<div class="time-info clearfix" style="background-color:#FFF;">
-						<div class="col-md-12 nopadleft">
-							<h3>Delivery hours</h3>
-							<ul>
-								@if (Model.StoreViewModel.StoreDeliveryHours != null)
-								{
-										<li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Thursday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Thursday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Friday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Friday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
-										<li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
-
-									
-								}
-								else
-								{
-
-									<li> Delivery Time Not Available</li>
-								}
+                    <div class="location-info clearfix">
+                        <h3>
+                            @Model.StoreViewModel.Address
+                        </h3>
+                        <div id="map"></div>
 
 
-							</ul>
+                    </div>
 
-						</div>
-					</div>
-
-
-				</div>
-
-
-
-			</div>
-
-			<div class="col-md-3" id="OrderItems">
-
-				@{
-
-					Html.RenderAction("OrderItems", "Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice });
-				}
-			</div>
-			<div class="col-md-3" id="Cart" style="display:none">
-				@{
-					Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
-				}
-
-				@{
-					Html.RenderAction("Cart", "Order", new { area = "User" });
-				}
-			</div>
+                    <div class="time-info clearfix" style="background-color:#FFF;">
+                        <div class="col-md-12 nopadleft">
+                            <h3>Delivery hours</h3>
+                            <ul>
+                                @if (Model.StoreViewModel.StoreDeliveryHours != null)
+                                {
+                                    <li> <div class="left">Mon @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Monday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Monday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Tue @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Tuesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Tuesday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Wed @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Wednesday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Wednesday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Thu @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Thursday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Thursday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Fri @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Friday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Friday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Sat @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Saturday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Saturday_To.ToString(@"hh\:mm")</div></li>
+                                                        <li> <div class="left">Sun @DateTime.Now.ToString("dd/MM") </div>      <div class="right">@Model.StoreViewModel.StoreDeliveryHours.Sunday_From.ToString(@"hh\:mm")  - @Model.StoreViewModel.StoreDeliveryHours.Sunday_To.ToString(@"hh\:mm")</div></li>
 
 
-		</div>
+                                }
+                                else
+                                {
+
+                                    <li> Delivery Time Not Available</li>
+                                }
 
 
-	</div>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-3" id="OrderItems">
+
+                @{
+
+                    Html.RenderAction("OrderItems", "Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice, CurrentStoreId = Model.StoreViewModel.Id });
+                }
+            </div>
+            <div class="col-md-3" id="Cart" style="display:none">
+                @{
+                    Html.RenderAction("DeliveryTime", "Order", new { area = "User" });
+                }
+
+                @{
+                    Html.RenderAction("Cart", "Order", new { area = "User" });
+                }
+            </div>
+
+
+        </div>
+
+
+    </div>
 
 </div>
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+@*/////TimePicker*@
+<script src="~/Content/bootstrap-timepicker/jquery.timepicker.min.js"></script>
+<link href="~/Content/bootstrap-timepicker/jquery.timepicker.min.css" rel="stylesheet" />
 
 <script>
 
-   
+
     function getClothRequest(){
 
         var store_Id= $("#ClothRequest").attr("storeId");
         var User_Id = $("#ClothRequest").attr("UserId");
-    
+
         $.ajax({
-           
+
             url: '@Url.Action("ClothRequestToAdmin", "Order", new { Area = "User" })',
             type: "POST",
             data: { store_Id: store_Id, User_Id: User_Id},
@@ -319,7 +502,7 @@
                 $("#Cloth_error").text("Your request has been submitted successfully.");
                 $("#Cloth_error").show();
                 $('#Cloth_error').delay(3000).fadeOut();
-            
+
             }, error: function (xhr, status, error) {
                 $("#Cloth_error").css("color","red");
                 $("#Cloth_error").text("You already requested to Get Cloths for today.");
@@ -331,11 +514,11 @@
 
 
     }
- 
+
 
 
     function ReviewSuccess(data){
-           
+
         $("#review_message").show();
         if(data==0){
             $("#review_message").css("color","green");
@@ -375,12 +558,12 @@
                     $("#"+i).addClass("fa-star");
                 }
             }else{
-         
+
                 if($("#"+i).hasClass("fa-star")){
                     $("#"+i).removeClass("fa-star");
                     $("#"+i).addClass("fa-star-o");
                 }
-                
+
             }
         }
 
@@ -389,37 +572,37 @@
 </script>
 <script>
 
-		var BusinessName="@Model.StoreViewModel.BusinessName";
-		var BusinessImage="@Model.StoreViewModel.ImageUrl";
-		var PointerLoc= {lat: @Model.StoreViewModel.Latitude, lng:@Model.StoreViewModel.Latitude};
-		BusinessImage=encodeURI(BusinessImage);
-		$('#info-tab').on('click',function(){
-			initMap();
-			$("#map").click();
-		});
+    var BusinessName="@Model.StoreViewModel.BusinessName";
+    var BusinessImage="@Model.StoreViewModel.ImageUrl";
+    var PointerLoc= {lat: @Model.StoreViewModel.Latitude, lng:@Model.StoreViewModel.Latitude};
+    BusinessImage=encodeURI(BusinessImage);
+    $('#info-tab').on('click',function(){
+        initMap();
+        $("#map").click();
+    });
 
-		function initMap() {
-			var myLatLng = PointerLoc;
+    function initMap() {
+        var myLatLng = PointerLoc;
 
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom: 10,
-				center: myLatLng
-			});
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 10,
+            center: myLatLng
+        });
 
-			var marker = new google.maps.Marker({
-				position: myLatLng,
-				map: map
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map
 
-			});
-		}
+        });
+    }
 
 </script>
 <script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsTtPvdkmkD6v7vu9QRzrTEPXwdsLDu3Y&libraries=places&callback=initMap">
 </script>
 
 <script>
-    function AddToCart(id, productName, price, size, StoreId) {
+    @*function AddToCart(id, productName, price, size, StoreId) {
         var StoreName= $("#addCart").attr("storeName");
         var BusinessType = $("#addCart").attr("storeBusinessType");
         var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
@@ -439,6 +622,131 @@
 				$('#OrderItems').load('@Url.Action("OrderItems","Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice })')
 				//e.preventDefault();
 			})
-	}
+	}*@
+    function AddToCart(id, productName, price, size, StoreId,MinOrderPrice) {
 
+        var TypeCount=@Model.StoreViewModel.StoreDeliveryTypes.Count;
+        var TypeValue=$("#IsTypeSet").val();
+        if(TypeCount > 0 && TypeValue=='false'){
+            $("#HiddenProductId").val(id);
+            $('#myModal').modal("show");
+
+
+        }else{
+            var StoreName = $("#addCart").attr("storeName");
+            var BusinessType = $("#addCart").attr("storeBusinessType");
+            var BusinessTypeTax = $("#addCart").attr("storeBusinessTypeTax");
+
+            var data = {
+                ItemId: id,
+                name: productName,
+                price: price,
+                type: 0,
+                size: size,
+                StoreId: StoreId,
+                StoreName: StoreName,
+                BusinessType: BusinessType,
+                BusinessTypeTax: BusinessTypeTax
+            }
+            $.post("@Url.Action("AddToCart","Order")", data,
+            function (e) {
+
+
+                var url= '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice, CurrentStoreId = Model.StoreViewModel.Id })';
+                url=url.replace("&amp;","&");
+                $('#OrderItems').load(url);
+
+            })
+
+        }
+    }
+
+    function DeleteCartItem(itemId, type, StoreId,MinOrder) {
+        var data = {
+            ItemId: itemId,
+            type: type,
+            StoreId: StoreId
+        }
+        $.post("@Url.Action("DeleteCartItem", "Order")", data,
+        function () {
+            var url = '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice,CurrentStoreId=Model.StoreViewModel.Id})';
+            url = url.replace("&amp;", "&");
+            $('#OrderItems').load(url);
+        })
+
+    }
+
+    function Cart() {
+
+
+
+        var url = '@Url.Action("CartWithData", "Order")';
+        $('#Cart').load(url);
+
+        $("#OrderItems").fadeOut();
+        $("#Cart").fadeIn();
+    }
+    $(function () {
+
+
+        $('#datetimepicker').datetimepicker({format: 'YYYY/MM/DD', allowInputToggle: true,defaultDate: new Date()});
+    });
+    function ShowDeliveryOptions(DivId){
+
+        $("#Id_0").hide();
+        $("#Id_1").hide();
+        $("#Id_2").hide();
+        $('#Id_'+$("#"+DivId).data('type_id')).show();
+
+    }
+
+    $('.open-timepicker').click(function (event) {
+        event.preventDefault();
+        $('#timepicker').click();
+    });
+    $('#timepicker1').timepicker({ minTime:'@Model.StoreViewModel.Open_From.Value.TimeOfDay' ,maxTime:'@Model.StoreViewModel.Open_To.Value.TimeOfDay',defaultTime:'@Model.StoreViewModel.Open_From'});
+    $('#timepicker2').timepicker({ minTime:'@Model.StoreViewModel.Open_From.Value.TimeOfDay' ,maxTime:'@Model.StoreViewModel.Open_To.Value.TimeOfDay',defaultTime:'@Model.StoreViewModel.Open_From'});
+
+
+
+    function SetDeliveryType(Type_Id,Store_Id){
+
+        var Time="";
+        var Date=GetCurrentDate();
+        switch (Type_Id) {
+            case 0:
+                Time=GetCurrentTime($("#AsapTime").val());
+                break;
+            case 1:
+                Time=$("#timepicker1").val();
+                break;
+            case 2:
+                Date=$("#datetimepicker > input").val();
+                Time=$("#timepicker2").val();
+                break;
+            default:
+                break;
+        }
+        var OrderDateTime=Date+" "+Time;
+
+        var data = {
+            Type_Id: Type_Id,
+            OrderDateTime:OrderDateTime,
+            Store_Id:Store_Id
+        }
+        $.post("@Url.Action("AddDeliveryTimeToStore", "Order")", data,
+        function (e) {
+
+
+            var url= '@Url.Action("OrderItems", "Order", new { area = "User", MinOrder = Model.StoreViewModel.MinOrderPrice, CurrentStoreId = Model.StoreViewModel.Id })';
+            url=url.replace("&amp;","&");
+            $('#OrderItems').load(url);
+
+        });
+
+
+        $('#myModal').modal('hide');
+        $("#IsTypeSet").val("true");
+        $(".addCart[ProductId='"+$("#HiddenProductId").val()+"']").click();
+    }
 </script>

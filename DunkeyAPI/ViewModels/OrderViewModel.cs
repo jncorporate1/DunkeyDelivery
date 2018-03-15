@@ -29,8 +29,9 @@ namespace DunkeyAPI.ViewModels
         {
             Cart = new CartViewModel();
             DeliveryDetails = new DeliveryDetailsBindingModel();
+            StoreDeliverytype = new List<DeliveryType>();
         }
-
+        public List<DeliveryType> StoreDeliverytype { get; set; }
         public CartViewModel Cart { get; set; }
         public DeliveryDetailsBindingModel DeliveryDetails { get; set; }
 
@@ -41,6 +42,14 @@ namespace DunkeyAPI.ViewModels
 
 
 
+    }
+
+    public class DeliveryType
+    {
+        public int Store_Id { get; set; }
+        public int Type_Id { get; set; }
+        public DateTime? OrderDateTime { get; set; }
+        public int? MinDeliveryTime { get; set; }
     }
 
     public class DeliveryDetailsBindingModel

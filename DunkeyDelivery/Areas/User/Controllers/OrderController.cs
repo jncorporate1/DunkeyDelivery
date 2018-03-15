@@ -21,7 +21,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         {
             return View();
         }
-        public ActionResult OrderItems(float? MinOrder,int? CurrentStoreId)
+        public ActionResult OrderItems(float? MinOrder, int? CurrentStoreId)
         {
             Cart cart = new Cart();
 
@@ -38,7 +38,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
             {
                 cart.MinOrder = MinOrder;
             }
-            if(CurrentStoreId.HasValue)
+            if (CurrentStoreId.HasValue)
             {
                 cart.CurrentStoreId = CurrentStoreId.Value;
             }
@@ -78,9 +78,9 @@ namespace DunkeyDelivery.Areas.User.Controllers
             ViewBag.BannerTitle = "Delivery Details";
             ViewBag.Path = "Home > Delivery Details";
             deliveryModel.SetSharedData(User);
-            if(deliveryModel.Id != null)
+            if (deliveryModel.Id != null)
             {
-                var addresses = await ApiCall<Addresses>.CallApi("/api/User/GetUserAddressesForDelivery?User_id=" + deliveryModel.Id, null,false);
+                var addresses = await ApiCall<Addresses>.CallApi("/api/User/GetUserAddressesForDelivery?User_id=" + deliveryModel.Id, null, false);
                 if (addresses == null || addresses is Error)
                 {
                     TempData["ErrorMessage"] = (addresses as Error).ErrorMessage;
@@ -159,6 +159,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
 
                 foreach (var store in cart.Stores)
                 {
+                    orderModel.StoreDeliverytype.Add(store.DeliveryType);
                     foreach (var cartItem in store.CartItems)
                     {
                         orderModel.Cart.CartItems.Add(new CartItemViewModel { ItemId = cartItem.ItemId, StoreId = cartItem.StoreId, ItemType = cartItem.Type, Qty = cartItem.Qty });
@@ -213,6 +214,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         [HttpPost]
         public ActionResult AddDeliveryTimeToStore(DeliveryTypeCookieBindingModel model)
         {
+
             HttpCookie cookie = new HttpCookie("Cart");
             Cart cart = new Cart();
             if (Request.RequestContext.HttpContext.Request.Cookies.AllKeys.Contains("Cart"))
@@ -221,14 +223,19 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 cart = JObject.Parse(cartCookie.Value.Replace("%0d%0a", "")).ToObject<Cart>();
 
                 var existingStore = cart.Stores.FirstOrDefault(x => x.StoreId == model.Store_Id);
-
-                if (existingStore != null)
+                if (existingStore != null )
                 {
-                   
-                }
-                else
+                    if(existingStore.DeliveryType == null)
+                        existingStore.DeliveryType = new DeliveryTypeCookieBindingModel { OrderDateTime = model.OrderDateTime.Value, Type_Id = model.Type_Id, Store_Id = model.Store_Id };
+                }else
                 {
-                   
+                    StoreItem item = new StoreItem();
+                    item.StoreId = model.Store_Id;
+                    item.DeliveryType.Type_Id = model.Type_Id;
+                    item.DeliveryType.Store_Id= model.Store_Id;
+                    item.DeliveryType.OrderDateTime= model.OrderDateTime;
+                    
+                    cart.Stores.Add(item);
                 }
 
             }
@@ -237,20 +244,21 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 //model.Total = (float)Math.Round(model.Price, 4);
                 //cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
                 DeliveryTypeCookieBindingModel DeliveryType = new DeliveryTypeCookieBindingModel();
-                if (model.Type_Id == 0)
-                {
-                    DeliveryType.Type_Id = 0;
-                    DeliveryType.MinDeliveryTime = model.MinDeliveryTime;
-                }else if (model.Type_Id == 1)
-                {
-                    DeliveryType.Type_Id = 0;
-                    DeliveryType.MinDeliveryTime = model.MinDeliveryTime;
-                }
-                else
-                {
+                //if (model.Type_Id == 0)
+                //{
+                    DeliveryType.Type_Id = model.Type_Id;
+                    DeliveryType.OrderDateTime = model.OrderDateTime;
+                //}
+                //else if (model.Type_Id == 1)
+                //{
+                //    DeliveryType.Type_Id = 1;
+                //    DeliveryType.MinDeliveryTime = model.MinDeliveryTime;
+                //}
+                //else
+                //{
 
-                }
-                cart.Stores.Add(new StoreItem {StoreId=model.Store_Id });
+                //}
+                cart.Stores.Add(new StoreItem { StoreId = model.Store_Id });
             }
 
             cookie.Value = JObject.FromObject(cart).ToString();
@@ -294,15 +302,15 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 //CartItem existingCartItem;
                 //var existingCartItem = cart.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type && x.StoreId == model.StoreId);
                 var existingStore = cart.Stores.FirstOrDefault(x => x.StoreId == model.StoreId);
-                
+
                 if (existingStore != null)
                 {
                     var existingCartItem = existingStore.CartItems.FirstOrDefault(x => x.ItemId == model.ItemId && x.Type == model.Type);
-                    
+
                     if (existingCartItem != null)
                     {
                         existingCartItem.Qty += 1;
-                        existingCartItem.Total = (float)Math.Round(existingCartItem.Price, 4)* existingCartItem.Qty;
+                        existingCartItem.Total = (float)Math.Round(existingCartItem.Price, 4) * existingCartItem.Qty;
                     }
                     else
                     {
@@ -312,7 +320,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
                 }
                 else
                 {
-                    model.Total =(float)Math.Round(model.Price,4);
+                    model.Total = (float)Math.Round(model.Price, 4);
                     cart.Stores.Add(new StoreItem { BusinessTypeTax = model.BusinessTypeTax, BusinessType = model.BusinessType, StoreId = model.StoreId, StoreName = model.StoreName, CartItems = new List<CartItem> { model } });
                 }
 
@@ -338,7 +346,7 @@ namespace DunkeyDelivery.Areas.User.Controllers
         public async Task<ActionResult> ClothRequestToAdmin(ClothRequestBindingModel model)
         {
 
-            var ClothRequest = await ApiCall<ClothRequestBindingModel>.CallApi("/api/Order/RequestGetCloth",model,true);
+            var ClothRequest = await ApiCall<ClothRequestBindingModel>.CallApi("/api/Order/RequestGetCloth", model, true);
             if (ClothRequest == null || ClothRequest is Error)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "**basra*" + (ClothRequest as Error).ErrorMessage + "*basra**");

@@ -7545,3 +7545,59 @@ StackTrace   at System.Data.SqlClient.SqlConnection.OnError(SqlException excepti
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at DunkeyAPI.Controllers.OrderController.<GetOrdersHistoryByIdMobile>d__4.MoveNext()
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.AdminController.<AddStoreWithImage>d__3.MoveNext()
+------******------
+
+MessageNo such token: tok_1C4pZ9B7a1R0DysjJVezc110
+
+StackTrace   at Stripe.Infrastructure.Requestor.ExecuteRequest(HttpRequestMessage requestMessage)
+   at Stripe.Infrastructure.Requestor.PostString(String url, StripeRequestOptions requestOptions)
+   at Stripe.StripeCustomerService.Create(StripeCustomerCreateOptions createOptions, StripeRequestOptions requestOptions)
+   at DunkeyDelivery.Utility.GetStripeChargeInfo(String stripeEmail, String stripeToken, Int32 amount) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\Utility.cs:line 257
+   at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\OrderController.cs:line 48
+------******------
+
+MessageNo such token: tok_1C4pZ9B7a1R0DysjJVezc110
+
+StackTrace   at Stripe.Infrastructure.Requestor.ExecuteRequest(HttpRequestMessage requestMessage)
+   at Stripe.Infrastructure.Requestor.PostString(String url, StripeRequestOptions requestOptions)
+   at Stripe.StripeCustomerService.Create(StripeCustomerCreateOptions createOptions, StripeRequestOptions requestOptions)
+   at DunkeyDelivery.Utility.GetStripeChargeInfo(String stripeEmail, String stripeToken, Int32 amount) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\Utility.cs:line 257
+   at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\OrderController.cs:line 48
+------******------
+
+MessageNo such token: tok_1C4paVB7a1R0DysjhdOf1egf
+
+StackTrace   at Stripe.Infrastructure.Requestor.ExecuteRequest(HttpRequestMessage requestMessage)
+   at Stripe.Infrastructure.Requestor.PostString(String url, StripeRequestOptions requestOptions)
+   at Stripe.StripeCustomerService.Create(StripeCustomerCreateOptions createOptions, StripeRequestOptions requestOptions)
+   at DunkeyDelivery.Utility.GetStripeChargeInfo(String stripeEmail, String stripeToken, Int32 amount) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\Utility.cs:line 257
+   at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\OrderController.cs:line 48
+------******------
+
+MessageNo such token: tok_1C4pxAB7a1R0DysjZuZw8cec
+
+StackTrace   at Stripe.Infrastructure.Requestor.ExecuteRequest(HttpRequestMessage requestMessage)
+   at Stripe.Infrastructure.Requestor.PostString(String url, StripeRequestOptions requestOptions)
+   at Stripe.StripeCustomerService.Create(StripeCustomerCreateOptions createOptions, StripeRequestOptions requestOptions)
+   at DunkeyDelivery.Utility.GetStripeChargeInfo(String stripeEmail, String stripeToken, Int32 amount) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\Utility.cs:line 257
+   at DunkeyAPI.Controllers.OrderController.<InsertOrder>d__0.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\OrderController.cs:line 48
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.ExtensionMethods.ExtensionMethods.<>c__DisplayClass8_1.<SetOrderDeliveryDetails>b__0(DeliveryType x) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\ExtensionMethods.cs:line 257
+   at System.Linq.Enumerable.FirstOrDefault[TSource](IEnumerable`1 source, Func`2 predicate)
+   at DunkeyAPI.ExtensionMethods.ExtensionMethods.SetOrderDeliveryDetails(OrderViewModel model, Order order) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\ExtensionMethods.cs:line 257
+   at DunkeyAPI.ExtensionMethods.ExtensionMethods.MakeOrder(Order order, OrderViewModel model, DunkeyContext ctx, Nullable`1 Device) in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\ExtensionMethods.cs:line 294
+------******------
+
+MessageThe Include path expression must refer to a navigation property defined on the type. Use dotted paths for reference navigation properties and the Select operator for collection navigation properties.
+Parameter name: path
+
+StackTrace   at System.Data.Entity.QueryableExtensions.Include[T,TProperty](IQueryable`1 source, Expression`1 path)
+   at DunkeyAPI.Controllers.AlcoholController.AlcoholFilterStore(Double latitude, Double longitude, Nullable`1 SortBy, String Country, String Price, String Size) in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\AlcoholController.cs:line 965
+------******------

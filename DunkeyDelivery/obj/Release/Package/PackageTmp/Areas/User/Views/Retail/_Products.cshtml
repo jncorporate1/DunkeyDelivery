@@ -10,61 +10,7 @@
 
 
 <div class="row">
-    @*<div class="col-md-4 nopadleft">
-
-
-
-
-            <div class="rest-item-1 filteritems" style="border: 1px solid #66cc33;margin: 20px 0 0;">
-
-
-
-
-                <ul>
-                    <h4><img src="~/Content/assets/images/filter.png" alt="">Filter Restaurants</h4>
-                    <li><a href="javascript::">Free delivery</a></li>
-                    <li><a href="javascript::">Deals</a></li>
-                    <li><a href="javascript::">Open Restaurants</a></li>
-                    <li><a href="javascript::">Online payment avaiable</a></li>
-                    <li><a href="javascript::">Fast Delivery</a></li>
-                </ul>
-
-
-
-
-
-
-
-
-
-                <div class="cusine">
-                    <ul>
-                        <h4><img src="~/Content/assets/images/filter.png" alt="">Filter By Type</h4>
-                        <li><a href="javascript::">Distilled</a></li>
-                        <li><a href="javascript::">Mineral</a></li>
-                        <li><a href="javascript::">Artesian</a></li>
-
-                    </ul>
-                </div>
-
-
-
-
-
-
-
-
-            </div>
-
-
-
-
-
-
-
-
-
-        </div>*@
+ 
     <div class="col-md-12">
 
         <div class="tab">
@@ -88,7 +34,7 @@
                     {
                         foreach (var product in Model.productslist)
                         {
-                            <li id="addCart" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')">@product.Name <span>$@product.Price</span></li>
+                            <li class="addCart" id="addCart" storeBusinessTypeTax="@Model.shopViewModel.BusinessTypeTax" storeBusinessType="@Model.shopViewModel.BusinessType" ProductId='@product.Id' storeName="@Model.shopViewModel.BusinessName" onclick="AddToCart('@product.Id', '@product.Name', '@product.Price', '@product.Size','@product.Store_id')">@product.Name <span>$@product.Price</span></li>
 
                         }
                     }
@@ -109,7 +55,7 @@
 
 
 </div>
-<script>
+@*<script>
     function AddToCart(id, productName, price, size, StoreId) {
         var StoreName = $("#addCart").attr("storeName");
         var BusinessType = $("#addCart").attr("storeBusinessType");
@@ -133,4 +79,4 @@
 
     }
 
-</script>
+</script>*@

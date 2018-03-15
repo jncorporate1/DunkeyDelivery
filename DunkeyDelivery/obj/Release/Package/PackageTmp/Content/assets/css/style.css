@@ -19,6 +19,9 @@ DESCRIPTION: Custom Template
 /*
 	Umer's Css Custom  start
 */
+body.modal-open {
+    overflow: hidden;
+}
 .text-visible{
     text-shadow: 2px 2px 2px #000 !important;
 }

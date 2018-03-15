@@ -174,7 +174,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/Index.cshtml">
-      <publishTime>11/30/2017 12:54:29</publishTime>
+      <publishTime>03/07/2018 16:56:47</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Product/ManageProducts.cshtml">
       <publishTime>11/30/2017 19:04:31</publishTime>
@@ -195,7 +195,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Stores/Index.cshtml">
-      <publishTime>11/27/2017 13:08:20</publishTime>
+      <publishTime>03/07/2018 18:44:01</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Stores/Manage.cshtml">
       <publishTime>11/27/2017 13:08:20</publishTime>
@@ -225,7 +225,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/BasketWebPanel.dll">
-      <publishTime>01/31/2018 23:23:08</publishTime>
+      <publishTime>03/14/2018 12:43:26</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>04/12/2012 19:19:36</publishTime>
@@ -2952,7 +2952,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:21</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/26/2018 19:30:00</publishTime>
+      <publishTime>03/06/2018 11:23:38</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>11/27/2017 13:08:21</publishTime>
@@ -2964,7 +2964,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:21</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>01/26/2018 17:59:57</publishTime>
+      <publishTime>03/14/2018 12:43:30</publishTime>
     </File>
   </ItemGroup>
 </Project>

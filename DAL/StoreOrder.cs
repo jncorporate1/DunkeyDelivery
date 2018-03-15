@@ -38,7 +38,9 @@ namespace DAL
 
         public int Order_Id { get; set; }
 
-        public TimeSpan? OrderDeliveryTime { get; set; }
+        public DateTime? OrderDeliveryTime { get; set; }
+
+        public int Type_Id { get; set; }
 
         [NotMapped]
         public double BusinessTypeTax { get; set; }
