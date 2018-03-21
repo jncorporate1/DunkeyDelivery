@@ -12,7 +12,7 @@ using DunkeyAPI.ViewModels;
 using AutoMapper;
 using DunkeyAPI.Utility;
 using DunkeyAPI.ExtensionMethods;
-
+using Z.EntityFramework.Plus;
 
 namespace DunkeyAPI.Controllers
 {
@@ -27,8 +27,6 @@ namespace DunkeyAPI.Controllers
             {
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
-
-
                     AlcoholViewModel model = new AlcoholViewModel();
                     AlcoholViewModel ReturnModel = new AlcoholViewModel();
 
@@ -36,7 +34,7 @@ namespace DunkeyAPI.Controllers
                     string[] StoreIdsString;
                     int[] StoreIdsInt = new int[0];
                     var point = DunkeyDelivery.Utility.CreatePoint(latitude, longitude);
-
+                    var CategoryIdInQuery = 0;
                     if (!string.IsNullOrEmpty(Store_Ids))
                     {
                         StoreIdsString = Store_Ids.Split(',');
@@ -49,7 +47,7 @@ namespace DunkeyAPI.Controllers
                     }
                     else
                     {
-                        Stores = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).Include(x => x.StoreTags).Where(x => x.Location.Distance(point) < DunkeyDelivery.Global.NearbyStoreRadius && x.BusinessType == Utility.Global.Constants.Alcohol && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                        Stores = ctx.Stores.IncludeFilter(x => x.Categories.Where(y => y.IsDeleted == false)).Include(x => x.Products).Include(x => x.StoreTags).Where(x => x.Location.Distance(point) < DunkeyDelivery.Global.NearbyStoreRadius && x.BusinessType == Utility.Global.Constants.Alcohol && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                     }
 
 
@@ -59,20 +57,30 @@ namespace DunkeyAPI.Controllers
                         foreach (var store in Stores)
                         {
 
-                            if (store.Categories.Any(x => (x.Name.Contains("Wine") || x.Name.Contains("Liquor") || x.Name.Contains("Beer")) && x.ParentCategoryId == 0))
+                            if (store.Categories.Any(x => (x.Name.Contains("Wine") || x.Name.Contains("Liquor") || x.Name.Contains("Beer")) && x.ParentCategoryId == 0 && x.IsDeleted == false))
                             {
                                 foreach (var cat in store.Categories)
                                 {
                                     store.Categories = store.Categories.Where(x => x.IsDeleted == false && x.Store_Id == store.Id && x.ParentCategoryId == 0).ToList();
+                                    var query = @"WITH    q AS 
+                                                (
+                                                SELECT  c.Id
+                                                FROM    Categories c
+                                                WHERE   c.Id = " + cat.Id + " UNION ALL  SELECT  ic.Id FROM    Categories ic JOIN    q ON      ic.ParentCategoryId =q.Id ) SELECT  Id As Ids FROM    q";
+                                    var CategoryAndSubCategoryIds = ctx.Database.SqlQuery<int>(query).ToList();
+                                    var str = String.Join(",", CategoryAndSubCategoryIds);
+                                    var GetAllProducts = @"select * from Products Where Products.Category_Id IN (" + str + ")";
+                                    var Products = ctx.Database.SqlQuery<Product>(GetAllProducts).ToList();
 
-                                    foreach (var prod in cat.Products)
+                                    foreach (var prod in Products)
                                     {
                                         prod.BusinessName = store.BusinessName;
                                         prod.BusinessType = store.BusinessType;
                                         prod.MinDeliveryCharges = store.MinDeliveryCharges;
                                         prod.MinDeliveryTime = store.MinDeliveryTime;
                                         prod.MinOrderPrice = store.MinOrderPrice;
-                                        cat.Products = cat.Products.Where(x => x.IsDeleted == false && x.Category_Id == cat.Id).ToList();
+                                        //cat.Products = cat.Products.Where(x => x.IsDeleted == false && x.Category_Id == cat.Id).ToList();
+                                        cat.Products = Products; /*cat.Products.Where(x => x.IsDeleted == false && x.Store_Id == cat.Store_Id).ToList();*/
                                     }
                                 }
                                 //store.Distance = store.Location.Distance(point).Value;
@@ -137,42 +145,72 @@ namespace DunkeyAPI.Controllers
 
                         foreach (var prod in responseModel.Categories.Wine)
                         {
-
-                            foreach (var prodDetail in prod.Products)
+                            if (prod.Products.Count > 0)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
 
+                                }
+                            }
+                            else
+                            {
+                                prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
                             }
                         }
                         foreach (var prod in responseModel.Categories.Liquor)
                         {
-                            foreach (var prodDetail in prod.Products)
+                            if (prod.Products.Count > 0)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
 
 
+                                }
+                            }
+                            else
+                            {
+                                prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
                             }
                         }
-                        foreach (var prod in responseModel.Categories.Beer)
+                        if (responseModel.Categories.Beer.Count > 0)
                         {
-                            foreach (var prodDetail in prod.Products)
+                            foreach (var prod in responseModel.Categories.Beer)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                //if (prod.Products.Count > 0)
+                                //{
 
 
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                                }
+                                //}
+                                //else
+                                //{
+                                //    prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
+                                //}
                             }
+                        }
+                        else
+                        {
+                            responseModel.IsLast = true;
+                            responseModel.BeerLastProducts = ctx.Products.Where(x =>x.Category_Id == Category_ParentId || x.Category_Id== Category_Id && x.IsDeleted == false).ToList();
                         }
                         return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
@@ -226,40 +264,63 @@ namespace DunkeyAPI.Controllers
                         }
                         foreach (var prod in responseModel.Categories.Wine)
                         {
-                            foreach (var prodDetail in prod.Products)
+                            if (prod.Products.Count > 0)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
 
 
+                                }
+                            }
+                            else
+                            {
+                                prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
                             }
                         }
                         foreach (var prod in responseModel.Categories.Liquor)
                         {
-                            foreach (var prodDetail in prod.Products)
+                            if (prod.Products.Count > 0)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
 
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+
+
+                                }
+                            }
+                            else
+                            {
+                                prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
 
                             }
                         }
                         foreach (var prod in responseModel.Categories.Beer)
                         {
-                            foreach (var prodDetail in prod.Products)
+                            if (prod.Products.Count > 0)
                             {
-                                prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
-                                prodDetail.BusinessName = StoreDetails.BusinessName;
-                                prodDetail.BusinessType = StoreDetails.BusinessType;
-                                prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
-                                prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
 
+                                foreach (var prodDetail in prod.Products)
+                                {
+                                    prodDetail.MinDeliveryCharges = StoreDetails.MinDeliveryCharges;
+                                    prodDetail.BusinessName = StoreDetails.BusinessName;
+                                    prodDetail.BusinessType = StoreDetails.BusinessType;
+                                    prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
+                                    prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                }
+                            }
+                            else
+                            {
+                                prod.Products = ctx.Products.Where(x => x.Store_Id == Store_Id && x.Category_Id == Category_ParentId && x.IsDeleted == false).ToList();
 
                             }
                         }
@@ -389,7 +450,6 @@ namespace DunkeyAPI.Controllers
                             }
                         }
 
-                        //childModel.Categories = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                         return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
                     }
@@ -405,7 +465,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("AlcoholFilterTypeStoreCategoryDetails")]
-        public async Task<IHttpActionResult> AlcoholFilterTypeStoreCategoryDetails(int? SortBy = 0, string Country = "", string Price = "", string Size = "", int Type_Id = 0,string ParentName="")
+        public async Task<IHttpActionResult> AlcoholFilterTypeStoreCategoryDetails(int? SortBy = 0, string Country = "", string Price = "", string Size = "", int Type_Id = 0, string ParentName = "")
         {
             try
             {
@@ -505,7 +565,8 @@ namespace DunkeyAPI.Controllers
                     if (products.Count == 0)
                     {
 
-                    }else
+                    }
+                    else
                     {
                         foreach (var item in products)
                         {
@@ -516,7 +577,7 @@ namespace DunkeyAPI.Controllers
 
                         }
                     }
-                    
+
                     var SubCategories = ctx.Categories.Where(x => x.ParentCategoryId == Type_Id && x.IsDeleted == false).ToList();
 
                     if (SubCategories.Count == 0)
@@ -551,7 +612,7 @@ namespace DunkeyAPI.Controllers
                             returnModel.Categories.Beer = SubCategories;
                         }
                     }
-                    
+
                 }
                 CustomResponse<AlcoholStoreParentCategories> reponse = new CustomResponse<AlcoholStoreParentCategories>
                 {
@@ -619,6 +680,135 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+
+              [HttpGet]
+        [Route("AlcoholFilterStore")]
+        public IHttpActionResult AlcoholFilterStore(double latitude, double longitude, int? SortBy = 0, string Country = "", string Price = "", string Size = "")
+        {
+            try
+            {
+                FilterStoreViewModel model = new FilterStoreViewModel();
+                AlcoholViewModel returnModel = new AlcoholViewModel();
+                string[] CountryList;
+                int[] CountryListInt;
+
+                string[] PriceList;
+                int[] PriceListInt;
+
+
+                string[] SizeList;
+                int[] SizeListInt;
+
+                string ExtendedQuery = "";
+                string ExtendedWhere = "";
+
+
+                var query = @"SELECT  Products.*
+                FROM Products 
+                join Stores on Products.Store_Id = Stores.Id
+			    LEFT JOIN storeratings 
+                ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    if (!string.IsNullOrEmpty(Price))
+                    {
+                        PriceList = Price.Split(',');
+                        PriceListInt = Array.ConvertAll(PriceList, s => int.Parse(s));
+
+                        if (PriceListInt.Count() == 1)
+                        {
+                            query += "  Products.Price > " + PriceListInt[0] + " AND ";
+                        }
+                        else if (PriceListInt.Count() == 2)
+                        {
+                            query += " (Products.Price >= " + PriceListInt.Min() + " AND Products.Price <= " + PriceListInt.Max() + "  ) AND ";
+                        }
+
+                    }
+
+                    query += " stores.isdeleted = 'false' AND Products.isdeleted='false'  ";
+                    if (!string.IsNullOrEmpty(Size))
+                    {
+                        //SizeList = Size.Split(',');
+                        //SizeListInt = Array.ConvertAll(SizeList, s => int.Parse(s));
+                    }
+
+
+                    if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.BestSelling)
+                    {
+                        query += " ORDER BY Stores.Id  DESC ";
+                    }
+                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.A2Z)
+                    {
+                        query += "  Order by Stores.BusinessName ASC ";
+                    }
+                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Low2High)
+                    {
+                        query += "  Order by Products.Price ASC ";
+                    }
+                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.High2Low)
+                    {
+                        query += "  Order by Products.Price DESC ";
+                    }
+                    else
+                    {
+                        query += " ORDER BY Stores.Store_Id DESC";
+                    }
+
+                    var store = ctx.Database.SqlQuery<FilterStores>(query).ToList();
+
+
+
+
+                    foreach (var SingleStore in store.Distinct())
+                    {
+                        var storee = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).FirstOrDefault(y => y.Id == SingleStore.Id && y.BusinessType == "Alcohol");
+                        if (storee != null)
+                        {
+                            returnModel.Stores.Add(storee);
+
+                        }
+                    }
+
+                    foreach (var item in returnModel.Stores.Distinct())
+                    {
+                        foreach (var subItem in item.Categories)
+                        {
+                            foreach (var SubsubItem in subItem.Products)
+                            {
+                                SubsubItem.BusinessName = item.BusinessName;
+                                SubsubItem.MinDeliveryCharges = item.MinDeliveryCharges;
+                                SubsubItem.BusinessType = item.BusinessType;
+                                SubsubItem.MinDeliveryTime = item.MinDeliveryTime;
+                                SubsubItem.MinOrderPrice = item.MinOrderPrice;
+                            }
+                        }
+                    }
+
+                    //returnModel.Stores = returnModel.Stores
+                }
+                CustomResponse<AlcoholViewModel> reponse = new CustomResponse<AlcoholViewModel>
+                {
+                    Message = "Success",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Result = returnModel
+                };
+
+                return Ok(reponse);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
+
+
+
+
 
         //       [HttpGet]
         //       [Route("AlcoholFilterStore")]
@@ -838,172 +1028,150 @@ namespace DunkeyAPI.Controllers
 
         //       }
 
-        [HttpGet]
-        [Route("AlcoholFilterStore")]
-        public IHttpActionResult AlcoholFilterStore(double latitude, double longitude, int? SortBy = 0, string Country = "", string Price = "", string Size = "")
-        {
-            try
-            {
-                FilterStoreViewModel model = new FilterStoreViewModel();
-                AlcoholViewModel returnModel = new AlcoholViewModel();
-                string[] CountryList;
-                int[] CountryListInt;
+       // [HttpGet]
+       // [Route("AlcoholFilterStore")]
+       // public IHttpActionResult AlcoholFilterStore(double latitude, double longitude, int? SortBy = 0, string Country = "", string Price = "", string Size = "")
+       // {
+       //     try
+       //     {
+       //         FilterStoreViewModel model = new FilterStoreViewModel();
+       //         AlcoholViewModel returnModel = new AlcoholViewModel();
+       //         string[] CountryList;
+       //         int[] CountryListInt;
 
-                string[] PriceList;
-                int[] PriceListInt;
-
-
-                string[] SizeList;
-                int[] SizeListInt;
-
-                string ExtendedQuery = "";
-                string ExtendedWhere = "";
+       //         string[] PriceList;
+       //         int[] PriceListInt;
 
 
-                var query = @"SELECT Stores.*, Products.*
-                FROM Products 
-                join Stores on Products.Store_Id = Stores.Id
-			    LEFT JOIN storeratings 
-                ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
+       //         string[] SizeList;
+       //         int[] SizeListInt;
 
-                using (DunkeyContext ctx = new DunkeyContext())
-                {
-                    if (!string.IsNullOrEmpty(Country))
-                    {
-                        CountryList = Country.Split(',');
-
-                        for (var i = 1; i <= CountryList.Count(); i++)
-                        {
-                            if (i == CountryList.Count())
-                            {
-                                query += "Stores.Address LIKE '%" + CountryList[i - 1] + "%' AND ";
-
-                            }
-                            else
-                            {
-                                query += "Stores.Address LIKE '%" + CountryList[i - 1] + "%' OR ";
-                            }
-                        }
-                    }
+       //         string ExtendedQuery = "";
+       //         string ExtendedWhere = "";
 
 
+       //         var query = @"SELECT Stores.*, Products.*
+       //         FROM Products 
+       //         join Stores on Products.Store_Id = Stores.Id
+			    //LEFT JOIN storeratings 
+       //         ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
 
+       //         using (DunkeyContext ctx = new DunkeyContext())
+       //         {
+       //             if (!string.IsNullOrEmpty(Country))
+       //             {
+       //                 CountryList = Country.Split(',');
 
-                    if (!string.IsNullOrEmpty(Price))
-                    {
-                        PriceList = Price.Split(',');
-                        PriceListInt = Array.ConvertAll(PriceList, s => int.Parse(s));
+       //                 for (var i = 1; i <= CountryList.Count(); i++)
+       //                 {
+       //                     if (i == CountryList.Count())
+       //                     {
+       //                         query += "Stores.Address LIKE '%" + CountryList[i - 1] + "%' AND ";
 
-                        if (PriceListInt.Count() == 1)
-                        {
-                            query += "  Products.Price > " + PriceListInt[0] + " AND ";
-                        }
-                        else if (PriceListInt.Count() == 2)
-                        {
-                            query += " (Products.Price >= " + PriceListInt.Min() + " AND Products.Price <= " + PriceListInt.Max() + "  ) AND ";
-                        }
-
-                    }
-
-                    query += " stores.isdeleted = 'false'  ";
-                    if (!string.IsNullOrEmpty(Size))
-                    {
-                        //SizeList = Size.Split(',');
-                        //SizeListInt = Array.ConvertAll(SizeList, s => int.Parse(s));
-                    }
-
-
-                    if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.BestSelling)
-                    {
-                        query += " ORDER BY Stores.Id  DESC ";
-                    }
-                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.A2Z)
-                    {
-                        query += "  Order by Stores.BusinessName ASC ";
-                    }
-                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Low2High)
-                    {
-                        query += "  Order by Products.Price ASC ";
-                    }
-                    else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.High2Low)
-                    {
-                        query += "  Order by Products.Price DESC ";
-                    }
-                    else
-                    {
-                        query += " ORDER BY Stores.Store_Id DESC";
-                    }
-
-                    var store = ctx.Database.SqlQuery<FilterStores>(query).ToList();
-
-                    //var products = ctx.Database.SqlQuery<Product>(query).ToList();
-                    //Store storee;
-                    //Category cate;
-                    //foreach (var product in products)
-                    //{
-                    //    storee = ctx.Stores.FirstOrDefault(x => x.Id == product.Store_Id);
-                    //    cate = ctx.Categories.FirstOrDefault(x => x.Id == product.Category_Id);
-                    //    cate.Products.Add(product);
-                    //    storee.Categories.Add(cate);
-                    //}
-
-
-
-                    // from here
-
-                    ////foreach (var SingleStore in store)
-                    ////{
-                    ////    var storee = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).FirstOrDefault(y => y.Id == SingleStore.Id && y.BusinessType == "Alcohol");
-                    ////    if (storee != null)
-                    ////    {
-                    ////        returnModel.Stores.Add(storee);
-
-                    ////    }
-                    ////}
-
-
-                    var abc = ctx.Stores.Include(x => x.Categories).Include(x => x.Products.Where(y=>y.Price==100)                    
-                    ).Where(
-                        x => x.Address.Contains("asd")
-                        ).ToList();
+       //                     }
+       //                     else
+       //                     {
+       //                         query += "Stores.Address LIKE '%" + CountryList[i - 1] + "%' OR ";
+       //                     }
+       //                 }
+       //             }
 
 
 
 
-                    //foreach (var item in returnModel.Stores)
-                    //{
-                    //    foreach (var subItem in item.Categories)
-                    //    {
-                    //        foreach (var SubsubItem in subItem.Products)
-                    //        {
-                    //            SubsubItem.BusinessName = item.BusinessName;
-                    //            SubsubItem.MinDeliveryCharges = item.MinDeliveryCharges;
-                    //            SubsubItem.BusinessType = item.BusinessType;
-                    //            SubsubItem.MinDeliveryTime = item.MinDeliveryTime;
-                    //            SubsubItem.MinOrderPrice = item.MinOrderPrice;
-                    //        }
-                    //    }
-                    //}
+       //             if (!string.IsNullOrEmpty(Price))
+       //             {
+       //                 PriceList = Price.Split(',');
+       //                 PriceListInt = Array.ConvertAll(PriceList, s => int.Parse(s));
+
+       //                 if (PriceListInt.Count() == 1)
+       //                 {
+       //                     query += "  Products.Price > " + PriceListInt[0] + " AND ";
+       //                 }
+       //                 else if (PriceListInt.Count() == 2)
+       //                 {
+       //                     query += " (Products.Price >= " + PriceListInt.Min() + " AND Products.Price <= " + PriceListInt.Max() + "  ) AND ";
+       //                 }
+
+       //             }
+
+       //             query += " stores.isdeleted = 'false'  ";
+       //             if (!string.IsNullOrEmpty(Size))
+       //             {
+       //                 //SizeList = Size.Split(',');
+       //                 //SizeListInt = Array.ConvertAll(SizeList, s => int.Parse(s));
+       //             }
+
+
+       //             if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.BestSelling)
+       //             {
+       //                 query += " ORDER BY Stores.Id  DESC ";
+       //             }
+       //             else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.A2Z)
+       //             {
+       //                 query += "  Order by Stores.BusinessName ASC ";
+       //             }
+       //             else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Low2High)
+       //             {
+       //                 query += "  Order by Products.Price ASC ";
+       //             }
+       //             else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.High2Low)
+       //             {
+       //                 query += "  Order by Products.Price DESC ";
+       //             }
+       //             else
+       //             {
+       //                 query += " ORDER BY Stores.Store_Id DESC";
+       //             }
+
+       //             var store = ctx.Database.SqlQuery<FilterStores>(query).ToList();
 
 
 
-                }
-                CustomResponse<AlcoholViewModel> reponse = new CustomResponse<AlcoholViewModel>
-                {
-                    Message = "Success",
-                    StatusCode = (int)HttpStatusCode.OK,
-                    Result = returnModel
-                };
 
-                return Ok(reponse);
+       //             foreach (var SingleStore in store.Distinct())
+       //             {
+       //                 var storee = ctx.Stores.Include(x => x.Categories).Include(x => x.Products).FirstOrDefault(y => y.Id == SingleStore.Id && y.BusinessType == "Alcohol");
+       //                 if (storee != null)
+       //                 {
+       //                     returnModel.Stores.Add(storee);
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
-            }
+       //                 }
+       //             }
 
-        }
+       //             foreach (var item in returnModel.Stores.Distinct())
+       //             {
+       //                 foreach (var subItem in item.Categories)
+       //                 {
+       //                     foreach (var SubsubItem in subItem.Products)
+       //                     {
+       //                         SubsubItem.BusinessName = item.BusinessName;
+       //                         SubsubItem.MinDeliveryCharges = item.MinDeliveryCharges;
+       //                         SubsubItem.BusinessType = item.BusinessType;
+       //                         SubsubItem.MinDeliveryTime = item.MinDeliveryTime;
+       //                         SubsubItem.MinOrderPrice = item.MinOrderPrice;
+       //                     }
+       //                 }
+       //             }
+
+       //             //returnModel.Stores = returnModel.Stores
+       //         }
+       //         CustomResponse<AlcoholViewModel> reponse = new CustomResponse<AlcoholViewModel>
+       //         {
+       //             Message = "Success",
+       //             StatusCode = (int)HttpStatusCode.OK,
+       //             Result = returnModel
+       //         };
+
+       //         return Ok(reponse);
+
+       //     }
+       //     catch (Exception ex)
+       //     {
+       //         return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+       //     }
+
+       // }
 
 
 

@@ -9,24 +9,15 @@ namespace DunkeyAPI.ViewModels
     public class ShopCategoriesViewModel 
     {
         public List<Category> Categories { get; set; }
-
-        //public ShopCategoriesViewModel(Category model)
-        //{
-        //    Name = model.Name;
-           
-        //    Status = model.Status;
-        //    Description = model.Description;
-
-        //}
-        //public string Name { get; set; }
-        
-        //public short Status { get; set; }
-
-        //public string Description { get; set; }
-
-        //public void Dispose()
-        //{
-            
-        //}
+    }
+    public class StoreDeliveryTypeList
+    {
+        public StoreDeliveryTypeList()
+        {
+            StoreScheduleList=new List<StoreDeliveryTypes>();
+            Store = new Store();
+        }
+        public Store Store { get; set; }
+        public List<StoreDeliveryTypes> StoreScheduleList { get; set; }
     }
 }

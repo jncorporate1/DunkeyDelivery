@@ -349,7 +349,6 @@ F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.dll
 F:\VS\GitRepository\DunkeyDelivery\DunkeyAPI\obj\Debug\DunkeyAPI.pdb
-F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\msvcr120.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\SqlServerTypes\x86\msvcr120.dll
@@ -367,6 +366,7 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\vbc.exe
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\VBCSCompiler.exe
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\roslyn\VBCSCompiler.exe.config
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DunkeyAPI.dll.config
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DunkeyAPI.pdb
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Antlr3.Runtime.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.dll
@@ -430,6 +430,7 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.WebPages.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.WebPages.Razor.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\WebActivatorEx.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\WebGrease.dll
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Z.EntityFramework.Plus.EF6.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\DAL.pdb
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\AutoMapper.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\bin\GemBox.Spreadsheet.xml

@@ -26,6 +26,10 @@ namespace DunkeyAPI.Models
     }
     public class FilterStores
     {
+        public FilterStores()
+        {
+            StoreRatings = new List<StoreRatings>();
+        }
         public int Id { get; set; }
 
         public string BusinessType { get; set; }
@@ -60,6 +64,18 @@ namespace DunkeyAPI.Models
 
         public bool IsDeleted { get; set; }
 
+        public List<StoreRatings> StoreRatings { get; set; }
+
         public ICollection<StoreTags> storeTags { get; set; }
     }
+
+
+    public class Filter
+    {
+        public int Store_Id { get; set; }
+
+        public string BusinessName { get; set; }
+
+    }
+
 }

@@ -77,6 +77,9 @@ namespace DunkeyAPI.ViewModels
         }
         public AlcoholStoreCategories Categories { get; set; }
         public List<Product> Products { get; set; }
+        public List<Product> WineLastProducts { get; set; }
+        public List<Product> LiquorLastProducts { get; set; }
+        public List<Product> BeerLastProducts { get; set; }
         public bool IsLast { get; set; } = false;
     }
 

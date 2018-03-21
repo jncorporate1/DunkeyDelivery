@@ -8,6 +8,7 @@ using static DunkeyAPI.Utility.Global;
 using DunkeyAPI.Utility;
 using System.Data.Entity;
 using System.Net;
+using DunkeyAPI.Models;
 
 namespace DunkeyAPI.ExtensionMethods
 {
@@ -62,6 +63,23 @@ namespace DunkeyAPI.ExtensionMethods
             }
         }
 
+        public static void CalculateCustomStoreAverageRating(this FilterStores store)
+        {
+            try
+            {
+                if (store.StoreRatings.Count > 0)
+                {
+                    store.AverageRating = store.StoreRatings.Average(x => x.Rating);
+                }else
+                {
+                    store.AverageRating = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
 
         public static void CalculateAllTypesAverageRating(this Store store)
         {

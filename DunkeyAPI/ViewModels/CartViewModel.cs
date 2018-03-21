@@ -13,4 +13,10 @@ namespace DunkeyAPI.ViewModels
         }
         public List<CartItemViewModel> CartItems { get; set; }
     }
+
+    public class CategoryAndSubCategoryIds
+    {
+        public ICollection<int> Ids { get; set; }
+
+    }
 }

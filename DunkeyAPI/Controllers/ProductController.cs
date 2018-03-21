@@ -259,8 +259,7 @@ namespace DunkeyAPI.Controllers
         //    }
         //    return Ok();
         //}
-
-
+        
         [HttpGet]
         [Route("ProductsByCategory")]
         public IHttpActionResult SearchByCategory(short Category_Id)
@@ -291,8 +290,7 @@ namespace DunkeyAPI.Controllers
         }
 
         // Services For Mobile End Interface 
-
-
+        
         [HttpGet]
         [Route("GetProductsByCategory")]
         public IHttpActionResult GetProductsByCategory(short Category_Id)
@@ -346,7 +344,7 @@ namespace DunkeyAPI.Controllers
                         }
                         else
                         {
-                            query += " WHERE Products.Name Like '%"+search_string.Trim()+"%' ";
+                            query += " WHERE Products.IsDeleted=0 AND Products.Name Like '%"+search_string.Trim()+"%' ";
 
                         }
 
@@ -519,12 +517,12 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     var query = "";
-                    var ExtendedQuery = "Where ";
+                    var ExtendedQuery = "Where Products.IsDeleted=0 AND ";
                     if (latitude != 0 && longitude != 0)
                     {
-                    
-                        //    query = "SELECT Products.*,Stores.BusinessName ,Stores.Location.STDistance('POINT("+longitude+ " " + latitude + ")') as Distance FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
-                        //    ExtendedQuery = ExtendedQuery + " Stores.Location.STDistance('POINT(151.231784830557 -33.8771332224149)') <= 50 ";
+
+                        query = "SELECT Products.*,Stores.BusinessName ,Stores.Location.STDistance('POINT(" + longitude + " " + latitude + ")') as Distance FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
+                        ExtendedQuery = ExtendedQuery + " Stores.Location.STDistance('POINT("+ longitude + " "+latitude+")') <= 50 ";
 
                     }
                     else
@@ -707,8 +705,7 @@ namespace DunkeyAPI.Controllers
 
         }
         // admin panel services 
-
-
+        
         [HttpGet]
         [Route("GetProductsByCategoryId")]
         public async Task<IHttpActionResult> GetProductsByCategoryId(int CatId, int UserId, int PageSize, int PageNo, string filterTypes = "", bool IsAll = false)

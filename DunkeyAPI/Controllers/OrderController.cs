@@ -89,6 +89,10 @@ namespace DunkeyAPI.Controllers
                 Order order;
                 if (System.Web.HttpContext.Current.Request.Params["Cart"] != null)
                     model.Cart = JsonConvert.DeserializeObject<CartViewModel>(System.Web.HttpContext.Current.Request.Params["Cart"]);
+                if (System.Web.HttpContext.Current.Request.Params["StoreDeliverytype"] != null)
+                    model.StoreDeliverytype = JsonConvert.DeserializeObject<List<StoreDeliverytypes>>(System.Web.HttpContext.Current.Request.Params["StoreDeliverytype"]);
+                DateTime test = new DateTime();
+                test = Convert.ToDateTime(model.StoreDeliverytype.FirstOrDefault().OrderDate);
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);

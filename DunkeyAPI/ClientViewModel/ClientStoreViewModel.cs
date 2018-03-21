@@ -37,6 +37,9 @@ namespace DunkeyAPI.ClientViewModel
             ContactNumber = model.ContactNumber;
             storeDeliveryHours = model.StoreDeliveryHours;
             MinDeliveryTime = model.MinDeliveryTime;
+            Open_To = model.Open_To;
+            Open_From = model.Open_From;
+            MinDeliveryCharges = model.MinDeliveryCharges;
 
         }
 
@@ -57,6 +60,9 @@ namespace DunkeyAPI.ClientViewModel
             ContactNumber = model.ContactNumber;
             storeDeliveryHours = model.StoreDeliveryHours;
             MinDeliveryTime = model.MinDeliveryTime;
+            Open_To = model.Open_To;
+            Open_From = model.Open_From;
+            MinDeliveryCharges = model.MinDeliveryCharges;
 
         }
         public int Id { get; set; }
@@ -83,6 +89,10 @@ namespace DunkeyAPI.ClientViewModel
         public string ContactNumber { get; set; }
 
         public string ImageUrl { get; set; }
+        
+        public TimeSpan Open_From { get; set; }
+
+        public TimeSpan Open_To { get; set; }
 
         public string Address { get; set; }
 
@@ -90,6 +100,7 @@ namespace DunkeyAPI.ClientViewModel
 
         public int MinDeliveryTime { get; set; }
 
+        public decimal? MinDeliveryCharges { get; set; }
 
         public ICollection<StoreTags> storeTags { get; set; }
 
@@ -113,7 +124,9 @@ namespace DunkeyAPI.ClientViewModel
             storeDeliveryHours = model.StoreDeliveryHours;
             ContactNumber = model.ContactNumber;
             MinDeliveryTime = model.MinDeliveryTime;
-
+            Open_To = model.Open_To;
+            Open_From = model.Open_From;
+            MinDeliveryCharges = model.MinDeliveryCharges;
 
         }
 
@@ -134,6 +147,10 @@ namespace DunkeyAPI.ClientViewModel
             Distance = distance;
             ContactNumber = model.ContactNumber;
             MinDeliveryTime = model.MinDeliveryTime;
+            MinOrderPrice = model.MinOrderPrice;
+            MinDeliveryCharges = model.MinDeliveryCharges;
+            Open_To = model.Open_To;
+            Open_From = model.Open_From;
 
         }
         public int Id { get; set; }
@@ -163,6 +180,11 @@ namespace DunkeyAPI.ClientViewModel
 
         public string ContactNumber { get; set; }
 
+        public decimal? MinDeliveryCharges { get; set; }
+
+        public TimeSpan Open_From { get; set; }
+
+        public TimeSpan Open_To { get; set; }
 
         public float? MinOrderPrice { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,9 +30,9 @@ namespace DunkeyAPI.ViewModels
         {
             Cart = new CartViewModel();
             DeliveryDetails = new DeliveryDetailsBindingModel();
-            StoreDeliverytype = new List<DeliveryType>();
+            StoreDeliverytype = new List<StoreDeliverytypes>();
         }
-        public List<DeliveryType> StoreDeliverytype { get; set; }
+        public List<StoreDeliverytypes> StoreDeliverytype { get; set; }
         public CartViewModel Cart { get; set; }
         public DeliveryDetailsBindingModel DeliveryDetails { get; set; }
 
@@ -44,11 +45,13 @@ namespace DunkeyAPI.ViewModels
 
     }
 
-    public class DeliveryType
+    public class StoreDeliverytypes
     {
         public int Store_Id { get; set; }
         public int Type_Id { get; set; }
+        //[JsonConverter(typeof(DAL.JsonCustomDateTimeConverter))]
         public DateTime? OrderDateTime { get; set; }
+        public string OrderDate { get; set; }
         public int? MinDeliveryTime { get; set; }
     }
 

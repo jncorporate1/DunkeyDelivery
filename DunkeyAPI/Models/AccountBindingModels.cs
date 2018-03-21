@@ -195,6 +195,7 @@ namespace DunkeyAPI.Models
 
         public string Email { get; set; }
 
+      
         public string Phone { get; set; }
 
         public string Message { get; set; }
@@ -204,7 +205,7 @@ namespace DunkeyAPI.Models
 
     // admin panel 
     public class WebLoginBindingModel
-    {
+    { 
         [Required]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]

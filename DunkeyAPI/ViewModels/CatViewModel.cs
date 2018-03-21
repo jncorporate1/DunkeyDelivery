@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -35,9 +36,10 @@ namespace DunkeyAPI.ViewModels
         public CategoriesViewModel()
         {
             ParentCategories = new List<ParentCategory>();
-            
-    }
+            DeliveryTypes = new List<StoreDeliveryTypes>();
+        }
         public List<ParentCategory> ParentCategories { get; set; }
+        public List<StoreDeliveryTypes> DeliveryTypes { get; set; }
         public int TotalRecords { get; set; }
 
     }
