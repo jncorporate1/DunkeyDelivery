@@ -9,6 +9,8 @@ namespace DunkeyAPI.ViewModels
     {
         public double SubTotal { get; set; } = 0;
 
+        public double SubTotalWithoutMinDelivery { get; set; } = 0;
+
         public double SubTotalWDF { get; set; } = 0; // without delivery fee
 
         public double Tax { get; set; } = 0;
@@ -19,7 +21,7 @@ namespace DunkeyAPI.ViewModels
 
         public double DeliveryFee { get; set; } = 0;
 
-        
+
 
     }
 }

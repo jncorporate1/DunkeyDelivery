@@ -418,6 +418,7 @@ namespace DunkeyDelivery
         BestSelling = 0,
         Low2High= 1,
         A2Z= 2,
-        High2Low= 3
-     }
+        High2Low= 3,
+        Z2A = 4
+    }
 }

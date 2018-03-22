@@ -666,10 +666,12 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
 
                     }
 
+                   
+
                     foreach (var SingleStore in model.Store)
                     {
                         SingleStore.StoreTotal = Convert.ToDouble(SingleStore.StoreSubTotal.Value) + Convert.ToDouble(SingleStore.minDeliveryCharges.Value);
-
+                        model.OrderSummary.SubTotalWithoutMinDelivery = model.OrderSummary.SubTotalWithoutMinDelivery + Convert.ToDouble(SingleStore.StoreSubTotal.Value);
                         model.OrderSummary.SubTotal = model.OrderSummary.SubTotal + SingleStore.StoreTotal.Value;
                         model.OrderSummary.DeliveryFee = model.OrderSummary.DeliveryFee + Convert.ToDouble(SingleStore.minDeliveryCharges);
                         model.OrderSummary.SubTotalWDF = model.OrderSummary.SubTotal - model.OrderSummary.DeliveryFee;
@@ -688,10 +690,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     {
                         DunkeySettings.LoadSettings();
                     }
-
-
-
-                    model.OrderSummary.Tip = Math.Round((model.OrderSummary.SubTotal / 100) * DunkeySettings.Tip, 4);
+                    model.OrderSummary.Tip = Math.Round((model.OrderSummary.SubTotalWithoutMinDelivery / 100) * DunkeySettings.Tip, 4);
                     model.OrderSummary.Total = model.OrderSummary.SubTotal + model.OrderSummary.Tip + model.OrderSummary.Tax;
                     foreach (var store in model.Store)
                     {

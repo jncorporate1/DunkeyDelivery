@@ -78,4 +78,21 @@ namespace DunkeyAPI.Models
 
     }
 
+    public class ProductAlcoholFilterModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public double Price { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
+        public short Status { get; set; }
+        public bool IsDeleted { get; set; }
+        public int? Category_Id { get; set; } = 0; // was optional
+        public int Store_Id { get; set; }
+        public string Size { get; set; }
+        public string Image_Selected { get; set; }
+        public int ItemId { get; set; }
+
+    }
+
 }
