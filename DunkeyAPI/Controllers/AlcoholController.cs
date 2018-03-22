@@ -13,6 +13,7 @@ using AutoMapper;
 using DunkeyAPI.Utility;
 using DunkeyAPI.ExtensionMethods;
 using Z.EntityFramework.Plus;
+using DunkeyDelivery;
 
 namespace DunkeyAPI.Controllers
 {
@@ -98,7 +99,7 @@ namespace DunkeyAPI.Controllers
                         model.Stores = model.Stores.OrderBy(x => x.CategoryType).ToList();
                         //model.Stores = model.Stores.OrderBy(x => x.Categories).ToList();
                     }
-                    return Ok(new CustomResponse<AlcoholViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
+                    return Ok(new CustomResponse<AlcoholViewModel> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
 
                 }
             }
@@ -212,7 +213,7 @@ namespace DunkeyAPI.Controllers
                             responseModel.IsLast = true;
                             responseModel.BeerLastProducts = ctx.Products.Where(x => x.Category_Id == Category_ParentId || x.Category_Id == Category_Id && x.IsDeleted == false).ToList();
                         }
-                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
                     }
                     else if (!string.IsNullOrEmpty(CategoryName))
@@ -339,7 +340,7 @@ namespace DunkeyAPI.Controllers
                             }
                         }
 
-                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
 
                     }
@@ -450,7 +451,7 @@ namespace DunkeyAPI.Controllers
                             }
                         }
 
-                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
+                        return Ok(new CustomResponse<AlcoholStoreParentCategories> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = responseModel });
 
                     }
 
@@ -671,7 +672,7 @@ namespace DunkeyAPI.Controllers
                     }
 
 
-                    return Ok(new CustomResponse<AlcoholViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
+                    return Ok(new CustomResponse<AlcoholViewModel> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
 
                 }
             }
@@ -747,7 +748,7 @@ namespace DunkeyAPI.Controllers
                         query += " ORDER BY Stores.Store_Id DESC";
                     #endregion
 
-                    var store = ctx.Database.SqlQuery<ProductAlcoholFilterModel>(query).ToList();
+                    var product = ctx.Database.SqlQuery<ProductAlcoholFilterModel>(query).ToList();
 
                     //Making return view model
                     List<Store> stores = new List<Store>();
@@ -757,42 +758,104 @@ namespace DunkeyAPI.Controllers
 
 
                     // umer code from here onwards
-                    var uniqueStores = store.Select(x => x.Store_Id).Distinct();
+                    var uniqueStores = product.Select(x => x.Store_Id).Distinct();
                     //stores = ctx.Stores.Where(x => uniqueStores.Contains(x.Id)).ToList();
 
                     // getting categories of those products
-                    var uniqueCategories = store.Select(x => x.Category_Id).Distinct();
-                    //Categories = ctx.Categories.Where(x => uniqueCategories.Contains(x.Id) && uniqueStores.Contains(x.Store_Id) && x.ParentCategoryId==0).ToList();
+                    var uniqueCategories = product.Select(x => x.Category_Id).Distinct().ToList();
 
-                    // getting product ids
-                    var uniqueProducts = store.Select(x => x.Id).Distinct();
+                    //Add parent if not added
 
-                    // testing result of include filter
-
-                    returnModel.Stores = ctx.Stores.IncludeFilter(x => x.Categories.Where(y => uniqueCategories.Contains(y.Id) && uniqueStores.Contains(y.Store_Id) && y.ParentCategoryId == 0)).IncludeFilter(y => y.Products.Where(z => uniqueProducts.Contains(z.Id) && z.IsDeleted == false)).Where(y => uniqueStores.Contains(y.Id) && y.IsDeleted == false).ToList();
-                    foreach (var SingleStore in returnModel.Stores)
+                    if (uniqueCategories.Count > 0)
                     {
-                        foreach (var category in SingleStore.Categories)
+                        var ff = @"WITH q AS 
+                                                (
+                                                SELECT  c.Id
+                                                FROM    Categories c
+                                                where c.Id in (" + String.Join(",", uniqueCategories) + @")
+												UNION ALL
+												SELECT  ic.ParentCategoryId FROM    Categories ic JOIN    q ON      ic.id =q.Id 
+												  )
+												 SELECT  Id As Ids FROM    q";
+
+
+                        var parentCatInt = ctx.Database.SqlQuery<int>(ff).ToList();
+
+                        if (parentCatInt.Count > 0)
                         {
 
-                            if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Z2A)
+                            var parentCat = ctx.Categories.Where(x => parentCatInt.Contains(x.Id) && x.ParentCategoryId == 0).Select(x => x.Id).ToList();
+
+                            foreach (var pCat in parentCat)
+                                if (uniqueCategories.Contains(pCat) == false)
+                                    uniqueCategories.Add(pCat);
+                        } 
+                    }
+
+                    // getting product ids
+                    var uniqueProducts = product.Select(x => x.Id).Distinct();
+
+                    var childCats = ctx.Categories.Where(x => x.ParentCategoryId != 0 && uniqueCategories.Contains(x.Id)).ToList();
+                    
+                    returnModel.Stores = ctx.Stores
+                        .IncludeFilter(
+                                x => x.Categories.Where(
+                                y => uniqueCategories.Contains(y.Id) && uniqueStores.Contains(y.Store_Id) && y.ParentCategoryId == 0)
+                                )
+                        .IncludeFilter(
+                                y => y.Products.Where(
+                                z => uniqueProducts.Contains(z.Id) && z.IsDeleted == false)
+                                )
+                        .Where(y => uniqueStores.Contains(y.Id) && y.IsDeleted == false).ToList();
+
+                    foreach (var store in returnModel.Stores)
+                    {
+                        foreach (var cat in store.Categories.ToList())
+                        {
+                            if (cat.ParentCategoryId == 0)
                             {
-                                category.Products = category.Products.OrderByDescending(x => x.Name).ToList();
+                                var queryCat = @"WITH    q AS 
+                                                (
+                                                SELECT  c.Id
+                                                FROM    Categories c
+                                                WHERE   c.Id = " + cat.Id + " UNION ALL  SELECT  ic.Id FROM    Categories ic JOIN    q ON      ic.ParentCategoryId =q.Id ) SELECT  Id As Ids FROM    q";
+                                var CategoryAndSubCategoryIds = ctx.Database.SqlQuery<int>(queryCat).ToList();
+
+                                //Removing itself
+                                CategoryAndSubCategoryIds.RemoveAll(x => x == cat.Id);
+
+                                var childCatProducts = ctx.Products.Where(x => CategoryAndSubCategoryIds.Contains(x.Category_Id.Value)).ToList();
+
+                                cat.Products.AddRange(childCatProducts);
                             }
-                            foreach (var product in category.Products)
+                            else
+                                store.Categories.Remove(cat);
+
+                            if (!string.IsNullOrEmpty(Price))
                             {
-                                product.BusinessName = SingleStore.BusinessName;
-                                product.MinDeliveryCharges = SingleStore.MinDeliveryCharges;
-                                product.BusinessType = SingleStore.BusinessType;
-                                product.MinDeliveryTime = SingleStore.MinDeliveryTime;
-                                product.MinOrderPrice = SingleStore.MinOrderPrice;
+                                PriceList = Price.Split(',').Select(int.Parse).ToList();
+
+                                if (PriceList.Count == 1)
+                                    cat.Products = cat.Products.Where(x => x.Price > PriceList.First()).ToList();
+                                else if (PriceList.Count == 2)
+                                    cat.Products = cat.Products.Where(x => x.Price >= PriceList.Min() && x.Price <= PriceList.Max()).ToList();
 
                             }
 
+                            if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.BestSelling) ;
+                            //query += " ORDER BY Stores.Id  DESC ";
+                            else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.A2Z)
+                                cat.Products = cat.Products.OrderBy(x => x.Name).ToList();
+                            else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Z2A)
+                                cat.Products = cat.Products.OrderByDescending(x => x.Name).ToList();
+                            else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.Low2High)
+                                cat.Products = cat.Products.OrderBy(x => x.Price).ToList();
+                            else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.High2Low)
+                                cat.Products = cat.Products.OrderByDescending(x => x.Price).ToList();
                         }
                     }
-                    //returnModel.Stores = returnModel.Stores
                 }
+
                 CustomResponse<AlcoholViewModel> reponse = new CustomResponse<AlcoholViewModel>
                 {
                     Message = "Success",

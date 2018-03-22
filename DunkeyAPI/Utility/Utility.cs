@@ -67,6 +67,14 @@ namespace DunkeyDelivery
             return en.Skip(page * pageSize).Take(pageSize);
         }
 
+        public static void AddRange<T>(this ICollection<T> destination, IEnumerable<T> source)
+        {
+            foreach (T item in source)
+            {
+                destination.Add(item);
+            }
+        }
+
         public static async Task GenerateToken(this User user, HttpRequestMessage request)
         {
             try
@@ -259,7 +267,7 @@ namespace DunkeyDelivery
 
                 Email = stripeEmail,
                 SourceToken = stripeToken
-                
+
             });
 
             var charge = charges.Create(new StripeChargeCreateOptions
@@ -281,7 +289,7 @@ namespace DunkeyDelivery
 
     }
 
-    
+
 
     public class Global
     {
@@ -303,7 +311,7 @@ namespace DunkeyDelivery
     }
     public class Stores
     {
-        
+
         public string Categories_enum(int Category_id)
         {
 
@@ -403,22 +411,23 @@ namespace DunkeyDelivery
 
     public enum FilterSortBy
     {
-        Distance=0,
-        Rating=1,
-        DeliveryTime =2,
-        Price=3,
-        MinDelivery=4,
-        AtoZ=5,
-        Relevance=6
+        Distance = 0,
+        Rating = 1,
+        DeliveryTime = 2,
+        Price = 3,
+        MinDelivery = 4,
+        AtoZ = 5,
+        Relevance = 6
 
     }
 
     public enum FilterAlcoholSortBy
     {
         BestSelling = 0,
-        Low2High= 1,
-        A2Z= 2,
-        High2Low= 3,
+        Low2High = 1,
+        A2Z = 2,
+        High2Low = 3,
         Z2A = 4
     }
 }
+
