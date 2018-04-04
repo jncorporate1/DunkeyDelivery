@@ -10,6 +10,7 @@ namespace DunkeyAPI.ViewModels
         public int ItemId { get; set; }
         public int ItemType { get; set; }
         public int Qty { get; set; }
+        public string ProductSize { get; set; } = "";
         public int StoreId { get; set; }
     }
 }

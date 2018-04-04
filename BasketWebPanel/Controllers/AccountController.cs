@@ -109,8 +109,12 @@ namespace BasketWebPanel.Controllers
                     identity.AddClaim(new Claim("expires_in", adminModel.Token.expires_in));
                     identity.AddClaim(new Claim("UnreadNotificationCount", adminModel.Notifications.Count(x=>x.Status == 0).ToString()));
                     //identity.AddClaim(new Claim("refresh_token", adminModel.Token.refresh_token));
+                    identity.AddClaim(new Claim("BusinessType", ""));
                     if (adminModel.Store_Id != null)
+                    { 
                         identity.AddClaim(new Claim("StoreId", Convert.ToString(adminModel.Store_Id)));
+                        identity.AddClaim(new Claim("BusinessType", adminModel.StoreType));
+                    }
                     else
                         identity.AddClaim(new Claim("StoreId", "0"));
 

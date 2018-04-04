@@ -25,4 +25,14 @@ namespace BasketWebPanel.BindingModels
   
         public string ImageUrl { get; set; }
     }
+
+    public class CategoryBindlingListModel
+    {
+        public CategoryBindlingListModel()
+        {
+            responseCategories = new List<BindingModels.CategoryBindingModel>();
+        }
+        public List<CategoryBindingModel> responseCategories { get; set; }
+        public string BusinessType { get; set; }
+    }
 }

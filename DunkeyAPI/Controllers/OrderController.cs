@@ -91,8 +91,7 @@ namespace DunkeyAPI.Controllers
                     model.Cart = JsonConvert.DeserializeObject<CartViewModel>(System.Web.HttpContext.Current.Request.Params["Cart"]);
                 if (System.Web.HttpContext.Current.Request.Params["StoreDeliverytype"] != null)
                     model.StoreDeliverytype = JsonConvert.DeserializeObject<List<StoreDeliverytypes>>(System.Web.HttpContext.Current.Request.Params["StoreDeliverytype"]);
-                DateTime test = new DateTime();
-                test = Convert.ToDateTime(model.StoreDeliverytype.FirstOrDefault().OrderDate);
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -129,7 +128,13 @@ namespace DunkeyAPI.Controllers
                             CurrentUser.RewardPoints = CurrentUser.RewardPoints + (order.Subtotal * DunkeyDelivery.Global.PointsToReward);
                         }
                         ctx.SaveChanges();
+                        model.SetOrderDeliveryDetails(order);
 
+                        var QueryForLatestDeliveryTime = @"select * From StoreOrders Where StoreOrders.Order_Id="+order.Id+@"
+                        order by OrderDeliveryTime DESC";
+                        order.OrderDateTime = ctx.Database.SqlQuery<StoreOrder>(QueryForLatestDeliveryTime).OrderByDescending(x => x.OrderDeliveryTime).FirstOrDefault().OrderDeliveryTime.Value;
+                       //var stringOrderDateTime= order.OrderDateTime.ToString("dd-MMMM-yyy hh:mm tt"); // 23 March 2018 
+                       // order.OrderDateTime = Convert.ToDateTime(stringOrderDateTime);
                         return Ok(new CustomResponse<Order> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
                     }
                 }
@@ -374,6 +379,11 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
 
                     foreach (var storeOrder in storeOrders)
                     {
+                        //if (storeOrder.OrderDeliveryTime != null)
+                        //{
+                        //    var stringOrderDateTime = storeOrder.OrderDeliveryTime.Value.ToString("dd-MMMM-yyy hh:mm tt"); // 23 March 2018 
+                        //    storeOrder.OrderDeliveryTime = Convert.ToDateTime(stringOrderDateTime);
+                        //}
                         orderHistory.orders.FirstOrDefault(x => x.Id == storeOrder.Order_Id).StoreOrders.Add(storeOrder);
                         storeOrder.DeliveryFee = storeOrder.Total - storeOrder.Subtotal;
                     }
@@ -496,9 +506,16 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
 
                     foreach (var storeOrder in storeOrders)
                     {
+                        if (storeOrder.OrderDeliveryTime != null)
+                        {
+                            var stringDateTime = storeOrder.OrderDeliveryTime.Value.ToString("yyyy-MM-dd hh:mm tt");
+                            storeOrder.OrderDeliveryTime = Convert.ToDateTime(stringDateTime);
+                        }
+                        //storeOrder.OrderDeliveryTime
                         orderHistory.orders.FirstOrDefault(x => x.Id == storeOrder.Order_Id).StoreOrders.Add(storeOrder);
                         storeOrder.DeliveryFee = storeOrder.Total - storeOrder.Subtotal;
                     }
+
                     return Ok(new CustomResponse<OrdersHistoryViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = orderHistory });
 
                 }
@@ -603,11 +620,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     #endregion
 
                     model.Address = MobileUtility.GetUserUserAddress(model.User_Id);
-                    //if (model.Address == null)
-                    //{
-                    //    return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one delivery address to proceed." } });
-                    //}
-
+                   
                     #region CommentedGetUserCreditCard
                     //var UserCreditCard = ctx.CreditCards.FirstOrDefault(x => x.User_ID == model.User_Id && x.Is_Primary == 1 && x.is_delete == false);
                     //if (UserCreditCard == null)
@@ -621,11 +634,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                     #endregion
 
                     model.CreditCard = MobileUtility.GetUserCreditCard(model.User_Id);
-                    //if (model.CreditCard == null)
-                    //{
-                    //    return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Add at least one credit card to proceed." } });
-                    //}
-
+                   
                     #region GetStoreBasedTaxes
                     var storeIds = model.Store.Select(x => x.storeId).Distinct();
 
@@ -646,7 +655,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                         store.minDeliveryCharges = Store.MinDeliveryCharges;
                         store.minDeliveryTime = Store.MinDeliveryTime;
                         store.minOrderPrice = Store.MinOrderPrice;
-
+                         
 
 
                         foreach (var product in store.products)

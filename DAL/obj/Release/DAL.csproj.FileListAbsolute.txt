@@ -44,3 +44,4 @@ F:\Projects\DunkeyDelivery\DAL\bin\Release\Newtonsoft.Json.xml
 F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.dll
 F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.pdb
 F:\Projects\DunkeyDelivery\DAL\obj\Release\DAL.csprojResolveAssemblyReference.cache
+F:\Projects\DunkeyDelivery\DAL\bin\Release\Z.EntityFramework.Plus.EF6.dll

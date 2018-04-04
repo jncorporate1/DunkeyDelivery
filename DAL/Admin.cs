@@ -36,6 +36,8 @@ namespace DAL
 
         public string ZipCode { get; set; }
 
+        [NotMapped]
+        public string StoreType { get; set; }
 
         [Required]
         public string Email { get; set; }

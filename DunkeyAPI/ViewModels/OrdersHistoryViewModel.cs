@@ -130,6 +130,9 @@ namespace DunkeyAPI.ViewModels
 
         public string ImageUrl { get; set; }
 
+        [JsonConverter(typeof(JsonCustomDateTimeConverter))]
+        public DateTime? OrderDeliveryTime { get; set; }
+
         public List<OrderItemViewModel> OrderItems { get; set; }
     }
 

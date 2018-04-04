@@ -13,6 +13,8 @@ namespace DAL
         [Required]
         public int Qty { get; set; }
 
+        public string ProductSize { get; set; } = "";
+
         public int? Product_Id { get; set; }
 
         public int? Package_Id { get; set; }

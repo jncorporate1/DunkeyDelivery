@@ -387,7 +387,6 @@ D:\Git\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftAccoun
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 D:\Git\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
-F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\WebGrease.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\csc.exe
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -435,6 +434,7 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.Razor.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Deployment.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\System.Web.WebPages.Razor.dll
+F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\WebGrease.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Facebook.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Newtonsoft.Json.xml
@@ -463,6 +463,6 @@ F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.OAuth.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Google.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.Twitter.xml
 F:\Projects\DunkeyDelivery\DunkeyDelivery\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.dll
 F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.pdb
-F:\Projects\DunkeyDelivery\DunkeyDelivery\obj\Debug\DunkeyDelivery.csprojResolveAssemblyReference.cache

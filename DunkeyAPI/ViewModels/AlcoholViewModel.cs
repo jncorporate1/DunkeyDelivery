@@ -12,14 +12,20 @@ namespace DunkeyAPI.ViewModels
         public AlcoholViewModel()
         {
             Stores = new List<Store>();
-
+            FilterProductSizes = new List<AlcoholSizeFilters>();
         }
-
+        public List<AlcoholSizeFilters> FilterProductSizes { get; set; }
         public List<Store> Stores { get; set; }
         public int? TotalRecords { get; set; } = 0;
 
     }
    
+    public class AlcoholSizeFilters
+    {
+        public string Unit { get; set; }
+        public string Size { get; set; }
+    }
+
     public class StoreViewModel
     {
         public int Id { get; set; }

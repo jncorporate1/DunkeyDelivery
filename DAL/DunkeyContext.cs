@@ -66,6 +66,10 @@ namespace DAL
 
 
         public virtual DbSet<UserDevice> UserDevice { get; set; }
+        public virtual DbSet<ProductSizes> ProductSizes { get; set; }
+        public virtual DbSet<SizesUnits> SizesUnits { get; set; }
+
+
 
 
 
@@ -73,6 +77,15 @@ namespace DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
+
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.ProductSizes)
+                .WithRequired(e => e.Product)
+                .HasForeignKey(e => e.Product_Id)
+                .WillCascadeOnDelete(false);
+
 
             modelBuilder.Entity<LaundryRequest>()
           .HasOptional(x => x.Store);

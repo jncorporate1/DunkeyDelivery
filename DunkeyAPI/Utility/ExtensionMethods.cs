@@ -132,6 +132,7 @@ namespace DunkeyAPI.ExtensionMethods
                         orderItem.Name = product.Name;
                         orderItem.Price = Convert.ToDouble(product.Price);
                         orderItem.Description = product.Description;
+                        orderItem.ProductSize = model.ProductSize;
                         break;
                     case (int)CartItemTypes.Package:
                         orderItem.Package_Id = model.ItemId;
@@ -273,7 +274,7 @@ namespace DunkeyAPI.ExtensionMethods
                 {
                     var SingleOrder=ctx.StoreOrders.FirstOrDefault(x => x.OrderNo == storeOrder.OrderNo);
                     var StoreDeliveryDetail = model.StoreDeliverytype.FirstOrDefault(x=>x.Store_Id==SingleOrder.Store_Id);
-                    if (!SingleOrder.OrderDeliveryTime.HasValue)
+                    if (StoreDeliveryDetail.OrderDateTime.HasValue)
                     {
                         SingleOrder.OrderDeliveryTime = StoreDeliveryDetail.OrderDateTime.Value;
                         SingleOrder.Type_Id = StoreDeliveryDetail.Type_Id;

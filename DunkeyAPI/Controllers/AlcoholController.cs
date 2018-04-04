@@ -80,8 +80,9 @@ namespace DunkeyAPI.Controllers
                                         prod.MinDeliveryCharges = store.MinDeliveryCharges;
                                         prod.MinDeliveryTime = store.MinDeliveryTime;
                                         prod.MinOrderPrice = store.MinOrderPrice;
-                                        //cat.Products = cat.Products.Where(x => x.IsDeleted == false && x.Category_Id == cat.Id).ToList();
                                         cat.Products = Products; /*cat.Products.Where(x => x.IsDeleted == false && x.Store_Id == cat.Store_Id).ToList();*/
+                                        prod.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prod.Id).ToList();
+
                                     }
                                 }
                                 //store.Distance = store.Location.Distance(point).Value;
@@ -97,8 +98,11 @@ namespace DunkeyAPI.Controllers
                             beerStore.CategoryType = (int)DunkeyDelivery.Stores.AlcoholCategoryTypes.Beer;
                         }
                         model.Stores = model.Stores.OrderBy(x => x.CategoryType).ToList();
-                        //model.Stores = model.Stores.OrderBy(x => x.Categories).ToList();
+                        //model.Stores = model.Stores.OrderBy(x => x.Categories).ToList
                     }
+                    var UniqueProductSizesForFilter = "select DISTINCT ProductSizes.Unit,ProductSizes.Size From ProductSizes Where ProductSizes.IsDeleted=0";
+                    model.FilterProductSizes = ctx.Database.SqlQuery<AlcoholSizeFilters>(UniqueProductSizesForFilter).ToList();
+                    //ReturnModel.ProductSizes = ctx.ProductSizes.Where(x => x.IsDeleted == false).Distinct();
                     return Ok(new CustomResponse<AlcoholViewModel> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = model });
 
                 }
@@ -155,7 +159,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
-
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
                                 }
                             }
                             else
@@ -174,7 +178,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
-
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
 
                                 }
                             }
@@ -198,7 +202,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
-
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
 
                                 }
                                 //}
@@ -254,7 +258,10 @@ namespace DunkeyAPI.Controllers
                         else
                         {
                             responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
-                            responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                            if (LiquorParentId != null)
+                            {
+                                responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                            }
                             responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId == Category_ParentId.Value && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                             if (responseModel.Categories.Beer.Count == 0 && Category_Id != 0)
                             {
@@ -274,6 +281,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
 
 
                                 }
@@ -295,7 +303,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
-
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
 
                                 }
                             }
@@ -317,6 +325,7 @@ namespace DunkeyAPI.Controllers
                                     prodDetail.BusinessType = StoreDetails.BusinessType;
                                     prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                     prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
+                                    prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
                                 }
                             }
                             else
@@ -335,7 +344,7 @@ namespace DunkeyAPI.Controllers
                                 prodDetail.BusinessType = StoreDetails.BusinessType;
                                 prodDetail.MinDeliveryTime = StoreDetails.MinDeliveryTime;
                                 prodDetail.MinOrderPrice = StoreDetails.MinOrderPrice;
-
+                                prodDetail.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prodDetail.Id).ToList();
 
                             }
                         }
@@ -466,7 +475,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("AlcoholFilterTypeStoreCategoryDetails")]
-        public async Task<IHttpActionResult> AlcoholFilterTypeStoreCategoryDetails(int? SortBy = 0, string Country = "", string Price = "", string Size = "", int Type_Id = 0, string ParentName = "")
+        public async Task<IHttpActionResult> AlcoholFilterTypeStoreCategoryDetails(int? SortBy = 0, string Country = "", string Price = "", string Size = "", int Type_Id = 0, string ParentName = "", string ProductNetWeight = "")
         {
             try
             {
@@ -487,10 +496,13 @@ namespace DunkeyAPI.Controllers
                 string ExtendedQuery = "";
                 string ExtendedWhere = "";
 
+                List<string> NetWeightList;
+
 
                 var query = @"SELECT  Products.*
                 FROM Products 
                 join Stores on Products.Store_Id = Stores.Id
+                left join ProductSizes on Products.Id=ProductSizes.Product_Id
 			    LEFT JOIN storeratings 
                 ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
 
@@ -530,6 +542,26 @@ namespace DunkeyAPI.Controllers
                         {
                             query += " (Products.Price >= " + PriceListInt.Min() + " AND Products.Price <= " + PriceListInt.Max() + "  ) AND ";
                         }
+
+                    }
+
+
+                    if (!string.IsNullOrEmpty(ProductNetWeight))
+                    {
+
+                        NetWeightList = ProductNetWeight.Split(',').ToList();
+                        query += " ProductSizes.NetWeight in (";
+                        for (var i = 0; i < NetWeightList.Count; i++)
+                        {
+                            if (i == NetWeightList.Count - 1)
+                                query += "'" + NetWeightList[i] + "'";
+                            else
+                                query += "'" + NetWeightList[i] + "',";
+
+                        }
+                        query += ") AND ";
+
+
 
                     }
 
@@ -575,6 +607,7 @@ namespace DunkeyAPI.Controllers
                             item.BusinessName = store.BusinessName;
                             item.BusinessType = store.BusinessType;
                             item.MinDeliveryCharges = store.MinDeliveryCharges;
+                            item.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == item.Id).ToList();
 
                         }
                     }
@@ -684,7 +717,7 @@ namespace DunkeyAPI.Controllers
 
         [HttpGet]
         [Route("AlcoholFilterStore")]
-        public IHttpActionResult AlcoholFilterStore(double latitude, double longitude, int? SortBy = 0, string Country = "", string Price = "", string Size = "")
+        public IHttpActionResult AlcoholFilterStore(double latitude, double longitude, int? SortBy = 0, string Country = "", string Price = "", string ProductNetWeight = "")
         {
             try
             {
@@ -692,11 +725,14 @@ namespace DunkeyAPI.Controllers
                 AlcoholViewModel returnModel = new AlcoholViewModel();
 
                 List<int> PriceList;
+                List<string> NetWeightList;
+
 
                 //Price rnage
                 var query = @"SELECT  Products.*
                 FROM Products 
                 join Stores on Products.Store_Id = Stores.Id
+                left join ProductSizes on Products.Id=ProductSizes.Product_Id
 			    LEFT JOIN storeratings 
                 ON stores.id = storeratings.store_id WHERE stores.businesstype = 'Alcohol' AND   ";
 
@@ -708,16 +744,35 @@ namespace DunkeyAPI.Controllers
 
                         if (PriceList.Count == 1)
                         {
-                            query += "  Products.Price > " + PriceList.First() + " AND ";
+                            query += "  Products.Price >= " + PriceList.First() + " AND ";
                         }
                         else if (PriceList.Count == 2)
                         {
                             query += " (Products.Price >= " + PriceList.Min() + " AND Products.Price <= " + PriceList.Max() + "  ) AND ";
                         }
 
+
+                    }
+                    if (!string.IsNullOrEmpty(ProductNetWeight))
+                    {
+
+                        NetWeightList = ProductNetWeight.Split(',').ToList();
+                        query += " ProductSizes.NetWeight in (";
+                        for (var i = 0; i < NetWeightList.Count; i++)
+                        {
+                            if (i == NetWeightList.Count-1)
+                                query += "'" + NetWeightList[i] + "'";
+                            else
+                                query += "'" + NetWeightList[i] + "',";
+
+                        }
+                        query += ") AND ";
+
+
+
                     }
 
-                    query += " stores.isdeleted = 'false' AND Products.isdeleted='false'  ";
+                    query += " stores.isdeleted = '0' AND Products.isdeleted='0'  ";
 
                     List<string> countryList = new List<string>();
                     if (Country != null)
@@ -789,14 +844,14 @@ namespace DunkeyAPI.Controllers
                             foreach (var pCat in parentCat)
                                 if (uniqueCategories.Contains(pCat) == false)
                                     uniqueCategories.Add(pCat);
-                        } 
+                        }
                     }
 
                     // getting product ids
                     var uniqueProducts = product.Select(x => x.Id).Distinct();
 
                     var childCats = ctx.Categories.Where(x => x.ParentCategoryId != 0 && uniqueCategories.Contains(x.Id)).ToList();
-                    
+
                     returnModel.Stores = ctx.Stores
                         .IncludeFilter(
                                 x => x.Categories.Where(
@@ -836,10 +891,27 @@ namespace DunkeyAPI.Controllers
                                 PriceList = Price.Split(',').Select(int.Parse).ToList();
 
                                 if (PriceList.Count == 1)
-                                    cat.Products = cat.Products.Where(x => x.Price > PriceList.First()).ToList();
+                                    cat.Products = cat.Products.Where(x => x.Price >= PriceList.First()).ToList();
                                 else if (PriceList.Count == 2)
                                     cat.Products = cat.Products.Where(x => x.Price >= PriceList.Min() && x.Price <= PriceList.Max()).ToList();
 
+                            }
+                            if (!string.IsNullOrEmpty(ProductNetWeight))
+                            {
+                                NetWeightList = ProductNetWeight.Split(',').ToList();
+
+                                List<int> UniqueProductSizeIds = new List<int>();
+                                foreach (var prod in cat.Products)
+                                {
+                                    var ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prod.Id && NetWeightList.Contains(x.NetWeight)).ToList();
+                                    if (ProductSizes.Count > 0)
+                                    {
+                                        //prod.ProductSizes.AddRange(ProductSizes);
+                                        UniqueProductSizeIds.Add(ProductSizes.FirstOrDefault().Product_Id);
+                                    }
+
+                                }
+                                cat.Products = cat.Products.Where(x => UniqueProductSizeIds.Contains(x.Id)).ToList();
                             }
 
                             if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.BestSelling) ;
@@ -852,10 +924,27 @@ namespace DunkeyAPI.Controllers
                                 cat.Products = cat.Products.OrderBy(x => x.Price).ToList();
                             else if (SortBy == (int)DunkeyDelivery.FilterAlcoholSortBy.High2Low)
                                 cat.Products = cat.Products.OrderByDescending(x => x.Price).ToList();
+
+
+                            foreach (var prod in cat.Products)
+                            {
+                                prod.BusinessName = store.BusinessName;
+                                prod.BusinessType = store.BusinessType;
+                                prod.MinDeliveryCharges = store.MinDeliveryCharges;
+                                prod.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == prod.Id).ToList();
+                            }
+                            //foreach (var item in products)
+                            //{
+                            //    var store = ctx.Stores.FirstOrDefault(x => x.Id == item.Store_Id);
+                            //    item.BusinessName = store.BusinessName;
+                            //    item.BusinessType = store.BusinessType;
+                            //    item.MinDeliveryCharges = store.MinDeliveryCharges;
+                            //    item.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == item.Id).ToList();
+
+                            //}
                         }
                     }
                 }
-
                 CustomResponse<AlcoholViewModel> reponse = new CustomResponse<AlcoholViewModel>
                 {
                     Message = "Success",

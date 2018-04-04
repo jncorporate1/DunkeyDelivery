@@ -11,7 +11,7 @@ namespace DAL
     {
         public JsonCustomDateTimeConverter()
         {
-            DateTimeFormat = "yyyy-MM-dd hh:mm:ss";
+            DateTimeFormat = "yyyy-MM-dd hh:mm tt";
         }
     }
 }

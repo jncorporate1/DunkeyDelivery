@@ -1,17 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BasketWebPanel.BindingModels
 {
     public class ProductBindingModel
     {
+        public ProductBindingModel()
+        {
+            ProductSizes = new List<ProductSizeBindingModel>();
+        }
+       
         public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
-        [Range(1, 10000, ErrorMessage = "Please enter a valid price")]
-        [RegularExpression(MyRegularExpressions.Price, ErrorMessage = "Please enter a valid price")]
+        //[Required(ErrorMessage = "This field is required")]
+        //[Range(1, 10000, ErrorMessage = "Please enter a valid price")]
+        //[RegularExpression(MyRegularExpressions.Price, ErrorMessage = "Please enter a valid price")]
         public double? Price { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -39,10 +45,39 @@ namespace BasketWebPanel.BindingModels
 
         public string Size { get; set; }
 
+        public List<ProductSizeBindingModel> ProductSizes { get; set; }
+
         public virtual CategoryBindingModel Category { get; set; }
 
         public virtual StoreBindingModel Store { get; set; }
 
 
+    }
+
+    public class ProductSizeBindingModel
+    {
+        public string Unit { get; set; }
+
+        public string Size { get; set; }
+
+        public double? Price { get; set; }
+        
+    }
+
+    public class ProductSizeViewModel
+    {
+        public int Id { get; set; }
+
+        public string Unit { get; set; }
+
+        public double Weight { get; set; }
+
+        public string Size { get; set; }
+
+        public double Price { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public int Product_Id { get; set; }
     }
 }

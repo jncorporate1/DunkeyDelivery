@@ -309,7 +309,8 @@ namespace BasketApi
                         apnsBroker.QueueNotification(new ApnsNotification
                         {
                             DeviceToken = device.AuthToken,
-                            Payload = JObject.Parse(Newtonsoft.Json.JsonConvert.SerializeObject(pushModel))
+                            Payload = JObject.Parse(Newtonsoft.Json.JsonConvert.SerializeObject(pushModel)),
+
                         });
 
                         apnsBroker.Stop();
@@ -380,6 +381,7 @@ namespace BasketApi
                         msgModel.NotificationId = OtherNotification.Id;
                         msgModel.Title = OtherNotification.Title;
                         msgModel.EntityId = OtherNotification.Item_Id;
+                        
                     }
 
                     if (device.ApplicationType == UserDevice.ApplicationTypes.Enterprise)
@@ -401,6 +403,7 @@ namespace BasketApi
                         RegistrationIds = new List<string> { device.AuthToken },
                         Priority = GcmNotificationPriority.High,
                         Data = JObject.Parse(Newtonsoft.Json.JsonConvert.SerializeObject(msgModel))
+                        
                     });
 
                     gcmBroker.Stop();

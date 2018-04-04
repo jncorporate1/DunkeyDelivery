@@ -2,6 +2,12 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var lst = Model.StoreOptions.Items.Cast<BasketWebPanel.BindingModels.StoreDropDownBindingModel>().ToList();
+    var BusinessType = lst.FirstOrDefault().BusinessType;
+    if (string.IsNullOrEmpty(BusinessType))
+    {
+        BusinessType = Model.BusinessType;
+    }
 }
 
 <div class="right_col" role="main">
@@ -24,13 +30,19 @@
                     appearance: none;
                     margin: 0;
                 }
-            </style>
-            @using (Ajax.BeginForm("Index", "Product", new AjaxOptions { OnSuccess = "OnSuccessProductInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { enctype = "multipart/form-data" }))
-            {
-                @Html.AntiForgeryToken()
-                <div class="x_panel">
-                    <div class="x_title">
 
+                .entry:not(:first-of-type) {
+                    /*margin-top: 10px;*/
+                }
+
+                .glyphicon {
+                    font-size: 12px;
+                }
+            </style>
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <div class="col-md-6">
                         @if (Model.Product.Id == 0)
                         {
                             <h3>Add New Product</h3>
@@ -39,19 +51,29 @@
                         {
                             <h3>Edit Product</h3>
                         }
-
-
-                        @*<ul class="nav navbar-right panel_toolbox">
-                                <li>
-                                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-
-                                <li>
-                                    <a class="close-link"><i class="fa fa-close"></i></a>
-                                </li>
-                            </ul>*@
-                        <div class="clearfix"></div>
                     </div>
+                    <div class="col-md-6 text-right" style="float:right;padding-top:12px;">
+                        <input type="file" class="btn btn-primary" onchange="UploadImportedFile()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="importBtnHdn" value="Import File" style="display:none;" />
+
+                        <button id="importBtn" class="btn btn-success btn-sm text-right"> <i style="font-size: 15px;" class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data </button>
+                        @using (Html.BeginForm("DemoFile", "Product", FormMethod.Post, new { style = "display:contents;" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <button type="submit" class="btn btn-default">Sample File</button>
+                        }
+
+                        <div class="row">
+                            <span style="padding-left:10px" id="FileError" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="clearfix"></div>
+                </div>
+                @using (Ajax.BeginForm("Index", "Product", new AjaxOptions { OnSuccess = "OnSuccessProductInsertion", OnFailure = "OnFailedInsertion", LoadingElementId = "divLoader" }, new { enctype = "multipart/form-data" }))
+            {
+                    @Html.AntiForgeryToken()
                     <div class="x_content">
                         <br />
                         <input type="hidden" name="Product.Id" value="@Model.Product.Id" />
@@ -60,8 +82,9 @@
                                 <label>Product Name</label>
                                 <input type="text" autofocus data-val="true" class="form-control input-validation-error" name="Product.Name" id="ProductName" data-val-required="This field is required" placeholder="Product Name" value="@Model.Product.Name">
                                 @Html.ValidationMessageFor(m => m.Product.Name, "", new { @class = "text-danger" })
+
                             </div>
-                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback" id="ProductPrice">
                                 <label>Product Price</label>
                                 @* <input type="text" data-val="true" class="form-control input-validation-error" name="Price" id="Price" data-val-required="Price is required" placeholder="Product Price" value="@Model.Price">*@
                                 @Html.TextBoxFor(x => x.Product.Price, new { @class = "form-control", @id = "Price", @placeholder = "Product Price", @type = "text" })
@@ -73,8 +96,9 @@
                                 <label>Store</label>
                                 @if (Model.Role == Utility.RoleTypes.SuperAdmin)
                                 {
-                                    @Html.DropDownList("Product.Store_Id", new SelectList(Model.StoreOptions.Items,
-                            "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", onchange = "AddProduct_OnStoreChange()" })
+                                    @*@Html.DropDownList("Product.Store_Id", new SelectList(Model.StoreOptions.Items,
+                                        "value", "Text", Model.StoreOptions.SelectedValue), new { @class = "form-control", onchange = "AddProduct_OnStoreChange()" })*@
+                                    @Html.DropDownListFor(x => x.Product.Store_Id, new SelectList(Model.StoreOptions.Items, "Value", "Text"), new { @class = "form-control", onchange = "AddProduct_OnStoreChange()", estc = "asdf" })
                                 }
                                 else
                                 {
@@ -90,29 +114,12 @@
                                 @Html.ValidationMessageFor(x => x.Product.Category_Id, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        @*<div class="row">
-                            <div class="col-xs-6 col-md-6 col-xs-12 form-group has-feedback">
-                                <label>Weight</label>
-                                <div class="input-group" style="display:flex">
-                                    @Html.TextBoxFor(x => x.Product.WeightInGrams, new { @class = "form-control", @id = "Weight", @placeholder = "Weight ", @type = "text" })
-                                    @Html.DropDownList("Product.WeightUnit", new SelectList(Model.WeightOptions.Items,
-                                   "value", "Text", Model.WeightOptions.SelectedValue), new { @class = "selectpicker form-control", @style = "width:100px !important" })
-                                    <select id="Weight" name="Product.WeightUnit" class="selectpicker form-control" data-live-search="true" style="width:100px !important" title="Unit">
-                                            <option value="1">gm</option>
-                                            <option value="2">kg</option>
-                                        </select>
-                                    <input type="number" data-val="true" class="form-control input-validation-error" name="Product.Weight" id="Weight" data-val-required="Weight is required" placeholder="Weight">
-                                </div>
 
-                                @Html.ValidationMessageFor(m => m.Product.WeightInGrams, "", new { @class = "text-danger" })
-
-                            </div>
-                        </div>*@
                         <div class="row">
-                            <div class="col-xs-12 col-md-12 col-xs-12">
+                            <div class="col-xs-12 col-md-12 col-xs-12" style="margin-bottom: 10px;">
                                 <!-- image-preview-filename input [CUT FROM HERE]-->
-                                @*@if (Model.Product.Id == 0)
-                                {*@
+                                @if (Model.Product.Id == 0)
+                                {
                                     <div id="UploadImage" hidden>
                                         <label>Upload Product Image</label>
                                         <div>
@@ -137,13 +144,13 @@
 
                                         <!-- /input-group image-preview [TO HERE]-->
                                     </div>
-                                @*}
+                                }
                                 else
-                                {*@
+                                {
                                     <div id="EditImage" hidden>
                                         <label>Product Image</label>
                                         <div class="row">
-                                            <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
+                                            <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
                                                 <img src="@ApiCall.BaseUrl@Model.Product.Image" alt="" width="48" height="48">
                                             </div>
                                         </div>
@@ -153,11 +160,43 @@
 
                                         <div hidden id="HasImage1">@Model.Product.Image</div>
                                     </div>
-                                
 
-
+                                }
+                                <span id="ImageError" class="text-danger"></span>
                             </div>
-                            <span style="padding-left:10px" id="ImageError" class="text-danger"></span>
+                           
+                            <div class="row  controls entry" id="" hidden>
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_0">
+                                    <div class="col-md-6 col-sm-12 col-xs-12">
+                                        <label>Weight</label>
+                                        <div class="control-group" id="fields">
+                                            <div>
+                                                <div class="input-group col-xs-12 col-sm-12 col-xs-12" style="margin-bottom:0px !important;">
+                                                   <input type="text" autofocus="" data-val="true" class="form-control" name="Product.ProductSizes[0].Size" id="ProductSize" placeholder="Product Weight">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success btn-add" onclick="AddFields()" type="button">
+                                                            <span class="glyphicon glyphicon-plus"></span>
+                                                        </button>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <label>Unit</label>
+                                        @Html.DropDownList("Product.ProductSizes[0].Unit", new SelectList(Model.SizeUnits.Items, "value", "Text", Model.SizeUnits.SelectedValue), new { @class = "form-control", Id = "t_" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12 ">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                        <label>Price</label>
+                                        <input type="text" autofocus=""  class="form-control" name="Product.ProductSizes[0].Price" id="ProductPrice" placeholder="Product Price">
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-12 col-xs-12">
@@ -169,33 +208,19 @@
                         </div>
                     </div>
                     @*<div class="ln_solid"></div>*@
-                   
-                    <div class="col-md-6">
+
+                    <div class="col-md-12">
                         <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                             <button id="btnReset" onclick="OnResetClick()" class="btn btn-primary" type="reset">Reset</button>
                             <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                     </div>
-
-                </div>
-            }
-
-
-            <div class="col-md-6">
-                <input type="file" class="btn btn-primary" onchange="UploadImportedFile()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" id="importBtnHdn" value="Import File" style="display:none;" />
-
-                <button id="importBtn" class="btn btn-success btn-sm text-right"> <i style="font-size: 15px;" class="fa fa-file-excel-o" aria-hidden="true"></i> Import Data </button>
-                @using (Html.BeginForm("DemoFile", "Product", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <button type="submit" class="btn btn-default">Sample File</button>
                 }
-
-                <div class="row">
-                    <span style="padding-left:10px" id="FileError" class="text-danger"></span>
-                </div>
             </div>
+
+
+
+
 
         </div>
     </div>
@@ -204,7 +229,90 @@
 @Scripts.Render("~/bundles/jquery")
 
 <script>
+    var index = 1;
+    //function AddFields(parentDivName, DivToAppend, FieldClass, FieldName) {
+    //    var currentHtml = $("." + parentDivName + "").html();
+    //    console.log("<parnet> :"+currentHtml);
+    //    //var htmlToAppend = $("." + parentDivName + "").html();
+    //    var htmlToAppend = $("." + DivToAppend + ":eq(0)").html();
+    //    htmlToAppend += "<div class='duplicate'>"  +htmlToAppend + "</div>";
+    //    console.log("<child> :" + htmlToAppend);
+    //    $("." + parentDivName + "").html(currentHtml+htmlToAppend);
 
+    //    var NoOfFields = $("." + FieldClass + "").length;
+    //    if (FieldName.indexOf("[") > 0) {
+    //        var start = FieldName.indexOf("[");
+    //        var end = FieldName.indexOf("]");
+    //        var PreString = FieldName.substring(0, start + 1);
+    //        var PostString = FieldName.substring(end);
+    //        var finalResult = PreString + index + PostString;
+
+    //    }
+    //    $("." + FieldClass + ":eq(" + (NoOfFields - 1) + ")").attr("name", finalResult);
+    //    //$("." + FieldClass + ": eq("+NoOfFields+")").attr("name", finalResult);
+    //    index++;
+
+    //}
+
+
+
+    function AddFields() {
+        var DropDownHtml = "";
+        var x = document.getElementById("t_");
+        var optionVal = new Array();
+        for (i = 0; i < x.length; i++) {
+            optionVal.push(x.options[i].text);
+        }
+
+        for (var i = 0; i < optionVal.length; i++) {
+            DropDownHtml = "<option>" + optionVal[i] + "</option>";
+
+        }
+
+
+
+        var Html = '<div class="col-md-6 col-lg-6 col-sm-12 duplicate_' + index + '">';
+        Html += '   <div class="col-md-6">';
+        Html += '<label>Weight</label>';
+        Html += '        <div class="control-group" id="fields">';
+        Html += '        <div>';
+        Html += '           <div class=" input-group col-xs-12" style="margin-bottom:0px !important;">';
+        Html += '                                                                 <input type="text" autofocus="" data-val="true" class="form-control input-validation-error" name="Product.ProductSizes[' + index + '].Size" id="ProductSize" data-val-required="This field is required" placeholder="Product Weight">';
+        Html += '      <span class="input-group-btn">';
+        Html += '     <button class="btn btn-danger btn-add" id="' + index + '" onclick="SubFields(this.id)" type="button">';
+        Html += ' <span class="glyphicon glyphicon-minus"></span>';
+        Html += '</button>';
+        Html += '</span>';
+        Html += '</div>';
+        Html += '</div>';
+        Html += '</div>';
+        Html += '</div>';
+        Html += ' <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback">';
+        Html += ' <label>Unit</label>';
+        Html += '<select id="t_" class="form-control valid" name="Product.ProductSizes[' + index + '].Unit">';
+        Html += DropDownHtml;
+        Html += "</select>";
+        @*Html += '@Html.DropDownList("Product.Category_Id", new SelectList(Model.SizeUnits.Items,"value", "Text", Model.SizeUnits.SelectedValue), new { @class = "form-control" })';*@
+        Html += ' </div>';
+        Html += '</div>';
+        Html += '<div class="col-md-6 col-lg-6 col-sm-12 " >';
+        Html += '<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">';
+        Html += ' <label>Price</label>';
+        Html += ' <input type="text" autofocus="" data-val="true" class="form-control input-validation-error" name="Product.ProductSizes[' + index + '].Price" id="ProductPrice" data-val-required="This field is required" placeholder="Product Price">';
+        Html += ' </div>';
+        Html += ' </div>';
+
+        $(".controls").append(Html);
+
+        index++;
+    }
+
+    function SubFields(id) {
+        $(".duplicate_" + id).remove();
+    }
+
+
+    // above code is for dynamic adding fields
     $("#importBtn").click(function (e) {
         e.preventDefault();
         $("#importBtnHdn").click();
@@ -216,7 +324,7 @@
         var fileInput = document.getElementById('importBtnHdn');
 
         var file = fileInput.files[0];
-     
+
         formdata.append(file.name, fileInput.files[0]);
 
         if (AllowedFileTypes.indexOf(file.type) == -1) {
@@ -228,7 +336,7 @@
             //Creating an XMLHttpRequest and sending
             var xhr = new XMLHttpRequest();
             xhr.open('POST', 'Product/UploadFile');
-    
+
             xhr.send(formdata);
             xhr.onreadystatechange = function () {
                 response = this.responseText;
@@ -236,11 +344,6 @@
                 response = this.status;
                 response = this.statusText;
 
-                //if (xhr.readyState == 2 && xhr.status == 200) {
-                //    $("#success-alert").show().delay(2000).fadeOut();
-                //} else {
-                //    $("#error-alert").show().delay(2000).fadeOut();
-                //}
             }
             return false;
         }
@@ -249,9 +352,10 @@
 
 
 
-    /// above is  for excel file 
+    /// above is  for excel file
     $(document).ready(function () {
-  
+        var BusinessType = '@BusinessType';
+        TypeBasedFields(BusinessType);
         var prodId = $("#prodId").val();
         var editImageVal = $('#HasImage1').text();
         if (prodId == "" || editImageVal == "") {
@@ -349,7 +453,7 @@
     }
 
     function DeleteImageOnEdit() {
-   
+
         var xhr = new XMLHttpRequest();
         var url = '@Url.Action("DeleteImage", "Product")'
         xhr.open('POST', url);
@@ -360,7 +464,7 @@
 
 
     function EditDivDeletePic() {
-   
+
         $('#EditImage').hide();
         $('#UploadImage').show();
         DeleteImageOnEdit();
@@ -370,12 +474,35 @@
         var url = '@Url.Action("FetchCategories", "Product")'
         var categories = $('#Product_Category_Id');
         var catId = $('#Product.Category_Id').val();
+       
         $.getJSON(url, { StoreId: $("#Product_Store_Id").val() }, function (response) {
+            TypeBasedFields(response.BusinessType)
+            $("#test").val(response.BusinessType);
             categories.empty();
-            $.each(response, function (index, item) {
+            $.each(response.responseCategories, function (index, item) {
+                console.log(categories);
                 categories.append($('<option></option>').text(item.Name).val(item.Id));
             });
         })
+    }
+    function TypeBasedFields(BusinessType) {
+
+        $(".controls").hide();
+        switch (BusinessType) {
+            case 'Food':
+                break;
+            case 'Grocery':
+                break;
+            case 'Alcohol':
+                $(".controls").show();
+                break;
+            case 'Laundry':
+                break;
+            case 'Retail':
+                break;
+            default:
+                return false;
+        }
     }
 
 </script>

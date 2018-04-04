@@ -1493,7 +1493,9 @@ namespace DunkeyAPI.Controllers
                     DAL.Admin adminModel;
                     var HasedPassword = CryptoHelper.Hash(model.Password);
                     adminModel = ctx.Admins.Include(x => x.Notifications).FirstOrDefault(x => x.Email == model.Email && x.Password == HasedPassword);
-
+                    if (adminModel.Store_Id != null) {
+                        adminModel.StoreType = ctx.Stores.FirstOrDefault(x => x.Id == adminModel.Store_Id).BusinessName;
+                    }
                     if (adminModel != null)
                     {
                         await adminModel.GenerateToken(Request);

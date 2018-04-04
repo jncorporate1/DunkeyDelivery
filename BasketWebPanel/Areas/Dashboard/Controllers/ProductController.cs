@@ -51,18 +51,26 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
         public JsonResult FetchCategories(int storeId) // its a GET, not a POST
         {
+            CategoryBindlingListModel returnModel = new CategoryBindlingListModel();
             var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Categories/GetAllCategoriesByStoreId", User, GetRequest: true, parameters: "StoreId=" + storeId));
-            var responseCategories = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
-            var tempCats = responseCategories.ToList();
 
-            foreach (var cat in responseCategories)
+            var Storeresponse = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Shop/GetStoreById", User, GetRequest: true, parameters: "Id=" + storeId));
+            var responseStore = Storeresponse.GetValue("Result").ToObject<StoreViewModel>();
+
+
+            returnModel.responseCategories = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
+            returnModel.BusinessType = responseStore.BusinessType;
+
+            var tempCats = returnModel.responseCategories.ToList();
+
+            foreach (var cat in returnModel.responseCategories)
             {
                 cat.Name = cat.GetFormattedBreadCrumb(tempCats);
             }
 
-            responseCategories.Insert(0, new CategoryBindingModel { Id = 0, Name = "None" });
+            returnModel.responseCategories.Insert(0, new CategoryBindingModel { Id = 0, Name = "None" });
 
-            return Json(responseCategories, JsonRequestBehavior.AllowGet);
+            return Json(returnModel, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Index(int? ProductId)
@@ -75,12 +83,16 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             int initialStoreId = model.StoreId;
             //Providing StoresList
+
             model.StoreOptions = Utility.GetStoresOptions(User);
+            model.SizeUnits = Utility.GetUnits(User,"None");
+
+
             if (model.StoreOptions.Count() > 0)
             {
-                initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
+                initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<StoreDropDownBindingModel>).First().Value) : initialStoreId;
             }
-
+           
             if (ProductId.HasValue)
             {
                 var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Product, "Id=" + ProductId.Value));
@@ -168,7 +180,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     content.Add(new StringContent(model.Product.Id.ToString()), "Id");
                 }
-
+                
                 content.Add(new StringContent(model.Product.Name), "Name");
                 content.Add(new StringContent(model.Product.Price.ToString()), "Price");
                 content.Add(new StringContent(model.Product.Category_Id.ToString()), "Category_Id");

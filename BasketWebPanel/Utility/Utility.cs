@@ -171,7 +171,8 @@ namespace BasketWebPanel
             Store,
             Package,
             Admin,
-            Offer
+            Offer,
+            Unit
         }
 
         public enum PaymentMethods
@@ -217,16 +218,64 @@ namespace BasketWebPanel
                 }
                 else
                 {
+                    //var Stores = responseStores.GetValue("Result").ToObject<List<StoreBindingModel>>();
+                    //IEnumerable<SelectListItem> selectList = from store in Stores
+                    //                                         select new SelectListItem
+                    //                                         {
+                    //                                             Selected = false,
+                    //                                             Text = store.BusinessName,
+                    //                                             Value = store.Id.ToString(),
+
+                    //                                         };
+                    //if (DefaultName != "")
+                    //    Stores.Insert(0, new StoreBindingModel { Id = 0, BusinessName = DefaultName });
+
+                    //return new SelectList(selectList);
+
                     var Stores = responseStores.GetValue("Result").ToObject<List<StoreBindingModel>>();
-                    IEnumerable<SelectListItem> selectList = from store in Stores
-                                                             select new SelectListItem
+                    IEnumerable<StoreDropDownBindingModel> selectList = from store in Stores
+                                                             select new StoreDropDownBindingModel
                                                              {
+                                                                 Id=store.Id,
                                                                  Selected = false,
                                                                  Text = store.BusinessName,
-                                                                 Value = store.Id.ToString()
+                                                                 Value = store.Id.ToString(),
+                                                                 BusinessType=store.BusinessType
                                                              };
                     if (DefaultName != "")
                         Stores.Insert(0, new StoreBindingModel { Id = 0, BusinessName = DefaultName });
+
+                    return new SelectList(selectList);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static SelectList GetUnits(IPrincipal User, string DefaultName = "")
+        {
+            try
+            {
+                var responseUnits = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Size/GetAllUnits", User, GetRequest: true));
+                if (responseUnits == null || responseUnits is Error)
+                {
+                    return null;
+                }
+                else
+                {
+                    var Units = responseUnits.GetValue("Result").ToObject<List<SizeBindingModel>>();
+                    IEnumerable<SelectListItem> selectList = from unit in Units
+                                                             select new SelectListItem
+                                                             {
+                                                                 Selected = false,
+                                                                 Text = unit.Unit,
+                                                                 Value = unit.Unit
+                                                             };
+                    if (DefaultName != "")
+                        Units.Insert(0, new SizeBindingModel { Id = 0, Unit = DefaultName });
 
                     return new SelectList(selectList);
                 }
@@ -400,8 +449,9 @@ namespace BasketWebPanel
                 }
                 else
                 {
-                    var responseCategories = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
-                    var tempCats = responseCategories.ToList();
+                    var responseCatWithoutWhere = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
+                    var responseCategories = responseCatWithoutWhere.Where(x => x.ParentCategoryId != 0).ToList();
+                    var tempCats = responseCategories.Where(x=>x.ParentCategoryId!=0).ToList();
 
                     foreach (var cat in responseCategories)
                     {
@@ -427,6 +477,7 @@ namespace BasketWebPanel
                     else
                     {
                         selectList = from cat in responseCategories
+
                                      select new SelectListItem
                                      {
                                          Selected = false,

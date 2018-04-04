@@ -74,6 +74,8 @@ namespace BasketWebPanel.ViewModels
         
         public string ImageUrl { get; set; }
 
+        public string StoreType { get; set; }
+
         public Token Token { get; set; }
         
         public ICollection<MyNotificationBindingModel> Notifications { get; set; }

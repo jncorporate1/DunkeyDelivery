@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DunkeyAPI.BindingModels;
 using DunkeyAPI.ExtensionMethods;
+using DunkeyAPI.Models;
 using DunkeyAPI.Models.Admin;
 using DunkeyAPI.Utility;
 using DunkeyAPI.ViewModels;
@@ -94,6 +95,57 @@ namespace DunkeyAPI.Controllers
         // admin panel services 
 
         // [BasketApi.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+
+        [DunkeyDelivery.Authorize("SuperAdmin", "ApplicationAdmin")]
+        [Route("AddUnit")]
+        public async Task<IHttpActionResult> AddUnit(UnitBindingModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    SizesUnits SizeModel = new SizesUnits();
+
+                    if (model.Id == 0)
+                    {
+                        var alreadyExist = ctx.SizesUnits.ToList().FirstOrDefault(x => x.Unit == model.Unit);
+                  
+                        if (alreadyExist != null)
+                        {
+                            return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                            {
+                                Message = "Conflict",
+                                StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                                Result = new Error { ErrorMessage = "Unit with name already exists." }
+                            });
+                        }
+                        SizeModel.Unit = model.Unit;
+                        SizeModel.BusinessType= model.BusinessType;
+                        SizeModel.IsDeleted = false;
+                        ctx.SizesUnits.Add(SizeModel);
+                        ctx.SaveChanges();
+                    }else
+                    {
+                        SizeModel = ctx.SizesUnits.FirstOrDefault(x => x.Id == model.Id);
+                        SizeModel.Unit = model.Unit;
+                        SizeModel.BusinessType = model.BusinessType;
+                        ctx.SaveChanges();
+                    }
+                    
+                    return Ok(new CustomResponse<string> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
         /// <summary>
         /// Add admin
         /// </summary>
@@ -248,7 +300,7 @@ namespace DunkeyAPI.Controllers
                             postedFile.SaveAs(newFullPath);
                             model.ImageUrl = ConfigurationManager.AppSettings["AdminImageFolderPath"] + model.Id + fileExtension;
                         }
-                            ctx.SaveChanges();
+                        ctx.SaveChanges();
 
                     }
                     else
@@ -656,7 +708,7 @@ namespace DunkeyAPI.Controllers
                             postedFile.SaveAs(newFullPath);
                             model.Image = ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension;
                         }
-                            ctx.SaveChanges();
+                        ctx.SaveChanges();
                     }
                     else
                     {
@@ -751,12 +803,12 @@ namespace DunkeyAPI.Controllers
 
                 if (!string.IsNullOrEmpty(httpRequest.Params["DeliveryTypes"]))
                 {
-                    model.DeliveryTypes= Convert.ToString(httpRequest.Params["DeliveryTypes"]);
+                    model.DeliveryTypes = Convert.ToString(httpRequest.Params["DeliveryTypes"]);
                     model.DeliveryTypes_Id = model.DeliveryTypes.Split(',').Select(int.Parse).ToList();
                 }
                 else
                 {
-                    
+
                 }
 
                 if (httpRequest.Params["ImageDeletedOnEdit"] != null)
@@ -767,7 +819,7 @@ namespace DunkeyAPI.Controllers
 
 
 
-              
+
 
                 TimeSpan openFrom, openTo;
                 TimeSpan.TryParse(httpRequest.Params["Open_From"], out openFrom);
@@ -921,7 +973,7 @@ namespace DunkeyAPI.Controllers
                     //storeModel.MinDeliveryTime =model.MinDeliveryTime;
                     storeModel.MinDeliveryTime = 45;
                     storeModel.MinOrderPrice = model.MinOrderPrice;
-                    
+
                     if (storeModel.Id == 0)
                     {
                         ctx.Stores.Add(storeModel);
@@ -935,7 +987,7 @@ namespace DunkeyAPI.Controllers
 
                         if (model.DeliveryTypes_Id.Count > 0)
                         {
-                           
+
                             DeliveryTypes.AddDeliveryTypesToList(storeModel.Id, model.DeliveryTypes_Id);
                             //foreach (var item in model.DeliveryTypes_Id)
                             //{
@@ -1256,6 +1308,10 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
                         case (int)DunkeyEntityTypes.Offer:
                             ctx.Offers.FirstOrDefault(x => x.Id == Id).IsDeleted = true;
                             break;
+                        case (int)DunkeyEntityTypes.Unit:
+                            var Unit=ctx.SizesUnits.FirstOrDefault(x => x.Id == Id);
+                            ctx.SizesUnits.Remove(Unit);
+                            break;
                         default:
                             break;
                     }
@@ -1473,14 +1529,14 @@ and
                     foreach (var storeOrder in model.Orders)
                     {
                         var order = ctx.Orders.FirstOrDefault(x => x.Id == storeOrder.OrderId);
-                        var OrderOfStore = ctx.StoreOrders.FirstOrDefault(x=>x.Order_Id==storeOrder.OrderId && x.Id==storeOrder.StoreOrder_Id);
+                        var OrderOfStore = ctx.StoreOrders.FirstOrDefault(x => x.Order_Id == storeOrder.OrderId && x.Id == storeOrder.StoreOrder_Id);
                         #region Sending Notification
                         var UserAndroidDevices = ctx.UserDevice.Where(x => x.User_Id == order.User_ID && x.Platform == true).ToList();
                         var UserIOSDevices = ctx.UserDevice.Where(x => x.User_Id == order.User_ID && x.Platform == false).ToList();
                         var NotificationMessage = "Your order # " + OrderOfStore.Id + " status changed to " + GetOrderStatusNameString(OrderOfStore.Status);
                         HostingEnvironment.QueueBackgroundWorkItem(cancellationToken =>
                         {
-                            DunkeyAPI.Utility.Global.objPushNotifications.SendIOSPushNotification(UserIOSDevices, null, new Notification { Title = "Order Status Changed", Text = NotificationMessage, Item_Id = order.Id+","+OrderOfStore.Id });
+                            DunkeyAPI.Utility.Global.objPushNotifications.SendIOSPushNotification(UserIOSDevices, null, new Notification { Title = "Order Status Changed", Text = NotificationMessage, Item_Id = order.Id + "," + OrderOfStore.Id });
                             DunkeyAPI.Utility.Global.objPushNotifications.SendAndroidPushNotification(UserAndroidDevices, null, new Notification { Title = "Order Status Changed", Text = NotificationMessage, Item_Id = order.Id + "," + OrderOfStore.Id });
 
                         });

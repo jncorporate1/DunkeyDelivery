@@ -319,3 +319,4 @@ F:\Projects\DunkeyDelivery\DunkeyAPI\bin\System.Web.Http.Owin.xml
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.csprojResolveAssemblyReference.cache
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.dll
 F:\Projects\DunkeyDelivery\DunkeyAPI\obj\Release\DunkeyAPI.pdb
+F:\Projects\DunkeyDelivery\DunkeyAPI\bin\Z.EntityFramework.Plus.EF6.dll

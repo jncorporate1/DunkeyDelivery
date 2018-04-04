@@ -522,7 +522,7 @@ namespace DunkeyAPI.Controllers
                     {
 
                         query = "SELECT Products.*,Stores.BusinessName ,Stores.Location.STDistance('POINT(" + longitude + " " + latitude + ")') as Distance FROM Stores INNER JOIN Products ON Products.Store_id = Stores.Id ";
-                        ExtendedQuery = ExtendedQuery + " Stores.Location.STDistance('POINT("+ longitude + " "+latitude+")') <= 50 ";
+                        ExtendedQuery = ExtendedQuery + " Stores.Location.STDistance('POINT("+ longitude + " "+latitude+ ")') <= 80467.2 ";
 
                     }
                     else

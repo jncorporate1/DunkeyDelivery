@@ -18,6 +18,7 @@ namespace BasketWebPanel.ViewModels
         public int StoreId { get; set; }
         public RoleTypes Role { get; set; }
         public int UnreadNotificationsCount { get; set; }
+        public string BusinessType { get; set; }
 
         public void SetSharedData(IPrincipal User)
         {
@@ -32,7 +33,7 @@ namespace BasketWebPanel.ViewModels
                 Role = (RoleTypes)(Convert.ToInt32(claimIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value));
                 StoreId = Convert.ToInt32(claimIdentity.Claims.FirstOrDefault(x => x.Type == "StoreId").Value);
                 UnreadNotificationsCount = Convert.ToInt32(claimIdentity.Claims.FirstOrDefault(x => x.Type == "UnreadNotificationCount").Value);
-                
+                BusinessType = claimIdentity.Claims.FirstOrDefault(x => x.Type == "BusinessType").Value==null?"": claimIdentity.Claims.FirstOrDefault(x => x.Type == "BusinessType").Value;
             }
             catch (Exception ex)
             {

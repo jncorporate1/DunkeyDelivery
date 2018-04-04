@@ -17,6 +17,7 @@ namespace DAL
             Package_Products = new HashSet<Package_Products>();
             Favourites = new HashSet<Favourite>();
             PharmacyRequest_Products = new HashSet<PharmacyRequest_Products>();
+            ProductSizes = new HashSet<ProductSizes>();
         }
 
         public int Id { get; set; }
@@ -85,6 +86,9 @@ namespace DAL
         [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PharmacyRequest_Products> PharmacyRequest_Products { get; set; }
+
+
+        public virtual ICollection<ProductSizes> ProductSizes { get; set; }
 
         public virtual Store Store { get; set; }
     }

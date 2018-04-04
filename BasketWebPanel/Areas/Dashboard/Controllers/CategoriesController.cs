@@ -64,7 +64,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 model.StoreOptions = Utility.GetStoresOptions(User);
 
                 if (model.StoreOptions.Count() > 0)
-                    initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<SelectListItem>).First().Value) : initialStoreId;
+                    initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<StoreDropDownBindingModel>).First().Value) : initialStoreId;
 
                 if (CategoryId.HasValue)
                 {

@@ -203,7 +203,8 @@ namespace DunkeyDelivery
             Store,
             Package,
             Admin,
-            Offer
+            Offer,
+            Unit
         }
         public static string GetOrderStatusName(int orderStatus)
         {

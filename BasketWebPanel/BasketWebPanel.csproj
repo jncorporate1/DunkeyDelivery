@@ -207,6 +207,7 @@
     <Compile Include="Areas\Dashboard\Controllers\ProductController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\SizeController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\StoresController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\TaxController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\UsersController.cs" />
@@ -216,8 +217,10 @@
     <Compile Include="Areas\Dashboard\Models\AddPackageViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AddProductViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\AddStoreViewModel.cs" />
+    <Compile Include="Areas\Dashboard\Models\AddUnitViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\DashboardViewModel.cs" />
     <Compile Include="Areas\Dashboard\Models\OfferProdutcsViewModel.cs" />
+    <Compile Include="Areas\Dashboard\Models\SizeListViewModel.cs" />
     <Compile Include="BindingModels\CategoriesBindingModel.cs" />
     <Compile Include="BindingModels\ChangeOrderStatusModel.cs" />
     <Compile Include="BindingModels\FAQBindingModel.cs" />
@@ -1082,6 +1085,8 @@
     <Content Include="Areas\Dashboard\Views\Content\ManageFAQ.cshtml" />
     <Content Include="Areas\Dashboard\Views\Content\_SearchFAQsResults.cshtml" />
     <Content Include="Areas\Dashboard\Views\Content\_SearchFAQ.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Size\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Size\_SizeList.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
