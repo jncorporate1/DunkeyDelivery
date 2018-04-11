@@ -10,8 +10,6 @@ namespace DunkeyAPI.Models
         public int Id { get; set; }
 
         public string Unit { get; set; }
-
-        public string BusinessType { get; set; }
-
+        
     }
 }

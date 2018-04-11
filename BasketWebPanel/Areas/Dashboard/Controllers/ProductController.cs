@@ -1,6 +1,7 @@
 ﻿using BasketWebPanel.Areas.Dashboard.Models;
 using BasketWebPanel.BindingModels;
 using BasketWebPanel.ViewModels;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,24 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             return Json(returnModel, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult FetchBeerUnits(int Type) // its a GET, not a POST
+        {
+            List<SizeBindingModel> Units = new List<SizeBindingModel>();
+            var responseUnits = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Size/GetAllUnits", User, GetRequest: true, parameters: "Type=" + Type));
+            if (responseUnits == null || responseUnits is Error)
+            {
+                return null;
+            }else
+            {
+              Units = responseUnits.GetValue("Result").ToObject<List<SizeBindingModel>>();
+            }
+
+            //model.SizeUnits = Utility.GetUnits(User, "None",1);
+            return Json(Units, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult Index(int? ProductId)
         {
             Request.RequestContext.HttpContext.Session.Remove("AddProductImage");
@@ -85,7 +104,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //Providing StoresList
 
             model.StoreOptions = Utility.GetStoresOptions(User);
-            model.SizeUnits = Utility.GetUnits(User,"None");
+            model.SizeUnits = Utility.GetUnits(User);
 
 
             if (model.StoreOptions.Count() > 0)
@@ -139,6 +158,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 //    model.Product.WeightInGrams = null;
                 //}
 
+                List<ProductSizeBindingModel> ProductSizes = new List<ProductSizeBindingModel>();
+
                 MultipartFormDataContent content;
 
                 bool FileAttached = (Request.RequestContext.HttpContext.Session["AddProductImage"] != null);
@@ -180,9 +201,19 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     content.Add(new StringContent(model.Product.Id.ToString()), "Id");
                 }
-                
+                if (model.Product.ProductSizes.Count > 0)
+                {
+                    var Sizes = JsonConvert.SerializeObject((model.Product.ProductSizes));
+                    var bufferProductSizes = System.Text.Encoding.UTF8.GetBytes(Sizes);
+                    var byteContentProductSizes = new ByteArrayContent(bufferProductSizes);
+                    byteContentProductSizes.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    content.Add(byteContentProductSizes, "ProductSizes");
+                }else
+                {
+                    content.Add(new StringContent(model.Product.Price.ToString()), "Price");
+                }
+
                 content.Add(new StringContent(model.Product.Name), "Name");
-                content.Add(new StringContent(model.Product.Price.ToString()), "Price");
                 content.Add(new StringContent(model.Product.Category_Id.ToString()), "Category_Id");
                 content.Add(new StringContent(model.Product.Store_Id.ToString()), "Store_Id");
                 content.Add(new StringContent(model.Product.Description), "Description");
@@ -238,7 +269,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             Global.sharedDataModel.SetSharedData(User);
             return View(Global.sharedDataModel);
         }
-
+        
         public ActionResult SearchProduct()
         {
             SearchProductModel returnModel = new SearchProductModel();
@@ -306,7 +337,28 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 throw;
             }
         }
+        public JsonResult GetCategoryName(int Category_Id)
+        {
+            try
+            {
+                var  ParentCategoryName = string.Empty;
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Products/GetCategoryName", User, null, true, false, null, parameters: "Category_Id=" + Category_Id));
+                if (response is Error)
+                    return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
+                else
+                {
+                    ParentCategoryName = response.GetValue("Result").ToObject<string>();
+                }
 
+
+                return Json(ParentCategoryName, JsonRequestBehavior.AllowGet);
+                    //return Json("Success", JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
         public ActionResult DemoFile()
         {
             System.Data.DataTable dt = new System.Data.DataTable();

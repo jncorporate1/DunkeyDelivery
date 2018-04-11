@@ -51,6 +51,8 @@ namespace DunkeyDelivery
 
         public static string GuestEmail = "Guest@gmail.com";
 
+        public static double MilesInMeter = 0.000621371;
+        
         public static void ReloadStripeSettings(this StripeSettings Me)
         {
             Me.PublishableKey = ConfigurationManager.AppSettings["StripePublishableKey"];
@@ -204,7 +206,8 @@ namespace DunkeyDelivery
             Package,
             Admin,
             Offer,
-            Unit
+            Unit,
+            Reward
         }
         public static string GetOrderStatusName(int orderStatus)
         {
@@ -287,7 +290,18 @@ namespace DunkeyDelivery
             Unread = 0,
             Read = 1
         }
-
+        public static double ConvertMeterToMile(double meter)
+        {
+            try
+            {
+                return (Utility.MilesInMeter * meter);
+            }
+            catch (Exception ex)
+            {
+                Utility.LogError(ex);
+                return 0.00;
+            }
+        }
     }
 
 

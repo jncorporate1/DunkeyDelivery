@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,10 @@ namespace DAL
 {
     public partial class RewardMilestones
     {
-        //public RewardMilestones()
-        //{
-        //    //RewardPrize = new RewardPrize();
-        //}
+        public RewardMilestones()
+        {
+            //RewardPrizes = new RewardPrize();
+        }
         public int Id { get; set; }
 
         public double PointsRequired { get; set; }
@@ -24,8 +25,9 @@ namespace DAL
 
         public int? RewardPrize_Id { get; set; }
 
+        public bool IsDeleted { get; set; }
 
-        public virtual RewardPrize RewardPrize { get; set; }
+        public virtual RewardPrize RewardPrizes { get; set; }
 
         [JsonIgnore]
         public virtual ICollection<UserRewards> UserRewards { get; set; }

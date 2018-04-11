@@ -172,7 +172,8 @@ namespace BasketWebPanel
             Package,
             Admin,
             Offer,
-            Unit
+            Unit,
+            Reward
         }
 
         public enum PaymentMethods
@@ -255,11 +256,11 @@ namespace BasketWebPanel
             }
         }
 
-        public static SelectList GetUnits(IPrincipal User, string DefaultName = "")
+        public static SelectList GetUnits(IPrincipal User,string DefaultName = "",int? Type = 0)
         {
             try
             {
-                var responseUnits = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Size/GetAllUnits", User, GetRequest: true));
+                var responseUnits = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Size/GetAllUnits", User, GetRequest: true,parameters:"Type="+Type));
                 if (responseUnits == null || responseUnits is Error)
                 {
                     return null;

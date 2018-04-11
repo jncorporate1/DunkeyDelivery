@@ -24,7 +24,7 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     RewardViewModel resp = new RewardViewModel();
-                    var RewardMilestone = ctx.RewardMilestones.Include(x=>x.RewardPrize).ToList();
+                    var RewardMilestone = ctx.RewardMilestones.Include(x=>x.RewardPrizes).ToList();
                     //var RewardMilestone1 = ctx.RewardMilestones.Include(x => x.RewardPrize);
                     resp.Rewards = RewardMilestone;
                     var CurrentUser = ctx.Users.Where(x => x.Id == UserID).FirstOrDefault();
@@ -171,7 +171,7 @@ namespace DunkeyAPI.Controllers
                 {
                     double TotalPrize = 0;
                     Rewards resp = new Rewards();
-                    var Rewards = ctx.RewardMilestones.Include(x=>x.RewardPrize).ToList(); // bug asi 
+                    var Rewards = ctx.RewardMilestones.Include(x=>x.RewardPrizes).ToList(); // bug asi 
                     if (Rewards == null)                    {
                         return Ok(new CustomResponse<Error> { Message = Global.ResponseMessages.NotFound, StatusCode = (int)HttpStatusCode.NotFound, Result = new Error { ErrorMessage = "Reward list not found." } });
 

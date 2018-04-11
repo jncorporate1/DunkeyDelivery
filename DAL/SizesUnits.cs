@@ -8,13 +8,20 @@ namespace DAL
 {
    public partial class SizesUnits
     {
-         public int Id { get; set; }
+        public SizesUnits()
+        {
+            ProductSizes = new HashSet<ProductSizes>();
+        }
+
+        public int Id { get; set; }
 
         public string Unit { get; set; }
 
-        public string BusinessType { get; set; }
-
         public bool IsDeleted { get; set; }
+        
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductSizes> ProductSizes { get; set; }
+
 
     }
 }

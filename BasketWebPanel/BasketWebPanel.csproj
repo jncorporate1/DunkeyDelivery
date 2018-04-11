@@ -205,6 +205,7 @@
     <Compile Include="Areas\Dashboard\Controllers\PackageController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\PharmacyController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Dashboard\Controllers\RewardController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SearchDeliveryMenViewModel.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SettingsController.cs" />
     <Compile Include="Areas\Dashboard\Controllers\SizeController.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="ViewModels\ContentManagementViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\ReadyForDeliveryOrdersViewModel.cs" />
+    <Compile Include="ViewModels\RewardViewModel.cs" />
     <Compile Include="ViewModels\SearchBlogViewModel.cs" />
     <Compile Include="ViewModels\SearchCategoriesViewModel.cs" />
     <Compile Include="ViewModels\SearchCategoryViewModel.cs" />
@@ -274,6 +276,7 @@
     <Compile Include="Utility\Utility.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\SearchProductViewModel.cs" />
+    <Compile Include="ViewModels\SearchRewardViewModel.cs" />
     <Compile Include="ViewModels\SearchUserViewModel.cs" />
     <Compile Include="ViewModels\SearchAdminsViewModel.cs" />
     <Compile Include="ViewModels\SharedViewModel.cs" />
@@ -1087,6 +1090,9 @@
     <Content Include="Areas\Dashboard\Views\Content\_SearchFAQ.cshtml" />
     <Content Include="Areas\Dashboard\Views\Size\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Size\_SizeList.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Reward\Index.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Reward\ManageReward.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Reward\_SearchRewardResults.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

@@ -150,16 +150,16 @@ namespace DunkeyAPI.Controllers
                 using (DunkeyContext ctx = new DunkeyContext())
                 {
                     IEnumerable<Category> cat;
-                    var Store = ctx.Stores.FirstOrDefault(x => x.Id == StoreId);
-                    if (Store.BusinessType.Contains("Alcohol"))
-                    {
-                        cat = ctx.Categories.Where(x => x.Store_Id == StoreId && x.ParentCategoryId !=0 && x.IsDeleted == false).OrderBy(x => x.Name).ToList();
-                    }
-                    else
-                    {
+                    //var Store = ctx.Stores.FirstOrDefault(x => x.Id == StoreId);
+                    //if (Store.BusinessType.Contains("Alcohol"))
+                    //{
+                    //    cat = ctx.Categories.Where(x => x.Store_Id == StoreId && x.ParentCategoryId !=0 && x.IsDeleted == false).OrderBy(x => x.Name).ToList();
+                    //}
+                    //else
+                    //{
                         cat = ctx.Categories.Where(x => x.Store_Id == StoreId && x.IsDeleted == false).OrderBy(x => x.Name).ToList();
 
-                    }
+                    //}
                     CustomResponse<IEnumerable<Category>> response = new CustomResponse<IEnumerable<Category>>
                     {
                         Message = ResponseMessages.Success,

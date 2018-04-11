@@ -87,6 +87,14 @@ namespace DAL
                 .WillCascadeOnDelete(false);
 
 
+            modelBuilder.Entity<SizesUnits>()
+                .HasMany(e => e.ProductSizes)
+                .WithOptional(e => e.SizesUnits)
+                .HasForeignKey(e => e.SizesUnit_Id)
+                .WillCascadeOnDelete(false);
+
+
+
             modelBuilder.Entity<LaundryRequest>()
           .HasOptional(x => x.Store);
 
@@ -158,7 +166,7 @@ namespace DAL
 
             modelBuilder.Entity<RewardPrize>()
             .HasMany(e => e.RewardMilestones)
-            .WithOptional(e => e.RewardPrize)
+            .WithOptional(e => e.RewardPrizes)
             .HasForeignKey(e => e.RewardPrize_Id)
             .WillCascadeOnDelete(false);
 

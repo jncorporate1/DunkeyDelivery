@@ -35,4 +35,9 @@ namespace BasketWebPanel.BindingModels
         public List<CategoryBindingModel> responseCategories { get; set; }
         public string BusinessType { get; set; }
     }
+
+    public class CategoryNameOnly
+    {
+        public string CategoryName { get; set; }
+    }
 }

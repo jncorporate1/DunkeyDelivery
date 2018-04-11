@@ -29,7 +29,7 @@ namespace DunkeyAPI.Controllers
                     switch (EntityType)
                     {
                         case (int)DunkeyEntityTypes.Product:
-                            return Ok(new CustomResponse<Product> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Products.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
+                            return Ok(new CustomResponse<Product> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Products.Include(x=>x.ProductSizes).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
 
                         case (int)DunkeyEntityTypes.Category:
                             return Ok(new CustomResponse<Category> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Categories.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
@@ -45,6 +45,13 @@ namespace DunkeyAPI.Controllers
                       
                         case (int)DunkeyEntityTypes.Offer:
                             return Ok(new CustomResponse<DAL.Offer> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Offers.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
+                        case (int)DunkeyEntityTypes.Reward:
+                            var resp = ctx.RewardMilestones.Include(x => x.RewardPrizes).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
+                            resp.RewardPrizes = ctx.RewardPrize.FirstOrDefault(x => x.Id == resp.RewardPrize_Id);
+                            if (resp.RewardPrizes == null)
+                                resp.RewardPrizes = new RewardPrize();
+
+                            return Ok(new CustomResponse<DAL.RewardMilestones> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = resp });
 
                         default:
                             return Ok(new CustomResponse<Error> { Message = ResponseMessages.BadRequest, StatusCode = (int)HttpStatusCode.BadRequest, Result = new Error { ErrorMessage = "Invalid entity type" } });

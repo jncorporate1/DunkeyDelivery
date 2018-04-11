@@ -18,12 +18,16 @@ namespace DunkeyAPI.ViewModels
         public List<Store> Stores { get; set; }
         public int? TotalRecords { get; set; } = 0;
 
+
     }
    
     public class AlcoholSizeFilters
     {
         public string Unit { get; set; }
         public string Size { get; set; }
+        public string NetWeight { get; set; }
+        public short TypeID { get; set; }
+        public int MainType { get; set; } = 2; // this parameter is only to fix front end issue on mobile side
     }
 
     public class StoreViewModel
@@ -73,6 +77,7 @@ namespace DunkeyAPI.ViewModels
         public string Name { get; set; }
         
         public List<productslist> Products { get; set; }
+
     }
 
     public class AlcoholStoreParentCategories
@@ -80,6 +85,9 @@ namespace DunkeyAPI.ViewModels
         public AlcoholStoreParentCategories()
         {
             Categories = new AlcoholStoreCategories();
+            WineLastProducts = new List<Product>();
+            LiquorLastProducts = new List<Product>();
+            BeerLastProducts = new List<Product>();
         }
         public AlcoholStoreCategories Categories { get; set; }
         public List<Product> Products { get; set; }
@@ -87,6 +95,8 @@ namespace DunkeyAPI.ViewModels
         public List<Product> LiquorLastProducts { get; set; }
         public List<Product> BeerLastProducts { get; set; }
         public bool IsLast { get; set; } = false;
+  
+
     }
 
     public class AlcoholStoreCategories

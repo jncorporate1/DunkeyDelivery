@@ -289,8 +289,61 @@ namespace DunkeyAPI.Controllers
 
         }
 
-        // Services For Mobile End Interface 
+
+        [HttpGet]
+        [Route("GetCategoryName")]
+        public IHttpActionResult GetCategoryName(int Category_Id)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    var ParentCategoryName = string.Empty;
+                    var ParentCategoryId = 0;
+                    var query = @"WITH q AS 
+                                                (
+                                                SELECT  c.Id
+                                                FROM    Categories c
+                                                where c.Id in (" + Category_Id + @")
+												UNION ALL
+												SELECT  ic.ParentCategoryId FROM    Categories ic JOIN    q ON      ic.id =q.Id 
+												  )
+												 SELECT  Id As Ids FROM    q";
+                    var parentCatInt = ctx.Database.SqlQuery<int>(query).ToList();
+
+                    for (int i = 0; i < parentCatInt.Count; i++)
+                    {
+                        if (parentCatInt[i] == 0)
+                        {
+                            parentCatInt.Remove(parentCatInt[i]);
+                        }
+                    }
+                    ParentCategoryId = parentCatInt.LastOrDefault();
+                    if(ParentCategoryId != 0)
+                    {
+                      ParentCategoryName=ctx.Categories.FirstOrDefault(x => x.Id == ParentCategoryId).Name;
+                    }
+
+                    CustomResponse<string> response = new CustomResponse<string>
+                    {
+                        Message = "Success",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = ParentCategoryName
+                    };
+                    return Ok(response);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+
+        }
+
         
+        // Services For Mobile End Interface 
+
         [HttpGet]
         [Route("GetProductsByCategory")]
         public IHttpActionResult GetProductsByCategory(short Category_Id)

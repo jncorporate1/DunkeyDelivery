@@ -448,6 +448,7 @@
     <Compile Include="ViewModels\SearchDeliveryMenViewModel.cs" />
     <Compile Include="ViewModels\PharmacyRequestViewModel.cs" />
     <Compile Include="ViewModels\SearchAdminNotificationsViewModel.cs" />
+    <Compile Include="ViewModels\SearchRewardListViewModel.cs" />
     <Compile Include="ViewModels\Shop.cs" />
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />

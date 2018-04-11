@@ -8,7 +8,7 @@ namespace DAL
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Store
+    public partial class Store : ICloneable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Store()
@@ -28,6 +28,11 @@ namespace DAL
             RatingType = new RatingTypes();
         }
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
         public int Id { get; set; }
 
 
@@ -35,7 +40,7 @@ namespace DAL
         public string BusinessType { get; set; }
 
         public string Description { get; set; }
-  
+
         [Required]
         public string BusinessName { get; set; }
 
@@ -99,10 +104,10 @@ namespace DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Product> Products { get; set; }
 
- 
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StoreRatings> StoreRatings { get; set; }
-        
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual StoreDeliveryHours StoreDeliveryHours { get; set; }
 
@@ -143,8 +148,11 @@ namespace DAL
             public int TwoStar { get; set; }
 
             public int OneStar { get; set; }
-            
+
             public int TotalRatings { get; set; }
         }
+
+       
     }
+ 
 }

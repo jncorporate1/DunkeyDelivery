@@ -17,49 +17,7 @@
     .caption {
         background: transparent !important;
     }
-    /*td {
-        height: 40px;
-        max-height: 40px;
-        width: 40px;
-        max-width: 40px;
-
-    }*/
-
-    /*td {
-        position: relative;
-        text-overflow: ellipsis;
-    }*/
-
-    /*img.normal, img.fullsize.normal {
-        height: 100%;
-        max-height: 100%;
-        width: 100%;
-        max-width: 100%;
-    }*/
-
-    /*.centered {
-        text-align: center;
-    }
-
-    .middled, tr {
-        vertical-align: middle;
-    }*/
-
-    /*table {
-        table-layout: fixed;
-    }*/
-
-    /*img.fullsize {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        height: auto;
-        max-height: auto;
-        width: auto;
-        max-width: auto;
-    }*/
-</style>
+   </style>
 
 
 <div class="panel-body panel">
@@ -122,26 +80,26 @@
                                 window.location.href = url.replace('__id__', productId);
                             });
 
-                            //$(document).ready(function () {
-                            //    var dataTable = $('#datatable').DataTable({
+                            $(document).ready(function () {
+                                var dataTable = $('#datatable').DataTable({
                                   
-                            //        "pagingType": "full_numbers",
-                            //        "columnDefs": [{
-                            //            "targets": 5,
-                            //            "orderable": false
-                            //        },
-                            //        {
-                            //            "targets": 6,
-                            //            "orderable": false
-                            //        },
-                            //        {
-                            //            "targets": 7,
-                            //            "orderable": false
-                            //        }
-                            //        ],
+                                    "pagingType": "full_numbers",
+                                    "columnDefs": [{
+                                        "targets": 5,
+                                        "orderable": false
+                                    },
+                                    {
+                                        "targets": 6,
+                                        "orderable": false
+                                    },
+                                    {
+                                        "targets": 7,
+                                        "orderable": false
+                                    }
+                                    ],
 
-                            //    });
-                            //});
+                                });
+                            });
 
 
                         </script>

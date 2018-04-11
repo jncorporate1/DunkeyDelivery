@@ -19,6 +19,8 @@ namespace DAL
 
         public string NetWeight { get; set; }
 
+        public short TypeID { get; set; } // 0 For Wine & Liquor & 1 For Beer
+
         public double Price { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -26,12 +28,10 @@ namespace DAL
         public int Product_Id { get; set; }
         
         public virtual Product Product { get; set; }
+
+        public int? SizesUnit_Id { get; set; }
         
-        public int SizesUnit_Id { get; set; }
-
-        [ForeignKey("SizesUnit_Id")]
-        public virtual SizesUnits SizesUnit { get; set; }
-
+        public virtual SizesUnits SizesUnits { get; set; }
 
     }
 }

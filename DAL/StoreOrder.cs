@@ -36,6 +36,8 @@ namespace DAL
 
         public bool IsDeleted { get; set; }
 
+        public double OrderDeliveryFee { get; set; } = 0;
+
         public int Order_Id { get; set; }
 
         public DateTime? OrderDeliveryTime { get; set; }

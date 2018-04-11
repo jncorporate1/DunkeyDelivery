@@ -224,6 +224,17 @@
 
                                                     </ul>
                                                 </li>
+
+
+                                                @*/////Rewards*@
+                                                <li>
+                                                    <a><i class="fa fa-edit"></i> Rewards <span class="fa fa-chevron-down"></span></a>
+                                                    <ul class="nav child_menu">
+                                                        <li><a href="@Url.Action("Index","Reward")">Add New Reward</a></li>
+                                                        <li><a href="@Url.Action("ManageReward","Reward")">Manage Reward</a></li>
+                                                    </ul>
+                                                </li>
+
                                                 @*/////Delivery*@
                                                 @*@if (Model.Role == Utility.RoleTypes.SuperAdmin)
                                                     {

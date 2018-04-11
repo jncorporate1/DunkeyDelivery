@@ -9,6 +9,8 @@ using DunkeyAPI.Utility;
 using System.Data.Entity;
 using System.Net;
 using DunkeyAPI.Models;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace DunkeyAPI.ExtensionMethods
 {
@@ -182,6 +184,7 @@ namespace DunkeyAPI.ExtensionMethods
                     storeOrder.BusinessTypeTax = businessTypeTax.Tax;
                     storeOrder.BusinessType = businessTypeTax.BusinessType;
                 }
+
                 order.StoreOrders.Add(storeOrder);
             }
             catch (Exception ex)
@@ -356,7 +359,8 @@ namespace DunkeyAPI.ExtensionMethods
                 {
                     storeOrder.Subtotal = storeOrder.Subtotal + orderItem.Price * orderItem.Qty;
                 }
-
+                
+                
             }
         }
 
@@ -368,10 +372,14 @@ namespace DunkeyAPI.ExtensionMethods
             {// check if min delivery time is in store object or noot
                 using (DunkeyContext ctx=new DunkeyContext())
                 {
+                    Store store = new Store();
                     foreach (var storeOrder in StoreOrder.StoreOrders)
                     {
-                        storeOrder.Total = storeOrder.Subtotal + Convert.ToDouble(ctx.Stores.FirstOrDefault(x=>x.Id==storeOrder.Store_Id).MinDeliveryCharges);
+                        store = ctx.Stores.FirstOrDefault(x => x.Id == storeOrder.Store_Id);
+                        storeOrder.Total = storeOrder.Subtotal + Convert.ToDouble(store.MinDeliveryCharges);
+                        storeOrder.OrderDeliveryFee = Convert.ToDouble(store.MinDeliveryCharges.Value);
                     } 
+         
                 }
             }
             catch (Exception ex)
@@ -394,7 +402,8 @@ namespace DunkeyAPI.ExtensionMethods
                 order.TipAmount = (order.StoreOrders.Sum(x => x.Subtotal) / 100) * 12;
 
                 DunkeySettings.LoadSettings();
-                order.DeliveryFee = DunkeySettings.DeliveryFee;
+                //order.DeliveryFee = DunkeySettings.DeliveryFee;
+                order.DeliveryFee = (order.StoreOrders.Sum(x => x.OrderDeliveryFee));
                 order.TotalTaxDeducted = order.StoreOrders.Distinct(new StoreOrder.DistinctComparerOnBusinessType()).Sum(x => x.BusinessTypeTax);
                 order.Total = order.ServiceFee + order.DeliveryFee + order.StoreOrders.Sum(x => x.Subtotal) + order.TipAmount + order.TotalTaxDeducted;
             }
@@ -496,6 +505,17 @@ namespace DunkeyAPI.ExtensionMethods
             catch (Exception ex)
             {
                 DunkeyDelivery.Utility.LogError(ex);
+            }
+        }
+
+        public static T DeepClone<T>(this T a)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, a);
+                stream.Position = 0;
+                return (T)formatter.Deserialize(stream);
             }
         }
     }

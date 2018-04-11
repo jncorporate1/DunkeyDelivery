@@ -114,7 +114,7 @@ namespace DunkeyAPI.Controllers
                     if (model.Id == 0)
                     {
                         var alreadyExist = ctx.SizesUnits.ToList().FirstOrDefault(x => x.Unit == model.Unit);
-                  
+
                         if (alreadyExist != null)
                         {
                             return Content(HttpStatusCode.OK, new CustomResponse<Error>
@@ -125,18 +125,19 @@ namespace DunkeyAPI.Controllers
                             });
                         }
                         SizeModel.Unit = model.Unit;
-                        SizeModel.BusinessType= model.BusinessType;
+
                         SizeModel.IsDeleted = false;
                         ctx.SizesUnits.Add(SizeModel);
                         ctx.SaveChanges();
-                    }else
+                    }
+                    else
                     {
                         SizeModel = ctx.SizesUnits.FirstOrDefault(x => x.Id == model.Id);
                         SizeModel.Unit = model.Unit;
-                        SizeModel.BusinessType = model.BusinessType;
+
                         ctx.SaveChanges();
                     }
-                    
+
                     return Ok(new CustomResponse<string> { Message = Utility.Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK });
                 }
             }
@@ -145,6 +146,210 @@ namespace DunkeyAPI.Controllers
                 return StatusCode(DunkeyDelivery.Utility.LogError(ex));
             }
         }
+        [HttpPost]
+        [Route("AddReward")]
+        public async Task<IHttpActionResult> AddReward()
+        {
+            try
+            {
+                var httpRequest = HttpContext.Current.Request;
+                string newFullPath = string.Empty;
+                string fileNameOnly = string.Empty;
+
+                DAL.RewardMilestones MilestoneModel = new DAL.RewardMilestones();
+                RewardPrize PrizeModel = new RewardPrize();
+
+                DAL.RewardMilestones existingMilestone = new DAL.RewardMilestones();
+                DAL.RewardPrize existingPrizeModel = new DAL.RewardPrize();
+
+
+                if (httpRequest.Params["Id"] != null)
+                    MilestoneModel.Id = Convert.ToInt32(httpRequest.Params["Id"]);
+
+                if (httpRequest.Params["ImageDeletedOnEdit"] != null)
+                    PrizeModel.ImageDeletedOnEdit = Convert.ToBoolean(httpRequest.Params["ImageDeletedOnEdit"]);
+
+                if (httpRequest.Params["RequiredPoints"] != null)
+                    MilestoneModel.PointsRequired = Convert.ToInt32(httpRequest.Params["RequiredPoints"]);
+
+                if (httpRequest.Params["AmountReward"] != null)
+                    MilestoneModel.AmountAward = Convert.ToDouble(httpRequest.Params["AmountReward"]);
+
+                if (httpRequest.Params["RewardPrize_Id"] != null)
+                    MilestoneModel.RewardPrize_Id = Convert.ToInt32(httpRequest.Params["RewardPrize_Id"]);
+
+
+                if (httpRequest.Params["Description"] != null)
+                    MilestoneModel.Description = Convert.ToString(httpRequest.Params["Description"]);
+
+                if (httpRequest.Params["Name"] != null)
+                    PrizeModel.Name = Convert.ToString(httpRequest.Params["Name"]);
+
+                Validate(MilestoneModel);
+
+                #region Validations
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    {
+                        Message = "UnsupportedMediaType",
+                        StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                        Result = new Error { ErrorMessage = "Multipart data is not included in request" }
+                    });
+                }
+                else if (httpRequest.Files.Count > 1)
+                {
+                    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                    {
+                        Message = "UnsupportedMediaType",
+                        StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                        Result = new Error { ErrorMessage = "Multiple images are not supported, please upload one image" }
+                    });
+                }
+                #endregion
+
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    if (MilestoneModel.Id == 0)
+                    {
+
+                        //if (ctx.RewardMilestones.Any(x => x.Id == MilestroneModel.Id && x.IsDeleted == false))
+                        //{
+                        //    return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        //    {
+                        //        Message = "Conflict",
+                        //        StatusCode = (int)HttpStatusCode.Conflict,
+                        //        Result = new Error { ErrorMessage = "Reward with same Amount already exists" }
+                        //    });
+                        //}
+                    }
+                    else
+                    {
+                        existingMilestone = ctx.RewardMilestones.FirstOrDefault(x => x.Id == MilestoneModel.Id);
+
+                        //if (existingAdmin.Email.Equals(model.Email, StringComparison.InvariantCultureIgnoreCase) == false || existingAdmin.Store_Id != model.Store_Id)
+                        //{
+                        //    if (ctx.Admins.Any(x => x.IsDeleted == false && x.Store_Id == model.Store_Id && x.Email.Equals(model.Email.Trim(), StringComparison.InvariantCultureIgnoreCase)))
+                        //    {
+                        //        return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                        //        {
+                        //            Message = "Conflict",
+                        //            StatusCode = (int)HttpStatusCode.Conflict,
+                        //            Result = new Error { ErrorMessage = "Admin with same email already exists" }
+                        //        });
+                        //    }
+                        //}
+                    }
+
+                    string fileExtension = string.Empty;
+                    HttpPostedFile postedFile = null;
+                    #region ImageSaving
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        postedFile = httpRequest.Files[0];
+                        if (postedFile != null && postedFile.ContentLength > 0)
+                        {
+                            IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                            var ext = Path.GetExtension(postedFile.FileName);
+                            fileExtension = ext.ToLower();
+                            if (!AllowedFileExtensions.Contains(fileExtension))
+                            {
+                                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                                {
+                                    Message = "UnsupportedMediaType",
+                                    StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                                    Result = new Error { ErrorMessage = "Please Upload image of type .jpg,.gif,.png" }
+                                });
+                            }
+                            else if (postedFile.ContentLength > DunkeyDelivery.Global.MaximumImageSize)
+                            {
+                                return Content(HttpStatusCode.OK, new CustomResponse<Error>
+                                {
+                                    Message = "UnsupportedMediaType",
+                                    StatusCode = (int)HttpStatusCode.UnsupportedMediaType,
+                                    Result = new Error { ErrorMessage = "Please Upload a file upto " + DunkeyDelivery.Global.ImageSize }
+                                });
+                            }
+                            else
+                            {
+                                //int count = 1;
+                                //fileNameOnly = Path.GetFileNameWithoutExtension(postedFile.FileName);
+                                //newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["AdminImageFolderPath"] + postedFile.FileName);
+
+                                //while (File.Exists(newFullPath))
+                                //{
+                                //    string tempFileName = string.Format("{0}({1})", fileNameOnly, count++);
+                                //    newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["AdminImageFolderPath"] + tempFileName + extension);
+                                //}
+                                //postedFile.SaveAs(newFullPath);
+                            }
+                        }
+                        //model.ImageUrl = ConfigurationManager.AppSettings["AdminImageFolderPath"] + Path.GetFileName(newFullPath);
+                    }
+                    #endregion
+
+                    if (MilestoneModel.Id == 0)
+                    {
+                        ctx.RewardMilestones.Add(MilestoneModel);
+                        ctx.SaveChanges();
+                        if (httpRequest.Files.Count > 0 && !string.IsNullOrEmpty(fileExtension))
+                        {
+                            newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["RewardImageFolderPath"] + MilestoneModel.Id + fileExtension);
+                            postedFile.SaveAs(newFullPath);
+                            PrizeModel.ImageUrl = ConfigurationManager.AppSettings["RewardImageFolderPath"] + MilestoneModel.Id + fileExtension;
+                            ctx.RewardPrize.Add(PrizeModel);
+                            ctx.SaveChanges();
+                            MilestoneModel.RewardPrize_Id = PrizeModel.Id;
+                            ctx.SaveChanges();
+                        }
+                        
+                    }
+                    else
+                    {
+                        if (MilestoneModel.Id > 0)
+                        {
+                            existingPrizeModel = ctx.RewardPrize.FirstOrDefault(x => x.Id == existingMilestone.RewardPrize_Id);
+                            if (httpRequest.Files.Count > 0 && !string.IsNullOrEmpty(fileExtension))
+                            {
+                                newFullPath = HttpContext.Current.Server.MapPath("~/" + ConfigurationManager.AppSettings["RewardImageFolderPath"] + existingMilestone.Id + fileExtension);
+                                postedFile.SaveAs(newFullPath);
+                                PrizeModel.ImageUrl = ConfigurationManager.AppSettings["RewardImageFolderPath"] + existingMilestone.Id + fileExtension;
+                            }
+                                MilestoneModel.RewardPrize_Id = existingMilestone.RewardPrize_Id;
+                            MilestoneModel.RewardPrizes = PrizeModel;
+
+                            PrizeModel.Id = existingPrizeModel.Id;
+                            PrizeModel.ImageUrl = existingPrizeModel.ImageUrl;
+                            ctx.Entry(existingPrizeModel).CurrentValues.SetValues(PrizeModel);
+                            ctx.Entry(existingMilestone).CurrentValues.SetValues(MilestoneModel);
+                            ctx.SaveChanges();
+                        }
+
+
+                    }
+
+                    CustomResponse<DAL.RewardMilestones> response = new CustomResponse<DAL.RewardMilestones>
+                    {
+                        Message = ResponseMessages.Success,
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Result = MilestoneModel
+                    };
+
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
 
         /// <summary>
         /// Add admin
@@ -564,12 +769,18 @@ namespace DunkeyAPI.Controllers
 
                 Product model = new Product();
                 Product existingProduct = new Product();
+                List<ProductSizes> Productsizes = new List<ProductSizes>();
+                int Product_Id = 0;
 
                 if (httpRequest.Params["Id"] != null)
                 {
                     model.Id = Convert.ToInt32(httpRequest.Params["Id"]);
                 }
 
+                if (httpRequest.Params["ProductSizes"] != null)
+                {
+                    Productsizes = JsonConvert.DeserializeObject<List<ProductSizes>>(httpRequest.Params["ProductSizes"]);
+                }
                 //if (httpRequest.Params["Weight"] != null)
                 //{
                 //    model.WeightInGrams = Convert.ToDouble(httpRequest.Params["Weight"]);
@@ -579,7 +790,11 @@ namespace DunkeyAPI.Controllers
                     model.ImageDeletedOnEdit = Convert.ToBoolean(httpRequest.Params["ImageDeletedOnEdit"]);
                 }
                 model.Name = httpRequest.Params["Name"];
-                model.Price = Convert.ToDouble(httpRequest.Params["Price"]);
+
+                if (httpRequest.Params["Price"] != null)
+                {
+                    model.Price = Convert.ToDouble(httpRequest.Params["Price"]);
+                }
                 model.Category_Id = Convert.ToInt32(httpRequest.Params["Category_Id"]);
                 model.Description = httpRequest.Params["Description"];
                 model.Store_Id = Convert.ToInt32(httpRequest.Params["Store_Id"]);
@@ -587,8 +802,6 @@ namespace DunkeyAPI.Controllers
                 {
                     model.Size = httpRequest.Params["Size"];
                 }
-
-
 
                 Validate(model);
 
@@ -708,6 +921,35 @@ namespace DunkeyAPI.Controllers
                             postedFile.SaveAs(newFullPath);
                             model.Image = ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension;
                         }
+
+                        if (Productsizes.Count > 0)
+                        {
+                            foreach (var item in Productsizes)
+                            {
+                                if (string.IsNullOrEmpty(item.Size))
+                                {
+                                    item.NetWeight = item.Size + "" + item.Unit;
+                                    item.TypeID = 0;
+                                    var SizeUnit = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit));
+                                    if(SizeUnit != null)
+                                    {
+                                        item.SizesUnit_Id = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit)).Id;
+                                    }
+                                    item.IsDeleted = false;
+                                    item.Product_Id = Product_Id;
+
+                                }
+                                else
+                                {
+                                    item.NetWeight = item.Unit;
+                                    item.TypeID = 1;
+                                    item.IsDeleted = false;
+
+
+                                }
+
+                            }
+                        }
                         ctx.SaveChanges();
                     }
                     else
@@ -730,9 +972,10 @@ namespace DunkeyAPI.Controllers
 
                         ctx.Entry(existingProduct).CurrentValues.SetValues(model);
                         ctx.SaveChanges();
+                        Product_Id = existingProduct.Id;
+
+
                     }
-
-
 
                     CustomResponse<Product> response = new CustomResponse<Product>
                     {
@@ -1154,6 +1397,37 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
             }
         }
 
+
+        [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin")]
+        [HttpGet]
+        [Route("SearchRewards")]
+        public async Task<IHttpActionResult> SearchRewards()
+        {
+            try
+            {
+                SearchRewardListViewModel returnModel = new SearchRewardListViewModel();
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    returnModel.Rewards = ctx.RewardMilestones.Include(x => x.RewardPrizes).Where(x => x.IsDeleted == false).ToList();
+                    foreach (var item in returnModel.Rewards)
+                    {
+                        item.RewardPrizes = ctx.RewardPrize.FirstOrDefault(x => x.Id == item.RewardPrize_Id);
+                        if (item.RewardPrizes == null)
+                        {
+                            item.RewardPrizes = new RewardPrize();
+                        }
+                    }
+
+                    return Ok(new CustomResponse<SearchRewardListViewModel> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = returnModel });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
         [DunkeyDelivery.Authorize("SubAdmin", "SuperAdmin", "ApplicationAdmin", "User", "Guest")]
         [HttpGet]
         [Route("SearchProducts")]
@@ -1309,8 +1583,11 @@ AND ISNULL(Admins.Store_Id, 0) = 0 " + conditions;
                             ctx.Offers.FirstOrDefault(x => x.Id == Id).IsDeleted = true;
                             break;
                         case (int)DunkeyEntityTypes.Unit:
-                            var Unit=ctx.SizesUnits.FirstOrDefault(x => x.Id == Id);
+                            var Unit = ctx.SizesUnits.FirstOrDefault(x => x.Id == Id);
                             ctx.SizesUnits.Remove(Unit);
+                            break;
+                        case (int)DunkeyEntityTypes.Reward:
+                            ctx.RewardMilestones.FirstOrDefault(x => x.Id == Id).IsDeleted = true;
                             break;
                         default:
                             break;

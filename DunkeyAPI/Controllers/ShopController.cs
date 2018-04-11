@@ -778,8 +778,13 @@ namespace DunkeyAPI.Models
                     foreach (var store in nearstoreres)
                     {
                         store.CalculateAverageRating();
-                        //distance = store.Location.Distance(point).Value;
-                        distance = 1.0;
+                        distance = store.Location.Distance(point).Value;
+                        
+
+                  
+                        distance = DunkeyDelivery.Utility.ConvertMeterToMile(distance);
+                        var tempDistance = distance.ToString("0.00");
+                        distance = Convert.ToDouble(tempDistance);
                         response.NearByStores.Add(new NearByStores(store, distance));
 
                     }
@@ -789,8 +794,12 @@ namespace DunkeyAPI.Models
                     foreach (var store in popularstoreres)
                     {
                         store.CalculateAverageRating();
-                        //distance = store.Location.Distance(point).Value;
-                        distance = 1.0;
+                        distance = store.Location.Distance(point).Value;
+
+                        distance = DunkeyDelivery.Utility.ConvertMeterToMile(distance);
+                        var tempDistance = distance.ToString("0.00");
+                        distance = Convert.ToDouble(tempDistance);
+
                         response.PopularStores.Add(new PopularStores(store, distance));
                     }
 
