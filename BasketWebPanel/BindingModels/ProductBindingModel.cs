@@ -61,8 +61,29 @@ namespace BasketWebPanel.BindingModels
         public string Size { get; set; }
 
         public double? Price { get; set; }
-        
+
+        public string NetWeight { get; set; }
+
+        public int? SizeUnit_Id { get; set; }
+
+        public int Product_Id { get; set; }
+
+        public int TypeID { get; set; }
+
+        public SizeUnitViewModel SizesUnits { get; set; }
+
     }
+    public class SizeUnitViewModel
+    {
+        public int Id { get; set; }
+
+        public string Unit { get; set; }
+
+        public bool IsDeleted { get; set; }
+    }
+
+
+
 
     public class ProductSizeViewModel
     {

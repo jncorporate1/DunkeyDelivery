@@ -38,8 +38,9 @@
                 .glyphicon {
                     font-size: 12px;
                 }
-                .SubFieldbtn{
-                    padding-top:24px;
+
+                .SubFieldbtn {
+                    padding-top: 24px;
                 }
             </style>
 
@@ -167,15 +168,18 @@
                                 }
                                 <span id="ImageError" class="text-danger"></span>
                             </div>
-                           
-                            <div class="row  controls FieldsParents entry" id="" hidden>
+
+                            <div class="row  controls FieldsParents entry" id="" style="display:block">
                                 <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_0">
                                     <div class="col-md-6 col-sm-12 col-xs-12" id="WeightMainDiv">
                                         <label>Weight</label>
                                         <div class="control-group" id="fields">
                                             <div>
                                                 <div class="input-group col-xs-12 col-sm-12 col-xs-12" style="margin-bottom:0px !important;padding-left:0px;">
-                                                   <input type="text" autofocus="" data-val="true" class="form-control" name="Product.ProductSizes[0].Size" id="ProductSize" placeholder="Product Weight">
+                                                    <input type="text" autofocus="" data-val="true" class="form-control" name="Product.ProductSizes[0].Size" id="ProductSize" placeholder="Product Weight">
+                                                    @*@Html.TextBox("Product.ProductSizes[0].Size", new { @class = "form-control", @id = "Price", @placeholder = "Product Price", @type = "text" })*@
+
+
                                                 </div>
 
                                             </div>
@@ -190,11 +194,11 @@
                                 <div class="col-md-6 col-lg-6 col-sm-12 ">
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                         <label>Price</label>
-                                        <input type="text" autofocus=""  class="form-control" name="Product.ProductSizes[0].Price" id="ProductPrice" placeholder="Product Price">
+                                        <input type="text" autofocus="" class="form-control" name="Product.ProductSizes[0].Price" id="ProductPrice" placeholder="Product Price">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4" id="AddFieldsButton" >
+                            <div class="col-md-4" id="AddFieldsButton">
                                 <button class="btn btn-primary" onclick="AddFields()" type="button">
                                     <span class="glyphicon glyphicon-plus"></span> Add More Weights
                                 </button>
@@ -219,11 +223,6 @@
                     </div>
                 }
             </div>
-
-
-
-
-
         </div>
     </div>
 </div>
@@ -238,10 +237,10 @@
 
         $.ajax({
             type: "Get",
-            data:{ Category_Id: $("#Product_Category_Id option:selected").val() },
+            data: { Category_Id: $("#Product_Category_Id option:selected").val() },
             url: '@Url.Action("GetCategoryName", "Product", new { area = "Dashboard"})',
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-               
+
             },
             success: function (data) {
                 TypeBasedOnCategories(data);
@@ -309,7 +308,7 @@
 
 
         $(".controls").append(Html);
-        
+
         if (!$('#WeightMainDiv:last').is(':visible')) {
             $(".UnitDiv").removeClass("col-md-6");
             $(".UnitDiv").addClass("col-md-12");
@@ -364,7 +363,7 @@
 
     /// above is  for excel file
     $(document).ready(function () {
-   
+
         var BusinessType = '@BusinessType';
         TypeBasedFields(BusinessType);
         var prodId = $("#prodId").val();
@@ -503,40 +502,40 @@
 
 
     function TypeBasedOnCategories(CategoryName) {
-        
+
         switch (CategoryName) {
 
             case 'Beer':
                 $(".FieldsParents").show();
-                    // deleting all new added fields on change of category because in case of beer we have 2 fields and in case of wine & liquor we have 3 fields
-                    $(".btn-danger").click();
+                // deleting all new added fields on change of category because in case of beer we have 2 fields and in case of wine & liquor we have 3 fields
+                $(".btn-danger").click();
 
 
-                    // add more fields button should be visible after selecting category
-                    $("#AddFieldsButton").show();
+                // add more fields button should be visible after selecting category
+                $("#AddFieldsButton").show();
 
-                    // hide weight field in case of beer
-                    $("#WeightMainDiv").hide();
+                // hide weight field in case of beer
+                $("#WeightMainDiv").hide();
 
-                    // changing fields width and making them responsive
-                    $("#UnitMainDiv").removeClass("col-md-6");
-                    $("#UnitMainDiv").addClass("col-md-12");
-                
-
-                        
+                // changing fields width and making them responsive
+                $("#UnitMainDiv").removeClass("col-md-6");
+                $("#UnitMainDiv").addClass("col-md-12");
 
 
-                    // updating products Units  on changing category
-                    var url = '@Url.Action("FetchBeerUnits", "Product")';
-                    var HtmlToAppend = "";
-                    $.getJSON(url, { Type: 1 }, function (response) {
-                        $("#t_").empty();
-                        $.each(response, function (index, item) {
-                            HtmlToAppend += "<option>" + item.Unit + "</option>";
-                        });
-                        $("#t_").append(HtmlToAppend);
+
+
+
+                // updating products Units  on changing category
+                var url = '@Url.Action("FetchBeerUnits", "Product")';
+                var HtmlToAppend = "";
+                $.getJSON(url, { Type: 1 }, function (response) {
+                    $("#t_").empty();
+                    $.each(response, function (index, item) {
+                        HtmlToAppend += "<option>" + item.Unit + "</option>";
                     });
-                    break;
+                    $("#t_").append(HtmlToAppend);
+                });
+                break;
             case "Wine":
             case "Liquor":
                 $(".FieldsParents").show();
@@ -575,8 +574,6 @@
         }
     }
 
-
-
     function TypeBasedFields(BusinessType) {
         $("#AddFieldsButton").hide();
         $(".controls").hide();
@@ -586,7 +583,7 @@
             case 'Grocery':
                 break;
             case 'Alcohol':
-                $(".controls").show();
+                //$(".controls").show();
                 break;
             case 'Laundry':
                 break;

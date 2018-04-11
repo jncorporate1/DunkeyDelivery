@@ -29,7 +29,9 @@ namespace DunkeyAPI.Controllers
                     switch (EntityType)
                     {
                         case (int)DunkeyEntityTypes.Product:
-                            return Ok(new CustomResponse<Product> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Products.Include(x=>x.ProductSizes).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
+                            var product = ctx.Products.Include(x => x.ProductSizes).FirstOrDefault(x => x.Id == Id && x.IsDeleted == false);
+                            product.ProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == product.Id).ToList();
+                            return Ok(new CustomResponse<Product> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = product });
 
                         case (int)DunkeyEntityTypes.Category:
                             return Ok(new CustomResponse<Category> { Message = ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = ctx.Categories.FirstOrDefault(x => x.Id == Id && x.IsDeleted == false) });
