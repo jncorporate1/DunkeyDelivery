@@ -59,10 +59,11 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         }
         public ActionResult Index(int? SizeId)
         {
-
+      
+            int Type = 0;
             AddUnitViewModel model = new AddUnitViewModel();
             model.SetSharedData(User);
-            model.UnitOptions = Utility.GetUnits(User);
+            model.UnitOptions = Utility.GetUnits(User, Type);
 
             return View("Index", model);
         }

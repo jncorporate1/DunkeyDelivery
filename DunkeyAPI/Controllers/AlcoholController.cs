@@ -207,15 +207,15 @@ namespace DunkeyAPI.Controllers
                     {
                         if (WineParentId != null)
                         {
-                            responseModel.Categories.Wine = ctx.Categories.Include(x => x.Products).Where(x => x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                            responseModel.Categories.Wine = ctx.Categories.IncludeFilter(x => x.Products.Where(y=>y.IsDeleted==false)).Where(x => x.ParentCategoryId.Value == WineParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                         }
                         if (LiquorParentId != null)
                         {
-                            responseModel.Categories.Liquor = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                            responseModel.Categories.Liquor = ctx.Categories.IncludeFilter(x => x.Products.Where(y => y.IsDeleted == false)).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == LiquorParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                         }
                         if (BeerParentId != null)
                         {
-                            responseModel.Categories.Beer = ctx.Categories.Include(x => x.Products).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
+                            responseModel.Categories.Beer = ctx.Categories.IncludeFilter(x => x.Products.Where(y => y.IsDeleted == false)).Where(x => x.Store.Id == Store_Id && x.ParentCategoryId.Value == BeerParentId.Id && x.IsDeleted == false).OrderBy(x => x.Id).Skip(Page.Value * Items.Value).Take(Items.Value).ToList();
                         }
                         // For WIne section no sub category result
                         if (responseModel.Categories.Wine.Count == 0 && Category_ParentId == 0)

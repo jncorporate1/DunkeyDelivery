@@ -142,7 +142,7 @@
                                                     </div>
                                                 </span>
                                             </div>
-                                            @Html.ValidationMessageFor(m => m.Product.Image, "", new { @class = "text-danger", @Id = "errImageUrl" })
+                                            @Html.ValidationMessageFor(m => m.Product.Image, "", new { @class = "text-danger", @Id = "errImageUrl" }) 
 
                                         </div>
 
@@ -168,41 +168,146 @@
                                 }
                                 <span id="ImageError" class="text-danger"></span>
                             </div>
+                            @if (Model.Product.TypeOfProduct == 0)
+                            {
+                                <div class="row  controls FieldsParents entry" id="" style="display:block">
+                                    @for (var i = 0; i < Model.Product.ProductSizes.Count; i++)
+                                    {
 
-                            <div class="row  controls FieldsParents entry" id="" style="display:block">
-                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_0">
-                                    <div class="col-md-6 col-sm-12 col-xs-12" id="WeightMainDiv">
-                                        <label>Weight</label>
-                                        <div class="control-group" id="fields">
-                                            <div>
-                                                <div class="input-group col-xs-12 col-sm-12 col-xs-12" style="margin-bottom:0px !important;padding-left:0px;">
-                                                    <input type="text" autofocus="" data-val="true" class="form-control" name="Product.ProductSizes[0].Size" id="ProductSize" placeholder="Product Weight">
-                                                    @*@Html.TextBox("Product.ProductSizes[0].Size", new { @class = "form-control", @id = "Price", @placeholder = "Product Price", @type = "text" })*@
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_@i">
+                                            <div class="col-md-6 col-sm-12 col-xs-12" id="WeightMainDiv">
+                                                <label>Weight</label>
+                                                <div class="control-group" id="fields">
+                                                    <div>
+                                                        <div class="input-group col-xs-12 col-sm-12 col-xs-12" style="margin-bottom:0px !important;padding-left:0px;">
+                                                            <input type="text" autofocus="" data-val="true" class="form-control weight" name="Product.ProductSizes[@i].Size" value="@Model.Product.ProductSizes[i].Size" id="ProductSize" placeholder="Product Weight">
+                                                            @*@Html.TextBox("Product.ProductSizes[0].Size", new { @class = "form-control", @id = "Price", @placeholder = "Product Price", @type = "text" })*@
+                                                        </div>
 
-
+                                                    </div>
                                                 </div>
+                                            </div>
 
+                                            <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback" id="UnitMainDiv">
+                                                <label>Unit</label>
+                                                @Html.DropDownList("Product.ProductSizes[" + i + "].Unit", new SelectList(Model.SizeUnits.Items, "value", "Text", Model.SizeUnits.SelectedValue), new { @class = "form-control", Id = "t_" })
                                             </div>
                                         </div>
+                                        <div class="col-md-6 col-lg-6 col-sm-12 duplicate_@i ">
+                                            <div class="col-md-11 col-sm-11 col-xs-11 form-group has-feedback">
+                                                <label>Price</label>
+                                                <input type="text" autofocus="" class="form-control PriceValidation" name="Product.ProductSizes[@i].Price" value="@Model.Product.ProductSizes[i].Price" id="ProductPrice" placeholder="Product Price">
+                                            </div>
+                                            <span class="input-group-btn SubFieldbtn" style="display:block;">
+                                                <button class="btn btn-danger btn-add" id="@i" onclick="SubFields(this.id)" type="button">
+
+                                                    <span class="glyphicon glyphicon-trash"></span>
+
+                                                </button>
+
+                                            </span>
+                                        </div>
+
+
+
+                                    }
+                                </div>
+                                <div class="col-md-4" id="AddFieldsButton">
+                                    <button class="btn btn-primary" onclick="AddFields()" type="button">
+                                        <span class="glyphicon glyphicon-plus"></span> Add More Weights
+                                    </button>
+                                </div>
+                            }
+
+                            else if (Model.Product.TypeOfProduct == 1)
+                            {
+                                <div class="row  controls FieldsParents entry" id="" style="display:block">
+                                    @for (var i = 0; i < Model.Product.ProductSizes.Count; i++)
+                                    {
+                                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_@i">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" id="UnitMainDiv">
+                                                <label>Unit</label>
+                                                @*@for(var j=0;i< Model.Product.ProductSizes.Count; j++)
+                                                {
+                                                    foreach (SelectListItem item in Model.SizeUnits.Items)
+                                                    {
+                                                        if (item.Text== Model.Product.ProductSizes[j].NetWeight) {
+
+                                                        }
+                                                    }
+
+                                                }*@
+                                                                  @Html.DropDownList("Product.ProductSizes[" + i + "].Unit", new SelectList(Model.SizeUnits.Items, "value", "Text", Model.Product.ProductSizes[i].NetWeight), new { @class = "form-control", Id = "t_" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 col-sm-12 duplicate_@i ">
+                                            <div class="col-md-11 col-sm-12 col-xs-12 form-group has-feedback">
+                                                <label>Price</label>
+                                                <input type="text" autofocus="" class="form-control PriceValidation" name="Product.ProductSizes[@i].Price" value="@Model.Product.ProductSizes[i].Price" id="ProductPrice" placeholder="Product Price">
+                                            </div>
+                                            <span class="input-group-btn SubFieldbtn" style="display:block;">
+                                                <button class="btn btn-danger btn-add" id="@i" onclick="SubFields(this.id)" type="button">
+
+                                                    <span class="glyphicon glyphicon-trash"></span>
+
+                                                </button>
+
+                                            </span>
+                                        </div>
+                                       
+
+                                    }
+                                </div>
+                                <div class="col-md-4" id="AddFieldsButton">
+                                    <button class="btn btn-primary" onclick="AddFields()" type="button">
+                                        <span class="glyphicon glyphicon-plus"></span> Add More Weights
+                                    </button>
+                                </div>
+                            }
+                            else
+                            {
+
+
+                                <div class="row  controls FieldsParents entry" id="" style="display:block">
+                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 duplicate_0">
+                                        <div class="col-md-6 col-sm-12 col-xs-12" id="WeightMainDiv">
+                                            <label>Weight</label>
+                                            <div class="control-group" id="fields">
+                                                <div>
+                                                    <div class="input-group col-xs-12 col-sm-12 col-xs-12" style="margin-bottom:0px !important;padding-left:0px;">
+                                                        <input type="text" autofocus="" data-val="true" class="form-control weight" name="Product.ProductSizes[0].Size" data-val="true"  id="ProductSize" placeholder="Product Weight" required>
+                                                        @*@Html.TextBox("Product.ProductSizes[0].Size", new { @class = "form-control", @id = "Price", @placeholder = "Product Price", @type = "text" })*@
+                                                        @Html.ValidationMessageFor(m => m.Product.ProductSizes[0].Size, "", new { @class = "text-danger" })
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback"  id="UnitMainDiv">
+                                            <label>Unit</label>
+                                            @Html.DropDownList("Product.ProductSizes[0].Unit", new SelectList(Model.SizeUnits.Items, "value", "Text", Model.SizeUnits.SelectedValue), new { @class = "form-control", Id = "t_"})
+                                                                                                </div>
+                                    
+                                                                        </div>
+                                    
+                                                                        <div class="col-md-6 col-lg-6 col-sm-12 ">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                                            <label>Price</label>
+                                            <input type="text" autofocus="" class="form-control PriceValidation" name="Product.ProductSizes[0].Price" data-val="true" id="ProductPrice" placeholder="Product Price" required>
+                                            @Html.ValidationMessageFor(m => m.Product.ProductSizes[0].Price, "", new { @class = "text-danger" })
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                    <div class="col-md-4" id="AddFieldsButton">
+                                        <button class="btn btn-primary" onclick="AddFields()" type="button">
+                                            <span class="glyphicon glyphicon-plus"></span> Add More Weights
+                                        </button>
                                     </div>
 
-                                    <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback" id="UnitMainDiv">
-                                        <label>Unit</label>
-                                        @Html.DropDownList("Product.ProductSizes[0].Unit", new SelectList(Model.SizeUnits.Items, "value", "Text", Model.SizeUnits.SelectedValue), new { @class = "form-control", Id = "t_" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-lg-6 col-sm-12 ">
-                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                        <label>Price</label>
-                                        <input type="text" autofocus="" class="form-control" name="Product.ProductSizes[0].Price" id="ProductPrice" placeholder="Product Price">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4" id="AddFieldsButton">
-                                <button class="btn btn-primary" onclick="AddFields()" type="button">
-                                    <span class="glyphicon glyphicon-plus"></span> Add More Weights
-                                </button>
-                            </div>
+                            }
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-12 col-xs-12">
@@ -230,7 +335,41 @@
 @Scripts.Render("~/bundles/jquery")
 
 <script>
+
+  
+
     var index = 1;
+    debugger;
+    if(@Model.Product.ProductSizes.Count>0){
+        index=@Model.Product.ProductSizes.Count;
+    }
+
+    var Type = '@Model.Product.TypeOfProduct';
+
+    function ShowFields_OnEditProduct(Type) {
+        
+        if (Type == '0') {
+
+            $(".FieldsParents").show();
+
+            //$(".btn-danger").click();
+
+            // add more fields button should be visible after selecting category
+            $("#AddFieldsButton").show();
+
+            // hide weight field in case of beer
+            $("#WeightMainDiv").show();
+        } else if (Type == '1') {
+
+            $(".FieldsParents").show();
+            // add more fields button should be visible after selecting category
+            $("#AddFieldsButton").show();
+            // hide weight field in case of beer
+            $("#WeightMainDiv").hide();
+        } else {
+
+        }
+    }
 
     function ShowFields_OnCategoryChange() {
 
@@ -254,8 +393,11 @@
     }
 
     function AddFields() {
+
         var DropDownHtml = "";
         var WeightMainDivHtml = "";
+        var Style='';
+
         var x = document.getElementById("t_");
         var optionVal = new Array();
         for (i = 0; i < x.length; i++) {
@@ -268,25 +410,27 @@
         }
 
         if ($('#WeightMainDiv').is(':visible')) {
-
+            Style="style='padding-left: 6px;'";
             WeightMainDivHtml += '   <div class="col-md-6" id="WeightMainDiv" style="padding-left:0px;">';
             WeightMainDivHtml += '<label>Weight</label>';
             WeightMainDivHtml += '        <div class="control-group" id="fields">';
             WeightMainDivHtml += '        <div>';
             WeightMainDivHtml += '           <div class=" input-group col-xs-12" style="margin-bottom:0px !important;padding-left:0px !important;">';
-            WeightMainDivHtml += '                                                                 <input type="text" autofocus="" data-val="true" class="form-control input-validation-error" name="Product.ProductSizes[' + index + '].Size" id="ProductSize" data-val-required="This field is required" placeholder="Product Weight">';
+            WeightMainDivHtml += '                                                                 <input type="text" autofocus="" data-val="true" class="form-control input-validation-error weight" name="Product.ProductSizes[' + index + '].Size" id="ProductSize" data-val-required="This field is required" placeholder="Product Weight">';
             WeightMainDivHtml += '</div>';
             WeightMainDivHtml += '</div>';
             WeightMainDivHtml += '</div>';
             WeightMainDivHtml += '</div>';
 
+        }else{
+            Style="style='padding-left: 0px;'";
         }
 
 
         var Html = '<div class="col-md-12 FieldsParents duplicate_' + index + '" >';
         Html += '<div class="col-md-6 col-lg-6 col-sm-12">';
         Html += WeightMainDivHtml;
-        Html += ' <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback UnitDiv" id="UnitMainDiv">';
+        Html += ' <div class="col-md-6 col-sm-12 col-xs-12 form-group has-feedback UnitDiv" id="UnitMainDiv" '+Style+'>';
         Html += ' <label>Unit</label>';
         Html += '<select id="t_" class="form-control valid" name="Product.ProductSizes[' + index + '].Unit">';
         Html += DropDownHtml;
@@ -296,7 +440,7 @@
         Html += '<div class="col-md-6 col-lg-6 col-sm-12 " style="display: -webkit-box;" >';
         Html += '<div class="col-md-11 col-sm-12 col-xs-12 form-group has-feedback">';
         Html += ' <label>Price</label>';
-        Html += ' <input type="text" autofocus="" data-val="true" class="form-control input-validation-error" name="Product.ProductSizes[' + index + '].Price" id="ProductPrice" data-val-required="This field is required" placeholder="Product Price">';
+        Html += ' <input type="text" autofocus="" data-val="true" class="form-control input-validation-error PriceValidation" name="Product.ProductSizes[' + index + '].Price" id="ProductPrice" data-val-required="This field is required" placeholder="Product Price">';
         Html += ' </div>';
         Html += '      <span class="input-group-btn SubFieldbtn">';
         Html += '     <button class="btn btn-danger btn-add" id="' + index + '" onclick="SubFields(this.id)" type="button">';
@@ -305,6 +449,7 @@
         Html += '</span>';
         Html += ' </div>';
         Html += ' </div>';
+
 
 
         $(".controls").append(Html);
@@ -363,7 +508,6 @@
 
     /// above is  for excel file
     $(document).ready(function () {
-
         var BusinessType = '@BusinessType';
         TypeBasedFields(BusinessType);
         var prodId = $("#prodId").val();
@@ -378,7 +522,7 @@
             $("#txtImageUrl").val(editImageVal);
         }
 
-        $("#Price, #Weight").keydown(function (e) {
+        $("#Price, #Weight,.PriceValidation, .weight").keydown(function (e) {
             // Allow: backspace, delete, tab, escape, enter and .
             if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
                 // Allow: Ctrl+A, Command+A
@@ -397,6 +541,9 @@
         $("#Price").bind("cut copy paste", function (e) {
             e.preventDefault();
         });
+
+
+        ShowFields_OnEditProduct(Type);
     });
 
 
@@ -500,9 +647,8 @@
         })
     }
 
-
     function TypeBasedOnCategories(CategoryName) {
-
+       
         switch (CategoryName) {
 
             case 'Beer':
@@ -575,6 +721,7 @@
     }
 
     function TypeBasedFields(BusinessType) {
+
         $("#AddFieldsButton").hide();
         $(".controls").hide();
         switch (BusinessType) {
@@ -592,6 +739,19 @@
             default:
                 return false;
         }
+    }
+
+    function CreateDropDown(Type){
+        // not currently in use 
+        var url = '@Url.Action("FetchBeerUnits", "Product")';
+        var HtmlToAppend = "";
+        $.getJSON(url, { Type: Type }, function (response) {
+            $("#t_").empty();
+            $.each(response, function (index, item) {
+                HtmlToAppend += "<option>" + item.Unit + "</option>";
+            });
+        });
+        return HtmlToAppend;
     }
 
 </script>

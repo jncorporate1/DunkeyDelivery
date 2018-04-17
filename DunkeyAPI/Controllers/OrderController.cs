@@ -665,7 +665,7 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
                                 case 0:
                                     store.StoreSubTotal = store.StoreSubTotal + (ctx.Products.FirstOrDefault(x => x.Id == product.Id).Price * product.quantity);
                                     break;
-                                case 1:
+                                case 3:
                                     store.StoreSubTotal = store.StoreSubTotal + (ctx.Offer_Packages.FirstOrDefault(x => x.Id == product.Id).DiscountedPrice * product.quantity);
                                     break;
                                 default:

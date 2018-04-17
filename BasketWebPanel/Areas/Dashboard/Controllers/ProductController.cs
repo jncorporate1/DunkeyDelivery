@@ -82,9 +82,10 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             if (responseUnits == null || responseUnits is Error)
             {
                 return null;
-            }else
+            }
+            else
             {
-              Units = responseUnits.GetValue("Result").ToObject<List<SizeBindingModel>>();
+                Units = responseUnits.GetValue("Result").ToObject<List<SizeBindingModel>>();
             }
 
             //model.SizeUnits = Utility.GetUnits(User, "None",1);
@@ -94,6 +95,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
         public ActionResult Index(int? ProductId)
         {
+            int Type = 0;
             Request.RequestContext.HttpContext.Session.Remove("AddProductImage");
             Request.RequestContext.HttpContext.Session.Remove("ImageDeletedOnEdit");
             AddProductViewModel model = new AddProductViewModel();
@@ -104,14 +106,14 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //Providing StoresList
 
             model.StoreOptions = Utility.GetStoresOptions(User);
-            model.SizeUnits = Utility.GetUnits(User);
+
 
 
             if (model.StoreOptions.Count() > 0)
             {
                 initialStoreId = initialStoreId == 0 ? Convert.ToInt32((model.StoreOptions.Items as IEnumerable<StoreDropDownBindingModel>).First().Value) : initialStoreId;
             }
-           
+
             if (ProductId.HasValue)
             {
                 var responseProduct = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/GetEntityById", User, null, true, false, null, "EntityType=" + (int)BasketEntityTypes.Product, "Id=" + ProductId.Value));
@@ -121,6 +123,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     model.Product = responseProduct.GetValue("Result").ToObject<ProductBindingModel>();
                     initialStoreId = model.Product.Store_Id;
+                    if (model.Product.ProductSizes.Count > 0 && model.Product.ProductSizes.FirstOrDefault().Price != 0 )
+                        Type = model.Product.ProductSizes.FirstOrDefault().TypeID;
                 }
             }
             else
@@ -128,7 +132,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
             //Providing CategoryList
             model.CategoryOptions = Utility.GetCategoryOptions(User, initialStoreId, "None");
-
+            model.SizeUnits = Utility.GetUnits(User, Type);
+           
             //model.WeightOptions = Utility.GetWeightOptions();
 
             //if (model.Product.WeightUnit == (int)WeightUnits.kg)
@@ -137,6 +142,15 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             //}
 
             //return PartialView("_AddProduct", model);
+
+            if (model.Product.ProductSizes.Count > 0 && model.Product.ProductSizes.FirstOrDefault().Price != 0)
+            {
+
+                model.Product.TypeOfProduct = model.Product.ProductSizes.FirstOrDefault().TypeID;
+
+            }
+            else
+                model.Product.TypeOfProduct = 2;
             return View(model);
         }
 
@@ -147,10 +161,10 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
             try
             {
                 model.Product.Description = model.Product.Description ?? "";
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return View(model);
+                //}
 
                 //if (model.Product.WeightUnit == (int)WeightUnits.kg)
                 //{
@@ -201,14 +215,15 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     content.Add(new StringContent(model.Product.Id.ToString()), "Id");
                 }
-                if (model.Product.ProductSizes.Count > 0)
+                if (model.Product.ProductSizes.Count > 0 && model.Product.ProductSizes.FirstOrDefault().Price != 0)
                 {
                     var Sizes = JsonConvert.SerializeObject((model.Product.ProductSizes));
                     var bufferProductSizes = System.Text.Encoding.UTF8.GetBytes(Sizes);
                     var byteContentProductSizes = new ByteArrayContent(bufferProductSizes);
                     byteContentProductSizes.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                     content.Add(byteContentProductSizes, "ProductSizes");
-                }else
+                }
+                if(model.Product.Price != 0)
                 {
                     content.Add(new StringContent(model.Product.Price.ToString()), "Price");
                 }
@@ -263,13 +278,13 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 throw ex;
             }
         }
-        
+
         public ActionResult ManageProducts()
         {
             Global.sharedDataModel.SetSharedData(User);
             return View(Global.sharedDataModel);
         }
-        
+
         public ActionResult SearchProduct()
         {
             SearchProductModel returnModel = new SearchProductModel();
@@ -341,7 +356,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                var  ParentCategoryName = string.Empty;
+                var ParentCategoryName = string.Empty;
                 var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Products/GetCategoryName", User, null, true, false, null, parameters: "Category_Id=" + Category_Id));
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
@@ -352,7 +367,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
 
                 return Json(ParentCategoryName, JsonRequestBehavior.AllowGet);
-                    //return Json("Success", JsonRequestBehavior.AllowGet);
+                //return Json("Success", JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -394,8 +409,8 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
         {
             try
             {
-                
-                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ExportProducts", User, null,false, false, null, "EntityType=" + (int)BasketEntityTypes.Product));
+
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ExportProducts", User, null, false, false, null, "EntityType=" + (int)BasketEntityTypes.Product));
                 var resp = response.GetValue("Result").ToObject<string>();
                 if (response is Error)
                     return Json("An error has occurred, error code : 500", JsonRequestBehavior.AllowGet);
@@ -434,7 +449,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                         fileData = binaryReader.ReadBytes(ImageFile.ContentLength);
                     }
                 }
-                
+
 
                 ByteArrayContent fileContent;
                 JObject response;
@@ -449,7 +464,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                     fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") { FileName = ImageFile.FileName };
                     content.Add(fileContent);
                 }
-                
+
 
                 content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "FileDeletedOnEdit");
                 response = await ApiCall.CallApi("api/Admin/AddProduct", User, isMultipart: true, multipartContent: content);
@@ -462,16 +477,16 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, "UnAuthorized Error");
                 }
-                
+
                 if (response is Error)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
                 }
                 else
                 {
-                        TempData["SuccessMessage"] = "Products saved successfully.";
+                    TempData["SuccessMessage"] = "Products saved successfully.";
 
-                        return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { success = true, responseText = "Success" }, JsonRequestBehavior.AllowGet);
                 }
             }
             catch (Exception ex)
@@ -541,9 +556,9 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
 
 
                     content.Add(new StringContent(Convert.ToString(ImageDeletedOnEdit)), "FileDeletedOnEdit");
-                    response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ImportProducts", User,GetRequest:false, isMultipart: true, multipartContent: content));
-                    
-                    if (response is Error || response==null)
+                    response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/File/ImportProducts", User, GetRequest: false, isMultipart: true, multipartContent: content));
+
+                    if (response is Error || response == null)
                     {
                         //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
                         return Json(new { success = false, responseText = "Error" }, JsonRequestBehavior.DenyGet);
@@ -568,7 +583,7 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
                 }
 
             }
-          
+
             return Json("Success");
         }
 

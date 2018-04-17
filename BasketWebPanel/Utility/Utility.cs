@@ -256,10 +256,11 @@ namespace BasketWebPanel
             }
         }
 
-        public static SelectList GetUnits(IPrincipal User,string DefaultName = "",int? Type = 0)
+        public static SelectList GetUnits(IPrincipal User, int Type,  string DefaultName = "")
         {
             try
             {
+                IEnumerable<SelectListItem> selectList;
                 var responseUnits = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Size/GetAllUnits", User, GetRequest: true,parameters:"Type="+Type));
                 if (responseUnits == null || responseUnits is Error)
                 {
@@ -268,13 +269,17 @@ namespace BasketWebPanel
                 else
                 {
                     var Units = responseUnits.GetValue("Result").ToObject<List<SizeBindingModel>>();
-                    IEnumerable<SelectListItem> selectList = from unit in Units
-                                                             select new SelectListItem
-                                                             {
-                                                                 Selected = false,
-                                                                 Text = unit.Unit,
-                                                                 Value = unit.Unit
-                                                             };
+                    
+                        selectList = from unit in Units
+                                                                 select new SelectListItem
+                                                                 {
+                                                                     Selected = false,
+                                                                     Text = unit.Unit,
+                                                                     Value = unit.Unit
+
+                                                                 };
+
+                    
                     if (DefaultName != "")
                         Units.Insert(0, new SizeBindingModel { Id = 0, Unit = DefaultName });
 
@@ -451,7 +456,7 @@ namespace BasketWebPanel
                 else
                 {
                     var responseCatWithoutWhere = response.GetValue("Result").ToObject<List<CategoryBindingModel>>();
-                    var responseCategories = responseCatWithoutWhere.Where(x => x.ParentCategoryId != 0).ToList();
+                    var responseCategories = responseCatWithoutWhere.ToList();
                     var tempCats = responseCategories.Where(x=>x.ParentCategoryId!=0).ToList();
 
                     foreach (var cat in responseCategories)

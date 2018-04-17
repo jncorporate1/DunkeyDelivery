@@ -769,7 +769,11 @@ namespace DunkeyAPI.Controllers
 
                 Product model = new Product();
                 Product existingProduct = new Product();
+
                 List<ProductSizes> Productsizes = new List<ProductSizes>();
+                List<ProductSizes> existingProductsizes = new List<ProductSizes>();
+
+
                 int Product_Id = 0;
 
                 if (httpRequest.Params["Id"] != null)
@@ -926,9 +930,9 @@ namespace DunkeyAPI.Controllers
                         {
                             foreach (var item in Productsizes)
                             {
-                                if (string.IsNullOrEmpty(item.Size))
+                                if (!string.IsNullOrEmpty(item.Size))
                                 {
-                                    item.NetWeight = item.Size + "" + item.Unit;
+                                    item.NetWeight = item.Size + " " + item.Unit;
                                     item.TypeID = 0;
                                     var SizeUnit = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit));
                                     if(SizeUnit != null)
@@ -936,7 +940,7 @@ namespace DunkeyAPI.Controllers
                                         item.SizesUnit_Id = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit)).Id;
                                     }
                                     item.IsDeleted = false;
-                                    item.Product_Id = Product_Id;
+                                    item.Product_Id = model.Id;
 
                                 }
                                 else
@@ -944,11 +948,14 @@ namespace DunkeyAPI.Controllers
                                     item.NetWeight = item.Unit;
                                     item.TypeID = 1;
                                     item.IsDeleted = false;
+                                    item.Product_Id = model.Id;
+
 
 
                                 }
 
                             }
+                            ctx.ProductSizes.AddRange(Productsizes);
                         }
                         ctx.SaveChanges();
                     }
@@ -970,8 +977,58 @@ namespace DunkeyAPI.Controllers
                             model.Image = ConfigurationManager.AppSettings["ProductImageFolderPath"] + model.Id + fileExtension;
                         }
 
+                        var AllProductSizes = ctx.ProductSizes.Where(x => x.Product_Id == model.Id).ToList();
+                        if (AllProductSizes.Count > 0)
+                        {
+
+                        }
+
+                        existingProductsizes = ctx.ProductSizes.Where(x => x.Product_Id == model.Id).ToList();
+
+                        if (existingProductsizes.Count > 0)
+                        {
+                            ctx.ProductSizes.RemoveRange(existingProductsizes);
+                            ctx.SaveChanges();
+                            // start of adding product sizes
+                            if (Productsizes.Count > 0 && Productsizes.FirstOrDefault().Price != 0)
+                            {
+                                foreach (var item in Productsizes)
+                                {
+                                    if (!string.IsNullOrEmpty(item.Size))
+                                    {
+                                        item.NetWeight = item.Size + "" + item.Unit;
+                                        item.TypeID = 0;
+                                        var SizeUnit = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit));
+                                        if (SizeUnit != null)
+                                        {
+                                            item.SizesUnit_Id = ctx.SizesUnits.FirstOrDefault(x => x.Unit.Contains(item.Unit)).Id;
+                                        }
+                                        item.IsDeleted = false;
+                                        item.Product_Id = model.Id;
+
+                                    }
+                                    else
+                                    {
+                                        item.NetWeight = item.Unit;
+                                        item.TypeID = 1;
+                                        item.IsDeleted = false;
+                                        item.Product_Id = model.Id;
+
+
+
+                                    }
+
+                                }
+                                ctx.ProductSizes.AddRange(Productsizes);
+                            }
+                            // end of adding product sizes
+
+                        }
                         ctx.Entry(existingProduct).CurrentValues.SetValues(model);
                         ctx.SaveChanges();
+
+
+
                         Product_Id = existingProduct.Id;
 
 

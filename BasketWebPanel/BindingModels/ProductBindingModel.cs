@@ -45,6 +45,8 @@ namespace BasketWebPanel.BindingModels
 
         public string Size { get; set; }
 
+        public int TypeOfProduct { get; set; } = 2;// 0 for wine liquor 1 for beer and 2 for nothing
+
         public List<ProductSizeBindingModel> ProductSizes { get; set; }
 
         public virtual CategoryBindingModel Category { get; set; }
@@ -56,11 +58,15 @@ namespace BasketWebPanel.BindingModels
 
     public class ProductSizeBindingModel
     {
+
         public string Unit { get; set; }
 
+
+        [Required(ErrorMessage = "This field is required")]
         public string Size { get; set; }
 
-        public double? Price { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public double Price { get; set; }
 
         public string NetWeight { get; set; }
 
