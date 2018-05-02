@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyAPI", "DunkeyAPI\DunkeyAPI.csproj", "{7709898D-0C58-4FC0-BCF4-F2199560E2BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasketWebPanel", "BasketWebPanel\BasketWebPanel.csproj", "{4A36B3A7-1158-4A2C-B434-904E23B32FA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyAdminPanel", "BasketWebPanel\DunkeyAdminPanel.csproj", "{4A36B3A7-1158-4A2C-B434-904E23B32FA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DunkeyDelivery", "DunkeyDelivery\DunkeyDelivery.csproj", "{DC618494-C6DC-4F03-AD7C-9A945C6DF410}"
 EndProject
