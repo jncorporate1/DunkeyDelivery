@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using static BasketWebPanel.Utility;
@@ -14,6 +15,31 @@ namespace BasketWebPanel.Areas.Dashboard.Controllers
     [Authorize]
     public class OrdersController : Controller
     {
+
+        public ActionResult Index(int? OrderId)
+        {
+
+            OrderViewModel returnModel = new OrderViewModel();
+            if (OrderId.HasValue)
+            {
+                var claimIdentity = ((ClaimsIdentity)User.Identity);
+                var UserId = claimIdentity.Claims.FirstOrDefault(x => x.Type == "AdminId");
+                var response = AsyncHelpers.RunSync<JObject>(() => ApiCall.CallApi("api/Order/GetOrderByOrderId", User, GetRequest: true, parameters: "OrderId=" + OrderId + "&UserId=" + claimIdentity));
+
+                if (response == null || response is Error)
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, (response as Error).ErrorMessage);
+                else
+
+                    returnModel = response.GetValue("Result").ToObject<OrderViewModel>();
+
+            }
+
+            returnModel.SetSharedData(User);
+            //returnModel.PaymentMethodName = Utility.GetPaymentMethodName(returnModel.PaymentMethod);
+            return View("OrderSummary", returnModel);
+
+        }
+
         public ActionResult ManageOrders()
         {
             Global.sharedDataModel.SetSharedData(User);

@@ -1622,7 +1622,6 @@ namespace DunkeyAPI.Controllers
 
                             if (existingUser != null)
                             {
-
                                 existingUser.ProfilePictureUrl = socialUser.picture;
                                 existingUser.FullName = socialUser.name;
 

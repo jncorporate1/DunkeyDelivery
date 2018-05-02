@@ -37,3 +37,16 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    function order_details(order_id) {
+        var url = '@Url.Action("Index", "Orders",new {Area="Dashboard", OrderId = "__ID__" })';
+        url = url.replace("__ID__", order_id);
+        window.location = url;
+
+
+    }
+
+</script>

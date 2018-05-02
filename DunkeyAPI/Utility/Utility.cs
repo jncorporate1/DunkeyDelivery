@@ -89,7 +89,9 @@ namespace DunkeyDelivery
                         };
 
                 var content = new FormUrlEncodedContent(parameters);
-                var baseUrl = request.RequestUri.AbsoluteUri.Substring(0, request.RequestUri.AbsoluteUri.IndexOf("api"));
+                //var baseUrl = request.RequestUri.AbsoluteUri.Substring(0, request.RequestUri.AbsoluteUri.IndexOf("api"));
+                var baseUrl = ConfigurationManager.AppSettings["GenerateTokenUrl"];
+
                 var response = await client.PostAsync(baseUrl + "token", content);
 
                 user.Token = await response.Content.ReadAsAsync<Token>();
@@ -118,7 +120,8 @@ namespace DunkeyDelivery
                         };
 
                 var content = new FormUrlEncodedContent(parameters);
-                var baseUrl = request.RequestUri.AbsoluteUri.Substring(0, request.RequestUri.AbsoluteUri.IndexOf("api"));
+                // var baseUrl = request.RequestUri.AbsoluteUri.Substring(0, request.RequestUri.AbsoluteUri.IndexOf("api"));
+                var baseUrl = ConfigurationManager.AppSettings["GenerateTokenUrl"];
                 var response = await client.PostAsync(baseUrl + "token", content);
 
                 user.Token = await response.Content.ReadAsAsync<Token>();

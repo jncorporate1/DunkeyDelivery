@@ -381,6 +381,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="JsonCustomDateTimeConverter.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Admin\CategoriesViewModel.cs" />
@@ -439,6 +440,7 @@
     <Compile Include="ViewModels\MobileOrderViewModel.cs" />
     <Compile Include="ViewModels\NotificationBindingModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
+    <Compile Include="ViewModels\OrderAdminViewModel.cs" />
     <Compile Include="ViewModels\OrderMobileViewModel.cs" />
     <Compile Include="ViewModels\OrdersHistoryViewModel.cs" />
     <Compile Include="ViewModels\OrderSummaryMobileViewModel.cs" />
@@ -453,6 +455,7 @@
     <Compile Include="ViewModels\ShopCategoriesViewModel.cs" />
     <Compile Include="ViewModels\ShopViewModel.cs" />
     <Compile Include="ViewModels\TaxViewModel.cs" />
+    <Compile Include="ViewModels\UserAdminOrderViewModel.cs" />
     <Compile Include="ViewModels\UserRatingCount.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\WebDashboardStatsViewModel.cs" />

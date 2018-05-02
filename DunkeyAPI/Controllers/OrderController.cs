@@ -764,5 +764,110 @@ WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
             }
         }
 
+
+        [Authorize]
+        [HttpGet]
+        [Route("GetOrderByOrderId")]
+        public async Task<IHttpActionResult> GetOrderByOrderId(int OrderId, int? UserId)
+        {
+            try
+            {
+                using (DunkeyContext ctx = new DunkeyContext())
+                {
+                    #region OrderQuery
+                    var orderQuery = @"
+SELECT *, Users.FullName as UserFullName FROM Orders 
+join Users on Users.ID = Orders.User_ID
+where Orders.Id = " + OrderId + @" and Orders.IsDeleted = 0 ";
+                    #endregion
+
+                    var order = ctx.Database.SqlQuery<OrderAdminViewModel>(orderQuery).First();
+
+                    #region storeOrderQuery
+                    var storeOrderQuery = @"
+select
+StoreOrders.*,
+Stores.BusinessName as StoreName,
+Stores.ImageUrl from StoreOrders 
+join Stores on Stores.Id = StoreOrders.Store_Id
+where 
+Order_Id = " + order.Id + @"
+";
+                    #endregion
+
+                    var UserQuery = @"
+select Users.Id , 
+Users.FirstName,
+Users.LastName,
+Users.Email,
+Users.Phone,
+Users.ProfilePictureUrl
+from 
+Users Where Users.Id=" + order.User_ID + "";
+
+                    var user = ctx.Database.SqlQuery<UserAdminOrderViewModel>(UserQuery).FirstOrDefault();
+
+                    var storeOrders = ctx.Database.SqlQuery<StoreOrderViewModel>(storeOrderQuery).ToList();
+
+                    var storeOrderIds = string.Join(",", storeOrders.Select(x => x.Id.ToString()));
+
+                    #region OrderItemsQuery
+                    var orderItemsQuery = @"
+SELECT
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Id
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.Id
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.Id
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.Id
+  END AS ItemId,
+  Order_Items.Name AS Name,
+  Order_Items.Price AS Price,
+  CASE
+    WHEN ISNULL(Order_Items.Product_Id, 0) <> 0 THEN Products.Image
+    WHEN ISNULL(Order_Items.Package_Id, 0) <> 0 THEN Packages.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Product_Id, 0) <> 0 THEN Offer_Products.ImageUrl
+    WHEN ISNULL(Order_Items.Offer_Package_Id, 0) <> 0 THEN Offer_Packages.ImageUrl
+  END AS ImageUrl,
+  Order_Items.Id,
+  Order_Items.Qty,
+  Order_Items.StoreOrder_Id
+FROM Order_Items
+LEFT JOIN products
+  ON products.Id = Order_Items.Product_Id
+LEFT JOIN Packages
+  ON Packages.Id = Order_Items.Package_Id
+LEFT JOIN Offer_Products
+  ON Offer_Products.Id = Order_Items.Offer_Product_Id
+LEFT JOIN Offer_Packages
+  ON Offer_Packages.Id = Order_Items.Offer_Package_Id
+WHERE StoreOrder_Id IN (" + storeOrderIds + ")";
+                    #endregion
+
+                    var orderItems = ctx.Database.SqlQuery<OrderItemViewModel>(orderItemsQuery).ToList();
+
+                    foreach (var orderItem in orderItems)
+                    {
+                        storeOrders.FirstOrDefault(x => x.Id == orderItem.StoreOrder_Id).OrderItems.Add(orderItem);
+                    }
+
+                    foreach (var storeOrder in storeOrders)
+                    {
+                        order.StoreOrders.Add(storeOrder);
+                    }
+                    order.User = user;
+                    return Ok(new CustomResponse<OrderAdminViewModel> { Message = Global.ResponseMessages.Success, StatusCode = (int)HttpStatusCode.OK, Result = order });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(DunkeyDelivery.Utility.LogError(ex));
+            }
+        }
+
+
+
+
     }
 }

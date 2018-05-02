@@ -9774,3 +9774,33 @@ StackTrace   at System.Data.SqlClient.SqlConnection.OnError(SqlException excepti
    at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
    at DunkeyAPI.Controllers.UserController.<Login>d__1.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 54
 ------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.UserController.<WebPanelLogin>d__29.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 1496
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.UserController.<WebPanelLogin>d__29.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 1496
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.UserController.<WebPanelLogin>d__29.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 1496
+------******------
+
+MessageObject reference not set to an instance of an object.
+
+StackTrace   at DunkeyAPI.Controllers.UserController.<WebPanelLogin>d__29.MoveNext()
+------******------
+
+MessageAn invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.
+
+StackTrace   at DunkeyDelivery.Utility.<GenerateToken>d__10.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Utility\Utility.cs:line 129
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   at DunkeyAPI.Controllers.UserController.<WebPanelLogin>d__29.MoveNext() in F:\Projects\DunkeyDelivery\DunkeyAPI\Controllers\UserController.cs:line 1501
+------******------

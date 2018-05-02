@@ -243,6 +243,7 @@
     <Compile Include="ViewModels\AddOfferViewModel.cs" />
     <Compile Include="ViewModels\ContentManagementViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
+    <Compile Include="ViewModels\OrderViewModel.cs" />
     <Compile Include="ViewModels\ReadyForDeliveryOrdersViewModel.cs" />
     <Compile Include="ViewModels\RewardViewModel.cs" />
     <Compile Include="ViewModels\SearchBlogViewModel.cs" />
@@ -1093,6 +1094,7 @@
     <Content Include="Areas\Dashboard\Views\Reward\Index.cshtml" />
     <Content Include="Areas\Dashboard\Views\Reward\ManageReward.cshtml" />
     <Content Include="Areas\Dashboard\Views\Reward\_SearchRewardResults.cshtml" />
+    <Content Include="Areas\Dashboard\Views\Orders\OrderSummary.cshtml" />
     <None Include="Properties\PublishProfiles\basketwebpanel.pubxml" />
     <Content Include="Scripts\angular.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

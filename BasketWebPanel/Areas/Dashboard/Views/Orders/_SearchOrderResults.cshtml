@@ -103,7 +103,7 @@
                                                 <p data-toggle="tooltip" title="View Details" style="margin: 0 0 0px;" data-original-title="View Details">
                                                 <p>
                                                     @*<a href="@Url.Action("EditOrders", "Orders")">  *@
-                                                    <button title="Order details is coming soon" type="button" class="btn btn-link" aria-label="Left Align">
+                                                    <button onclick="order_details(this.id)" id="@Model.Orders[i].Id" title="Order details is coming soon" type="button" class="btn btn-link" aria-label="Left Align">
                                                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                                     </button>
                                                     @*</a>*@

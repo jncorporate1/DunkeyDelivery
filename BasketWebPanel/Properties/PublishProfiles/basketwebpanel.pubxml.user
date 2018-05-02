@@ -141,10 +141,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/27/2017 13:08:20</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Orders/ManageOrders.cshtml">
-      <publishTime>11/27/2017 13:08:20</publishTime>
+      <publishTime>05/01/2018 14:36:18</publishTime>
+    </File>
+    <File Include="Areas/Dashboard/Views/Orders/OrderSummary.cshtml">
+      <publishTime>05/01/2018 15:39:05</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Orders/_SearchOrderResults.cshtml">
-      <publishTime>11/27/2017 13:08:20</publishTime>
+      <publishTime>05/01/2018 14:36:47</publishTime>
     </File>
     <File Include="Areas/Dashboard/Views/Orders/_SearchOrders.cshtml">
       <publishTime>11/27/2017 13:08:20</publishTime>
@@ -240,7 +243,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/22/2013 08:43:40</publishTime>
     </File>
     <File Include="bin/BasketWebPanel.dll">
-      <publishTime>04/13/2018 18:11:50</publishTime>
+      <publishTime>05/01/2018 15:40:40</publishTime>
     </File>
     <File Include="bin/Elmah.dll">
       <publishTime>04/12/2012 19:19:36</publishTime>
